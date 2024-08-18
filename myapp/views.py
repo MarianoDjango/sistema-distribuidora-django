@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import empresas, familias, articulos
 import json
 from django.http import HttpResponse, Http404
+from .forms import articleForm, NewarticleForm
 
 def afterlogin( request, *args, **kwargs):
     idempresa = request.user.perfil.idempresa
@@ -33,17 +34,17 @@ def articulos_famila(request, **kwargs):
         nombre_var = request.GET['nombre']
         idempresa_var = request.GET['idempresa']
         if nombre_var == "":
-            articles = articulos.objects.filter(familia=int(familia_id), activo=True).values('idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia' )
+            articles = articulos.objects.filter(familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia' )
         else:
-            articles = articulos.objects.filter(familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock')
+            articles = articulos.objects.filter(familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock')
         familia = familias.objects.get(id=int(familia_id))
         recs.append(json_list)
         for articulo in articles:
             fila = '<tr style="cursor:hand;">'
-            fila += '<td><a href="#">' + articulo['descripcion'] + '</a></td>'
-            fila += '<td class="text-end"><a href="#">' + str(articulo['precio_venta']) + '</a></td>'
+            fila += '<td><a href="../articulo/' + str(articulo['id']) + '/">' + articulo['descripcion'] + '</a></td>'
+            fila += '<td class="text-end"><a href="#">' + '{:,.2f}'.format(articulo['precio_venta']).replace(",", "@").replace(".", ",").replace("@", ".") + '</a></td>'
             fila += '<td class="text-center">' + str(articulo['fecha_precio']) + '</td>'
-            fila += '<td class="text-end"><a href="#">' + str(articulo['stock']) + '</a></td>'
+            fila += '<td class="text-end"><a href="#">' + '{:,.2f}'.format(articulo['stock']).replace(",", "@").replace(".", ",").replace("@", ".") + '</a></td>'
             fila += '<td class="text-center">' + str(articulo['fecha_stock']) + '</td>'
             if str(articulo['idempresa']) == idempresa_var:
                 fila += f'<td class="text-center"><input type="text" class="form-control" style="border-radius: 10px;" placeholder="Cant."></td>'
@@ -72,13 +73,27 @@ class dashboard_view(View, LoginRequiredMixin):
 
         return render(self.request, 'myapp/dashboard.html', context)
 
-def familias_por_empresa(request, *args, **kwargs):
-    familias_var = familias.objects.filter(idempresa=kwargs['pk'])
-    context = {'familias': familias_var}
-    return render(request, 'myapp/familias.html', context)
+class articleView(View,LoginRequiredMixin):
+    model = articulos
+    form_class = articleForm
+    
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        #context = {'form': form}
+        if self.request.user.is_authenticated:
+        #raise Http404("Poll does not exist")
+        #return render(request, "polls/detail.html", {"poll": p}) 
+            try:
+                articulo = articulos.objects.get(id=kwargs['pk'])
+                form = self.form_class(instance=articulo)
+                imagen = articulo.imagen
+                doesnexist = False
+            except articulos.DoesNotExist:
+                articulo = articulos(id=kwargs['pk'], descripcion='')
+                form = NewarticleForm(instance=articulo)
+                doesnexist = True                
+        else:
+            articulo = None
+            form = self.form_class(instance=articulo)
+        return render(request, 'myapp/article_form.html', {'form': form, 'active' : 'Articulos', 'doesentexist' : doesnexist} )
 
-def articulos_por_familia(request, *args, **kwargs):
-    query = request.GET.get('search', '')  # Obtener el texto ingresado
-    articles = articulos.objects.filter(familia_id=kwargs['id'], descripcion__icontains=query)
-    context = {'articulos': articles}
-    return render(request, 'myapp/dashboard.html', context)
