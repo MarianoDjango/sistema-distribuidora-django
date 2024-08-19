@@ -1,0 +1,1764 @@
+idempresa,idfamilia,descripcion,precio publico,fecha precio,stock,fecha stock,comentarios,activo
+1,1,Luhe 650-16,"150.000,00",0,"0,00",0,,TRUE
+1,1,Tyrelink 295 80 22.5 ,"424.000,00",0,"0,00",0,,TRUE
+1,1,Goodtyre 215 75 17.5,"222.800,00",0,"0,00",0,,TRUE
+1,1,Minnel 165 70 13,"82.800,00",0,"2,00",0,,TRUE
+1,1,Minnel 205 65 15,"129.400,00",0,"0,00",0,,TRUE
+1,1,Lanvigator 165 70 13,"100.700,00",0,"2,00",0,,TRUE
+1,1,Lanvigator 205 70 15,"160.600,00",0,"2,00",0,,TRUE
+1,1,Lanvigator 215 65 15,"153.800,00",0,"2,00",0,,TRUE
+1,1,Lanvigator 235 75 15,"174.700,00",0,"5,00",0,,TRUE
+1,1,Maxter 165 70 13,"100.700,00",0,"2,00",0,,TRUE
+1,1,Maxter 195 60 15,"129.400,00",0,"2,00",0,,TRUE
+1,1,Aptany 195 55 15,"122.200,00",0,"2,00",0,,TRUE
+1,1,Duraturn 195 55 15,"122.200,00",0,"4,00",0,,TRUE
+1,1,Sextour 195 60 15,"122.200,00",0,"0,00",0,,TRUE
+1,1,Real tour 195 60 15,"129.400,00",0,"4,00",0,,TRUE
+1,1,Real tour 205 65 15,"129.400,00",0,"1,00",0,,TRUE
+1,1,GOOD YEAR 175 70 13,"105.000,00",0,"6,00",0,,TRUE
+1,1,GOOD YEAR 175 65 14,"113.300,00",0,"4,00",0,,TRUE
+1,1,GOOD YEAR 175 70 14,"115.000,00",0,"1,00",0,,TRUE
+1,1,GOOD YEAR 185 65 15 ,"138.575,00",0,"7,00",0,,TRUE
+1,1,GOOD YEAR 195 55 15,"145.900,00",0,"2,00",0,no vender impar,TRUE
+1,1,Dobleking 185 70 14,"97.800,00",0,"1,00",0,,TRUE
+1,1,kpatos 175 65 14,"97.750,00",0,"0,00",0,,TRUE
+1,1,Kapsen 175 65 14,"100.700,00",0,"0,00",0,,TRUE
+1,1,Kapsen 205 55 16,"143.800,00",0,"1,00",0,,TRUE
+1,1,Kapsen 295 80 22.5,"335.900,00",0,"0,00",0,,TRUE
+1,1,VITORA 195 65 16 ,"143.800,00",0,"2,00",0,,TRUE
+1,1,ROADWING 165 60 14,"86.250,00",0,"0,00",0,,TRUE
+1,1,ROADWING 175 70 14,"0,00",0,"0,00",0,,TRUE
+1,1,ROADWING 185 60 14 ,"100.700,00",0,"0,00",0,,TRUE
+1,1,ROADWING 185 60 15,"122.300,00",0,"2,00",0,,TRUE
+1,1,ROADWING 185 65 15,"126.500,00",0,"0,00",0,,TRUE
+1,1,ROADWING 195 55 15,"129.400,00",0,"0,00",0,25/4,TRUE
+1,1,ROADWING 195 60 15,"122.200,00",0,"2,00",0,,TRUE
+1,1,ROADWING 195 65 15,"122.200,00",0,"2,00",0,,TRUE
+1,1,ROADWING 295 80 22.5 ,"322.000,00",0,"0,00",0,,TRUE
+1,1,FIREMAX 175 65 14 ,"97.750,00",0,"0,00",0,,TRUE
+1,1,FIREMAX 175 70 14,"0,00",0,"0,00",0,,TRUE
+1,1,FIREMAX 185 60 15,"0,00",0,"0,00",0,,TRUE
+1,1,FIREMAX 195 60 15,"122.200,00",0,"2,00",0,,TRUE
+1,1,FIREMAX 205 65 15,"0,00",0,"0,00",0,,TRUE
+1,1,FIREMAX 205 55 16,"122.200,00",0,"2,00",0,,TRUE
+1,1,FIREMAX 205 75 16      ,"0,00",0,"0,00",0,,TRUE
+1,1,FIREMAX 205 40 17,"113.850,00",0,"0,00",0,,TRUE
+1,1,FATE 165 7013,"132.000,00",0,"2,00",0,,TRUE
+1,1,FATE 175 70 13,"145.000,00",0,"2,00",0,,TRUE
+1,1,FATE 175 65 14,"146.500,00",0,"3,00",0,,TRUE
+1,1,FATE 185 70 14,"126.500,00",0,"3,00",0,,TRUE
+1,1,FATE 195-60-15,"0,00",0,"0,00",0,,TRUE
+1,1,FATE 205 75 16 c,"264.500,00",0,"1,00",0,,TRUE
+1,1,FATE 295 80 22.5,"0,00",0,"0,00",0,,TRUE
+1,1,WEST LAKE 155r12,"117.400,00",0,"2,00",0,,TRUE
+1,1,WEST LAKE 165-70-13,"0,00",0,"0,00",0,,TRUE
+1,1,WEST LAKE 175 70 13                ,"0,00",0,"0,00",0,,TRUE
+1,1,WEST LAKE 175 65 14,"0,00",0,"0,00",0,,TRUE
+1,1,WEST LAKE 185-70-14,"98.700,00",0,"0,00",0,,TRUE
+1,1,WEST LAKE 185 60 14,"95.700,00",0,"0,00",0,,TRUE
+1,1,WEST LAKE 185 55 15,"151.400,00",0,"4,00",0,,TRUE
+1,1,WEST LAKE 195 60 15,"0,00",0,"0,00",0,,TRUE
+1,1,WEST LAKE 205 65 15,"207.700,00",0,"6,00",0,,TRUE
+1,1,WEST LAKE 195 55 16,"212.750,00",0,"0,00",0,,TRUE
+1,1,WEST LAKE 205 50 16,"112.300,00",0,"4,00",0,,TRUE
+1,1,WEST LAKE 205 55 16,"126.000,00",0,"0,00",0,,TRUE
+1,1,WINDFORCE 155R12,"83.300,00",0,"0,00",0,,TRUE
+1,1,WINDFORCE 165 70 13,"120.000,00",0,"5,00",0,,TRUE
+1,1,WINDFORCE 175 70 13,"0,00",0,"0,00",0,,TRUE
+1,1,WINDFORCE 175 65 14,"130.000,00",0,"2,00",0,,TRUE
+1,1,WINDFORCE 175 70 14,"0,00",0,"0,00",0,,TRUE
+1,1,WINDFORCE 185 70 14,"94.800,00",0,"0,00",0,,TRUE
+1,1,WINDFORCE 195 70 15,"0,00",0,"0,00",0,,TRUE
+1,1,WINDFORCE 205 70 15,"0,00",0,"0,00",0,,TRUE
+1,1,WINDFORCE 235 75 15 ,"249.550,00",0,"1,00",0,,TRUE
+1,1,WINDFORCE 31x10.5x15,"287.500,00",0,"4,00",0,,TRUE
+1,1,WINDFORCE 295 80 22.5,"417.000,00",0,"7,00",0,,TRUE
+1,1,FORTUNE 165 70 14,"0,00",0,"0,00",0,,TRUE
+1,1,FORTUNE 175 70 14,"0,00",0,"0,00",0,,TRUE
+1,1,FORTUNE 185 65 14 ,"0,00",0,"0,00",0,,TRUE
+1,1,FORTUNE 185 70 14 ,"0,00",0,"0,00",0,,TRUE
+1,1,FORTUNE 205 55 16 ,"143.800,00",0,"1,00",0,,TRUE
+1,1,FORTUNE 195 60 15,"143.800,00",0,"0,00",0,,TRUE
+1,1,FORTUNE 195 55 16,"0,00",0,"0,00",0,,TRUE
+1,1,Aderenza 205 65 15 ,"129.400,00",0,"0,00",0,,TRUE
+1,1,AOTELLI 205-65-15,"0,00",0,"0,00",0,,TRUE
+1,1,AOTELLI 225 75 15,"0,00",0,"0,00",0,,TRUE
+1,1,SUNSET 175 70 13,"100.700,00",0,"0,00",0,,TRUE
+1,1,SUNSET 175 70 14,"96.600,00",0,"2,00",0,,TRUE
+1,1,SUNSET 185 60 14,"110.100,00",0,"1,00",0,,TRUE
+1,1,SUNSET 185 60 15,"122.200,00",0,"0,00",0,,TRUE
+1,1,SUNSET 195 60 15,"129.400,00",0,"2,00",0,,TRUE
+1,1,SUNSET 195 50 16,"143.800,00",0,"2,00",0,,TRUE
+1,1,SUNSET 205 55 16 ,"143.800,00",0,"0,00",0,,TRUE
+1,1,SUNSET 225 45 17,"253.000,00",0,"4,00",0,,TRUE
+1,1,SUNSET 295 80 22.5,"323.800,00",0,"0,00",0,,TRUE
+1,1,XBRI 175 70 13,"100.700,00",0,"0,00",0,,TRUE
+1,1,XBRI 175 65 14,"98.500,00",0,"0,00",0,,TRUE
+1,1,XBRI 185 65 14,"103.500,00",0,"1,00",0,,TRUE
+1,1,XBRI 185 70 14,"0,00",0,"0,00",0,,TRUE
+1,1,XBRI 185 65 15,"0,00",0,"0,00",0,,TRUE
+1,1,XBRI 195 55 15,"129.400,00",0,"0,00",0,,TRUE
+1,1,XBRI 205 65 15 ,"115.000,00",0,"0,00",0,25/4,TRUE
+1,1,XBRI 195 55 16 ,"0,00",0,"0,00",0,,TRUE
+1,1,XBRI 225 65 16,"149.000,00",0,"0,00",0,,TRUE
+1,1,XBRI 205 75 16,"175.400,00",0,"1,00",0,,TRUE
+1,1,XBRI 225 75 16 ,"186.900,00",0,"0,00",0,,TRUE
+1,1,XBRI 215 75 17.5,"301.850,00",0,"1,00",0,,TRUE
+1,1,BKT 650x16 AGRITRACTOR,"189.750,00",0,"2,00",0,,TRUE
+1,1,PACE 165-70-13,"98.900,00",0,"1,00",0,72000 oferta efectivo,TRUE
+1,1,PACE 175-70-13,"108.000,00",0,"7,00",0,75000 oferta efectivo,TRUE
+1,1,PACE 175-65-14,"111.100,00",0,"0,00",0,84000 oferta efectivo,TRUE
+1,1,PACE 175 70 14,"119.900,00",0,"4,00",0,,TRUE
+1,1,PACE 185 60 14,"125.300,00",0,"2,00",0,,TRUE
+1,1,PACE 185 65 14,"118.200,00",0,"2,00",0,,TRUE
+1,1,PACE 185 70 14,"122.400,00",0,"3,00",0,,TRUE
+1,1,PACE 195-70-14,"132.900,00",0,"3,00",0,,TRUE
+1,1,PACE 185-55-15,"0,00",0,"0,00",0,,TRUE
+1,1,PACE 185 60 15,"149.200,00",0,"4,00",0,,TRUE
+1,1,PACE 185-65-15,"154.100,00",0,"7,00",0,,TRUE
+1,1,PACE 195 55 15,"152.500,00",0,"4,00",0,,TRUE
+1,1,PACE 195-60-15  ,"165.500,00",0,"4,00",0,,TRUE
+1,1,PACE 195 65 15 ,"166.000,00",0,"4,00",0,,TRUE
+1,1,PACE 205-60-15,"172.700,00",0,"4,00",0,,TRUE
+1,1,PACE 205 65 15,"185.700,00",0,"6,00",0,,TRUE
+1,1,PACE 235 75 15,"0,00",0,"0,00",0,,TRUE
+1,1,PACE 195 50 16,"195.200,00",0,"4,00",0,,TRUE
+1,1,PACE 195 75 16,"237.900,00",0,"2,00",0,,TRUE
+1,1,PACE 205-55-16,"185.700,00",0,"9,00",0,,TRUE
+1,1,PACE 205 60 16,"214.700,00",0,"2,00",0,,TRUE
+1,1,PACE 205 75 16,"258.200,00",0,"0,00",0,,TRUE
+1,1,PACE 295 80 22.5,"373.750,00",0,"0,00",0,,TRUE
+1,1,PACE 205 40 17,"230.000,00",0,"1,00",0,,TRUE
+1,1,PACE 205 45 17,"218.700,00",0,"0,00",0,,TRUE
+1,1,FORMULA 175 70 13,"108.000,00",0,"1,00",0,,TRUE
+1,1,MICHELIN 205 55 16,"0,00",0,"0,00",0,,TRUE
+1,1,LING LONG 165 70 13,"0,00",0,"0,00",0,,TRUE
+1,1,LING LONG 175 70 13,"89.700,00",0,"0,00",0,,TRUE
+1,1,LING LONG 165 65 14,"100.700,00",0,"6,00",0,,TRUE
+1,1,LING LONG 175 65 14,"96.600,00",0,"1,00",0,,TRUE
+1,1,LING LONG 195 70 14,"96.600,00",0,"0,00",0,,TRUE
+1,1,LING LONG 185 65 15,"119.400,00",0,"0,00",0,,TRUE
+1,1,LING LONG 195 60 15,"0,00",0,"0,00",0,,TRUE
+1,1,LING LONG 195 65 15,"129.400,00",0,"0,00",0,,TRUE
+1,1,LING LONG 195 70 15,"0,00",0,"0,00",0,,TRUE
+1,1,LING LONG 205 65 15,"0,00",0,"0,00",0,,TRUE
+1,1,LING LONG 195 60 16,"0,00",0,"0,00",0,,TRUE
+1,1,LING LONG 205 55 16,"122.200,00",0,"8,00",0,,TRUE
+1,1,LING LONG 205 65 16,"143.800,00",0,"2,00",0,,TRUE
+1,1,LING LONG 650 16 LINEAL,"197.800,00",0,"1,00",0,,TRUE
+1,1,LING LONG 225 65 17,"158.900,00",0,"0,00",0,,TRUE
+1,1,Royal 700 16,"250.000,00",0,"1,00",0,,TRUE
+1,1,NEXEN 195 55 15,"165.300,00",0,"2,00",0,,TRUE
+1,1,NEXEN 185 55 15 ,"135.400,00",0,"4,00",0,,TRUE
+1,1,NEXEN 215 65 15,"0,00",0,"0,00",0,,TRUE
+1,1,NEXEN 225 45 17,"165.600,00",0,"0,00",0,,TRUE
+1,1,NEXEN 205 40 18,"243.800,00",0,"2,00",0,,TRUE
+1,1,NEUPAR 175 70 14,"0,00",0,"0,00",0,,TRUE
+1,1,NEUPAR 185 65 14,"0,00",0,"0,00",0,,TRUE
+1,1,NEUPAR 185 70 14,"0,00",0,"0,00",0,,TRUE
+1,1,NEUPAR 185 60 15,"112.200,00",0,"0,00",0,,TRUE
+1,1,NEUPAR 195 55 15,"0,00",0,"0,00",0,,TRUE
+1,1,NEUPAR 195 60 15,"129.400,00",0,"0,00",0,,TRUE
+1,1,NEUPAR 195-65-15,"108.000,00",0,"0,00",0,,TRUE
+1,1,NEUPAR 205 60 15,"129.400,00",0,"2,00",0,,TRUE
+1,1,NEUPAR 205 55 16,"0,00",0,"0,00",0,,TRUE
+1,1,NEUPAR 205 60 16,"0,00",0,"0,00",0,,TRUE
+1,1,Teraflex 205 60 15,"122.200,00",0,"4,00",0,,TRUE
+1,1,Durable 175 70 13,"0,00",0,"0,00",0,,TRUE
+1,1,Durable 175 65 14,"0,00",0,"0,00",0,,TRUE
+1,1,Durable 175 70 14,"0,00",0,"0,00",0,,TRUE
+1,1,Durable 185 60 15,"0,00",0,"0,00",0,,TRUE
+1,1,Durable 205 55 16,"0,00",0,"0,00",0,,TRUE
+1,1,Pirelli 175 65 14,"149.500,00",0,"2,00",0,,TRUE
+1,1,Pirelli 205 55 15,"230.700,00",0,"1,00",0,,TRUE
+1,1,Imperial Cord 80-100/14 I,"26.700,00",0,"2,00",0,,TRUE
+1,1,Imperial Cord 250x16 I,"25.000,00",0,"1,00",0,,TRUE
+1,1,Imperial Cord 275X18,"31.400,00",0,"1,00",0,,TRUE
+1,1,Imperial Cord 275x17 I,"29.300,00",0,"2,00",0,,TRUE
+1,1,Imperial Cord 90 90 18,"36.500,00",0,"2,00",0,,TRUE
+1,1,Atlantic 300x18 ,"0,00",0,"0,00",0,,TRUE
+1,1,Atlantic 300X17 ,"0,00",0,"0,00",0,,TRUE
+1,1,Atlantic 275x18 ,"0,00",0,"0,00",0,,TRUE
+1,1,Runstone 80 100 14 ,"48.300,00",0,"1,00",0,,TRUE
+1,1,Runstone 250x17,"46.000,00",0,"0,00",0,,TRUE
+1,1,Runstone 275x17 ,"47.200,00",0,"1,00",0,,TRUE
+1,1,Runstone 275X18 ,"45.650,00",0,"1,00",0,,TRUE
+1,1,Runstone 300X18 ,"55.100,00",0,"1,00",0,,TRUE
+1,1,Runstone 90 90 18,"65.200,00",0,"2,00",0,,TRUE
+1,1,Journey 250/17 ,"40.950,00",0,"0,00",0,,TRUE
+1,1,Journey 300x18 ,"0,00",0,"0,00",0,,TRUE
+1,1,Osaka 80/100/14 ,"0,00",0,"0,00",0,,TRUE
+1,1,Osaka 225x16 ,"37.400,00",0,"2,00",0,,TRUE
+1,1,Osaka 300X18 ,"0,00",0,"0,00",0,,TRUE
+1,1,Osaka 90-90-18  ,"0,00",0,"0,00",0,,TRUE
+1,1,Fortune 300x17 ,"0,00",0,"0,00",0,,TRUE
+1,1,Fortune 350x18 ,"0,00",0,"0,00",0,,TRUE
+1,1,MAXI SPORTS 410/350x4,"0,00",0,"0,00",0,,TRUE
+1,1,BICI RODADO 20,"20.200,00",0,"1,00",0,,TRUE
+1,1,BICI RODADO 24,"22.200,00",0,"2,00",0,,TRUE
+1,1,BICI RODADO 26,"22.200,00",0,"4,00",0,,TRUE
+1,1,BICI RODADO 29,"24.000,00",0,"2,00",0,,TRUE
+1,1,BICI  LLANTA TRASERA R26,"0,00",0,"0,00",0,,TRUE
+1,1,Cubierta de carretilla/zorrita 350x8,"0,00",0,"0,00",0,,TRUE
+1,2,Moto 410 350x6,"11.900,00",0,"1,00",27-07-2024,,TRUE
+1,2,Moto 15/600x6,"11.900,00",0,"1,00",27-07-2024,,TRUE
+1,2,Moto 400x8,"11.900,00",0,"0,00",27-07-2024,,TRUE
+1,2,Moto 500x8,"11.900,00",0,"1,00",27-07-2024,,TRUE
+1,2,Moto 350x10(3),"11.900,00",0,"2,00",27-07-2024,,TRUE
+1,2,Moto 450x12(5),"11.900,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 110 90x13(3),"11.900,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 300x14,"7.600,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 130 90x15,"11.900,00",0,"3,00",27-07-2024,,TRUE
+1,2,Moto 225/250x16(5),"7.600,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 110 90x16(3),"11.900,00",0,"2,00",27-07-2024,,TRUE
+1,2,Moto 250x17,"7.600,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 300/275x17,"7.600,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 350x17,"11.900,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 400x17,"11.900,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 250x18,"7.600,00",0,"2,00",27-07-2024,,TRUE
+1,2,Moto 300x18,"7.600,00",0,"4,00",27-07-2024,,TRUE
+1,2,Moto 350x18,"11.900,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 400x18(10),"11.900,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 300x19,"11.900,00",0,"5,00",27-07-2024,,TRUE
+1,2,Moto 275/300x21,"11.900,00",0,"3,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion ER12(5)","11.900,00",0,"2,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion ER13(5)","14.600,00",0,"2,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion FR13(10)","15.600,00",0,"5,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion GR14(10)","17.800,00",0,"5,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion F15","17.800,00",0,"6,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion GR15","21.300,00",0,"6,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion GR16(5)","21.300,00",0,"4,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion MR15(5)","28.200,00",0,"4,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion KR16TR13","23.800,00",0,"2,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion KR16tr15(5)","23.800,00",0,"3,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion 700X16TR75","26.000,00",0,"2,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion  750 x 16 tr 75","29.900,00",0,"3,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion 750x16 TR150(2)","29.900,00",0,"5,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion 900x20(3)","42.800,00",0,"2,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion 1000x20(3)","52.500,00",0,"2,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion 1100x20(2)","55.100,00",0,"2,00",27-07-2024,,TRUE
+1,2,"Auto, Camioneta, Camion 1200x20 tr78 Unimax ","55.100,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 1000x15,"46.100,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 825x15,"36.600,00",0,"2,00",27-07-2024,,TRUE
+1,2,Vial/Especial 1000x16 ,"43.000,00",0,"2,00",27-07-2024,,TRUE
+1,2,Vial/Especial 10x16.5,"25.700,00",0,"1,00",27-07-2024,,TRUE
+1,2,Vial/Especial 11L- 15/16,"34.400,00",0,"1,00",27-07-2024,,TRUE
+1,2,Vial/Especial 12x16.5,"48.500,00",0,"1,00",27-07-2024,,TRUE
+1,2,Vial/Especial 750x18,"27.100,00",0,"2,00",27-07-2024,,TRUE
+1,2,Vial/Especial 12.5/80-18 tr 15,"58.000,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 750x20,"35.900,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 16.0/70x20 tr218a,"72.600,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial KM24,"105.000,00",0,"2,00",27-07-2024,,TRUE
+1,2,Vial/Especial 14.9x24,"130.000,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 17.5x25,"137.000,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 16.9-28/14x28,"120.000,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 16.9x34,"80.300,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 18.4/15x34,"123.900,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 12.4-36/11x36,"75.000,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 18x9 50-8,"23.200,00",0,"0,00",27-07-2024,,TRUE
+1,2,Vial/Especial 600x9,"20.200,00",0,"2,00",27-07-2024,,TRUE
+1,2,Vial/Especial 650x10,"19.400,00",0,"2,00",27-07-2024,,TRUE
+1,2,Vial/Especial 700x12,"24.500,00",0,"2,00",27-07-2024,,TRUE
+1,2,BICI R16 ,"6.750,00",0,"2,00",0,,TRUE
+1,2,BICI R20 ,"6.750,00",0,"2,00",0,,TRUE
+1,2,BICI R24 ,"6.750,00",0,"2,00",0,,TRUE
+1,2,BICI R26,"6.750,00",0,"1,00",0,,TRUE
+1,2,BICI R28,"6.750,00",0,"2,00",0,,TRUE
+1,2,BICI R29x2.10,"7.350,00",0,"2,00",0,,TRUE
+1,2,PROTECTOR 16,"13.450,00",0,"1,00",0,,TRUE
+1,2,PROTECTOR 20,"19.600,00",0,"3,00",0,,TRUE
+1,2,PROTECTOR 10,"0,00",0,"1,00",0,,TRUE
+1,3,Aceite Comun Westf,"4.000,00",0,"9,00",08-08-2024,,TRUE
+1,3,Aceite Comun ,"3.000,00",0,"0,00",08-08-2024,,TRUE
+1,3,Aceite Viscus,"3.700,00",0,"21,00",08-08-2024,,TRUE
+1,3,Aceite Hidraulico,"3.700,00",0,"41,00",08-08-2024,,TRUE
+1,3,Aceite Viscus Petronas ,"5.000,00",0,"7,00",08-08-2024,,TRUE
+1,3,Aceite 4T New Line 1Lt,"8.800,00",0,"9,00",08-08-2024,,TRUE
+1,3,Grasa de caja,"3.600,00",0,"0,00",08-08-2024,,TRUE
+1,3,Aceite 2T 500ML New Line,"2.700,00",15-05-2024,"21,00",08-08-2024,,TRUE
+1,3,Aceite 2T 100ML New Line,"1.000,00",15-05-2024,"41,00",08-08-2024,,TRUE
+1,3,Grasa de rodamiento ,"2.600,00",0,"7,00",08-08-2024,,TRUE
+1,3,Aceite 4T Rally 1Ltr,"6.000,00",0,"5,00",08-08-2024,,TRUE
+1,3,Aceite 2T Rally 500cm,"6.000,00",0,"0,00",08-08-2024,,TRUE
+1,3,Aceite 2T Rally 100cm,"0,00",0,"0,00",08-08-2024,,TRUE
+1,3,Liquido refrigerante,"1.800,00",0,"122,00",0,2 x 3500,TRUE
+1,3,Lubricante de Caja diferencial Rally,"3.600,00",0,"7,00",0,,TRUE
+1,3,Silicona Rally gatillo c/ g espuma,"8.100,00",0,"6,00",0,,TRUE
+1,3,Silicona Rally repuesto,"5.400,00",0,"0,00",0,,TRUE
+1,3,Liquido de freno Rally Dot 3 200cm,"3.350,00",0,"0,00",0,,TRUE
+1,3,Liquido de freno Rally Dot 3 500CM,"6.000,00",0,"0,00",0,,TRUE
+1,3,Liquido de freno Rally Dot 3 1000cm,"8.450,00",0,"0,00",0,,TRUE
+1,3,Silicona gatillo Zoe,"5.000,00",0,"0,00",0,,TRUE
+1,3,Shampoo Zoe,"5.000,00",0,"5,00",0,,TRUE
+1,3,Cera Zoe,"5.000,00",0,"2,00",0,,TRUE
+1,3,Limpia motor Zoe,"5.000,00",0,"4,00",0,,TRUE
+1,3,Aceitodo spray,"5.350,00",0,"4,00",0,,TRUE
+1,3,Lubricante de cadena,"4.000,00",0,"8,00",0,,TRUE
+1,3,Silicona aerosol manzana ,"4.000,00",0,"1,00",0,,TRUE
+1,3,Limpia contacto,"6.750,00",0,"0,00",0,,TRUE
+1,3,grasa para rodamiento silva,"1.600,00",0,"9,00",0,,TRUE
+1,3,Arranca motores                                                                                                                                                                                                      ,"4.500,00",0,"0,00",0,,TRUE
+1,3,shampoo daytona,"0,00",0,"5,00",0,,TRUE
+1,3,Red pulpo Posh,"4.500,00",0,"0,00",0,,TRUE
+1,3,Chaleco refractario,"1.500,00",0,"0,00",0,,TRUE
+1,3,Boa para moto,"0,00",0,"0,00",0,,TRUE
+1,3,Kit Tarugo,"23.000,00",0,"1,00",0,,TRUE
+1,3,Linga bici Tyton,"5.500,00",0,"0,00",0,,TRUE
+1,3,Bornes bateria,"4.500,00",0,"2,00",0,,TRUE
+1,3,Mini botiquin primeros auxilios,"1.600,00",0,"0,00",0,,TRUE
+1,3,Kit de seguridad auto grande,"48.000,00",0,"3,00",0,,TRUE
+1,3,Mini fusibles,"4.000,00",0,"4,00",0,,TRUE
+1,3,Fusible con tester,"4.000,00",0,"0,00",0,,TRUE
+1,3,Bujias Champion,"6.500,00",0,"3,00",0,,TRUE
+1,3,Kit llave tubo 32 ,"29.000,00",0,"0,00",0,,TRUE
+1,3,Bujias Bosh wr8bc+,"6.500,00",0,"6,00",0,,TRUE
+1,3,Bujias Bosh d10bc0,"6.500,00",0,"7,00",0,,TRUE
+1,3,bujias bosh     wr7dc,"6.500,00",0,"9,00",0,,TRUE
+1,3,Capuchon y tapa de valvula cromada,"2.000,00",0,"10,00",0,,TRUE
+1,3,Lampara H4,"5.000,00",0,"0,00",0,,TRUE
+1,3,Lampara H3,"5.000,00",0,"4,00",0,,TRUE
+1,3,Lampara H7,"5.400,00",0,"0,00",0,,TRUE
+1,3,Lampara 1 Polos pata pareja,"900,00",0,"5,00",0,,TRUE
+1,3,Lampara 2 Polos pata pareja,"900,00",0,"19,00",0,,TRUE
+1,3,Lampara 2 Polos pata despareja,"900,00",0,"7,00",0,,TRUE
+1,3,Lampara Piojitos,"600,00",0,"41,00",0,,TRUE
+1,4,RENAULT R 13 GRIS (CHAPA),"20.000,00",0,"3,00",15-07-2024,,TRUE
+1,4,RENAULT R 13 NEGRA (CHAPA),"20.000,00",0,"5,00",15-07-2024,,TRUE
+1,4,CORSA R13 NEGRA (CHAPA),"20.000,00",0,"4,00",15-07-2024,,TRUE
+1,4,FIAT R13 POTENCIADA GRIS (CHAPA),"0,00",0,"2,00",15-07-2024,,TRUE
+1,4,FIAT R13 CURITA GRIS (CHAPA),"0,00",0,"1,00",15-07-2024,,TRUE
+1,4,FIAT R13 (128) GRIS (CHAPA),"0,00",0,"3,00",15-07-2024,,TRUE
+1,4,VW R13 GRIS (CHAPA),"0,00",0,"4,00",15-07-2024,,TRUE
+1,4,VW R14 POLO (CHAPA),"0,00",0,"1,00",15-07-2024,,TRUE
+1,4,FORD R14 NEGRAS  (CHAPA),"28.000,00",0,"2,00",15-07-2024,,TRUE
+1,4,PEUGEOT R14 NEGRA (CHAPA),"0,00",0,"1,00",15-07-2024,,TRUE
+1,4,PEUGEOT R 14 GRIS (CHAPA),"0,00",0,"1,00",15-07-2024,,TRUE
+1,4,CORSA R14 NEGRA (CHAPA),"0,00",0,"2,00",15-07-2024,,TRUE
+1,4,FIAT R14 NEGRA (CHAPA),"0,00",0,"1,00",15-07-2024,,TRUE
+1,4,VW SURAN-BORA-FOX R15 (CHAPA),"25.000,00",0,"7,00",15-07-2024,,TRUE
+1,4,DUCATO R16 CH GRIS (CHAPA),"0,00",0,"2,00",15-07-2024,,TRUE
+1,4,SPRINTER R 15 GRIS (CHAPA),"0,00",0,"1,00",15-07-2024,,TRUE
+1,4,FORD R 15 NEGRA,"25.000,00",0,"1,00",15-07-2024,,TRUE
+1,4,CHERY R17 CHAPANEGRA,"0,00",0,"1,00",15-07-2024,,TRUE
+1,4,RENAULT R  13 ALEACION GRIS,"0,00",0,"4,00",15-07-2024,,TRUE
+1,4,Ford R 14 ALEACION ,"0,00",0,"4,00",15-07-2024,,TRUE
+1,4,CORSA R14 GRIS  ALEACION,"0,00",0,"4,00",15-07-2024,,TRUE
+1,4,SURAN R 15 ALEACION,"0,00",0,"1,00",15-07-2024,,TRUE
+1,4,COROLLA R 15 ALEACION,"0,00",0,"1,00",15-07-2024,,TRUE
+1,4,Tapa Llanta Volkswagen Gol (lisa),"6.000,00",0,"1,00",0,,TRUE
+1,4,Tapa Llanta Volkswagen Polo (agujeros),"6.000,00",0,"2,00",0,,TRUE
+1,4,Tapa Llanta Chevrolet Corsa,"6.650,00",0,"0,00",0,,TRUE
+1,4,Tapa Llanta Fiat SCR,"6.000,00",0,"2,00",0,,TRUE
+1,4,Tapa Llanta Fiat 500,"7.500,00",0,"0,00",0,,TRUE
+1,4,Tapa Llanta Peugeot 405 (chica),"6.000,00",0,"0,00",0,,TRUE
+1,4,Tapa Llanta Peugeot 504 (grande),"6.000,00",0,"2,00",0,,TRUE
+1,4,Centro con Logo Toyota gris,"4.050,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Toyota gris chico,"4.050,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Toyota negro chico ,"4.050,00",0,"0,00",0,,TRUE
+1,4,Centro con Logo Toyota cromado,"4.050,00",0,"0,00",0,,TRUE
+1,4,Centro con Logo Toyota cromado chico,"4.050,00",0,"0,00",0,,TRUE
+1,4,Centro con Logo Ford chico azul,"3.300,00",0,"7,00",0,,TRUE
+1,4,Centro con Logo Ford Ranger gris,"4.250,00",0,"11,00",0,,TRUE
+1,4,Centro con Logo Volkswagen chico,"3.600,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Volkswagen Amarok,"4.200,00",0,"7,00",0,,TRUE
+1,4,Centro con Logo Renault gris ,"3.900,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Renault gris chico,"3.900,00",0,"5,00",0,,TRUE
+1,4,Centro con Logo Renault negro,"3.900,00",0,"2,00",0,,TRUE
+1,4,Centro con Logo Renault negro chico,"3.900,00",0,"2,00",0,,TRUE
+1,4,Centro con Logo Renault gris vison,"3.900,00",0,"6,00",0,,TRUE
+1,4,Centro con Logo Fiat rojo,"3.600,00",0,"0,00",0,,TRUE
+1,4,Centro con Logo Fiat negro,"3.600,00",0,"8,00",0,,TRUE
+1,4,Centro con Logo Fiat negro rallas,"3.300,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Fiat negro mod. viejo,"3.300,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Fiat gris mod. viejo,"3.300,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Fiat toro negro,"4.100,00",0,"0,00",0,,TRUE
+1,4,Centro con Logo Fiat toro rojo,"4.100,00",0,"0,00",0,,TRUE
+1,4,Centro con Logo Chevrolet negro,"3.950,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Chevrolet gris,"3.950,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Chevrolet gris vison ,"3.950,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Peugeot gris,"4.200,00",0,"2,00",0,,TRUE
+1,4,Centro con Logo Peugeot gris vison,"4.200,00",0,"11,00",0,,TRUE
+1,4,Centro con Logo Peugeot negro,"4.200,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Citroen gris vison,"4.050,00",0,"13,00",0,,TRUE
+1,4,Centro con Logo Citroen gris cromado ,"4.050,00",0,"3,00",0,,TRUE
+1,4,Centro con Logo Citroen negro,"4.050,00",0,"4,00",0,,TRUE
+1,4,Centro con Logo Honda gris grande,"4.600,00",0,"0,00",0,,TRUE
+1,4,Centro universal negro chico 49mm,"2.250,00",0,"2,00",0,,TRUE
+1,4,Centro universal negro mediano,"0,00",0,"5,00",0,,TRUE
+1,4,Centro universal negro grande,"0,00",0,"3,00",0,,TRUE
+1,4,Centro universal gris chico,"2.250,00",0,"0,00",0,,TRUE
+1,4,Centro universal gris mediano 55mm,"2.250,00",0,"3,00",0,,TRUE
+1,4,Centro universal gris grande 60mm,"2.250,00",0,"7,00",0,,TRUE
+1,4,Centrador Ford VERDE,"1.500,00",0,"9,00",0,,TRUE
+1,4,Centrador Fiat AMARILLO ,"1.500,00",0,"7,00",0,,TRUE
+1,4,Centrador Chevrolet NEGRO,"1.500,00",0,"4,00",0,,TRUE
+1,4,Centrador Peugeot CELESTE/AZUL,"1.500,00",0,"9,00",0,,TRUE
+1,4,Centrador Renault BLANCO,"1.500,00",0,"6,00",0,,TRUE
+1,4,Centrador Volkswagen NARANJA,"1.500,00",0,"8,00",0,,TRUE
+1,4,Centrador Toyota ROJO,"1.500,00",0,"10,00",0,,TRUE
+1,4,Centrador Honda VIOLETA,"1.500,00",0,"7,00",0,,TRUE
+1,4,Centrador Hyundai GRIS,"1.500,00",0,"0,00",0,,TRUE
+1,4,Centrador Nissan ROSA,"1.500,00",0,"0,00",0,,TRUE
+1,4,Separador 7mm 4au,"5.100,00",0,"1,00",0,,TRUE
+1,4,Separador 10mm 4au,"7.000,00",0,"4,00",0,,TRUE
+1,4,Separador 15mm  4au G,"9.600,00",0,"2,00",0,,TRUE
+1,4,Separador 20mm 4au G,"7.050,00",0,"5,00",0,,TRUE
+1,4,Separador 25mm 4au G,"8.100,00",0,"1,00",0,,TRUE
+1,4,Separador 30mm 4au G,"8.700,00",0,"2,00",0,,TRUE
+1,4,Separador 10mm 5au,"5.100,00",0,"0,00",0,,TRUE
+1,4,Separador 15mm 5au G,"6.900,00",0,"1,00",0,,TRUE
+1,4,Separador 20mm 5au G,"8.250,00",0,"4,00",0,,TRUE
+1,4,Sticker Chevrolet chico ,"3.500,00",0,"0,00",0,,TRUE
+1,4,Sticker Chevrolet grande,"4.450,00",0,"0,00",0,,TRUE
+1,4,Sticker Peugeot chico  ,"3.500,00",0,"0,00",0,,TRUE
+1,4,Sticker Peugeot grande,"4.450,00",0,"0,00",0,,TRUE
+1,4,Sticker Fiat chico ,"3.450,00",0,"0,00",0,,TRUE
+1,4,Sticker Fiat grande ,"4.450,00",0,"0,00",0,,TRUE
+1,4,Sticker Citroen chico,"3.500,00",0,"0,00",0,,TRUE
+1,4,Sticker Citroen grande,"4.450,00",0,"0,00",0,,TRUE
+1,4,Sticker Hyundai chico,"3.500,00",0,"0,00",0,,TRUE
+1,4,Sticker Honda chico ,"3.500,00",0,"0,00",0,,TRUE
+1,4,Sticker Honda grande,"4.450,00",0,"0,00",0,,TRUE
+1,4,Sticker Nissan grande,"4.450,00",0,"0,00",0,,TRUE
+1,4,Sticker Ford chico ,"3.500,00",0,"0,00",0,,TRUE
+1,4,Sticker Volkswagen chico,"3.500,00",0,"0,00",0,,TRUE
+1,4,Sticker Volkswagen grande,"4.450,00",0,"0,00",0,,TRUE
+1,4,Sticker Renault chico,"0,00",0,"0,00",0,,TRUE
+1,4,Sticker Renault grande,"0,00",0,"0,00",0,,TRUE
+1,4,Embellecedor Cromado 17,"800,00",0,"16,00",0,600 c/u,TRUE
+1,4,Embellecedor Cromado 19,"800,00",0,"63,00",0,$600,TRUE
+1,4,Embellecedor Negro 17,"900,00",0,"16,00",0,$700,TRUE
+1,5,Bulon Peugeot-Citroen doble arandela (206-307) Cabeza 17mm 12x1.25 aleacion cromado 35mm,"4.715,00",0,"7,00",0,,TRUE
+1,5,Bulon Peugeot-Citroen doble arandela (206-307) Cabeza 17mm 12x1.25 aleacion zincado 35mm,"3.795,00",0,"17,00",0,,TRUE
+1,5,Bulon Peugeot-Citroen doble arandela (206-307) Cabeza 17mm 12x1.25 aleacion cromado 40mm,"6.160,00",0,"7,00",0,,TRUE
+1,5,Bulon Peugeot-Citroen doble arandela (206-307) Cabeza 17mm 12x1.25 aleacion zincado 40mm,"4.870,00",0,"6,00",0,,TRUE
+1,5,Bulon Peugeot-Citroen doble arandela (206-307) Cabeza 17mm 12x1.25 aleacion cromado 50mm,"6.160,00",0,"7,00",0,,TRUE
+1,5,Bulon conico Peugeot (206-307) Chapa orig. cabeza 17mm 12x1.25,"3.835,00",0,"10,00",0,,TRUE
+1,5,Bulon conico largo Peugeot-Citroen (206-307) Chapa orig. cabeza 17mm rosca 12x1.25 48mm,"4.255,00",0,"8,00",0,,TRUE
+1,5,Bulon Fiat (Europa-147-Uno-Duna-Palio-Siena) Chapa orig. cabeza 19mm 12x1.25 zincado ,"1.840,00",0,"0,00",0,,TRUE
+1,5,Bulon Fiat (Europa-147-Uno-Duna-Palio-Siena) Chapa orig. cabeza 19mm 12x1.25 cromado,"2.700,00",0,"17,00",0,,TRUE
+1,5,Bulon Fiat Citroen (Europa-147-Uno-Duna-Palio-Siena-Berlingo) Chapa orig. cabeza 19mm 12x1.25 cromado,"3.485,00",0,"13,00",0,,TRUE
+1,5,Bulon Fiat (Uno-Duna-Palio-Siena) Cabeza 19mm 12x1.25 aleacion cromado 40mm ,"3.835,00",0,"8,00",0,,TRUE
+1,5,Bulon Fiat (Uno-Duna-Palio-Siena) Cabeza 19 rosca 12x1.25 aleacion cromado 48mm,"4.255,00",0,"11,00",0,,TRUE
+1,5,Bulon bombe Volkswagen (Gacel-Gol-Senda) 12x1.5 cabeza 17mm cromado ,"3.500,00",0,"20,00",0,,TRUE
+1,5,Bulon conico Volkswagen (Golf-Passat-Bora-Vento) chapa y aleacion orig. 14x1.5 cabeza 17mm cromado,"4.050,00",0,"8,00",0,,TRUE
+1,5,Bulon conico Volkswagen (Golf-Passat-Bora-Vento) aleacion no orig. cabeza 17mm 14x1.5,"4.300,00",0,"0,00",0,,TRUE
+1,5,Bulon bombe Volkswagen (Gacel-Gol-Senda) 12x1.5 cabeza 17mm cromado 35mm,"3.900,00",0,"4,00",0,,TRUE
+1,5,Bulon bombe Volkswagen (Golf-Passat-Bora-Vento) chapa y aleacion orig. 14x1.5 cabeza 17mm zincado,"3.400,00",0,"4,00",0,,TRUE
+1,5,Bulon bombe Volkswagen (Golf-Passat-Bora-Vento) chapa y aleacion. orig. 14x1.5 cabeza 17mm 40mm,"4.750,00",0,"4,00",0,,TRUE
+1,5,Bulon bombe Volkswagen (Golf-Passat-Bora-Vento) chapa y aleacion orig. 14x1.5 cabeza 17mm50mm,"5.200,00",0,"5,00",0,,TRUE
+1,5,Bulon conico Volkswagen (Golf-Passat-Bora-Vento) aleacion no orig. cabeza 19 14x1.5 60mm,"5.650,00",0,"16,00",0,,TRUE
+1,5,Bulon conico Volkswagen (Golf-Passat-Bora-Vento) Llanta aleacion cabeza 17mm rosca 14x1.5 40mm,"4.750,00",0,"7,00",0,,TRUE
+1,5,Tuerca conica ciega Chevrolet (Chevette) Cabeza 19 rosca 7/16 20HL ,"3.985,00",0,"10,00",0,,TRUE
+1,5,Tuerca conica ciega Chevrolet (Chevette-D20-S10-Luv) Chapa orig. cabeza 19 12x1.5 zincada negra,"3.985,00",0,"6,00",0,,TRUE
+1,5,Bulon conico Chevrolet (monza-corsa) Chapa orig. cabeza 17mm 12x1.5,"3.500,00",0,"23,00",0,,TRUE
+1,5,Bulon conico Chevrolet (monza-corsa) Chapa orig. cabeza 17mm 12x1.5 cromado 35mm,"3.900,00",0,"8,00",0,,TRUE
+1,5,Bulon conico Chevrolet (Monza-Corsa) Chapa orig. cabeza 17mm 12x1.5 cromado 50mm,"4.255,00",0,"10,00",0,,TRUE
+1,5,Tuerca abierta Ford (Taunus-Sierra-Ka-Fiesta-Orion) Chapa orig. cabeza 19mm 12x1.5,"1.350,00",0,"13,00",0,,TRUE
+1,5,Tuerca ciega Ford (Focus-Taunus-Mondeo) Aleacion orig. cabeza 19 mm 12x1.5,"4.500,00",0,"22,00",0,,TRUE
+1,5,Tuerca ciega Ford (Taunus-Sierra) Cabeza 19mm 12x1.5 ,"3.100,00",0,"0,00",0,,TRUE
+1,5,Tuerca ciega Ford (Falcon Ghia-Fairline) Aleacion orig. cabeza 21mm rosca 1/2 20HL cromada,"4.400,00",0,"1,00",0,,TRUE
+1,5,Tuerca ciega alta Ford (Pick up-F100-F150-Silverado) Chapa orig. cabeza 21mm rosca 1/2 20HL cromada,"3.200,00",0,"11,00",0,,TRUE
+1,5,Tuerca ciega Ford/Chevrolet (Fiesta-Orion-Ecosport-Prisma) Chapa orig. cabeza 19mm 12x1.5 cromada,"3.900,00",0,"0,00",0,,TRUE
+1,5,Tuerca Ford (Ranger) Chapa orig. cabeza 21mm rosca 1/2 20 HL,"4.500,00",0,"12,00",0,,TRUE
+1,5,Tuerca corta Ford (Ranger-Fiesta) Aleacion no orig. cabeza 19 mm rosca 1/2 20HL cromada,"4.000,00",0,"17,00",0,,TRUE
+1,5,Tuerca ciega Renault (Traffic) Chapa orig. cabeza 23 rosca 14x1.5,"5.000,00",0,"5,00",0,,TRUE
+1,5,Bulon Renault (Clio-Kangoo-Megane-R18-R21) Chapa orig. cabeza 19 rosca 12x1.5 cromado 35mm,"3.850,00",0,"14,00",0,,TRUE
+1,5,Bulon Renault (Clio-Kangoo-Megane-R18-R21) Chapa orig. cabeza 19 rosca 12x1.5 cromado,"3.300,00",0,"0,00",0,,TRUE
+1,5,"Tuerca ciega R12-6-4 chapa original hex. 19mm 12x1,25 zincado","2.200,00",0,"4,00",0,,TRUE
+1,5,Tuerca ciega Toyata (Hilux) Aleacion orig. cabeza 21mm 12x1.5,"4.750,00",0,"7,00",0,,TRUE
+1,5,Tuerca ciega Honda (todos los modelos) Chapa orig. cabeza 19mm 12x1.25 ,"2.700,00",0,"8,00",0,,TRUE
+1,6,Hyundai-Chery-Kia-Rastrogero-S/Yong ALTO NACIONAL NEGRO,"19.850,00",0,"1,00",0,,TRUE
+1,6,Honda-Nissan-Peugeot-Chevrolet ALTO NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+1,6,Chevrolet-Ford-Crhysler-Chery-Alfa-Volvo-Isuzu-Ssang/Y ALTO NACIONAL NEGROong,"0,00",0,"0,00",0,,TRUE
+1,6,Nissan-Renault-Datsun ALTO NACIONAL NEGRO,"0,00",0,"1,00",0,,TRUE
+1,6,Peugeot-Alfa Romeo-Citroen-Seat-Fiat (Partner-Fiorino-U ALTO NACIONAL NEGROno-Duna-Palio-147-205-206-307),"19.850,00",0,"1,00",0,,TRUE
+1,6,Fiat mod. nuevo-Fiat mod. viejo ALTO NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+1,6,Alfa Romeo-Fiat (Palio-Siena-Mirafiori) (p/separador 10mm ALTO NACIONAL NEGRO),"19.850,00",0,"0,00",0,,TRUE
+1,6,Peugeot-Citroen (original de chapa) ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Fiat-Chrysler-Alfa Romeo ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Honda-Chevrolet-Gmc-Daihatsu-Ford ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Chevrolet-Renault-Ford (Astra-Corsa-Meriva-Vectra-Clio-Kangoo-Logan-Duster-Ecosport) ALTO NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+1,6,Chevrolet-Honda-Ford-Renault ALTO NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+1,6,Bmw-Seat-Audi-Chery-Mercedes ALTO NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+1,6,Bmw-Ford-Seat-Chery-Mercedes-Vw rosca 12x1.5 ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Vw-Mercedes-Audi-Porsche ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Citroen-Peugeot llanta orig.asiento plano ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Peugeot-Citroen (doble rosca y arandela) ALTO NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+1,6,Toyota-Chery-Mitsubishi ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Volkswagen Cross Fox orig. ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Ford-Ecosport ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Citroen Air Cross ALTO NACIONAL NEGRO,"19.850,00",0,"0,00",0,,TRUE
+1,6,Daihatsu-Mitsubishi-Kia ALTO NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+1,6,Fiat bulon conico (128 iava-palio) mediano cromado SET RACING (NACIONAL),"30.100,00",0,"0,00",0,,TRUE
+1,6,"Fiat, Peugeot (128-Iava-Palio-Siena) Largo zincado SET RACING (NACIONAL)","24.100,00",0,"0,00",0,,TRUE
+1,6,Ford-Dodge-Ika (F100-Falcon-1500) SET RACING (NACIONAL),"22.800,00",0,"0,00",0,,TRUE
+1,6,Jeep tuerca (Cherokee) cromado SET RACING (NACIONAL),"28.500,00",0,"0,00",0,,TRUE
+1,6,Ford Ranger 1/2 20 hilos SET RACING (NACIONAL),"22.800,00",0,"0,00",0,,TRUE
+1,6,Ford-Toyota-Chevrolet (Orion-Mondeo-Ka-Focus-Fiesta-Sierra-Hilux 4x4-S10-Crysler-Jurney) SET RACING (NACIONAL),"22.800,00",0,"0,00",0,,TRUE
+1,6,Ford tuerca conica (Sierra-Orion-Mondeo-Ka-Focus) Zincado SET RACING (NACIONAL),"22.800,00",0,"0,00",0,,TRUE
+1,6,Ford tuerca conica (Ecosport c/auxilio) Zincado SET RACING (NACIONAL),"33.300,00",0,"0,00",0,,TRUE
+1,6,Chevrolet bulon conico (Corsa-Monza-Astra-Meriva-Zafira) Cromado SET RACING (NACIONAL),"22.800,00",0,"0,00",0,,TRUE
+1,6,Chevrolet-Renault (Corsa-Astra-Meriva-Zafira-Gol-Vectra-Kangoo-Sandero-Fun-Duster) SET RACING (NACIONAL),"22.800,00",0,"5,00",0,,TRUE
+1,6,Renault bulon conico (Fuego-R9-R11-R18-R19-R21-Clio-Express) Cromado  SET RACING (NACIONAL),"28.600,00",0,"2,00",0,,TRUE
+1,6,Renault bulon conico (Fuego-R9-R11-R18-R19-R21-Clio-Express-Megane-Kangoo) zincado SET RACING (NACIONAL),"22.800,00",0,"2,00",0,,TRUE
+1,6,Bmw-Minicooper bulon (X5-X6) Cromado SET RACING (NACIONAL),"45.000,00",0,"1,00",0,,TRUE
+1,6,Fiat-Peugeot-Citroen (128-147-600s-Duna-Uno-Palio-Siena-Tempra-Marea-Idea-Strada) Zincado SET RACING (NACIONAL),"22.800,00",0,"1,00",0,,TRUE
+1,6,Fiat-Peugeot-Citroen (128-147-600s-Duna-Uno-Palio-Siena-Tempra-Marea-Idea-Strada) Zincado SET RACING (NACIONAL),"22.800,00",0,"0,00",0,,TRUE
+1,6,Peugeot-Citroen bulon conico (206-307-407-C3-C5-Fiat Qubo) Cromado SET RACING (NACIONAL),"22.800,00",0,"0,00",0,,TRUE
+1,6,Peugeot-Citroen bulon conico (206-307-407-C3-C5-Fiat Qubo) Zincado SET RACING (NACIONAL),"22.800,00",0,"4,00",0,,TRUE
+1,6,Peugeot-Renault (504-505-R6-R12) SET RACING (NACIONAL),"22.800,00",0,"1,00",0,,TRUE
+1,6,Ford Ecosport (aleacion) c/auxilio cromado SET RACING (NACIONAL),"29.500,00",0,"2,00",0,,TRUE
+1,6,Volkswagen tuerca guia (Pointer) 12x1.5 SET RACING (NACIONAL),"25.350,00",0,"0,00",0,,TRUE
+1,6,Ford (Focus-Mondeo-Orion) mod. nuevo zincado SET RACING (NACIONAL),"25.350,00",0,"0,00",0,,TRUE
+1,6,Volkswagen bulon (Gacel-Gol-Senda-Cady-Polo-Saveiro-Golf) Zincado  SET RACING (NACIONAL),"22.800,00",0,"2,00",0,,TRUE
+1,6,Volkswagen-Audi (Golf-Passat-Fox-Bora-Vento-Suran-a3-a4-a6) Cromado SET RACING (NACIONAL),"25.350,00",0,"0,00",0,,TRUE
+1,6,Volkswagen-Audi (Golf-Passat-Fox-Bora-Vento-Suran-a3-a4-a6) Zincado SET RACING (NACIONAL),"25.350,00",0,"0,00",0,,TRUE
+1,6,Mercedes (Amarok-Sprinter) 14x1.5 Zincado SET RACING (NACIONAL),"25.350,00",0,"0,00",0,,TRUE
+1,6,Peugeot doble arand. (206-307-407) Guia 18 zincado SET RACING (NACIONAL),"25.800,00",0,"2,00",0,,TRUE
+1,6,Peugeot aleacion (206-307-407) Cromado largo SET RACING (NACIONAL),"34.900,00",0,"1,00",0,,TRUE
+1,6,"Ford (Dodge-Ka-F100-Falcon-Ranger-Cherokee) 1/2""-20 (IMPORTADO)","0,00",0,"0,00",0,,TRUE
+1,6,Ford-Toyota-Chevrolet(Dodge-Hilux-S10-Orion-Mondeo-Ka-Focus-EcoSport-Fiesta) 12x1.5 (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Renault-Chevrolet (Corsa-Sandero-R18-R19-Kangoo-Stepway) 12x1.5 (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Renault-Chevrolet (Corsa-Sandero-Kangoo) 12x1.5 (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Toyota (llanta aleacion) 12x1.5 (IMPORTADO),"16.700,00",0,"0,00",0,,TRUE
+1,6,Fiat-Peugeot-Citroen (128-147-600-Duna-206-Partner-Berlingo) 12x1.25 (IMPORTADO),"19.800,00",0,"0,00",0,,TRUE
+1,6,Ford (Focus-Mondeo-Orion) 12x1.5 (IMPORTADO),"21.350,00",0,"0,00",0,,TRUE
+1,6,Vw-Seat-Bmw (Gol-Gacel-Senda-Cady-Polo-Saveiro-Golf-Cordoba-Ibiza) 12x1.5 (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Volkswagen bulon (Golf-Fox-Passat-Bora-Vento) (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Volkswagen bulon ( Amarok - Golf-Fox-Passat-Bora-Vento) Largo (IMPORTADO),"21.350,00",0,"1,00",0,,TRUE
+1,6,Peugeot gama 12x1.25 (IMPORTADO),"16.650,00",0,"1,00",0,,TRUE
+1,6,Peugeot-Citroen (llanta aleacion orig.) 12x1.25 (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Fiat (Idea-Linea-Marea-Uno-Stilo-Strada) 12x1.25 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Renault-Volkswagen-Peugeot (Laguna-Amarok-Expert) 14x1.5 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Renault-Volvo (850-Clio-Megane-Logan) 12x1.5 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Suzuki-Renault-Chevrolet (Fun-Clio mio-Megane-Sandero-Duster-Fluence-Celta-Agile-Astra-Vectra) 12x1.5 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Fiat (Punto-Palio Adventure-Toro) 12x1.25 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Alfa Romeo-Fiat (125-1500-Palio-Siena) 12x1.25 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Ford (Fiesta-Ka-Focus-Mondeo) tuerca 12x1.5 Z3 PREMIUM (IMPORTADO),"34.500,00",0,"0,00",0,,TRUE
+1,6,Ford (Fiesta-Focus-Mondeo) tuerca 12x1.5 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Volkswagen (Bora-Fox-Golf-New Beetle-Passat-Scirocco-Sharan-Suran-Tiguan-Touareg-Vento) 14x1.5 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Peugeot-Citroen (207-208-307-308-407-607-3007-3008-5008-Picasso-C3-C4-C5-DS3) 12x1.25 Z3 PREMIUM (IMPORTADO),"36.800,00",0,"0,00",0,,TRUE
+1,6,Toyota (Etios-Corolla-Hilux-Rav4) tuerca 12x1.5 plana Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Toyota (Etios-Corolla-Avensis-Fielder) tuerca 12x1.5 Z3 PREMIUM (IMPORTADO),"0,00",0,"1,00",0,,TRUE
+1,6,Honda-Ford-Chevrolet (Crv-Ecosport-Spin activ) tuerca c/auxilio 12x1.5 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+1,6,Volkswagen-Audi (Golf-Passat-Fox-Bora-Vento-Suran-a3-a4-a6) Cromado VECTOR (IMPORTADO),"34.500,00",0,"0,00",0,,TRUE
+1,6,Fiat-Peugeot-Citroen (128-147-600s-Duna-Uno-Palio-Siena-Tempra-Marea-Idea-Strada) Cromado VECTOR (IMPORTADO),"36.800,00",0,"0,00",0,,TRUE
+1,6,Chevrolet (Corsa-Monza-Astra-Meriva-Zafira) Cromado VECTOR (IMPORTADO),"34.450,00",0,"0,00",0,,TRUE
+1,6,Ford-Toyota-Chevrolet (Orion-Mondeo-Ka-Focus-Fiesta-Sierra-Hilux 4x4-S10-Crysler-Jurney) VECTOR (IMPORTADO),"36.800,00",0,"0,00",0,,TRUE
+1,7,Llave L Raselli 17mm,"11.300,00",0,"0,00",0,,TRUE
+1,7,Llave L Raselli 21mm,"11.300,00",0,"0,00",0,,TRUE
+1,7,Llave L Raselli 23mm,"11.300,00",0,"0,00",0,,TRUE
+1,7,Llave cruz Raekon (Raselli eco),"30.600,00",0,"0,00",0,,TRUE
+1,7,Llave cruz 20 oulgadas QLM,"20.000,00",0,"0,00",0,,TRUE
+1,7,"Kit llave tubo 32 c/alargue, pasador y llave fija Gedore","34.300,00",0,"0,00",0,,TRUE
+1,7,SET DE LLAVES FIJAS FORD,"55.000,00",0,"0,00",0,,TRUE
+2,8,Camara de moto 350x10 Runstone(Siambretta),"5.460,00",15-12-2023,"2,00",31-08-2023,,TRUE
+2,8,Camara de moto 350x10 Unimax,"5.460,00",15-12-2023,"30,00",09-02-2024,,TRUE
+2,8,"Camara de moto 450x12 Unimax(Siambretta,Scooter)","6.670,00",15-12-2023,"98,00",03-05-2023,,TRUE
+2,8,Camara de moto 110-90x13 Unimax ,"7.820,00",15-12-2023,"213,00",05-02-2024,,TRUE
+2,8,Camara de moto  300x14 Runstone,"5.060,00",07-03-2024,"21,00",27-02-2024,,TRUE
+2,8,Camara de moto 300x14 Unimax ,"5.060,00",25-01-2024,"647,00",16-05-2024,,TRUE
+2,8,Camara de moto 130-90x15 Unimax,"7.190,00",09-02-2024,"156,00",09-02-2024,,TRUE
+2,8,Camara de moto 225x16 Imp. Cord,"4.865,00",15-12-2023,"2,00",20-01-2024,,TRUE
+2,8,Camara de moto 225x16 Unimax,"4.865,00",15-12-2023,"176,00",30-10-2023,,TRUE
+2,8,Camara de moto 250x16 Runstone,"4.865,00",15-12-2023,"213,00",20-04-2023,,TRUE
+2,8,Camara de moto 110-90x16 Unimax (350x16),"6.960,00",09-02-2024,"33,00",09-02-2024,,TRUE
+2,8,Camara de moto  450/500x16 Imp. Cord,"6.960,00",15-12-2023,"5,00",09-01-2023,35%,TRUE
+2,8,Camara de moto 250x17 Unimax,"5.060,00",25-01-2024,"274,00",29-04-2024,,TRUE
+2,8,Camara de moto 250x17 Rustone,"5.060,00",25-01-2024,"143,00",02-10-2023,,TRUE
+2,8,Camara de moto 275x17 Unimax,"5.060,00",25-01-2024,"71,00",28-12-2023,,TRUE
+2,8,Camara de moto 275x17 Rustone ,"5.060,00",25-01-2024,"114,00",28-08-2023,,TRUE
+2,8,Camara de moto 300x17 Runstone ,"5.060,00",07-03-2024,"1,00",06-12-2023,,TRUE
+2,8,Camara de moto 300x17 Atlantic ,"5.060,00",25-01-2024,"84,00",27-12-2023,,TRUE
+2,8,Camara de moto 300x17 Unimax,"5.060,00",25-01-2024,"193,00",26-02-2024,,TRUE
+2,8,Camara de moto 350x17 Unimax,"6.500,00",09-02-2024,"48,00",27-09-2023,,TRUE
+2,8,Camara de moto 100-70x17 Unimax(350x17),"7.935,00",15-12-2023,"180,00",02-06-2023,,TRUE
+2,8,Camara de moto 400x17 Unimax,"7.935,00",15-12-2023,"98,00",26-02-2024,,TRUE
+2,8,Camara de moto 400x17 Safeway,"7.935,00",15-12-2023,"9,00",12-12-2023,,TRUE
+2,8,Camara de moto 400x17 Sorrento,"7.935,00",15-12-2023,"146,00",26-12-2023,,TRUE
+2,8,Camara de moto 400x17 Atlantic,"7.935,00",23-12-2023,"82,00",23-12-2023,,TRUE
+2,8,Camara de moto 500x17 Runstone,"7.935,00",15-12-2023,"49,00",26-01-2023,,TRUE
+2,8,Camara de moto 250x18 Unimax,"5.060,00",25-01-2024,"15,00",01-12-2022,,TRUE
+2,8,Camara de moto 300x18 Oagsa,"5.060,00",25-07-2024,"41,00",25-07-2024,,TRUE
+2,8,Camara de moto 300x18 Unimax,"5.060,00",25-01-2024,"0,00",29-04-2024,,TRUE
+2,8,Camara de moto 300x18 Atlantic,"5.060,00",25-01-2024,"29,00",30-05-2024,,TRUE
+2,8,Camara de moto 300x18 Road Up,"5.060,00",02-08-2024,"200,00",02-08-2024,,TRUE
+2,8,Camara de moto 90-90x18 Unimax,"5.060,00",25-01-2024,"0,00",26-09-2023,,TRUE
+2,8,Camara de moto 300-325x18 Swallow,"6.500,00",07-03-2024,"24,00",19-09-2023,,TRUE
+2,8,Camara de moto 350x18 Unimax,"6.500,00",09-02-2024,"154,00",09-02-2024,,TRUE
+2,8,Camara de moto 410x18 Runstone,"7.935,00",15-12-2023,"229,00",22-09-2023,,TRUE
+2,8,Camara de moto 400x18 Unimax,"7.935,00",15-12-2023,"499,00",29-04-2024,,TRUE
+2,8,Camara de moto 400x18 Sorrento ,"7.935,00",15-12-2023,"37,00",12-12-2023,,TRUE
+2,8,Camara de moto 400x18 Atlantic,"7.935,00",23-12-2023,"135,00",23-12-2023,,TRUE
+2,8,Camara de moto 500x18 Runstone,"7.935,00",15-12-2023,"50,00",26-01-2023,,TRUE
+2,8,Camara de moto 450/500x18 Imp. Cord,"7.935,00",26-12-2023,"5,00",26-12-2023,,TRUE
+2,8,Camara de moto 300x19 Unimax,"6.960,00",15-12-2023,"146,00",27-09-2023,,TRUE
+2,8,Camara de moto 300x19 Runstone ,"6.960,00",15-12-2023,"566,00",22-09-2023,,TRUE
+2,8,Camara de moto 300x21 Runstone,"6.960,00",15-12-2023,"269,00",14-11-2023,,TRUE
+2,8,Camara de moto 300x21 Unimax,"6.960,00",15-12-2023,"137,00",29-04-2024,,TRUE
+2,8,Camara de moto 300x21 Sorrento ,"6.960,00",15-12-2023,"1,00",09-01-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion Er12 Unimax","7.005,00",08-05-2024,"117,00",09-02-2024,,TRUE
+2,8,"Camara de auto,camioneta y camion Er13 Unimax","8.130,00",08-05-2024,"335,00",16-11-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion Fr13 Unimax","8.400,00",08-05-2024,"866,00",31-07-2024,,TRUE
+2,8,"Camara de auto,camioneta y camion Gr13 Unimax","9.280,00",08-05-2024,"313,00",06-06-2024,,TRUE
+2,8,"Camara de auto,camioneta y camion Fr14 Unimax","10.005,00",15-12-2023,"14,00",16-11-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion Gr14 Unimax","9.500,00",08-05-2024,"1.779,00",27-06-2024,,TRUE
+2,8,"Camara de auto,camioneta y camion Fr15 Unimax ","9.660,00",08-05-2024,"421,00",23-11-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion Gr15 Unimax","10.300,00",08-05-2024,"119,00",06-06-2024,,TRUE
+2,8,"Camara de auto,camioneta y camion Gr16 Unimax","10.420,00",08-05-2024,"34,00",19-09-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion Mr15 Unimax","13.895,00",08-05-2024,"135,00",27-09-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion Kr15 tr13 Unimax ","15.180,00",15-12-2023,"271,00",16-11-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion Kr16 tr13 Unimax","11.870,00",08-05-2024,"71,00",28-12-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion Kr16 tr15 Unimax","11.870,00",08-05-2024,"198,00",24-10-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion 700x16 tr75 Unimax","17.340,00",15-12-2023,"170,00",13-11-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion 750x16 tr15 Unimax","15.810,00",08-05-2024,"22,00",29-02-2024,,TRUE
+2,8,"Camara de auto,camioneta y camion 750x16 tr75 Unimax","15.810,00",02-08-2024,"71,00",02-08-2024,,TRUE
+2,8,"Camara de auto,camioneta y camion 750x16 tr150 Unimax","15.065,00",08-05-2024,"8,00",13-11-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion 900x20 Unimax","26.610,00",08-05-2024,"89,00",25-04-2024,,TRUE
+2,8,"Camara de auto,camioneta y camion 1000x20 Unimax","31.510,00",08-05-2024,"34,00",25-04-2024,,TRUE
+2,8,"Camara de auto,camioneta y camion 1100x20 tr78 Unimax","36.905,00",08-05-2024,"33,00",28-03-2023,,TRUE
+2,8,"Camara de auto,camioneta y camion 1200x20 tr78 Unimax ","43.125,00",08-05-2024,"11,00",25-03-2024,,TRUE
+2,8,Cámaras viales/especiales 1000x15 Unimax,"30.705,00",15-12-2023,"11,00",03-04-2023,,TRUE
+2,8,Cámaras viales/especiales 825x15 Unimax,"24.380,00",15-12-2023,"33,00",01-08-2023,(Clark),TRUE
+2,8,Cámaras viales/especiales 1000x16tr218a Unimax,"28.635,00",15-12-2023,"54,00",13-11-2023,,TRUE
+2,8,Cámaras viales/especiales 10x16.5 Unimax,"17.080,00",09-02-2024,"18,00",09-02-2024,(Delant. tractor-Bobcat),TRUE
+2,8,Cámaras viales/especiales 11L-15/16 Atlantic,"22.885,00",03-01-2024,"34,00",27-12-2023,(Bobcat más grande),TRUE
+2,8,Cámaras viales/especiales 12x16.5 tr15 Nexen ,"32.315,00",15-12-2023,"0,00",01-08-2023,,TRUE
+2,8,Cámaras viales/especiales 750x18 Unimax,"17.330,00",08-05-2024,"47,00",09-02-2024,,TRUE
+2,8,Cámaras viales/especiales 12.5/80x18 tr15 Nexen,"38.675,00",15-12-2023,"8,00",01-08-2023,,TRUE
+2,8,Cámaras viales/especiales 750x20 Unimax,"23.920,00",15-12-2023,"19,00",01-08-2023,,TRUE
+2,8,Cámaras viales/especiales 16.0/70x20 tr218a Unimax,"48.390,00",25-03-2024,"19,00",25-03-2024,,TRUE
+2,8,Cámaras viales/especiales KM24 Unimax ,"60.605,00",09-02-2024,"14,00",09-02-2024,(Tractor),TRUE
+2,8,Cámaras viales/especiales 14.9x24 Unimax ,"75.555,00",15-12-2023,"6,00",01-08-2023,,TRUE
+2,8,Cámaras viales/especiales 17.5x25 Unimax,"91.310,00",08-02-2024,"16,00",26-02-2024,(Motoniveladora),TRUE
+2,8,Cámaras viales/especiales 16.9-28/14x28 Unimax,"79.960,00",15-12-2023,"1,00",01-08-2023,,TRUE
+2,8,Cámaras viales/especiales 16.9x34 Unimax,"53.520,00",15-12-2023,"6,00",01-08-2023,,TRUE
+2,8,Cámaras viales/especiales 18.4/15x34 Unimax,"82.570,00",15-12-2023,"13,00",27-02-2024,(Tractor),TRUE
+2,8,Cámaras viales/especiales 12.4-36/11x36 Unimax,"50.000,00",13-03-2024,"3,00",13-03-2024,(Tractor),TRUE
+2,8,Cámaras viales/especiales 15/600x6 Nexen ,"10.055,00",22-02-2024,"38,00",01-08-2023,,TRUE
+2,8,Cámaras viales/especiales 400x8 Unimax (carretilla) ,"6.785,00",15-12-2023,"142,00",08-06-2023,,TRUE
+2,8,Cámaras viales/especiales 500x8 Daytona,"9.695,00",15-12-2023,"61,00",26-09-2023,,TRUE
+2,8,Cámaras viales/especiales 18x9 50-8 Nexen,"15.465,00",15-12-2023,"14,00",01-08-2023,,TRUE
+2,8,Cámaras viales/especiales 600x9 Unimax,"13.455,00",09-02-2024,"57,00",09-02-2024,,TRUE
+2,8,Cámaras viales/especiales 650x10 Unimax,"12.930,00",15-12-2023,"67,00",30-08-2023,,TRUE
+2,8,Cámaras viales/especiales 700x12 Unimax,"16.330,00",15-12-2023,"35,00",01-08-2023,,TRUE
+2,8,Camara de bicicleta R16 ,"6.440,00",08-08-2024,"7,00",24-11-2023,30%,TRUE
+2,8,Camara de bicicleta R20 ,"6.440,00",08-08-2024,"8,00",12-06-2024,,TRUE
+2,8,Camara de bicicleta R24 ,"6.440,00",08-08-2024,"11,00",09-08-2024,,TRUE
+2,8,Camara de bicicleta R26,"6.440,00",08-08-2024,"28,00",09-08-2024,,TRUE
+2,8,Camara de bicicleta R28,"6.440,00",08-08-2024,"9,00",24-11-2023,,TRUE
+2,8,Camara de bicicleta R29x2.10,"7.245,00",08-08-2024,"16,00",09-08-2024,,TRUE
+2,8,Protector 750x16 Jomsalva,"9.200,00",24-06-2024,"164,00",13-11-2023,45% 1333,TRUE
+2,8,Protector 900/1000x20 Colombo,"12.765,00",03-08-2024,"100,00",03-08-2024,45%,TRUE
+2,8,Protector 1100/1200x20 Unimax,"15.470,00",30-07-2024,"32,00",09-02-2024,40% Neuma,TRUE
+2,9,Parche p/cámaras LA BRIO 20,"3.185,00",07-03-2024,"29,00",16-08-2023,,TRUE
+2,9,Parche p/cámaras LA BRIO 30,"3.930,00",07-03-2024,"225,00",06-01-2024,,TRUE
+2,9,Parche p/cámaras LA BRIO 40,"5.315,00",07-03-2024,"199,00",05-08-2024,,TRUE
+2,9,Parche p/cámaras LA BRIO 55,"5.315,00",07-03-2024,"49,00",05-08-2024,,TRUE
+2,9,Parche p/cámaras LA BRIO 65x30,"5.635,00",15-02-2024,"50,00",14-11-2023,,TRUE
+2,9,Parche p/cámaras LA BRIO 75x45,"5.635,00",15-02-2024,"105,00",20-12-2023,,TRUE
+2,9,Parche p/cámaras LA BRIO 100x40,"6.370,00",15-02-2024,"46,00",07-09-2022,,TRUE
+2,9,Parche p/cámaras LA BRIO 110x50,"5.220,00",15-02-2024,"32,00",16-08-2023,,TRUE
+2,9,Parche p/cámaras LA BRIO 120x60,"6.370,00",15-02-2024,"23,00",14-11-2023,,TRUE
+2,9,Parche p/cámaras LA BRIO 80,"6.140,00",17-05-2024,"21,00",17-05-2024,,TRUE
+2,9,Parche p/cámaras LA BRIO 100,"6.400,00",07-03-2024,"8,00",14-11-2023,,TRUE
+2,9,Parche p/cubiertas LA BRIO 101,"16.500,00",15-02-2024,"314,00",22-06-2024,,TRUE
+2,9,Parche p/cubiertas LA BRIO 102,"14.360,00",13-05-2024,"200,00",22-06-2024,,TRUE
+2,9,Parche Radial TLA BRIO 100,"12.960,00",15-02-2024,"119,00",22-06-2024,,TRUE
+2,9,Parche Radial TLA BRIO 110,"19.285,00",15-02-2024,"155,00",22-06-2024,,TRUE
+2,9,Parche Radial TLA BRIO 111,"19.440,00",15-02-2024,"23,00",20-10-2023,,TRUE
+2,9,Parche Radial TLA BRIO 112,"14.260,00",15-02-2024,"25,00",18-04-2024,,TRUE
+2,9,Parche Radial TLA BRIO 114,"16.500,00",13-05-2024,"51,00",06-01-2024,,TRUE
+2,9,Parche Radial TLA BRIO 120,"18.140,00",13-05-2024,"48,00",03-08-2023,,TRUE
+2,9,Parche Radial TLA BRIO 140,"42.495,00",13-05-2024,"29,00",02-01-2023,,TRUE
+2,9,Parche Radial TLA BRIO 148 x unidad ,"25.530,00",23-05-2024,"1,00",22-07-2022,,TRUE
+2,9,Parche reparacion cubiertas BRIO LA 203 R,"10.510,00",13-05-2024,"8,00",13-11-2023,,TRUE
+2,9,Parche reparacion cubiertas BRIO 203 C,"10.510,00",13-05-2024,"14,00",22-07-2024,,TRUE
+2,9,Parche reparacion cubiertas BRIO 204 C,"15.685,00",13-05-2024,"17,00",20-12-2023,,TRUE
+2,9,Parche reparacion cubiertas BRIO 205 C,"23.345,00",13-05-2024,"25,00",30-05-2023,,TRUE
+2,9,Parche reparacion cubiertas BRIO  C,"18.975,00",13-05-2024,"9,00",09-11-2023,,TRUE
+2,9,Parche reparacion cubiertas BRIO 207 C,"24.450,00",13-05-2024,"14,00",20-12-2023,,TRUE
+2,9,Parche reparacion cubiertas BRIO 406 C,"26.955,00",13-05-2024,"3,00",17-04-2023,,TRUE
+2,9,Parche reparacion cubiertas BRIO 407 C,"28.830,00",13-05-2024,"1,50",17-04-2023,,TRUE
+2,9,Parche reparacion cubiertas BRIO 408 C,"41.355,00",13-05-2024,"7,50",30-05-2023,,TRUE
+2,9,Parche reparacion cubiertas BRIO 411 x unidad                 ,"9.545,00",15-02-2024,"1,00",0,,TRUE
+2,9,Parche reparacion cubiertas BRIO 609 C,"53.880,00",13-05-2024,"1,00",09-05-2023,,TRUE
+2,9,Parche reparacion cubiertas BRIO 611 C,"77.200,00",13-05-2024,"3,00",02-01-2023,,TRUE
+2,9,Parches LAP BRIO LAP80,"10.545,00",13-05-2024,"24,00",01-08-2022,,TRUE
+2,9,Parches LAP BRIO LAP100,"14.030,00",15-02-2024,"13,00",18-10-2022,,TRUE
+2,9,Parches LAP BRIO LAP120,"13.730,00",13-05-2024,"34,00",22-09-2023,,TRUE
+2,9,Parche IR BRIO IR-03,"6.220,00",13-05-2024,"10,00",20-10-2023,LA003,TRUE
+2,9,Parche IR BRIO IR-04,"4.370,00",18-03-2024,"16,00",18-03-2024,LA004,TRUE
+2,9,Parche IR BRIO IR-05,"5.055,00",13-05-2024,"3,00",22-09-2023,LA005,TRUE
+2,9,Parche IR BRIO IR-06,"7.930,00",13-05-2024,"0,00",18-03-2024,LA006,TRUE
+2,9,Parche IR BRIO IR-10,"8.465,00",18-03-2024,"10,00",18-03-2024,LA010,TRUE
+2,9,Parche IR BRIO IR-14,"13.590,00",13-05-2024,"11,00",20-10-2023,LA014,TRUE
+2,9,Parche IR BRIO IR-15,"14.515,00",17-05-2024,"16,00",17-05-2024,LA015,TRUE
+2,9,Parche IR BRIO IR-17,"14.515,00",19-02-2024,"4,00",20-10-2023,LA017,TRUE
+2,9,Parche IR BRIO IR-18,"17.160,00",24-12-1946,"13,00",17-05-2024,LA018,TRUE
+2,9,Parche Vipal R01,"5.600,00",20-07-2024,"41,00",20-07-2024,4301,TRUE
+2,9,Parche Vipal R02,"5.875,00",20-07-2024,"48,00",20-07-2024,4302,TRUE
+2,9,Parche Vipal R03,"5.970,00",24-06-2024,"29,00",11-05-2024,4303,TRUE
+2,9,Parche Vipal R04,"8.770,00",11-05-2024,"33,00",11-05-2024,4304,TRUE
+2,9,Parche Vipal R05,"14.000,00",24-06-2024,"31,00",05-08-2023,4305,TRUE
+2,9,Parche Vipal R300,"8.910,00",16-05-2024,"29,00",22-03-2024,4308,TRUE
+2,9,Parche Vipal VF 03 ,"7.900,00",20-07-2024,"26,00",20-07-2024,4370,TRUE
+2,9,Parche Vipal VF 06 (TLA 100),"11.225,00",05-08-2024,"32,00",05-08-2024,4371,TRUE
+2,9,Parche Vipal VF 08,"12.190,00",16-05-2024,"14,00",20-02-2024,4372,TRUE
+2,9,Parche Vipal VD 01,"16.675,00",20-07-2024,"37,00",20-07-2024,4360,TRUE
+2,9,Parche Vipal VD 02 (203),"14.480,00",24-06-2024,"30,00",20-02-2024,4361,TRUE
+2,9,Parche Vipal VD 03 (204),"9.640,00",16-05-2024,"25,00",05-08-2023,4362,TRUE
+2,9,Parche Vipal VD 04 (205),"15.695,00",16-05-2024,"18,00",19-09-2023,4363,TRUE
+2,9,Parche Vipal VD 05 (206),"27.340,00",16-05-2024,"19,00",10-10-2023,4364,TRUE
+2,9,Parche Vipal RT-3,"9.950,00",05-08-2024,"29,00",05-08-2024,4373,TRUE
+2,9,Parche Vipal RAC 10,"15.810,00",05-08-2024,"79,00",05-08-2024,4320,TRUE
+2,9,Parche Vipal RAC 12,"12.370,00",16-05-2024,"29,00",11-05-2024,4321,TRUE
+2,9,Parche Vipal RAC 14,"13.005,00",16-05-2024,"24,00",11-05-2024,4322,TRUE
+2,9,Parche Vipal RAC 15,"21.735,00",05-08-2024,"14,00",05-08-2024,4323,TRUE
+2,9,Parche Vipal RAC 20,"15.570,00",16-05-2024,"17,00",10-10-2023,4324,TRUE
+2,9,Parche Vipal RAC 22,"19.010,00",16-05-2024,"11,00",05-08-2023,4325,TRUE
+2,9,Parche Vipal RAC 24,"21.850,00",16-05-2024,"14,00",19-09-2023,4326,TRUE
+2,9,Parche Vipal RAC 25,"20.985,00",16-05-2024,"11,00",15-01-2024,4327,TRUE
+2,9,Parche Vipal RAC 35,"30.245,00",16-05-2024,"15,00",26-02-2024,4329,TRUE
+2,9,Parche Vipal RAC 40,"27.750,00",05-08-2024,"9,50",05-08-2024,4330,TRUE
+2,9,Parche Vipal RAC 42,"41.745,00",16-05-2024,"5,00",27-10-2023,4331,TRUE
+2,9,Parche Vipal RAC 45,"26.335,00",16-05-2024,"10,00",11-05-2024,4333,TRUE
+2,9,Parche Vipal RAC 80,"18.550,00",05-08-2024,"9,00",05-08-2024,4344,TRUE
+2,9,Parche Vipal RAC 82,"37.685,00",11-05-2024,"10,00",11-05-2024,4345,TRUE
+2,9,Parches TG LA 30,"4.945,00",15-05-2024,"11,00",22-03-2024,4501,TRUE
+2,9,Parches TG LA 40,"6.170,00",20-07-2024,"25,00",20-07-2024,4502,TRUE
+2,9,Parches TG LA 55,"6.170,00",20-07-2024,"40,00",20-07-2024,4503,TRUE
+2,9,Parches TG LA 65x30,"9.750,00",15-05-2024,"30,00",11-05-2024,4507,TRUE
+2,9,Parches TG LA 75x45,"9.750,00",15-05-2024,"17,00",05-04-2023,4508,TRUE
+2,9,Parches TG LA 80,"2.600,00",15-05-2024,"65,00",01-08-2022,4504,TRUE
+2,9,Parches TG LA 100,"4.140,00",15-05-2024,"45,00",01-08-2022,4505,TRUE
+2,9,Parches TG LA 100x50,"8.050,00",15-05-2024,"16,00",01-08-2022,4509,TRUE
+2,9,Parches TG TGU 40 (101r),"6.350,00",20-07-2024,"30,00",20-07-2024,4552,TRUE
+2,9,Parches TG TGU 55 (102r),"6.710,00",03-08-2024,"32,00",03-08-2024,4553,TRUE
+2,9,Parches TG TL102 R,"18.745,00",15-05-2024,"9,00",15-05-2024,4555,TRUE
+2,9,Parches TG TL102 C,"18.745,00",15-05-2024,"24,00",15-01-2024,4556,TRUE
+2,9,Parches TG TL100,"20.355,00",29-04-2024,"0,00",11-07-2022,4511,TRUE
+2,9,Parches TG TL100 (VF08) ,"20.355,00",29-04-2024,"28,00",19-05-2023,,TRUE
+2,9,Parches TG TL110,"18.515,00",15-05-2024,"20,00",19-09-2023,4512,TRUE
+2,9,Parches TG TL112,"14.295,00",15-05-2024,"36,00",11-05-2024,4513,TRUE
+2,9,Parches TG TL114,"14.245,00",11-05-2024,"39,00",11-05-2024,4514,TRUE
+2,9,Parches TG 203 C,"17.080,00",15-05-2024,"18,00",14-11-2023,4559,TRUE
+2,9,Parches TG 204 C,"17.065,00",15-05-2024,"15,00",01-03-2023,4561,TRUE
+2,9,Parches TG 205,"18.480,00",15-05-2024,"0,00",22-03-2024,4562,TRUE
+2,9,Parches TG 207,"28.715,00",15-05-2024,"4,00",15-01-2024,4564,TRUE
+2,9,Parches LM 30,"4.815,00",15-05-2024,"34,00",11-07-2022,4701,TRUE
+2,9,Parches LM 40,"5.990,00",02-08-2024,"88,00",02-08-2024,4702,TRUE
+2,9,Parches LM 55,"5.990,00",02-08-2024,"82,00",02-08-2024,4703,TRUE
+2,9,Parches LM 75x45,"5.120,00",03-08-2024,"31,00",03-08-2024,4704,TRUE
+2,9,Parches LM LMU 40,"10.495,00",15-05-2024,"49,00",15-01-2024,4774,TRUE
+2,9,Parches LM LMU 55,"9.520,00",15-05-2024,"32,00",12-12-2023,4775,TRUE
+2,9,Parches Precurex 30,"4.555,00",15-05-2024,"15,00",11-07-2022,4706,TRUE
+2,9,Parches Precurex 40,"5.705,00",02-08-2024,"100,00",02-08-2024,4707,TRUE
+2,9,Parches Precurex 55,"5.705,00",02-08-2024,"92,00",02-08-2024,4708,TRUE
+2,9,Parches Precurex 75x45,"4.720,00",15-05-2024,"21,00",11-05-2024,4713,TRUE
+2,9,Parches Precurex 80,"3.440,00",15-05-2024,"23,00",10-10-2023,4709,TRUE
+2,9,Parches Precurex 100,"4.690,00",11-05-2024,"29,00",11-05-2024,4710,TRUE
+2,9,Parches Precurex 101,"7.175,00",15-05-2024,"30,00",05-12-2022,4722,TRUE
+2,9,Parches Precurex AM 02  R,"7.935,00",11-05-2024,"26,00",22-03-2024,4723,TRUE
+2,9,Parches Precurex AM 02  C,"7.935,00",11-05-2024,"41,00",11-05-2024,4724,TRUE
+2,9,Parches Precurex PX L-110,"11.270,00",15-05-2024,"34,00",11-05-2024,4761,TRUE
+2,9,Parches Precurex PX L-112,"17.070,00",15-05-2024,"38,00",11-12-2023,4762,TRUE
+2,9,Parches Precurex PX L-114,"19.675,00",15-05-2024,"46,00",11-07-2022,4763,TRUE
+2,9,Parches Precurex 203 C,"8.005,00",15-05-2024,"28,00",30-09-2022,4729,TRUE
+2,9,Parches Precurex 203 R,"8.005,00",15-05-2024,"6,00",12-08-2022,,TRUE
+2,9,Parches Precurex 207,"27.920,00",15-05-2024,"5,00",19-09-2023,4733,TRUE
+2,9,Parches Vulca flex Vfp 04 (101),"0,00",0,"0,00",0,,TRUE
+2,9,Tarugo Vipal corto,"23.140,00",16-05-2024,"41,00",15-01-2024,4375,TRUE
+2,9,Tarugo Vipal camion,"19.620,00",16-05-2024,"76,00",15-01-2024,4376,TRUE
+2,9,Tarugo S,"11.500,00",20-07-2024,"23,00",20-07-2024,,TRUE
+2,9,Tarugo Brio,"16.630,00",08-04-2024,107 1/2,13-04-2024,,TRUE
+2,9,Tarugo Brio Camion,"16.630,00",18-05-2024,"18,00",0,,TRUE
+2,9,Tarugo Lube ,"6.440,00",19-04-2024,"3,00",01-04-2023,AA0397,TRUE
+2,9,Kit tarugo negro Sav,"0,00",0,"0,00",0,467002s,TRUE
+2,9,Kit tarugo Safety rojo,"58.250,00",04-01-2024,"0,00",18-11-2023,AA0393,TRUE
+2,9,Tarugo tipo Byma Xtra Seal 381,"18.420,00",13-01-2024,"5,00",27-11-2023,AA3810,TRUE
+2,9,Tarugo tipo Byma Xtra Seal 382,"0,00",0,"0,00",0,AA3820,TRUE
+2,9,Tarugo tipo Byma Xtra Seal 383,"21.650,00",13-01-2024,"5,00",27-11-2023,AA3830,TRUE
+2,9,Cojin Fate x kg ,"17.410,00",04-07-2024,"10.265,00",05-08-2024,(185gr tubo carton) CCOJIN5,TRUE
+2,9,Cojín Vipal x kg,"13.670,00",20-07-2024,"0,00",20-07-2024,(75gr tubo carton) 4391,TRUE
+2,9,Tela cord eco x kg,"20.930,00",03-07-2024,"1.720,00",04-07-2024,40%,TRUE
+2,9,Tela cord Vipal x kg,"21.220,00",20-07-2024,"0,00",20-07-2024,35% (365gr tubo carton) 4392,TRUE
+2,9,Tela cord Fate x  kg,"27.050,00",28-06-2024,"23.260,00",05-08-2024,LA080,TRUE
+2,9,Material rápido Aiello,"6.775,00",18-03-2024,"13,00",18-03-2024,LA030,TRUE
+2,9,Material rápido Precurex,"6.705,00",11-05-2024,"26,00",11-05-2024,4771,TRUE
+2,9,Material rápido TG,"0,00",0,"0,00",0,,TRUE
+2,9,Material rapido Sav ,"8.200,00",29-07-2024,"10,00",09-10-2023,201001s,TRUE
+2,10,Abrazadera 12-14,"460,00",26-02-2024,"62,00",28-10-2023,101,TRUE
+2,10,Abrazadera 14-16,"460,00",26-02-2024,"73,00",13-05-2024,102,TRUE
+2,10,Abrazadera 15-18,"460,00",26-02-2024,"59,00",09-11-2023,103,TRUE
+2,10,Abrazadera 8-16,"660,00",27-07-2024,"50,00",27-07-2024,,TRUE
+2,10,Abrazadera 16-27,"840,00",27-07-2024,"101,00",27-07-2024,,TRUE
+2,10,Set abrazaderas x10,"3.700,00",26-02-2024,"1,00",24-10-2023,80% CAP,TRUE
+2,10,Abre cubierta horizontal RR,"305.785,00",03-06-2024,"0,00",08-04-2024,129 35%,TRUE
+2,10,Abre cubierta horizontal economico,"218.960,00",06-08-2024,"1,00",27-07-2024,136 45%,TRUE
+2,10,Abre cubierta vertical reforzado usado,"287.500,00",15-04-2024,"1,00",15-04-2024,115,TRUE
+2,10,Abre cubierta  Valvula de horizontal ,"10.560,00",10-07-2024,"2,00",25-07-2023,133,TRUE
+2,10,Abre cubierta Valvula de entrada vertical,"11.615,00",10-07-2024,"2,00",19-09-2023,119,TRUE
+2,10,Abre cubierta  Valvula de salida vertical,"10.040,00",10-07-2024,"2,00",19-09-2023,120,TRUE
+2,10,Abre cubierta Guarnicion de vertical,"10.740,00",19-02-2024,"2,00",19-09-2023,117,TRUE
+2,10,Aceitero chico amarillo,"4.800,00",13-01-2024,"4,00",12-06-2023,80%,TRUE
+2,10,Aceitero azul  plastistico,"5.120,00",13-01-2024,"1,00",19-08-2022,1123,TRUE
+2,10,Barreta saca aro uña corta RR,"4.945,00",06-08-2024,"5,00",11-12-2023,1124,TRUE
+2,10,Barreta saca aro uña larga RR,"4.945,00",06-08-2024,"5,00",11-12-2023,,TRUE
+2,10,Barreta auto amarilla 60cm,"9.660,00",07-03-2024,"11,00",07-03-2024,40%,TRUE
+2,10,Barreta moto amarilla x2,"4.830,00",15-04-2024,"19,00",12-07-2024,40%,TRUE
+2,10,Barreta Raselli 50cm,"40.250,00",18-07-2024,"4,00",10-10-2023,AA2484,TRUE
+2,10,Barreta Raselli 60cm,"42.435,00",18-07-2024,"17,00",16-08-2023,AA2485,TRUE
+2,10,Barreta Raselli moto,"21.850,00",18-07-2024,"6,00",10-10-2023,AA2486,TRUE
+2,10,Barreta Tramontina 50cm ,"38.180,00",18-07-2024,"18,00",17-04-2023,AA2333,TRUE
+2,10,Barreta Tramontina moto,"20.700,00",18-07-2024,"30,00",09-10-2023,AA0332,TRUE
+2,10,Balon de inflado x20lts ,"0,00",23-07-2024,"0,00",28-06-2023,35%,TRUE
+2,10,Balon de inflado x 30lts,"274.850,00",06-08-2024,"2,00",27-07-2024,35% 258,TRUE
+2,10,Balon inflado 40lts RR,"0,00",03-06-2024,"0,00",11-12-2023,35% 259,TRUE
+2,10,Balón de inflado 40 Lts. c/válvula pentagonal ,"434.700,00",07-03-2024,"1,00",28-08-2023,35% AA2990,TRUE
+2,10,Balanceadora B-200,"1.840.000,00",05-08-2024,"1,00",05-08-2024,20%,TRUE
+2,10,Baja talon deportivo RR,"225.400,00",06-08-2024,"1,00",27-07-2024,35% 216,TRUE
+2,10,Baja talon tractor a tornillo,"206.485,00",06-08-2024,"1,00",15-01-2024,35% 212,TRUE
+2,10,Guarnicion baja talon,"5.060,00",27-07-2024,"15,00",27-07-2024,220,TRUE
+2,10,Guarnicion oring baja talon,"5.040,00",10-07-2024,"5,00",13-05-2024,221,TRUE
+2,10,Pico de baja talon,"955,00",23-07-2024,"11,00",10-01-2023,219,TRUE
+2,10,Resorte externo baja talon,"5.060,00",23-07-2024,"10,00",13-05-2024,226,TRUE
+2,10,Arandela de chapa ,"2.130,00",29-04-2024,"1,00",06-07-2023,,TRUE
+2,10,Desarmadora EW T-20 ,"2.239.050,00",31-07-2024,"1,00",07-06-2024,20%,TRUE
+2,10,Desarmadora EW T-24,"0,00",0,"0,00",0,20%,TRUE
+2,10,Desarmadora Llave inversora trifasica nacional,"36.630,00",06-08-2024,"1,00",20-07-2024,45%,TRUE
+2,10,Desarmadora Resorte (2 patas) pedalera,"44.275,00",24-04-2024,"2,00",24-04-2024,,TRUE
+2,10,Desarmadora manual moto ,"92.000,00",13-01-2024,"1,00",01-09-2023,,TRUE
+2,10,Desarmadora Pato derecho 27mm,"88.550,00",12-06-2024,"1,00",03-11-2023,40%,TRUE
+2,10,Desarmadora Pato derecho 31mm,"88.550,00",12-06-2024,"1,00",03-11-2023,40%,TRUE
+2,10,Desarmadora Pato izquierdo 31mm,"88.550,00",12-06-2024,"5,00",03-11-2023,40%,TRUE
+2,10,Desarmadora Goma baja talon ,"32.200,00",03-07-2024,"3,00",01-07-2024,40%,TRUE
+2,10,Dobladora de valvula ,"6.710,00",19-02-2024,"2,00",19-05-2023,,TRUE
+2,10,Caja de herramientas Tubos 24pcs Bison (chapa roja),"60.950,00",13-01-2024,"0,00",16-08-2023,,TRUE
+2,10,Caja de herramientas 108pcs Top Helper (azul),"172.500,00",29-01-2024,"0,00",29-01-2024,,TRUE
+2,10,Caja de herramientas Tubos 1/2 Davidson 24pcs,"60.950,00",13-01-2024,"1,00",10-08-2023,,TRUE
+2,10,Caja de herramientas Tubos 1/2 Davidson 94pcs,"110.400,00",13-01-2024,"0,00",15-06-2022,,TRUE
+2,10,Caja de herramientas Tubos Davidson 40pcs socket set,"23.720,00",13-01-2024,"1,00",16-08-2023,,TRUE
+2,10,Cepillo alambre c/mango celeste,"3.680,00",13-01-2024,"6,00",12-06-2023,80%,TRUE
+2,10,Cepillo acero Harden 5pcs ,"13.220,00",13-01-2024,"0,00",15-06-2022,,TRUE
+2,10,Cepillo acero Bison 5pcs,"8.970,00",13-01-2024,"0,00",12-06-2023,80%,TRUE
+2,10,Cepillo circular p/taladro Hamilton chico,"3.850,00",13-01-2024,"1,00",05-09-2023,,TRUE
+2,10,"Cepillo 2"" 1/2 acero Roster","10.030,00",20-07-2024,"20,00",20-07-2024,,TRUE
+2,10,Caballete x unidad auto 2ton,"28.175,00",31-01-2024,"3,00",07-08-2023,40%,TRUE
+2,10,Caballete trasero moto (horquillon),"52.325,00",31-01-2024,"2,00",02-02-2023,40%,TRUE
+2,10,Carro porta tambor ,"207.000,00",20-03-2024,"0,00",20-03-2024,,TRUE
+2,10,Camilla ,"120.750,00",20-03-2024,"1,00",20-03-2024,,TRUE
+2,10,Crique botella H. Jack 2ton Kommberg ,"0,00",0,"0,00",0,,TRUE
+2,10,Crique botella 10ton QKL eco,"42.100,00",02-08-2024,"2,00",02-08-2024,45%,TRUE
+2,10,Crique botella 20ton QKL eco,"68.370,00",02-08-2024,"1,00",02-08-2024,45%,TRUE
+2,10,Crique botella power 20ton Rua ,"317.745,00",12-04-2024,"1,00",21-03-2023,30%,TRUE
+2,10,Crique botella hidraulico 20ton. Doble T,"408.250,00",07-03-2024,"2,00",28-08-2023,35%,TRUE
+2,10,Crique botella hidraulico 30ton Doble T,"441.600,00",07-03-2024,"1,00",28-08-2023,35%,TRUE
+2,10,Crique botella hidroneum. 30ton c/carro MS,"887.800,00",02-08-2024,"1,00",02-08-2024,25%,TRUE
+2,10,Crique botella hidroneum. 30ton s/carro MS,"624.910,00",10-07-2024,"1,00",26-02-2024,35%,TRUE
+2,10,Crique botella H. Jack 32ton Driven ,"105.840,00",08-01-2024,"2,00",07-03-2023,40%,TRUE
+2,10,Pistola con caño espiralado y terminal p/crique hidro.,"15.240,00",27-07-2024,"0,00",27-07-2024,,TRUE
+2,10,Crique Erreve 2tdas comun,"738.000,00",05-07-2024,"6,00",02-08-2024,30%,TRUE
+2,10,Crique Erreve 2tdas extrachato,"915.000,00",05-07-2024,"15,00",30-05-2024,30%,TRUE
+2,10,Crique Rua 2tdas comun,"778.550,00",06-06-2024,"1,00",30-05-2024,30%,TRUE
+2,10,Crique Rua 2tdas extrachato,"948.175,00",06-06-2024,"1,00",30-05-2024,30%,TRUE
+2,10,Crique Rua 6tdas comun corto ,"0,00",0,"0,00",0,,TRUE
+2,10,Crique Torque 3 ton chato,"0,00",0,"0,00",0,25%,TRUE
+2,10,Resorte de manija 2.5 ton,"4.200,00",22-03-2024,"11,00",22-03-2024,,TRUE
+2,10,Resorte de manija Rua ,"4.120,00",30-11-2023,"0,00",29-12-2023,,TRUE
+2,10,Ruedas sueltas Erreve comun,"14.661,00",0,"0,00",0,,TRUE
+2,10,Kit 4 ruedas 2 horquillas Erreve chato,"96.760,00",05-07-2024,"2,00",19-03-2024,30%,TRUE
+2,10,Kit 4 ruedas 2 horquillas Erreve comun,"96.760,00",05-07-2024,"4,00",19-03-2024,,TRUE
+2,10,Base de crique Erreve ,"24.265,00",13-01-2024,"1,00",09-08-2022,30%,TRUE
+2,10,Juego de ruedas corto,"35.275,00",0,"0,00",0,,TRUE
+2,10,Traba manija de crique RV,"1.380,00",13-01-2024,"6,00",31-10-2023,,TRUE
+2,10,Cuchillas N°1 ,"1.150,00",05-08-2024,"55,00",20-07-2024,,TRUE
+2,10,Cuchillas N°2 ,"1.150,00",05-08-2024,"47,00",13-05-2024,,TRUE
+2,10,Cuchillas N°3,"1.150,00",05-08-2024,"52,00",20-07-2024,,TRUE
+2,10,Cuchillas N°4,"1.150,00",05-08-2024,"93,00",05-08-2024,,TRUE
+2,10,Cuchillas Lima cola raton,"9.430,00",29-07-2024,"0,00",29-05-2024,80%,TRUE
+2,10,Mini compresor 12v doble piston 60lts Camel,"53.590,00",27-07-2024,"2,00",27-07-2024,,TRUE
+2,10,Mini compresor 12v c/ luz 35lts Quickly,"48.300,00",03-08-2024,"2,00",03-08-2024,,TRUE
+2,10,Valvula seguridad rosca 1/4 (aero) ,"7.300,00",13-01-2024,"1,00",28-06-2023,,TRUE
+2,10,Valvula seguridad rosca 1/4,"8.970,00",24-06-2024,"4,00",22-03-2024,,TRUE
+2,10,Valvula seguridad rosca 1/2,"18.055,00",24-06-2024,"5,00",11-12-2023,,TRUE
+2,10,Compresor Kommberg 150lts ,"856.750,00",30-11-2023,"0,00",20-07-2023,35%,TRUE
+2,10,Compresor Kommberg 200lts,"0,00",0,"0,00",0,35%,TRUE
+2,10,Rueda plastico chica (p/compresor chico),"2.415,00",19-02-2024,"4,00",12-06-2023,80%,TRUE
+2,10,Rueda plastico grande (p/compresor chico),"4.715,00",19-02-2024,"4,00",12-06-2023,80%,TRUE
+2,10,Rueda p/chango x2 Maez,"6.350,00",19-02-2024,"1,00",12-06-2023,80%,TRUE
+2,10,Grabadora comun RR,"32.465,00",03-08-2024,"4,00",03-08-2024,,TRUE
+2,10,Cabezal grabadora comun,"8.455,00",06-08-2024,"8,00",28-10-2023,,TRUE
+2,10,Resistencia grabadora ,"4.140,00",20-07-2024,"10,00",20-07-2024,,TRUE
+2,10,Extrusora Rocket c/impulsor Torreon ,"1.715.800,00",13-05-2024,"1,00",02-10-2023,35%,TRUE
+2,10,Grampas para llanta ,"1.305,00",06-08-2024,"69,00",13-05-2024,,TRUE
+2,10,Llave cruz Raekon (Raselli eco),"27.600,00",10-07-2024,"2,00",13-05-2024,,TRUE
+2,10,Llave cruz Ioma 4 bocas,"27.080,00",06-08-2024,"12,00",13-05-2024,,TRUE
+2,10,Llave cruz Raselli 3 bocas,"47.840,00",18-07-2024,"4,00",28-10-2023,,TRUE
+2,10,Llave cruz Raselli 4 bocas,"47.840,00",20-07-2024,"5,00",20-07-2024,,TRUE
+2,10,Llave cruz Tramontina ,"43.700,00",13-05-2024,"14,00",10-07-2023,,TRUE
+2,10,"Llave cruz Qkl 20""","16.940,00",06-08-2024,"11,00",27-07-2024,,TRUE
+2,10,Llave L Raselli 17mm,"10.120,00",10-07-2024,"6,00",10-10-2023,,TRUE
+2,10,Llave L Raselli 19mm,"10.120,00",10-07-2024,"6,00",28-10-2023,,TRUE
+2,10,Llave tubo camion Ra-ekon 24-27 ,"51.750,00",02-08-2024,"1,00",02-08-2024,,TRUE
+2,10,Llave tubo camion Ra-ekon 27-33 ,"51.750,00",07-08-2024,"2,00",07-08-2024,,TRUE
+2,10,Llave tubo camion Ra-ekon 30-32 ,"0,00",08-05-2024,"0,00",27-12-2023,,TRUE
+2,10,Llave tubo camion Ra-ekon 32-33,"51.750,00",02-08-2024,"1,00",02-08-2024,,TRUE
+2,10,Llave tubo camion Raselli 19-24 (Jumper),"61.870,00",10-07-2024,"3,00",15-11-2023,,TRUE
+2,10,Llave tubo camion Raselli  21-38 (Ford 11/2-13/16),"61.870,00",10-07-2024,"4,00",15-01-2024,,TRUE
+2,10,Llave tubo camion Raselli  27-30 ,"61.870,00",10-07-2024,"8,00",25-07-2023,,TRUE
+2,10,Llave tubo camion Raselli  27-24,"61.870,00",02-08-2024,"5,00",02-08-2024,,TRUE
+2,10,Llave tubo camion Raselli  27-32,"61.870,00",10-07-2024,"3,00",15-01-2024,,TRUE
+2,10,Llave tubo camion Raselli  27-33,"61.870,00",10-07-2024,"4,00",07-08-2024,,TRUE
+2,10,Llave tubo camion Raselli  30-32,"61.870,00",10-07-2024,"4,00",07-08-2024,,TRUE
+2,10,Llave tubo camion Raselli  32-33,"61.870,00",10-07-2024,"4,00",07-08-2024,,TRUE
+2,10,Llave tubo camion Raselli  32-38,"61.870,00",10-07-2024,"3,00",19-05-2023,,TRUE
+2,10,Llave tubo camion Raselli  30-33,"61.870,00",10-07-2024,"2,00",07-08-2024,,TRUE
+2,10,Llave tubo camion Raselli  7/8-15/16,"61.870,00",10-07-2024,"1,00",0,,TRUE
+2,10,Llave Tubo Tramontina 21-38 (Ford),"58.420,00",22-07-2024,"4,00",07-03-2024,,TRUE
+2,10,"Kit llave tubo 32 c/alargue, pasador y llave fija Gedore","30.360,00",06-08-2024,"13,00",22-08-2023,,TRUE
+2,10,Mandril de banco N°2,"78.200,00",10-07-2024,"2,00",22-03-2024,,TRUE
+2,10,Manguera negra 6mm 200lbs Goodyear ,"7.730,00",13-01-2024,"131,00",28-01-2023,20%,TRUE
+2,10,Manguera negra 8mm 300lbs Cam,"3.910,00",20-07-2024,"83,00",20-07-2024,45%,TRUE
+2,10,Manguera negra 8mm 500lbs Cam,"6.200,00",24-06-2024,"25,50",27-06-2023,45%,TRUE
+2,10,Manguera negra 10mm 300lbs Cam,"4.295,00",27-07-2024,"85,00",27-07-2024,45%,TRUE
+2,10,Manguera negra 13mm (1/2) 300lbs Cam,"6.450,00",27-07-2024,"40,00",27-07-2024,45%,TRUE
+2,10,Manguera negra 8mm 300lbs Rysol (Aiello),"9.260,00",13-01-2024,"70,00",28-01-2023,40%,TRUE
+2,10,Manguera negra 13mm (1/2) 300lbs Rysol (Aiello),"14.090,00",13-01-2024,"52,00",28-01-2023,40%,TRUE
+2,10,"Manguera azul desarmadora 6""","860,00",20-07-2024,"47,50",20-07-2024,45%,TRUE
+2,10,"Manguera azul desarmadora 8""","1.300,00",20-07-2024,"71,40",20-07-2024,45%,TRUE
+2,10,Caño espiralado 5/16x12 c/terminales,"24.495,00",27-07-2024,"3,00",27-07-2024,,TRUE
+2,10,Maza 2kg ,"13.135,00",06-08-2024,"3,00",05-08-2023,,TRUE
+2,10,Maza 4kg,"28.060,00",06-08-2024,"4,00",20-07-2024,,TRUE
+2,10,Maza 6kg,"42.205,00",03-08-2024,"1,00",03-08-2024,,TRUE
+2,10,Cabo de masa 60 cm,"1.580,00",06-08-2024,"7,00",12-04-2023,,TRUE
+2,10,Martillo goma goma,"0,00",21-02-2024,"0,00",22-05-2023,,TRUE
+2,10,Martillo pena y goma,"20.760,00",20-07-2024,"15,00",20-07-2024,,TRUE
+2,10,Taco de goma,"1.150,00",27-07-2024,"208,00",27-07-2024,,TRUE
+2,10,Puño martillo,"865,00",27-07-2024,"61,00",27-07-2024,,TRUE
+2,10,Infla y mide profesional 120lbs RR (naranja),"41.860,00",02-08-2024,"7,00",02-08-2024,,TRUE
+2,10,Infla y mide profesional 200lbs RR (naranja),"41.860,00",06-08-2024,"3,00",27-07-2024,,TRUE
+2,10,Infla y mide 120lbs RR,"28.350,00",27-07-2024,"4,00",27-07-2024,,TRUE
+2,10,Infla y mide 200lbs RR,"28.350,00",14-05-2024,"3,00",10-10-2023,,TRUE
+2,10,Protector de goma infla y mide,"2.335,00",06-08-2024,"2,00",05-08-2023,,TRUE
+2,10,Medidor comodin de presion 120lbs Cimpa,"69.800,00",27-07-2024,"2,00",27-07-2024,40%,TRUE
+2,10,Medidor comodin de presion 200lbs Cimpa,"69.800,00",27-07-2024,"2,00",27-07-2024,40%,TRUE
+2,10,Medidor comodin 120lbs Cimpa c/protector de goma,"0,00",14-05-2024,"0,00",30-01-2024,,TRUE
+2,10,Medidor Bolsillo 60lbs c/manguera pico y protector RR,"18.860,00",06-08-2024,"1,00",20-07-2024,,TRUE
+2,10,Medidor Bolsillo 60lbs c/manguera pico y funda Cimpa,"18.400,00",23-07-2024,"2,00",19-09-2023,,TRUE
+2,10,Medidor Bolsillo 60lbs Beyca,"14.295,00",23-07-2024,"2,00",25-07-2023,,TRUE
+2,10,Medidor Bolsillo 100lbs salida directa y funda Cimpa,"11.845,00",27-07-2024,"3,00",27-07-2024,,TRUE
+2,10,Medidor Bolsillo digital 100lbs,"12.570,00",20-07-2024,"9,00",20-07-2024,,TRUE
+2,10,Medidor Bolsillo tipo lapiz 50lbs ,"3.910,00",06-08-2024,"5,00",20-07-2024,,TRUE
+2,10,Medidor Bolsillo tipo lapiz 160lbs,"0,00",0,"0,00",0,,TRUE
+2,10,Protector de goma p/comodin,"7.830,00",06-08-2024,"8,00",20-07-2024,,TRUE
+2,10,Base protector de goma ,"4.905,00",06-08-2024,"7,00",20-07-2024,,TRUE
+2,10,Manguera de comodin ,"12.075,00",06-08-2024,"23,00",26-02-2024,,TRUE
+2,10,Resorte comodin,"330,00",06-08-2024,"47,00",28-10-2023,,TRUE
+2,10,Vidrio comodin,"1.785,00",06-08-2024,"28,00",11-12-2023,,TRUE
+2,10,Vidrio mini comodin,"1.785,00",06-08-2024,"11,00",13-12-2022,,TRUE
+2,10,Reloj manometro 7kg 100lbs,"7.650,00",20-07-2024,"3,00",20-07-2024,,TRUE
+2,10,Reloj manometro 14kg 200lbs,"7.650,00",20-07-2024,"5,00",20-07-2024,,TRUE
+2,10,Reloj manometro 20kg 300lbs,"7.650,00",06-08-2024,"5,00",13-05-2024,,TRUE
+2,10,Reloj manometro 30kg 450lbs,"8.440,00",06-08-2024,"4,00",20-07-2024,,TRUE
+2,10,Reloj manometro 40kg 600lbs,"8.440,00",06-08-2024,"4,00",05-05-2023,,TRUE
+2,10,Reloj manometro 70kg 1000lbs,"8.440,00",06-08-2024,"2,00",18-03-2022,,TRUE
+2,10,"O'ring 17.5"" ","3.740,00",21-02-2024,"3,00",21-04-2023,,TRUE
+2,10,"O'ring 19.5""","3.740,00",21-02-2024,"2,00",25-07-2023,,TRUE
+2,10,"O'ring 24.5""","3.740,00",21-02-2024,"3,00",19-09-2023,,TRUE
+2,10,"O'ring vial 224"" eco","5.120,00",03-08-2024,"1,00",03-08-2024,,TRUE
+2,10,"O'ring vial 325"" eco","8.150,00",03-08-2024,"3,00",03-08-2024,,TRUE
+2,10,Pata de chancho reforzada RR,"10.015,00",06-08-2024,"1,00",02-12-2022,,TRUE
+2,10,Pata de chancho Raselli ,"23.345,00",10-07-2024,"3,00",05-05-2023,,TRUE
+2,10,Palanca cobra en kit,"184.800,00",03-06-2024,"1,00",13-05-2024,35%,TRUE
+2,10,Traba talon,"8.395,00",25-07-2024,"13,00",08-05-2023,,TRUE
+2,10,Rueda chica palanca cobra ,"3.450,00",06-08-2024,"3,00",02-11-2023,,TRUE
+2,10,Rueda grande palanca cobra ,"4.600,00",06-08-2024,"3,00",02-11-2023,,TRUE
+2,10,Pasador RR pintado,"4.620,00",06-08-2024,"13,00",22-03-2024,,TRUE
+2,10,Pasado RR zincado,"7.800,00",14-05-2024,"11,00",11-03-2024,,TRUE
+2,10,Pasador Raselli,"26.105,00",10-07-2024,"12,00",11-03-2024,,TRUE
+2,10,Pasador y cuchara  0.90cm RR,"12.920,00",06-08-2024,"4,00",26-02-2024,,TRUE
+2,10,Pasador y cuchara 1mt amarilla,"11.500,00",26-03-2024,"3,00",26-03-2024,,TRUE
+2,10,Pasador y cuchara 1.20mts RR,"15.045,00",03-08-2024,"5,00",03-08-2024,,TRUE
+2,10,Pasador y cuchara 1.20mts Raselli,"80.790,00",10-07-2024,"2,00",19-07-2023,,TRUE
+2,10,Pasador y cuchara  1.60mts RR,"16.790,00",03-08-2024,"3,00",03-08-2024,,TRUE
+2,10,Pasador y cuchara 1.60mts Raselli,"99.245,00",10-07-2024,"1,00",22-03-2024,,TRUE
+2,10,Pistola impacto Zantic 1/2,"152.950,00",03-08-2024,"2,00",03-08-2024,,TRUE
+2,10,Pistola impacto Nebraska 1/2,"115.000,00",21-02-2024,"0,00",17-08-2022,,TRUE
+2,10,"Pistola impacto 1"" RR eje largo en kit","469.545,00",06-08-2024,"0,00",09-01-2023,35%,TRUE
+2,10,"Pistola impacto 1"" eje largo Fligman en kit ","0,00",30-11-2023,"0,00",08-05-2023,,TRUE
+2,10,"Pistola impacto 1"" eje corto doble martillo Airtools","295.780,00",06-08-2024,"1,00",18-03-2022,35%,TRUE
+2,10,Pistola infla bici/auto Bemar,"13.890,00",24-06-2024,"7,00",22-03-2024,,TRUE
+2,10,Pistola desempolvadora pico corto,"7.325,00",28-05-2024,"11,00",22-03-2024,,TRUE
+2,10,Pistola desempolvadora pico largo,"0,00",29-07-2024,"0,00",29-07-2024,,TRUE
+2,10,Pistola engrasadora Bison,"17.600,00",13-01-2024,"0,00",10-06-2023,50%,TRUE
+2,10,Pulidora Berta ,"0,00",15-05-2024,"0,00",09-10-2023,,TRUE
+2,10,Pulidora Zantic ,"0,00",24-06-2024,"0,00",27-03-2024,,TRUE
+2,10,Pulidora Grinder,"24.050,00",03-08-2024,"18,00",03-08-2024,,TRUE
+2,10,Pulidora AMX,"0,00",15-05-2024,"0,00",27-12-2023,,TRUE
+2,10,Piedra A4 ,"4.485,00",06-08-2024,"24,00",20-07-2024,,TRUE
+2,10,Piedra A5,"4.485,00",06-08-2024,"14,00",07-11-2023,,TRUE
+2,10,Piedra A15,"4.485,00",06-08-2024,"6,00",20-07-2024,,TRUE
+2,10,Piedra   A36 ,"4.485,00",06-08-2024,"7,00",11-12-2023,,TRUE
+2,10,Piedra A21 ,"4.485,00",06-08-2024,"15,00",22-03-2024,,TRUE
+2,10,Piedra A23,"4.485,00",06-08-2024,"4,00",07-11-2023,,TRUE
+2,10,Piedra A25,"4.485,00",06-08-2024,"14,00",20-07-2024,,TRUE
+2,10,Piedra W236 ,"4.485,00",06-08-2024,"6,00",07-11-2023,,TRUE
+2,10,Rueda tugsteno ,"31.015,00",05-08-2024,"6,00",05-08-2024,,TRUE
+2,10,Copa de tugsteno,"52.210,00",06-08-2024,"4,00",22-03-2024,,TRUE
+2,10,Bolita de tugsteno,"21.990,00",06-08-2024,"5,00",20-07-2024,,TRUE
+2,10,Eje para tugsteno,"2.175,00",14-05-2024,"28,00",13-05-2024,,TRUE
+2,10,Pincel p/pasta N°10 ,"0,00",0,"0,00",0,,TRUE
+2,10,Pincel alambre economico ,"1.765,00",06-08-2024,"26,00",13-05-2024,,TRUE
+2,10,Pinza contra peso Corneta,"80.730,00",13-05-2024,"3,00",17-04-2023,30%,TRUE
+2,10,Pinza contra peso Bahco,"55.130,00",06-08-2024,"0,00",25-07-2023,,TRUE
+2,10,Presostato monofasico Beyca 1.5HP,"30.880,00",21-02-2024,"0,00",22-04-2022,,TRUE
+2,10,Presostato monofasico SK-7 1.5HP,"35.500,00",21-02-2024,"0,00",01-07-2022,,TRUE
+2,10,Presostato monofasico SK-24 3HP,"56.205,00",06-08-2024,"4,00",20-07-2024,,TRUE
+2,10,Presostato monofasico CER 5HP ,"96.015,00",06-08-2024,"3,00",20-07-2024,,TRUE
+2,10,Presostato trifasico SK-22A 3HP,"56.205,00",06-08-2024,"3,00",13-05-2024,,TRUE
+2,10,Presostato trifasico CER O-T 3HP ,"84.870,00",13-05-2024,"2,00",13-05-2024,,TRUE
+2,10,Presostato trifasico CER 5.5HP,"93.265,00",13-05-2024,"2,00",13-05-2024,,TRUE
+2,10,Presostato trifasico CER 7.5HP,"126.330,00",23-04-2024,"1,00",13-11-2023,35%,TRUE
+2,10,Prensa hidraulica de banco 10ton Rua,"0,00",12-04-2024,"0,00",29-12-2023,35%,TRUE
+2,10,Rodillo negro dentado,"6.095,00",05-08-2024,"61,00",05-08-2024,,TRUE
+2,10,Rodillo madera S,"0,00",07-03-2024,"1,00",21-02-2024,,TRUE
+2,10,Rodillo madera Aiello ,"8.970,00",13-05-2024,"4,00",18-03-2024,,TRUE
+2,10,Rodillo madera plano ,"22.585,00",13-05-2024,"2,00",13-03-2023,,TRUE
+2,10,Punzon con mango de madera ,"1.380,00",06-08-2024,"3,00",10-09-2022,,TRUE
+2,10,Aguja c/ empuñadora plastico import.,"3.000,00",11-05-2024,"13,00",16-05-2024,,TRUE
+2,10,Lezna c/ empuñadura plastico import.,"3.000,00",11-05-2024,"17,00",16-05-2024,,TRUE
+2,10,Aguja c/ empuñadura de aluminio,"6.440,00",16-01-2024,"41,00",17-07-2024,,TRUE
+2,10,Aguja suelta camion,"1.500,00",11-05-2024,"5,00",05-03-2024,,TRUE
+2,10,Aguja suelta auto ,"1.500,00",11-05-2024,"10,00",05-03-2024,,TRUE
+2,10,Lezna suelta respuesto,"2.645,00",30-11-2023,"1,00",28-03-2022,,TRUE
+2,10,Reductora 1:68,"156.860,00",29-07-2024,"0,00",13-03-2023,35%,TRUE
+2,10,Reductora 1:78,"217.350,00",05-07-2024,"3,00",17-07-2023,35%,TRUE
+2,10,Terraja comun,"565,00",06-08-2024,"152,00",09-11-2023,,TRUE
+2,10,Terraja larga comun,"1.530,00",03-06-2024,"817,00",13-08-2022,,TRUE
+2,10,Terraja larga metal,"1.530,00",03-06-2024,"38,00",18-03-2022,,TRUE
+2,10,Terraja larga con mandril,"1.515,00",06-08-2024,"86,00",23-09-2022,,TRUE
+2,10,Terraja 4 funciones super,"1.680,00",05-08-2024,"76,00",05-08-2024,,TRUE
+2,10,Terraja vial,"1.705,00",06-08-2024,"35,00",13-05-2024,,TRUE
+2,10,Saca ovulo roto comun,"1.705,00",06-08-2024,"27,00",19-05-2023,,TRUE
+2,10,Saca ovulo roto hierro ,"0,00",14-05-2024,"0,00",27-06-2023,,TRUE
+2,10,Colocador de valvula T,"1.405,00",06-08-2024,"21,00",13-05-2024,,TRUE
+2,10,Colocador de valvula mango plastico,"6.000,00",06-08-2024,"1,00",18-03-2022,,TRUE
+2,10,Desinfla camara,"3.185,00",06-08-2024,"5,00",30-06-2022,,TRUE
+2,10,"Tubo de impacto Candamio  20mm largo 1/2""","3.340,00",13-01-2024,"1,00",03-11-2023,3-nov,TRUE
+2,10,"Tubo de impacto Genius 27mm corto 1/2""","3.510,00",30-11-2023,"5,00",03-11-2023,,TRUE
+2,10,"Tubo de impacto Genius 27mm largo 1/2""","4.255,00",30-11-2023,"3,00",03-11-2023,3-nov,TRUE
+2,10,"Tubo de impacto Genius 21mm 1""","10.005,00",03-08-2024,"11,00",03-08-2024,,TRUE
+2,10,"Tubo de impacto Genius 35mm 1""","9.775,00",30-11-2023,"4,00",03-11-2023,3-ago,TRUE
+2,10,"Tubo de impacto RR economicos 17mm corto 1/2""","2.415,00",05-08-2024,"13,00",05-08-2024,3-nov,TRUE
+2,10,"Tubo de impacto RR economicos 19mm corto 1/2""","2.415,00",05-08-2024,"13,00",05-08-2024,3-nov,TRUE
+2,10,"Tubo de impacto RR economicos 21mm corto 1/2""","3.000,00",06-08-2024,"5,00",03-11-2023,,TRUE
+2,10,"Tubo de impacto RR economicos 23mm corto 1/2""","3.585,00",06-08-2024,"7,00",20-07-2024,,TRUE
+2,10,"Tubo de impacto RR economicos 27mm corto 1/2""","4.160,00",24-06-2024,"7,00",0,,TRUE
+2,10,"Tubo de impacto RR economicos 17mm largo 1/2""","0,00",0,"0,00",0,,TRUE
+2,10,"Tubo de impacto RR economicos 19mm largo 1/2"" ","0,00",0,"0,00",0,,TRUE
+2,10,"Tubo de impacto RR economicos 21mm largo 1/2""","4.480,00",20-07-2024,"4,00",20-07-2024,,TRUE
+2,10,"Tubo de impacto RR economicos 23mm largo 1/2""","4.335,00",24-06-2024,"4,00",03-11-2023,,TRUE
+2,10,"Tubo de impacto RR economicos 27mm largo 1/2"" ","4.060,00",13-01-2024,"0,00",0,,TRUE
+2,10,"Tubo de impacto RR economicos 21mm 1"" ","8.815,00",24-06-2024,"0,00",22-03-2024,,TRUE
+2,10,"Tubo de impacto RR economicos 24mm 1"" ","9.995,00",06-08-2024,"3,00",15-01-2024,,TRUE
+2,10,"Tubo de impacto RR economicos 27mm 1""","9.995,00",06-08-2024,"3,00",11-12-2023,,TRUE
+2,10,"Tubo de impacto RR economicos 30mm 1"" ","10.865,00",06-08-2024,"4,00",11-12-2023,,TRUE
+2,10,"Tubo de impacto RR economicos 32mm 1"" ","10.865,00",06-08-2024,"4,00",13-05-2024,,TRUE
+2,10,"Tubo de impacto RR economicos 33mm 1"" ","10.865,00",06-08-2024,"4,00",22-03-2024,,TRUE
+2,10,"Tubo de impacto RR economicos 35mm 1"" ","10.865,00",06-08-2024,"0,00",22-03-2024,,TRUE
+2,10,"Tubo de impacto RR economicos 38mm 1"" ","11.270,00",06-08-2024,"3,00",15-01-2024,,TRUE
+2,10,"Tubo de impacto RR economicos 41mm 1""","11.270,00",05-08-2024,"4,00",05-08-2024,,TRUE
+2,10,"Tubo de impacto Raselli 17mm 1/2""","15.355,00",10-07-2024,"3,00",03-11-2023,,TRUE
+2,10,"Tubo de impacto Raselli 19mm 1/2""","16.675,00",10-07-2024,"3,00",03-11-2023,,TRUE
+2,10,"Tubo de impacto Raselli 21mm 1/2""","16.675,00",10-07-2024,"4,00",03-11-2023,,TRUE
+2,10,"Tubo de impacto Raselli Tubo 27mm 1""","50.715,00",10-07-2024,"1,00",03-11-2023,35%,TRUE
+2,10,Trampaa de agua Regu-filtro y lubricador 1/4 eco.,"40.480,00",23-07-2024,"2,00",22-03-2024,,TRUE
+2,10,Trampaa de agua Regu-filtro y librucador 1/2 eco.,"70.770,00",23-07-2024,"3,00",20-07-2024,,TRUE
+2,10,Trampa de agua con filtro y regulador de presion,"0,00",21-02-2024,"0,00",0,,TRUE
+2,10,Vulcanizadora coche San Carlos ,"719.900,00",12-07-2024,"2,00",31-07-2024,30%,TRUE
+2,10,Resistencia San Carlos coche ,"24.955,00",12-07-2024,"2,00",12-07-2024,,TRUE
+2,10,Orring ,"1.460,00",22-02-2024,"3,00",13-06-2023,,TRUE
+2,10,Sopapa,"7.300,00",22-02-2024,"3,00",13-06-2023,,TRUE
+2,10,Termostato fijo 150°,"41.975,00",15-05-2024,"2,00",25-07-2023,,TRUE
+2,10,Ojo de buey ,"3.795,00",24-06-2024,"4,00",18-03-2022,,TRUE
+2,10,Espagueti aislante x metro,"2.450,00",20-07-2024,"1,00",20-07-2024,,TRUE
+2,10,Vulcanizadora camara 1 brazo,"240.925,00",24-06-2024,"2,00",22-03-2024,35%,TRUE
+2,10,Resistencia San Carlos 1 brazo (180x95mm),"10.505,00",14-05-2024,"5,00",16-07-2024,,TRUE
+2,10,Resistencia San Carlos 2 brazos (250x90mm),"11.880,00",14-05-2024,"2,00",16-07-2024,,TRUE
+2,10,Resistencia RRTrentini 1 brazo (155x95mm),"10.065,00",05-08-2024,"8,00",05-08-2024,,TRUE
+2,10,Resistencia Rosarina 1 brazo (155x90mm),"9.600,00",14-05-2024,"1,00",25-07-2023,,TRUE
+2,10,Cono de mesa ,"945,00",24-06-2024,"5,00",23-05-2023,,TRUE
+2,10,Prensa parche mediano ,"5.290,00",15-05-2024,"1,00",19-09-2023,,TRUE
+2,11,TG 1/4,"7.915,00",20-07-2024,"129,00",20-07-2024,,TRUE
+2,11,TG 1/2,"0,00",0,"0,00",0,,TRUE
+2,11,Pomo TG 10cc,"875,00",15-05-2024,"0,00",21-04-2023,,TRUE
+2,11,Caja pomo TG 10cc,"0,00",23-04-2024,"0,00",27-06-2023,,TRUE
+2,11,Brio 1/4,"8.460,00",17-05-2024,"71,00",05-08-2024,,TRUE
+2,11,Pomo Brio 10cc,"1.470,00",15-02-2024,"3,00",03-08-2023,,TRUE
+2,11,Caja pomo Brio 10cc,"16.110,00",15-02-2024,"76,00",03-08-2023,,TRUE
+2,11,PX 1/4,"11.480,00",20-07-2024,"45,00",20-07-2024,,TRUE
+2,11,Vipal 1/4,"7.590,00",11-05-2024,"50,00",11-05-2024,,TRUE
+2,11,Vipal 1/2,"10.100,00",02-08-2024,"55,00",02-08-2024,,TRUE
+2,11,Caja pomo Vipal 25cc,"15.790,00",03-08-2024,"1,00",03-08-2024,,TRUE
+2,11,Pomo Vipal 25cc,"1.800,00",16-02-2024,"0,00",21-04-2023,,TRUE
+2,11,Materplom 1/4 eco.,"5.635,00",03-08-2024,"25,00",03-08-2024,,TRUE
+2,11,Flux Aiello x 1 lts,"10.695,00",15-02-2024,"8,00",06-01-2024,,TRUE
+2,11,Flux Aiello x 4 lts,"0,00",15-02-2024,"0,00",14-02-2024,,TRUE
+2,11,Flux PX x 1lts,"13.550,00",15-05-2024,"26,00",22-03-2024,,TRUE
+2,11,Desmoldante silicona Aiello 5lts,"177.445,00",13-05-2024,"2,00",17-07-2023,35%,TRUE
+2,12,TR412 Comun C/U,"380,00",22-02-2024,"42,00",31-10-2023,,TRUE
+2,12,TR412 Comun x bolsa,"37.050,00",22-02-2024,"14,00",13-05-2024,,TRUE
+2,12,TR413 Comun C/U,"320,00",22-02-2024,"124,00",20-01-2023,,TRUE
+2,12,TR413 Comun x bolsa,"29.800,00",22-02-2024,"38,00",19-04-2024,,TRUE
+2,12,TR413 Cromada C/U,"420,00",22-02-2024,"89,00",04-10-2023,,TRUE
+2,12,TR414 Comun C/U,"320,00",22-02-2024,"113,00",19-04-2024,,TRUE
+2,12,TR414 Comun x bolsa ,"29.800,00",22-02-2024,"125,00",01-07-2024,,TRUE
+2,12,TR414 Cromada C/U,"410,00",22-02-2024,"39,00",11-11-2023,,TRUE
+2,12,TR414 Cromada x bolsa,"34.320,00",22-02-2024,"17,00",20-02-2024,,TRUE
+2,12,TR415 Camioneta comun C/U,"420,00",22-02-2024,"78,00",18-08-2022,,TRUE
+2,12,TR415 Comun x bolsa,"40.300,00",03-08-2024,"23,00",03-08-2024,,TRUE
+2,12,TR415 Camioneta cromada C/U,"630,00",22-02-2024,"3,00",19-07-2022,,TRUE
+2,12,TR415 Camioneta cromada x bolsa,"0,00",0,"0,00",0,,TRUE
+2,12,TR418 Comun larga C/U,"530,00",22-02-2024,"89,00",23-11-2023,,TRUE
+2,12,TR418 Comun larga x bolsa,"46.700,00",22-02-2024,"15,00",13-05-2024,,TRUE
+2,12,VCA curva 45º Moto,"2.415,00",05-08-2024,"57,00",05-08-2024,,TRUE
+2,12,VCA curva 90º Moto,"2.415,00",05-08-2024,"50,00",05-08-2024,,TRUE
+2,12,VCA recta Moto,"2.415,00",30-07-2024,"0,00",06-03-2024,,TRUE
+2,12,TR413 Scooter  Moto,"1.020,00",22-02-2024,"31,00",06-03-2024,,TRUE
+2,12,TR13 base de goma ,"1.460,00",30-07-2024,"52,00",13-05-2024,,TRUE
+2,12,TR15 base de goma,"1.460,00",30-07-2024,"64,00",13-05-2024,,TRUE
+2,12,TR51 base de goma (moto),"1.460,00",30-07-2024,"80,00",22-03-2024,,TRUE
+2,12,TR75a base de goma ,"3.115,00",30-07-2024,"28,00",19-07-2022,,TRUE
+2,12,TR150 flexible ,"1.220,00",15-05-2024,"13,00",19-07-2022,,TRUE
+2,12,Artillera 570 5cm (17.5 daily),"1.380,00",13-01-2024,"51,00",19-09-2023,,TRUE
+2,12,Artillera 571 8.5cm,"2.830,00",30-07-2024,"49,00",13-05-2024,,TRUE
+2,12,Artillera 572 9.5cm,"2.885,00",30-07-2024,"75,00",13-05-2024,,TRUE
+2,12,Artillera 573 11cm,"2.945,00",30-07-2024,"46,00",13-05-2024,,TRUE
+2,12,Valvula a disco TR W1390,"3.635,00",05-08-2024,"52,00",05-08-2024,,TRUE
+2,12,Valvula a disco TR 561C 8.5cm (V3-20-4) ,"2.560,00",03-08-2024,"329,00",03-08-2024,,TRUE
+2,12,Valvula disco TR 561L 9.5cm (V3-20-12) ,"2.645,00",29-01-2024,"3,00",13-03-2024,,TRUE
+2,12,Valvula disco TR 642C 11cm (V3-20-6),"2.770,00",03-08-2024,"275,00",03-08-2024,,TRUE
+2,12,Valvula disco TR 642L 11.5cm (V3-20-8),"0,00",0,"0,00",0,,TRUE
+2,12,Orring valvula a disco,"0,00",0,"0,00",0,,TRUE
+2,12,Valvula v3-06-3 Michelin (C),"2.780,00",13-01-2024,"23,00",14-09-2022,,TRUE
+2,12,Valvula v3-06-6 Michelin (L),"2.780,00",13-01-2024,"38,00",22-03-2024,,TRUE
+2,12,Valvula v3-06-9 Michelin (TR78),"3.200,00",05-07-2024,"58,00",05-08-2023,,TRUE
+2,12,TR75 tipo Michelin (750x16),"3.200,00",05-07-2024,"10,00",11-12-2023,,TRUE
+2,12,Plaque Michelin 80mm (v3-08-3),"1.935,00",29-01-2024,"25,00",28-10-2023,,TRUE
+2,12,Arandela de goma p/Michelin,"370,00",30-07-2024,"75,00",19-07-2022,,TRUE
+2,12,Base de goma p/Michelin 50mm,"1.550,00",30-07-2024,"20,00",19-07-2022,,TRUE
+2,12,Base de goma p/Michelin 80mm,"1.690,00",29-01-2024,"20,00",19-07-2022,,TRUE
+2,12,TR Alcoa recta 6cm,"3.220,00",30-07-2024,"35,00",23-11-2023,,TRUE
+2,12,TR Alcoa curva 7cm,"3.365,00",05-08-2024,"50,00",05-08-2024,,TRUE
+2,12,TR Alcoa recta 7cm c/junta de goma (70ms7),"4.035,00",30-07-2024,"51,00",13-05-2024,,TRUE
+2,12,TR 9202 (reparacion 900) Alcoa ,"3.705,00",30-07-2024,"41,00",13-05-2024,,TRUE
+2,12,TR 5785 (reparacion 750) Alcoa ,"3.510,00",30-07-2024,"47,00",13-05-2024,,TRUE
+2,12,TR 5789 (reparacion 900) Alcoa ,"3.605,00",30-07-2024,"37,00",21-04-2023,,TRUE
+2,12,"TR 5790 (reparacion 900, 1000, 1100) Alcoa","3.510,00",30-07-2024,"141,00",01-11-2023,,TRUE
+2,12,Valvula gomon W1163 Alcoa ,"5.855,00",30-07-2024,"26,00",22-03-2024,,TRUE
+2,12,Bolsa tapitas x 200,"940,00",27-07-2024,"122,00",27-07-2024,,TRUE
+2,12,Bolsa tapitas x 1000,"3.755,00",27-07-2024,"48,00",27-07-2024,,TRUE
+2,12,Bolsa ovulos x50,"2.720,00",30-07-2024,"6,00",20-07-2024,,TRUE
+2,12,Bolsa gomin,"2.450,00",30-07-2024,"10,00",18-09-2023,,TRUE
+2,12,Adaptador valvula Vial ,"1.410,00",29-01-2024,"14,00",05-08-2023,,TRUE
+2,12,Vial TR 416 tuerca externa,"1.525,00",05-07-2024,"53,00",13-05-2024,,TRUE
+2,12,Vial TR 218a base de goma,"2.785,00",13-05-2024,"43,00",13-05-2024,,TRUE
+2,12,Vial TR 618a (tractor) ,"3.360,00",13-05-2024,"34,00",13-05-2024,,TRUE
+2,12,Vial TR J 651 ,"8.220,00",13-05-2024,"26,00",13-05-2024,,TRUE
+2,12,Vial TR 570 (17.5 daily),"1.610,00",15-05-2024,"51,00",19-09-2023,,TRUE
+2,12,Vial TR 9251 (Caterpiller),"4.285,00",30-07-2024,"13,00",26-07-2023,,TRUE
+2,12,Alargue goma 12cm s/soporte,"0,00",0,"0,00",0,,TRUE
+2,12,Alargue goma 14cm c/soporte,"2.645,00",13-01-2024,"43,00",10-08-2023,,TRUE
+2,12,Alargue goma 20cm c/soporte ,"4.330,00",30-07-2024,"24,00",28-10-2023,,TRUE
+2,12,Alargue goma 21cm s/soporte,"4.200,00",22-02-2024,"6,00",06-03-2024,,TRUE
+2,12,Alargue  goma 27cm s/soporte,"4.370,00",29-02-2024,"49,00",29-02-2024,,TRUE
+2,12,Alargue goma 30cm c/soporte,"5.095,00",30-07-2024,"22,00",18-09-2023,,TRUE
+2,12,Soporte de alargue de goma,"840,00",05-07-2024,"79,00",06-03-2024,,TRUE
+2,12,Alargue bronce s/empujador 9cm,"2.185,00",05-07-2024,"12,00",06-03-2024,,TRUE
+2,12,Alargue bronce  s/empujador 11cm,"2.370,00",05-07-2024,"19,00",06-03-2024,,TRUE
+2,12,Alargue bronce c/empujador 7cm,"1.955,00",06-03-2024,"5,00",06-03-2024,,TRUE
+2,12,Alargue bronce c/empujador 8cm,"2.185,00",06-03-2024,"0,00",06-03-2024,,TRUE
+2,12,Alargue bronce c/empujador 10cm,"3.530,00",20-07-2024,"26,00",20-07-2024,,TRUE
+2,12,Alargue bronce c/empujador 12cm,"3.680,00",20-07-2024,"29,00",20-07-2024,,TRUE
+2,12,Alargue bronce c/empujador 13cm ,"3.740,00",06-03-2024,"28,00",06-03-2024,,TRUE
+2,12,Alargue bronce c/empujador 16cm,"6.040,00",29-02-2024,"46,00",29-02-2024,,TRUE
+2,12,Alargue bronce c/empujador 17cm,"6.040,00",29-01-2024,"43,00",06-03-2024,,TRUE
+2,12,Alargue plastico 7cm,"1.290,00",15-05-2024,"39,00",04-03-2024,,TRUE
+2,12,"Alargue plastico 9,5cm","1.760,00",07-03-2024,"14,00",18-01-2024,,TRUE
+2,12,"Alargue plastico 11,5cm  ","2.200,00",15-05-2024,"46,00",04-03-2024,,TRUE
+2,12,Alargue plastico 15cm ,"2.300,00",07-03-2024,"20,00",27-12-2023,,TRUE
+2,12,Bolsita capuchon + tapa x4,"1.205,00",13-01-2024,"35,00",22-11-2023,,TRUE
+2,13,Racord dual 210 Aiello RH 1/4,"13.500,00",15-07-2024,"0,00",15-07-2024,,TRUE
+2,13,Racor dual 210 RH 1/4 RR,"5.165,00",06-08-2024,"0,00",01-03-2024,,TRUE
+2,13,Racor dual 210 acople RR,"5.165,00",06-08-2024,"23,00",20-07-2024,,TRUE
+2,13,Racord dual auto-vial acople,"7.205,00",06-08-2024,"6,00",19-07-2023,,TRUE
+2,13,Racor dual 160 Aiello RH 1/4,"11.185,00",13-05-2024,"13,00",01-03-2024,,TRUE
+2,13,Racord dual 160 RH 1/4 RR,"4.830,00",06-08-2024,"6,00",01-03-2024,,TRUE
+2,13,Racord dual 160 acople RR,"4.830,00",06-08-2024,"31,00",13-05-2024,,TRUE
+2,13,Racord comodin manguera 6mm,"5.060,00",06-08-2024,"22,00",13-05-2024,,TRUE
+2,13,Racord  bolita acople,"3.850,00",06-08-2024,"25,00",13-05-2024,,TRUE
+2,13,Racord bolita manguera 6mm,"3.850,00",06-08-2024,"17,00",06-09-2023,,TRUE
+2,13,Racord bolita manguera 8mm,"3.850,00",06-08-2024,"22,00",06-09-2023,,TRUE
+2,13,Racord michelin manguera 8mm (s/reten.),"3.200,00",06-08-2024,"51,00",20-07-2024,,TRUE
+2,13,Racord michelin RH 1/8 (s/reten.),"3.200,00",06-08-2024,"31,00",23-03-2024,,TRUE
+2,13,Pico infla auto/bici con RM 1/8,"5.475,00",06-08-2024,"21,00",10-10-2023,,TRUE
+2,13,Pico infla auto/bici mang. 6mm ,"5.475,00",06-08-2024,"15,00",10-10-2023,,TRUE
+2,13,Gomita racord dual x10 ,"1.020,00",06-08-2024,"155,00",03-06-2024,,TRUE
+2,13,Gomita racord bolita x10,"1.820,00",06-08-2024,"91,00",22-05-2023,,TRUE
+2,13,Reparacion racord dual ,"2.050,00",06-08-2024,"31,00",22-03-2024,,TRUE
+2,13,Reparacion racord bolita,"1.495,00",06-08-2024,"64,00",13-05-2024,,TRUE
+2,13,Pico infla pelota ,"920,00",03-06-2024,"101,00",24-10-2023,,TRUE
+2,13,Hidro racord (valvula 925),"4.395,00",06-08-2024,"4,00",17-04-2023,,TRUE
+2,13,Ayuda gomero (RH 32 hilos),"930,00",06-08-2024,"68,00",22-03-2024,,TRUE
+2,13,Acople rapido 1/4 bronce Aiello,"11.640,00",17-05-2024,"3,00",17-05-2024,,TRUE
+2,13,Acople rapido 1/4 Alnat c/bolillas gris eco.,"4.800,00",27-07-2024,"31,00",27-07-2024,,TRUE
+2,13,Acople rapido 1/4 Alnat c/bolillas dorado ,"8.395,00",27-07-2024,"31,00",27-07-2024,,TRUE
+2,13,Acople rapido 1/4 bronce S,"9.660,00",16-05-2024,"10,00",29-05-2024,,TRUE
+2,13,Acople rapido c/capuchon plastico eco. RR,"5.320,00",06-08-2024,"12,00",01-03-2024,,TRUE
+2,13,Acople rapido promo s/punta,"4.715,00",29-04-2024,"0,00",01-03-2024,,TRUE
+2,13,Acople rapido 1/2 NPI completo ,"45.770,00",03-08-2024,"7,00",03-08-2024,,TRUE
+2,13,Acople rapido 3/4 NPI completo ,"60.030,00",20-07-2024,"3,00",20-07-2024,35%,TRUE
+2,13,Recto RM 1/8 - manguera 6mm,"1.300,00",23-07-2024,"13,00",28-10-2023,,TRUE
+2,13,Recto RM 1/8 - manguera 8mm,"1.380,00",23-07-2024,"19,00",28-10-2023,,TRUE
+2,13,Union recta manguera 6mm,"1.150,00",27-07-2024,"20,00",27-07-2024,,TRUE
+2,13,Union recta manguera 8mm,"1.185,00",23-07-2024,"26,00",13-05-2024,,TRUE
+2,13,Union codo manguera 6mm,"920,00",23-07-2024,"20,00",21-04-2022,,TRUE
+2,13,Union codo manguera 8mm,"1.265,00",23-07-2024,"22,00",21-04-2022,,TRUE
+2,13,Codo RM 1/8 - manguera 6mm,"1.440,00",05-08-2024,"6,00",05-08-2024,,TRUE
+2,13,Codo RM 1/8 - manguera 8mm,"1.725,00",23-07-2024,"16,00",28-10-2023,,TRUE
+2,13,Distribuidor T RM 1/8 - manguera 6mm,"1.570,00",23-07-2024,"18,00",10-05-2024,,TRUE
+2,13,Distribuidor T RM 1/8 - manguera 8mm,"1.750,00",23-07-2024,"45,00",21-04-2023,,TRUE
+2,13,Distribuidor 2 salidas  T mang. 6mm,"1.265,00",23-07-2024,"18,00",10-05-2024,,TRUE
+2,13,Distribuidor 2 salidas T mang.8mm,"1.495,00",23-07-2024,"33,00",13-05-2024,,TRUE
+2,13,Cupla RH 1/8,"805,00",06-08-2024,"27,00",13-03-2024,,TRUE
+2,13,Cupla RH 1/4,"1.060,00",06-08-2024,"39,00",13-03-2024,,TRUE
+2,13,Cupla RH 1/2,"2.895,00",06-08-2024,"21,00",13-03-2024,,TRUE
+2,13, Punta acople RM 1/8,"960,00",06-08-2024,"39,00",16-07-2024,,TRUE
+2,13,Punta acople RM 1/4,"1.115,00",20-07-2024,"94,00",20-07-2024,,TRUE
+2,13,Punta acople 1/2 RM 1/2,"4.410,00",06-08-2024,"22,00",06-09-2023,,TRUE
+2,13,Punta acople 1/4 - manguera 6mm,"1.155,00",06-08-2024,"20,00",20-07-2024,,TRUE
+2,13,Punta acople 1/4 - manguera 8mm,"1.160,00",06-08-2024,"30,00",03-04-2023,,TRUE
+2,13,Punta acople 1/4 - manguera 9.5mm,"1.175,00",05-08-2024,"68,00",05-08-2024,,TRUE
+2,13,Punta acople 1/4 - manguera 12.7mm,"1.560,00",06-08-2024,"26,00",05-08-2023,,TRUE
+2,13,Punta acople RH 1/4,"1.470,00",20-07-2024,"119,00",20-07-2024,,TRUE
+2,13,Punta manguera 6mm RH 1/4,"1.275,00",06-08-2024,"36,00",10-10-2023,,TRUE
+2,13,Punta manguera 8mm RH 1/4,"1.275,00",06-08-2024,"57,00",06-09-2023,,TRUE
+2,13,Punta manguera 9.5mm RH 1/4 ,"1.290,00",20-07-2024,"20,00",20-07-2024,,TRUE
+2,13,Punta manguera 6mm RM 1/4,"865,00",20-07-2024,"47,00",20-07-2024,,TRUE
+2,13,Punta manguera 8mm RM 1/4,"865,00",20-07-2024,"49,00",20-07-2024,,TRUE
+2,13,Punta manguera 9.5mm RM 1/4,"1.015,00",05-08-2024,"118,00",05-08-2024,,TRUE
+2,13,Punta manguera 9.5mm RM 1/2,"2.080,00",06-08-2024,"19,00",24-10-2023,,TRUE
+2,13,Union manguera-manguera 6mm,"1.020,00",06-08-2024,"19,00",03-04-2023,,TRUE
+2,13,Union manguera-manguera 8mm,"1.025,00",05-08-2024,"44,00",05-08-2024,,TRUE
+2,13,Union manguera-manguera 9.5m,"1.380,00",05-08-2024,"44,00",05-08-2024,,TRUE
+2,13,Union manguera-manguera 12.7mm,"1.785,00",06-08-2024,"22,00",05-08-2023,,TRUE
+2,13,Entre  rosca macho 1/8,"690,00",06-08-2024,"32,00",28-10-2023,,TRUE
+2,13,Entre rosca macho 1/4 ,"900,00",05-08-2024,"53,00",05-08-2024,,TRUE
+2,13,Entre rosca macho 1/2,"2.185,00",06-08-2024,"20,00",25-07-2023,,TRUE
+2,13,T manguera 6mm,"2.105,00",06-08-2024,"29,00",28-10-2023,,TRUE
+2,13,T manguera 8mm ,"2.105,00",06-08-2024,"31,00",28-10-2023,,TRUE
+2,13,T manguera 9.5mm,"2.720,00",23-07-2024,"35,00",28-10-2023,,TRUE
+2,13,Distribuidor T RH 1/4 bronce,"5.060,00",24-06-2024,"22,00",03-04-2023,,TRUE
+2,13,Reduccion RM 1/4 a RH 1/8,"925,00",06-08-2024,"34,00",31-03-2023,,TRUE
+2,13,Reduccion RM 1/2 a RH 1/4,"2.000,00",05-08-2024,"52,00",05-08-2024,,TRUE
+2,13,Reduccion RM 1/2 a RM 1/4,"2.405,00",06-08-2024,"24,00",13-05-2024,,TRUE
+2,14,Bici 20x1 3/4 Keops ,"16.905,00",08-08-2024,"1,00",13-05-2024,40%,TRUE
+2,14,Bici 24x195 DSH,"16.905,00",08-08-2024,"1,00",31-07-2023,,TRUE
+2,14,Bici 26 Instto,"16.905,00",08-08-2024,"12,00",13-05-2024,,TRUE
+2,14,Bici 27.5x210 RCT,"20.930,00",25-04-2024,"1,00",31-07-2023,,TRUE
+2,14,Bici 29x2.10 Instto,"17.710,00",08-08-2024,"4,00",12-06-2024,,TRUE
+2,14,Cubierta moto Imperial Cord 130-60/13 I Racing,"42.300,00",01-08-2024,"1,00",10-05-2024,,TRUE
+2,14,Cubierta moto Imperial Cord 80-100/14 I Racing,"26.700,00",05-08-2024,"18,00",05-08-2024,,TRUE
+2,14,Cubierta moto Imperial Cord 250x16 I,"25.000,00",12-06-2024,"2,00",09-10-2023,,TRUE
+2,14,Cubierta moto Imperial Cord 275x17 I Eximia,"29.300,00",05-08-2024,"2,00",05-08-2024,,TRUE
+2,14,Cubierta moto Imperial Cord 275x18 I Racing,"31.400,00",05-08-2024,"2,00",06-08-2024,,TRUE
+2,14,Cubierta moto Imperial Cord 90-90/18 I Racing,"36.500,00",05-08-2024,"20,00",05-08-2024, por mas de 3 unidades en efectivo 10%,TRUE
+2,14,Cubierta moto Imperial Cord 100-80/18 I ,"34.400,00",02-08-2024,"2,00",27-07-2024,,TRUE
+2,14,Cubierta moto Journey 80-100/14 J,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta moto Journey 250x17 J,"40.900,00",25-04-2024,"2,00",13-05-2024,,TRUE
+2,14,Cubierta moto Runstone 80-100x14 R,"48.300,00",25-04-2024,"5,00",13-05-2024,,TRUE
+2,14,Cubierta moto Runstone 250x17 R F600,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta moto Runstone 275x17 R F600,"47.200,00",25-04-2024,"9,00",22-11-2023,,TRUE
+2,14,Cubierta moto Runstone 275x18 R F101,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta moto Runstone 300x18 R F122,"0,00",13-05-2024,"0,00",13-05-2024,,TRUE
+2,14,Cubierta moto Runstone 90-90/18 R F127,"65.200,00",25-04-2024,"6,00",13-05-2024,,TRUE
+2,14,Cubierta moto Osaka 225x16 O,"37.400,00",25-04-2024,"3,00",13-05-2024,,TRUE
+2,14,Cubierta moto Oxen 410/350x4 O eje 16,"21.500,00",25-04-2024,"1,00",10-06-2023,50%,TRUE
+2,14,Cubierta moto Oxen 410/350x4 O eje 19,"21.500,00",25-04-2024,"1,00",17-08-2023,50%,TRUE
+2,14,Cubierta moto Oxen 410/350x4 O,"12.500,00",25-04-2024,"8,00",12-06-2023,50%,TRUE
+2,14,Cubierta moto Oxen 410/350x4 O reforzada,"17.900,00",25-04-2024,"2,00",12-06-2023,50%,TRUE
+2,14,Cubierta Auto 165-70/13 Pace,"98.900,00",21-05-2024,"1,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 175-70/13 Pace ,"108.000,00",21-05-2024,"0,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 175-65/14 Pace ,"0,00",21-05-2024,"0,00",25-07-2024,,TRUE
+2,14,Cubierta Auto 175-70/14 Pace,"119.900,00",21-05-2024,"5,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 185-60/14 Pace,"125.300,00",21-05-2024,"1,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 185-65/14 Pace ,"118.200,00",21-05-2024,"1,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 185-70/14 Pace,"122.400,00",21-05-2024,"3,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 195-70/14 Pace,"132.900,00",21-05-2024,"2,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 185-55/15 Pace,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-60/15 Pace,"149.200,00",06-06-2024,"2,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 185-65/15 Pace,"154.100,00",06-06-2024,"4,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 195-55/15 Pace ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-60/15 Pace,"165.500,00",21-05-2024,"4,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 195-65/15 Pace ,"166.000,00",21-05-2024,"3,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 205-60/15 Pace,"0,00",06-06-2024,"0,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 205-65/15 Pace ,"0,00",21-05-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 235-75/15 Pace,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-50/16 Pace,"0,00",06-06-2024,"0,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 195-75/16 Pace C,"237.900,00",06-06-2024,"2,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 205-55/16 Pace,"0,00",06-06-2024,"0,00",05-06-2024,,TRUE
+2,14,Cubierta Auto 205-75/16 Pace C,"0,00",21-05-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 205-45/17 Pace,"218.700,00",06-06-2024,"1,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 225-45/17 Pace ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 155/R12 Windforce,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 165-70/13 Windforce ,"120.000,00",25-04-2024,"3,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 175-70/13 Windforce ,"125.000,00",25-04-2024,"2,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 175-65/14 Windforce,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/14 Windforce,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-70/14 Windforce,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-70/15 Windforce,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-70/15 Windforce,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 235-75/15 Windforce,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 155/R12 West Lake,"109.300,00",12-07-2024,"2,00",12-07-2024,,TRUE
+2,14,Cubierta Auto 165-70/13 West Lake,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/13 West Lake,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 75-65/14 West Lake,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/14 West Lake,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-60/14 West Lake ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-70/14 West Lake,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-55/15 West Lake ,"151.400,00",25-04-2024,"3,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 185-60/15 West Lake ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-65/15 West Lake,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-55/15 West Lake ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-60/15 West Lake ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-70/15 West Lake C,"0,00",08-05-2024,"0,00",08-05-2024,,TRUE
+2,14,Cubierta Auto 205-60/15 West Lake,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-65/15 West Lake,"0,00",25-04-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 195-55/16 West Lake,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-60/16 West Lake ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-50/16 West Lake,"0,00",0,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 205-55/16 West Lake,"0,00",21-05-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 185-55/15 Nexen,"0,00",0,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 195-55/15 Nexen ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-60/15 Nexen ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 215-65/15 Nexen ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-60/16 Nexen ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-70/16 Nexen ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 225-45/17 Nexen ,"0,00",25-04-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 245-45/17 Nexen ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-40/18 Nexen,"0,00",25-04-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 225-45/18 Nexen,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 165-70/13 Fate P,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/13 Fate ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-65/14 Fate P,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-70/14 Fate P,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-65/14 Xbri,"0,00",25-04-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 195-55/15 Xbri,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-60/15 Xbri,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-65/15 Xbri,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-75/16 Xbri,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-55/16 Xbri,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-75/16 Xbri ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 225-65/16 Xbri,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 225-75/16 Xbri,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 75-70/14 Neupar ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-65/14 Neupar,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-60/15 Neupar,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-65/15 Neupar,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-60/15 Neupar,"0,00",22-05-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 205-65/15 Neupar ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-55/16 Neupar,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/13 Durable ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-65/14 Durable,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/14 Durable ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 85-60/15 Durable,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-65/15 Durable,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/13 Roadwing,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 165-60/14 Roadwing ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/14 Roadwing,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-60/14 Roadwing,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-65/15 Roadwing,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-65/14 Ling Long,"0,00",17-07-2024,"0,00",17-07-2024,,TRUE
+2,14,Cubierta Auto 185-65/15 Ling Long,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-60/15 Ling Long,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-65/15 Ling Long,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 205-55/16 Ling Long,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 165-70/13 Maaxter,"0,00",22-05-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 165-70/14 Fortune,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/14 Fortune,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 185-70/14 Fortune,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 195-55/15 Fortune,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/13 Sunset,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-65/14 Sunset,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70/14 Sunset ,"96.600,00",17-07-2024,"2,00",17-07-2024,,TRUE
+2,14,Cubierta Auto 205-70/15 Lanvigator,"160.600,00",0,"4,00",18-07-2024,,TRUE
+2,14,Cubierta Auto 235-75/15 Lanvigator ,"174.700,00",24-06-2024,"2,00",11-07-2024,,TRUE
+2,14,Cubierta Auto 205-55/16 Lanvigator,"148.000,00",0,"8,00",18-07-2024,,TRUE
+2,14,Cubierta Auto C05-55/16 Kapsen ,"0,00",22-05-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 165-70/13 Minnel,"0,00",22-05-2024,"0,00",20-05-2024,,TRUE
+2,14,Cubierta Auto 175-65/14 Firemax,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-70-14 Firemax,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Auto 175-65/14 Goodyear,"113.300,00",07-08-2024,"4,00",06-08-2024,,TRUE
+2,14,Cubierta Auto 195-55/15 Goodyear,"145.900,00",07-08-2024,"0,00",06-08-2024,,TRUE
+2,14,Cubierta Auto 165-70/13 Goodride,"100.700,00",22-05-2024,"4,00",20-05-2024,,TRUE
+2,14,Cubierta Camion 650x16 Luhe (c/camara) ,"0,00",25-04-2024,"0,00",29-02-2024,,TRUE
+2,14,Cubierta Camion 750x16 Luhe (c/camara),"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Camion 295-80/22.5 Roadwing,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Camion 215-75/17.5 Goodtyre,"222.800,00",15-06-2024,"0,00",21-05-2024,,TRUE
+2,14,Cubierta Camion 295-80/22.5 Triangle ,"0,00",0,"0,00",0,,TRUE
+2,14,Cubierta Camion 295-80/22.5 Kapsen (taco),"0,00",0,"0,00",0,,TRUE
+2,15,Centro con logo Toyota gris,"3.395,00",27-07-2024,"10,00",29-05-2024,,TRUE
+2,15,Centro con logo Toyota gris chico,"3.395,00",27-07-2024,"19,00",29-05-2024,,TRUE
+2,15,Centro con logo Toyota negro chico ,"3.395,00",27-07-2024,"31,00",29-05-2024,,TRUE
+2,15,Centro con logo Toyota cromado,"3.395,00",27-07-2024,"19,00",01-07-2024,,TRUE
+2,15,Centro con logo Toyota cromado chico,"3.395,00",27-07-2024,"0,00",29-05-2024,,TRUE
+2,15,Centro con logo Ford chico azul,"3.280,00",27-07-2024,"86,00",29-05-2024,,TRUE
+2,15,Centro con logo Ford Ranger gris,"3.700,00",27-07-2024,"44,00",01-07-2024,,TRUE
+2,15,Centro con logo Volkswagen chico,"2.415,00",27-07-2024,"25,00",30-05-2024,,TRUE
+2,15,Centro con logo Volkswagen grande,"3.510,00",27-07-2024,"61,00",30-05-2024,,TRUE
+2,15,Centro con logo Renault gris ,"3.185,00",27-07-2024,"88,00",30-05-2024,,TRUE
+2,15,Centro con logo Renault gris chico,"3.185,00",27-07-2024,"2,00",30-05-2024,,TRUE
+2,15,Centro con logo Renault negro,"3.185,00",27-07-2024,"83,00",30-05-2024,,TRUE
+2,15,Centro con logo Renault negro chico,"3.185,00",27-07-2024,"0,00",29-05-2024,,TRUE
+2,15,Centro con logo Renault gris vison,"3.185,00",27-07-2024,"57,00",29-05-2024,,TRUE
+2,15,Centro con logo Fiat rojo,"3.280,00",27-07-2024,"34,00",30-05-2024,,TRUE
+2,15,Centro con logo Fiat negro,"3.280,00",27-07-2024,"34,00",29-05-2024,,TRUE
+2,15,Centro con logo Fiat negro rallas,"3.280,00",27-07-2024,"2,00",29-05-2024,,TRUE
+2,15,Centro con logo Fiat negro mod. viejo,"3.280,00",27-07-2024,"3,00",29-05-2024,,TRUE
+2,15,Centro con logo Fiat gris mod. viejo,"3.280,00",27-07-2024,"0,00",29-05-2024,,TRUE
+2,15,Centro con logo Fiat toro negro,"3.510,00",27-07-2024,"0,00",29-05-2024,,TRUE
+2,15,Centro con logo Fiat toro rojo,"3.510,00",27-07-2024,"6,00",29-05-2024,,TRUE
+2,15,Centro con logo Chevrolet negro,"3.335,00",27-07-2024,"58,00",30-05-2024,,TRUE
+2,15,Centro con logo Chevrolet negro chico ,"3.335,00",27-07-2024,"8,00",30-05-2024,,TRUE
+2,15,Centro con logo Chevrolet gris,"3.335,00",27-07-2024,"115,00",30-05-2024,,TRUE
+2,15,Centro con logo Chevrolet gris vison ,"3.335,00",27-07-2024,"0,00",23-06-2023,,TRUE
+2,15,Centro con logo Peugeot gris,"3.395,00",27-07-2024,"79,00",30-05-2024,,TRUE
+2,15,Centro con logo Peugeot gris vison,"3.395,00",27-07-2024,"80,00",30-05-2024,,TRUE
+2,15,Centro con logo Peugeot negro,"3.395,00",27-07-2024,"21,00",01-07-2024,,TRUE
+2,15,Centro con logo Citroen gris vison,"3.395,00",27-07-2024,"46,00",01-07-2024,,TRUE
+2,15,Centro con logo Citroen gris cromado,"3.395,00",27-07-2024,"25,00",01-07-2024,,TRUE
+2,15,Centro con logo Citroen negro,"3.395,00",27-07-2024,"33,00",30-05-2024,,TRUE
+2,15,Centro con logo Honda gris grande,"3.060,00",18-01-2024,"3,00",23-07-2024,,TRUE
+2,15,Centro universal negro super chico ,"1.500,00",23-07-2024,"3,00",23-07-2024,,TRUE
+2,15,Centro universal negro chico 49mm,"1.500,00",25-03-2024,"112,00",23-07-2024,,TRUE
+2,15,Centro universal negro mediano 50mm,"1.500,00",22-05-2024,"2,00",30-05-2024,,TRUE
+2,15,Centro universal negro grande 60mm,"1.500,00",23-07-2024,"16,00",23-07-2024,,TRUE
+2,15,Centro universal gris chico ,"1.500,00",25-03-2024,"2,00",30-05-2024,,TRUE
+2,15,Centro universal gris mediano 50mm,"1.500,00",25-03-2024,"79,00",30-05-2024,,TRUE
+2,15,Centro universal gris grande 60mm,"1.500,00",25-03-2024,"4,00",23-07-2024,,TRUE
+2,15,Centrador Ford VERDE,"460,00",03-06-2024,"44,00",30-05-2024,,TRUE
+2,15,Centrador Fiat AMARILLO ,"460,00",02-08-2024,"84,00",02-08-2024,,TRUE
+2,15,Centrador Chevrolet NEGRO,"460,00",02-08-2024,"113,00",02-08-2024,,TRUE
+2,15,Centrador Peugeot CELESTE/AZUL,"460,00",02-08-2024,"102,00",02-08-2024,,TRUE
+2,15,Centrador Renault BLANCO,"460,00",02-08-2024,"126,00",02-08-2024,,TRUE
+2,15,Centrador Volkswagen NARANJA,"460,00",02-08-2024,"100,00",02-08-2024,,TRUE
+2,15,Centrador Toyota ROJO,"460,00",03-06-2024,"54,00",30-05-2024,,TRUE
+2,15,Centrador Honda VIOLETA,"460,00",03-06-2024,"1,00",30-05-2024,,TRUE
+2,15,Centrador Hyundai GRIS,"460,00",03-06-2024,"47,00",30-05-2024,,TRUE
+2,15,Centrador Nissan ROSA,"460,00",03-06-2024,"43,00",30-05-2024,,TRUE
+2,15,Tapa de Llanta Volkswagen Gol (lisa),"4.830,00",27-07-2024,"0,00",23-07-2024,,TRUE
+2,15,Tapa de Llanta Volkswagen Polo (agujeros),"4.830,00",27-07-2024,"10,00",23-02-2024,,TRUE
+2,15,Tapa de Llanta Chevrolet Corsa,"4.830,00",27-07-2024,"10,00",23-07-2024,,TRUE
+2,15,Tapa de Llanta Fiat SCR,"4.830,00",27-07-2024,"7,00",01-07-2024,,TRUE
+2,15,Tapa de Llanta Fiat 500 rojo,"5.000,00",25-03-2024,"4,00",30-05-2024,,TRUE
+2,15,Tapa de Llanta Fiat 500 gris,"5.000,00",0,"0,00",30-05-2024,,TRUE
+2,15,Tapa de Llanta Peugeot 405 (chica),"4.025,00",30-05-2024,"8,00",30-05-2024,,TRUE
+2,15,Tapa de Llanta Peugeot 504 (grande),"4.000,00",25-03-2024,"4,00",23-02-2024,,TRUE
+2,15,Separador 4 agujeros universal 7mm 4au,"4.255,00",29-07-2024,"1,00",27-12-2023,40%,TRUE
+2,15,Separador 4 agujeros universal 10mm 4au,"5.980,00",29-07-2024,"1,00",27-12-2023,,TRUE
+2,15,Separador 4 agujeros universal 15mm  4au G,"7.965,00",29-07-2024,"4,00",06-06-2024,,TRUE
+2,15,Separador 4 agujeros universal 20mm 4au G,"8.660,00",29-07-2024,"7,00",26-07-2024,,TRUE
+2,15,Separador 4 agujeros universal 25mm 4au G,"9.975,00",29-07-2024,"10,00",26-07-2024,,TRUE
+2,15,Separador 4 agujeros universal 30mm 4au G,"10.730,00",29-07-2024,"10,00",26-07-2024,,TRUE
+2,15,Separador 5 agujeros universal 10mm 5au,"6.305,00",29-07-2024,"4,00",26-07-2024,,TRUE
+2,15,Separador 5 agujeros universal 15mm 5au G,"8.490,00",29-07-2024,"1,00",26-07-2024,,TRUE
+2,15,Separador 5 agujeros universal 20mm 5au G,"10.170,00",29-07-2024,"3,00",09-10-2023,,TRUE
+2,15,Sticker Chevrolet chico ,"2.910,00",18-10-2023,"0,00",14-06-2023,,TRUE
+2,15,Sticker Chevrolet grande,"3.700,00",18-10-2023,"3,00",14-06-2023,,TRUE
+2,15,Sticker Peugeot chico  ,"2.910,00",18-10-2023,"0,00",14-06-2023,,TRUE
+2,15,Sticker Peugeot grande,"3.700,00",18-10-2023,"4,00",14-06-2023,,TRUE
+2,15,Sticker Fiat chico ,"2.910,00",18-10-2023,"1,00",14-06-2023,,TRUE
+2,15,Sticker Fiat grande ,"3.700,00",18-10-2023,"1,00",14-06-2023,,TRUE
+2,15,Sticker Citroen chico,"2.910,00",18-10-2023,"3,00",14-06-2023,,TRUE
+2,15,Sticker Citroen grande,"3.700,00",18-10-2023,"3,00",14-06-2023,,TRUE
+2,15,Sticker Hyundai chico,"2.910,00",18-10-2023,"1,00",13-06-2023,,TRUE
+2,15,Sticker Honda chico ,"2.910,00",18-10-2023,"2,00",14-06-2023,,TRUE
+2,15,Sticker Honda grande,"3.700,00",18-10-2023,"2,00",14-06-2023,,TRUE
+2,15,Sticker Nissan grande,"3.700,00",18-10-2023,"1,00",13-06-2023,,TRUE
+2,15,Sticker Ford chico ,"2.910,00",18-10-2023,"0,00",13-06-2023,,TRUE
+2,15,Sticker Volkswagen chico,"2.910,00",18-10-2023,"0,00",14-06-2023,,TRUE
+2,15,Sticker Volkswagen grande,"3.700,00",18-10-2023,"0,00",14-06-2023,,TRUE
+2,15,Sticker Renault chico,"0,00",0,"0,00",0,,TRUE
+2,15,Sticker Renault grande,"0,00",0,"0,00",0,,TRUE
+2,15,Embellecedor Cromado 17,"635,00",18-10-2023,"83,00",16-06-2023,,TRUE
+2,15,Embellecedor Cromado 19,"635,00",18-10-2023,"15,00",16-06-2023,,TRUE
+2,15,Embellecedor Negro 17,"725,00",18-10-2023,"89,00",23-07-2024,,TRUE
+2,16,Bulon Peugeot-Citroen doble arandela (206-307-C3) Cabeza 17mm 12x1.25 aleacion orig. cromado ,"4.715,00",22-07-2024,"73,00",03-08-2024,,TRUE
+2,16,Bulon Peugeot-Citroen doble arandela (206-307-C3) Cabeza 17mm 12x1.25 aleacion orig. zincado 35mm,"3.795,00",22-07-2024,"49,00",18-07-2024,,TRUE
+2,16,Bulon Peugeot-Citroen doble arandela (206-307) Cabeza 17mm 12x1.25 aleacion cromado 40mm,"4.870,00",22-07-2024,"28,00",18-07-2024,,TRUE
+2,16,Bulon Peugeot-Citroen doble arandela (206-307) Cabeza 17mm 12x1.25 aleacion zincado 40mm,"4.870,00",22-07-2024,"19,00",18-07-2024,,TRUE
+2,16,Bulon Peugeot-Citroen doble arandela (206-307) Cabeza 17mm 12x1.25 aleacion cromado 50mm,"6.160,00",22-07-2024,"22,00",18-07-2024,,TRUE
+2,16,Bulon conico Peugeot-Citroen (206-307) Chapa orig. cabeza 17mm 12x1.25 corto,"3.485,00",22-07-2024,"15,00",18-07-2024,,TRUE
+2,16,Bulon conico Peugeot-Citroen (206-307) Chapa orig. cabeza 17mm 12x1.25 35mm,"3.835,00",22-07-2024,"63,00",18-07-2024,,TRUE
+2,16,Bulon conico Peugeot-Citroen (206-307) Chapa orig. cabeza 17mm 12x1.25 48mm,"4.255,00",22-07-2024,"25,00",18-07-2024,,TRUE
+2,16,Bulon Fiat (Europa-147-Uno-Duna-Palio-Siena) Chapa orig. cabeza 19mm 12x1.25 zincado ,"1.840,00",22-07-2024,"0,00",18-07-2024,,TRUE
+2,16,Bulon Fiat (Europa-147-Uno-Duna-Palio-Siena) Chapa orig. cabeza 19mm 12x1.25 cromado,"2.700,00",22-07-2024,"34,00",18-07-2024,,TRUE
+2,16,Bulon Fiat (Europa-147-Uno-Duna-Palio-Siena) Chapa orig. cabeza 19mm 12x1.25 cromado 35mm,"3.485,00",22-07-2024,"23,00",18-07-2024,,TRUE
+2,16,Bulon Fiat (Uno-Duna-Palio-Siena) Aleacion no orig. Cabeza 19mm 12x1.25 cromado 40mm ,"3.835,00",22-07-2024,"0,00",19-07-2024,,TRUE
+2,16,Bulon Fiat (Uno-Duna-Palio-Siena) Aleacion no orig. Cabeza 19 rosca 12x1.25 cromado 48mm,"4.255,00",22-07-2024,"37,00",18-07-2024,,TRUE
+2,16,Bulon bombe Volkswagen (Gacel-Gol-Senda) Chapa y aleacion orig. Cabeza 17mm 12x1.5 zincado corto,"2.795,00",22-07-2024,"50,00",18-07-2024,,TRUE
+2,16,Bulon bombe Volkswagen (Gacel-Gol-Senda) Chapa y aleacion orig. Cabeza 17mm 12x1.5 cromado corto,"3.485,00",22-07-2024,"3,00",18-07-2024,,TRUE
+2,16,Bulon bombe Volkswagen (Golf-Passat-Bora-Vento) chapa y aleacion orig. 14x1.5 cabeza 17mm cromado,"4.255,00",22-07-2024,"36,00",18-07-2024,,TRUE
+2,16,Bulon conico Volkswagen (Golf-Passat-Bora-Vento) aleacion no orig. cabeza 17mm 14x1.5,"4.255,00",22-07-2024,"84,00",18-07-2024,,TRUE
+2,16,Bulon bombe Volkswagen (Gacel-Gol-Senda) 12x1.5 cabeza 17mm cromado 35mm,"3.835,00",22-07-2024,"0,00",19-07-2024,,TRUE
+2,16,Bulon bombe Volkswagen (Golf-Passat-Bora-Vento) chapa y aleacion orig. 14x1.5 cabeza 17mm zincado,"3.400,00",22-07-2024,"38,00",19-07-2024,,TRUE
+2,16,Bulon bombe Volkswagen (Golf-Passat-Bora-Vento) chapa y aleacion. orig. 14x1.5 cabeza 17mm 40mm,"4.715,00",22-07-2024,"42,00",19-07-2024,,TRUE
+2,16,Bulon bombe Volkswagen (Golf-Passat-Bora-Vento) chapa y aleacion orig. 14x1.5 cabeza 17mm 50mm,"5.175,00",22-07-2024,"3,00",19-07-2024,,TRUE
+2,16,Bulon conico Volkswagen (Golf-Passat-Bora-Vento) aleacion no orig. cabeza 19 14x1.5 60mm,"5.650,00",04-01-2024,"70,00",19-07-2024,,TRUE
+2,16,Bulon conico Volkswagen (Golf-Passat-Bora-Vento) aleacion cabeza 17mm rosca 14x1.5 40mm,"4.715,00",22-07-2024,"28,00",19-07-2024,,TRUE
+2,16,Tuerca conica ciega Chevrolet (Chevette) Cabeza 19 rosca 7/16 20HL ,"3.985,00",22-07-2024,"43,00",19-07-2024,,TRUE
+2,16,Tuerca conica ciega Chevrolet (Chevette-D20-S10-Luv) Chapa orig. cabeza 19 12x1.5 zincada negra,"3.985,00",22-07-2024,"11,00",19-07-2024,,TRUE
+2,16,Bulon conico Chevrolet (monza-corsa) Chapa orig. cabeza 17mm 12x1.5,"3.485,00",22-07-2024,"273,00",19-07-2024,,TRUE
+2,16,Bulon conico Chevrolet (Monza-Corsa) Chapa orig. cabeza 17mm 12x1.5 cromado 35mm,"3.835,00",22-07-2024,"68,00",19-07-2024,,TRUE
+2,16,Bulon conico Chevrolet (Monza-Corsa) Chapa orig. cabeza 17mm 12x1.5 cromado 50mm,"4.255,00",22-07-2024,"24,00",19-07-2024,,TRUE
+2,16,Tuerca abierta Ford (Taunus-Sierra-Ka-Fiesta-Orion) Chapa orig. cabeza 19mm 12x1.5,"1.120,00",22-07-2024,"40,00",19-07-2024,,TRUE
+2,16,Tuerca ciega Ford (Focus-Taunus-Mondeo) Aleacion orig. cabeza 19 mm 12x1.5,"4.485,00",22-07-2024,"9,00",19-07-2024,,TRUE
+2,16,Tuerca ciega Ford (Taunus-Sierra-Mondeo) Cabeza 19mm 12x1.5 ,"3.105,00",22-07-2024,"66,00",19-07-2024,,TRUE
+2,16,Tuerca abierta Ford (Falcon-Taunus) Competicion cabeza 19mm rosca 12x1.5,"3.165,00",22-07-2024,"16,00",19-07-2024,,TRUE
+2,16,Tuerca ciega Ford (Falcon Ghia-Fairline) Aleacion orig. cabeza 21mm rosca 1/2 20HL cromada,"4.370,00",22-07-2024,"0,00",19-07-2024,,TRUE
+2,16,Tuerca ciega alta Ford (Pick up-F100-F150-Silverado) Chapa orig. cabeza 21mm rosca 1/2 20HL cromada,"3.220,00",22-07-2024,"17,00",19-07-2024,,TRUE
+2,16,Tuerca abierta Ford (Ranger) Chapa orig. cabeza 21mm rosca 1/2 20 HL,"4.715,00",22-07-2024,"11,00",19-07-2024,,TRUE
+2,16,Tuerca ciega Ford/Chevrolet (Fiesta-Orion-Ecosport-Prisma) Chapa orig. cabeza 19mm 12x1.5 cromada,"3.910,00",22-07-2024,"0,00",19-07-2024,,TRUE
+2,16,Tuerca corta Ford (Ranger-Fiesta) Aleacion no orig. cabeza 19 mm rosca 1/2 20HL cromada,"3.985,00",22-07-2024,"67,00",23-07-2024,,TRUE
+2,16,Bulon conico Renault (Clio-Kangoo-Megane-R18-R21) Chapa orig. cabeza 19 rosca 12x1.5 cromado,"3.485,00",22-07-2024,"15,00",19-07-2024,,TRUE
+2,16,Bulon conico Renault (Clio-Kangoo-Megane-R18-R21) Chapa orig. cabeza 19 rosca 12x1.5 cromado 35mm,"3.835,00",22-07-2024,"20,00",19-07-2024,,TRUE
+2,16,Tuerca ciega Renault (Traffic) Chapa orig. cabeza 23 rosca 14x1.5,"4.980,00",22-07-2024,"0,00",19-07-2024,,TRUE
+2,16,"Tuerca ciega R12-6-4 chapa original hex. 19mm 12x1,25 zincado","2.185,00",22-07-2024,"22,00",19-07-2024,,TRUE
+2,16,Toyota-Mitsubishi (todos) Chapa orig. cabeza 21mm 12x1.5,"2.690,00",22-07-2024,"39,00",19-07-2024,,TRUE
+2,16,Tuerca ciega Toyata (Hilux) Aleacion orig. cabeza 21mm 12x1.5,"4.715,00",22-07-2024,"70,00",19-07-2024,,TRUE
+2,16,Tuerca ciega Honda (todos los modelos) Chapa orig. cabeza 19mm 12x1.25 ,"2.690,00",22-07-2024,"36,00",19-07-2024,,TRUE
+2,17,Plomo Eco adhesivo auto amarillo ,"16.510,00",06-08-2024,"75,00",19-04-2024,,TRUE
+2,17,Plomo Eco adhesivo auto hierro azul,"17.650,00",20-07-2024,"44,00",20-07-2024,,TRUE
+2,17,Plomo Eco adhesivo camion amarillo,"18.110,00",24-06-2024,"0,00",31-07-2023,,TRUE
+2,17,Plomo Eco universal 5gs,"4.730,00",03-08-2024,"69,00",03-08-2024,,TRUE
+2,17,Plomo Eco universal 10gs,"7.660,00",27-07-2024,"30,00",20-07-2024,,TRUE
+2,17,Plomo Eco universal 15gs,"11.500,00",27-07-2024,"26,00",20-07-2024,,TRUE
+2,17,Plomo Eco universal 20gs,"14.995,00",27-07-2024,"17,00",30-05-2024,,TRUE
+2,17,Plomo Eco universal 25gs x50 u.,"15.850,00",03-08-2024,"28,00",03-08-2024,,TRUE
+2,17,Plomo Eco universal 30gs x50 u.,"18.110,00",03-08-2024,"24,00",03-08-2024,,TRUE
+2,17,Plomo Eco universal 35gs x50 u.,"20.515,00",20-07-2024,"3,00",20-07-2024,,TRUE
+2,17,Ploma Eco universal 40gs,"22.310,00",03-08-2024,"13,00",03-08-2024,,TRUE
+2,17,Plomo Eco universal 45gs,"26.875,00",05-07-2024,"9,00",12-12-2023,,TRUE
+2,17,Plomo Eco universal 60gs ,"34.615,00",05-07-2024,"8,00",12-12-2023,,TRUE
+2,17,Plomo adhesivo Solmi moto ,"20.470,00",06-08-2024,"4,00",31-07-2023,,TRUE
+2,17,Plomo universal Solmi 5gs ,"5.150,00",20-07-2024,"5,00",20-07-2024,,TRUE
+2,17,Plomo universal Solmi 10gs ,"8.740,00",05-07-2024,"10,00",13-05-2024,,TRUE
+2,17,Plomo universal Solmi 15gs ,"13.570,00",03-08-2024,"35,00",03-08-2024,,TRUE
+2,17,Plomo universal Solmi 20gs ,"16.985,00",05-07-2024,"15,00",13-05-2024,,TRUE
+2,17,Plomo universal Solmi 25gs ,"18.285,00",03-08-2024,"28,00",03-08-2024,,TRUE
+2,17,Plomo universal Solmi 30gs,"21.945,00",03-08-2024,"25,00",03-08-2024,,TRUE
+2,17,Plomo universal Solmi 35gs ,"24.265,00",05-07-2024,"6,00",13-05-2024,,TRUE
+2,17,Plomo universal Solmi 40gs ,"28.450,00",05-07-2024,"5,00",19-10-2023,,TRUE
+2,17,Plomo universal Solmi 50gs ,"34.385,00",05-07-2024,"3,00",19-10-2023,,TRUE
+2,17,Plomo universal Cobi 50gs ,"0,00",0,"3,00",19-10-2023,,TRUE
+2,17,Plomo universal Cobi 60gs,"0,00",0,"2,00",19-10-2023,,TRUE
+2,17,Plomo GM Eco 10gs ,"8.730,00",05-07-2024,"12,00",19-10-2023,,TRUE
+2,17,Plomo GM Eco 15gs ,"13.190,00",05-07-2024,"11,00",19-10-2023,,TRUE
+2,17,Plomo GM Eco 20gs,"15.840,00",05-07-2024,"10,00",19-10-2023,,TRUE
+2,17,Plomo GM Eco 30gs,"21.555,00",05-07-2024,"11,00",19-10-2023,,TRUE
+2,17,Plomo GM 15gs Solmi ,"14.810,00",05-07-2024,"5,00",19-10-2023,,TRUE
+2,17,Plomo adhesivo Solmi camion ,"28.520,00",14-05-2024,"1,00",03-08-2022,,TRUE
+2,17,Plomo camion Eco universal 50gs ,"20.735,00",05-07-2024,"2,00",17-11-2023,,TRUE
+2,17,Plomo camion Eco universal 100gs,"27.395,00",05-07-2024,"2,00",17-11-2023,,TRUE
+2,17,Plomo camion Eco universal 150gs ,"38.870,00",05-07-2024,"1,00",17-11-2023,,TRUE
+2,17,Plomo camion Eco universal 200gs ,"50.600,00",05-07-2024,"2,00",17-11-2023,,TRUE
+2,17,Plomo camion Eco universal 250gs,"31.050,00",05-07-2024,"1,00",17-11-2023,,TRUE
+2,17,Plomo camion Ecouniversal 300gs ,"37.030,00",05-07-2024,"1,00",17-11-2023,,TRUE
+2,18,Hyundai-Chery-Kia-Rastrogero-S/Yong ALTO: NACIONAL NEGRO,"0,00",0,"0,00",25-07-2022,30%,TRUE
+2,18,Honda-Nissan-Peugeot-Chevrolet ALTO: NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+2,18,Chevrolet-Ford-Crhysler-Chery-Alfa-Volvo-Isuzu-Ssang/Yong ALTO: NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+2,18,Nissan-Renault-Datsun ALTO: NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+2,18,Peugeot-Alfa Romeo-Citroen-Seat-Fiat (Partner-Fiorino-Uno-Duna-Palio-147-205-206-307) ALTO: NACIONAL NEGRO,"30.800,00",27-06-2024,"10,00",21-05-2024,,TRUE
+2,18,Fiat mod. nuevo-Fiat mod. viejo ALTO: NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+2,18,Alfa Romeo-Fiat (Palio-Siena-Mirafiori) (p/separador 10mm) ALTO: NACIONAL NEGRO,"30.800,00",27-06-2024,"14,00",21-05-2024,,TRUE
+2,18,Peugeot-Citroen (original de chapa) ALTO: NACIONAL NEGRO,"30.800,00",27-06-2024,"0,00",21-05-2024,,TRUE
+2,18,Fiat-Chrysler-Alfa Romeo ALTO: NACIONAL NEGRO,"30.800,00",27-06-2024,"13,00",21-05-2024,,TRUE
+2,18,Honda-Chevrolet-Gmc-Daihatsu-Ford ALTO: NACIONAL NEGRO,"0,00",0,"0,00",25-07-2022,,TRUE
+2,18,Chevrolet-Renault-Ford (Astra-Corsa-Meriva-Vectra-Clio-Kangoo-Logan-Duster-Ecosport) ALTO: NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+2,18,Chevrolet-Honda-Ford-Renault ALTO: NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+2,18,Bmw-Seat-Audi-Chery-Mercedes ALTO: NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+2,18,Bmw-Ford-Seat-Chery-Mercedes-Vw rosca 12x1.5 ALTO: NACIONAL NEGRO,"0,00",0,"0,00",17-08-2023,,TRUE
+2,18,Vw-Mercedes-Audi-Porsche ALTO: NACIONAL NEGRO,"0,00",0,"0,00",21-09-2022,,TRUE
+2,18,Citroen-Peugeot llanta orig.asiento plano ALTO: NACIONAL NEGRO,"30.800,00",27-06-2024,"4,00",21-05-2024,,TRUE
+2,18,Peugeot-Citroen (doble rosca y arandela) ALTO: NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+2,18,Toyota-Chery-Mitsubishi ALTO: NACIONAL NEGRO,"30.800,00",27-06-2024,"5,00",21-05-2024,,TRUE
+2,18,Volkswagen Cross Fox orig. ALTO: NACIONAL NEGRO,"30.800,00",27-06-2024,"5,00",21-05-2024,,TRUE
+2,18,Ford-Ecosport ALTO: NACIONAL NEGRO,"0,00",0,"0,00",0,,TRUE
+2,18,Citroen Air Cross ALTO: NACIONAL NEGRO,"30.800,00",27-06-2024,"3,00",21-05-2024,,TRUE
+2,18,Daihatsu-Mitsubishi-Kia ALTO: NACIONAL NEGRO,"30.800,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Fiat bulon conico (128 iava-palio) mediano cromado SET RACING (NACIONAL),"32.000,00",27-06-2024,"2,00",21-05-2024,30%,TRUE
+2,18,"Fiat, Peugeot (128-Iava-Palio-Siena) mediano zincado SET RACING (NACIONAL)","32.000,00",27-06-2024,"3,00",21-05-2024,,TRUE
+2,18,Ford-Dodge-Ika (F100-Falcon-1500) SET RACING (NACIONAL),"32.000,00",27-06-2024,"2,00",21-05-2024,,TRUE
+2,18,Jeep tuerca (Cherokee) cromado SET RACING (NACIONAL),"32.000,00",27-06-2024,"4,00",21-05-2024,,TRUE
+2,18,Ford Ranger 1/2 20 hilos SET RACING (NACIONAL),"0,00",0,"0,00",0,,TRUE
+2,18,Ford-Toyota-Chevrolet (Orion-Mondeo-Ka-Focus-Fiesta-Sierra-Hilux 4x4-S10-Crysler-Jurney) SET RACING (NACIONAL),"32.000,00",27-06-2024,"4,00",21-05-2024,,TRUE
+2,18,Ford tuerca conica (Sierra-Orion-Mondeo-Ka-Focus) Zincado SET RACING (NACIONAL),"32.000,00",27-06-2024,"4,00",21-05-2024,,TRUE
+2,18,Ford tuerca conica (Ecosport c/auxilio) Zincado SET RACING (NACIONAL),"32.000,00",0,"0,00",0,,TRUE
+2,18,Chevrolet bulon conico (Corsa-Monza-Astra-Meriva-Zafira) Cromado SET RACING (NACIONAL),"32.000,00",27-06-2024,"4,00",21-05-2024,,TRUE
+2,18,Chevrolet-Renault (Corsa-Astra-Meriva-Zafira-Gol-Vectra-Kangoo-Sandero-Fun-Duster) SET RACING (NACIONAL),"32.000,00",27-06-2024,"5,00",21-05-2024,,TRUE
+2,18,Renault bulon conico (Fuego-R9-R11-R18-R19-R21-Clio-Express) Cromado  SET RACING (NACIONAL),"32.000,00",23-07-2024,"1,00",21-05-2024,,TRUE
+2,18,Renault bulon conico (Fuego-R9-R11-R18-R19-R21-Clio-Express-Megane-Kangoo) zincado SET RACING (NACIONAL),"0,00",0,"0,00",21-05-2024,,TRUE
+2,18,Bmw-Minicooper bulon (X5-X6) Cromado SET RACING (NACIONAL),"32.000,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Fiat-Peugeot-Citroen (128-147-600s-Duna-Uno-Palio-Siena-Tempra-Marea-Idea-Strada) Zincado SET RACING (NACIONAL),"32.000,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Fiat-Peugeot-Citroen (128-147-600s-Duna-Uno-Palio-Siena-Tempra-Marea-Idea-Strada) Zincado SET RACING (NACIONAL),"0,00",0,"0,00",0,,TRUE
+2,18,Peugeot-Citroen bulon conico (206-307-407-C3-C5-Fiat Qubo) Cromado SET RACING (NACIONAL),"32.000,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Peugeot-Citroen bulon conico (206-307-407-C3-C5-Fiat Qubo) Zincado SET RACING (NACIONAL),"32.000,00",27-06-2024,"4,00",21-05-2024,,TRUE
+2,18,Peugeot-Renault (504-505-R6-R12) SET RACING (NACIONAL),"32.000,00",27-06-2024,"5,00",21-05-2024,,TRUE
+2,18,Ford Ecosport (aleacion) c/auxilio cromado SET RACING (NACIONAL),"32.000,00",27-06-2024,"2,00",21-05-2024,,TRUE
+2,18,Volkswagen tuerca guia (Pointer) 12x1.5 SET RACING (NACIONAL),"32.000,00",27-06-2024,"4,00",21-05-2024,,TRUE
+2,18,Ford (Focus-Mondeo-Orion) mod. nuevo zincado SET RACING (NACIONAL),"32.000,00",27-06-2024,"4,00",21-05-2024,,TRUE
+2,18,Volkswagen bulon (Gacel-Gol-Senda-Cady-Polo-Saveiro-Golf) Zincado  SET RACING (NACIONAL),"32.000,00",27-06-2024,"5,00",21-05-2024,,TRUE
+2,18,Volkswagen-Audi (Golf-Passat-Fox-Bora-Vento-Suran-a3-a4-a6) Cromado SET RACING (NACIONAL),"0,00",27-06-2024,"0,00",21-05-2024,,TRUE
+2,18,Volkswagen-Audi (Golf-Passat-Fox-Bora-Vento-Suran-a3-a4-a6) Zincado SET RACING (NACIONAL),"32.000,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Mercedes (Amarok-Sprinter) 14x1.5 Zincado SET RACING (NACIONAL),"0,00",0,"0,00",0,,TRUE
+2,18,Peugeot doble arand. (206-307-407) Guia 18 zincado SET RACING (NACIONAL),"32.000,00",27-06-2024,"3,00",21-05-2024,,TRUE
+2,18,Peugeot aleacion (206-307-407) Cromado largo SET RACING (NACIONAL),"32.000,00",27-06-2024,"0,00",21-05-2024,,TRUE
+2,18,"Ford (Dodge-Ka-F100-Falcon-Ranger-Cherokee) 1/2""-20 (IMPORTADO)","0,00",0,"0,00",0,30%,TRUE
+2,18,Ford-Toyota-Chevrolet-Dodge (Hilux-S10-Orion-Mondeo-Ka-Focus-EcoSport-Fiesta) tuerca 12x1.5 (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+2,18,Renault-Chevrolet (Corsa-Sandero-R18-R19-Kangoo-Stepway) 12x1.5  (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+2,18,Renault-Chevrolet (Corsa-Sandero-Kangoo) 12x1.5 (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+2,18,Toyota tuerca (Hilux-Corolla) (llanta aleacion) 12x1.5 (IMPORTADO),"32.000,00",27-06-2024,"2,00",02-07-2024,,TRUE
+2,18,Fiat-Peugeot-Citroen (128-147-600-Duna-206-Partner-Berlingo) 12x1.25 (IMPORTADO),"32.000,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Ford (Focus-Mondeo-Orion) 12x1.5 (IMPORTADO),"0,00",0,"0,00",21-05-2024,,TRUE
+2,18,Vw-Seat-Bmw (Gol-Gacel-Senda-Cady-Polo-Saveiro-Golf-Cordoba-Ibiza) 12x1.5 (IMPORTADO),"0,00",0,"0,00",0,,TRUE
+2,18,Volkswagen bulon (Golf-Fox-Passat-Bora-Vento) (IMPORTADO),"0,00",0,"0,00",21-05-2024,,TRUE
+2,18,Volkswagen bulon (Golf-Fox-Passat-Bora-Vento-Amarok) Largo (IMPORTADO),"32.000,00",27-06-2024,"2,00",21-05-2024,,TRUE
+2,18,Peugeot gama 12x1.25 (IMPORTADO),"32.000,00",27-06-2024,"2,00",21-05-2024,,TRUE
+2,18,Peugeot-Citroen (llanta aleacion orig.) 12x1.25 (IMPORTADO),"0,00",0,"0,00",21-05-2024,,TRUE
+2,18,Fiat (Idea-Linea-Marea-Uno-Stilo-Strada) 12x1.25 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"0,00",21-05-2024,30%,TRUE
+2,18,Renault-Volkswagen-Peugeot (Laguna-Amarok-Expert) 14x1.5 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"2,00",21-05-2024,,TRUE
+2,18,Renault-Volvo (850-Clio-Megane-Logan) 12x1.5 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Suzuki-Renault-Chevrolet (Fun-Clio mio-Megane-Sandero-Duster-Fluence-Celta-Agile-Astra-Vectra) 12x1.5 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"4,00",21-05-2024,,TRUE
+2,18,Fiat (Punto-Palio Adventure-Toro) 12x1.25 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Alfa Romeo-Fiat (125-1500-Palio-Siena) 12x1.25 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"2,00",21-05-2024,,TRUE
+2,18,Ford (Fiesta-Ka-Focus-Mondeo) tuerca 12x1.5 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"5,00",21-05-2024,,TRUE
+2,18,Ford (Fiesta-Focus-Mondeo) tuerca 12x1.5 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Volkswagen (Bora-Fox-Golf-New Beetle-Passat-Scirocco-Sharan-Suran-Tiguan-Touareg-Vento) 14x1.5 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"3,00",21-05-2024,,TRUE
+2,18,Peugeot-Citroen (207-208-307-308-407-607-3007-3008-5008-Picasso-C3-C4-C5-DS3) 12x1.25 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"2,00",21-05-2024,,TRUE
+2,18,Toyota (Etios-Corolla-Hilux-Rav4) tuerca 12x1.5 plana Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"1,00",21-05-2024,,TRUE
+2,18,Toyota (Etios-Corolla-Avensis-Fielder) tuerca 12x1.5 Z3 PREMIUM (IMPORTADO),"0,00",0,"0,00",21-05-2024,,TRUE
+2,18,Honda-Ford-Chevrolet (Crv-Ecosport-Spin activ) tuerca c/auxilio 12x1.5 Z3 PREMIUM (IMPORTADO),"37.200,00",27-06-2024,"0,00",21-05-2024,,TRUE
+2,18,Volkswagen-Audi (Golf-Passat-Fox-Bora-Vento-Suran-a3-a4-a6) Cromado VECTOR (IMPORTADO),"36.000,00",27-06-2024,"8,00",21-05-2024,30%,TRUE
+2,18,Fiat-Peugeot-Citroen (128-147-600s-Duna-Uno-Palio-Siena-Tempra-Marea-Idea-Strada) Cromado VECTOR (IMPORTADO),"36.000,00",27-06-2024,"3,00",21-05-2024,,TRUE
+2,18,Chevrolet (Corsa-Monza-Astra-Meriva-Zafira) Cromado VECTOR (IMPORTADO),"36.000,00",27-06-2024,"0,00",21-05-2024,,TRUE
+2,18,Ford-Toyota-Chevrolet (Orion-Mondeo-Ka-Focus-Fiesta-Sierra-Hilux 4x4-S10-Crysler-Jurney) VECTOR (IMPORTADO),"36.000,00",27-06-2024,"6,00",21-05-2024,,TRUE
+2,19,Silva x 1 kg,"3.940,00",26-02-2024,"18,00",06-03-2024,40%,TRUE
+2,19,Economica x 1kg,"2.920,00",14-05-2024,"12,00",22-03-2024,,TRUE
+2,19,Lubrigom x 1kg,"8.840,00",06-08-2024,"15,00",20-05-2023,,TRUE
+2,19,Silva x 4kg,"9.660,00",01-08-2024,"117,00",12-08-2024,40%,TRUE
+2,19,Lubrigom x 4kg,"32.200,00",03-08-2024,"19,00",03-08-2024,,TRUE
+2,19,Starlube x 4kg,"10.640,00",20-02-2024,"5,00",20-02-2024,,TRUE
+2,19,TG ecologica x 4kg ,"24.685,00",11-05-2024,"6,00",11-05-2024,,TRUE
+2,19,Lubrigom x 20kg,"130.100,00",27-07-2024,"2,00",27-07-2024,20%,TRUE
+2,19,Silva x 20kg ,"48.300,00",05-08-2024,"9,00",05-08-2024,40%,TRUE
+2,19,Aceitodo,"4.470,00",24-06-2024,"61,00",22-03-2024,22-mar,TRUE
+2,19,Trinechi 440cc,"3.705,00",06-08-2024,"4,00",11-01-2023,11-ene,TRUE
+2,19,Aceite comun x1lts Rally,"3.450,00",30-05-2024,"0,00",15-07-2024,20w40 x 10 $2700,TRUE
+2,19,Aceite comun x1lts W,"4.600,00",03-08-2024,"0,00",0,20w40 x10 $2900,TRUE
+2,19,Aceite viscus x1lts Rally,"4.255,00",30-05-2024,"15,00",15-07-2024,25w60 x 10 $3200,TRUE
+2,19,Aceite hidraulico x1lts Rally ,"4.255,00",30-05-2024,"5,00",15-07-2024,x 10 $3200,TRUE
+2,19,Aceite neumatico Bancu x1lts ,"4.855,00",23-07-2024,"10,00",04-09-2023,,TRUE
+2,19,Agua destilada,"2.070,00",30-05-2024,,30-05-2024,,TRUE
+2,19,Agua refrigerante,"2.070,00",30-05-2024,"54,00",27-06-2024,40% x10 $1600,TRUE
+2,19,Grasa rodamiento Silva,"1.610,00",15-06-2024,"4,00",15-06-2024,15-jun,TRUE
+2,20,Tiza Aiello x bolsa,"8.130,00",05-07-2024,"14,00",14-11-2023,,TRUE
+2,20,Tiza Aiello x unidad,"690,00",15-02-2024,"0,00",0,,TRUE
+2,20,Tiza Mas blanca x caja,"3.520,00",13-05-2024,"28,00",13-05-2024,,TRUE
+2,20,Tiza Mas blanca x unidad ,"345,00",15-01-2024,"0,00",09-01-2023,,TRUE
+2,20,Tiza Mas amarilla x caja,"4.045,00",20-07-2024,"115,00",20-07-2024,,TRUE
+2,20,Tiza Mas amarilla  x unidad,"460,00",15-01-2024,"3,00",15-01-2024,,TRUE
+2,20,Tiza Gomerito x caja ,"2.800,00",06-03-2024,"3,00",01-12-2022,,TRUE
+2,20,Tiza Gomerito x unidad ,"300,00",06-03-2024,"5,00",20-04-2024,,TRUE
+2,20,Tiza El Cacique x caja,"4.370,00",29-07-2024,"6,00",06-03-2024,,TRUE
+2,20,Tiza El Cacique  x unidad,"400,00",29-07-2024,"3,00",06-03-2024,,TRUE
+2,20,Talco Aiello 1kg,"990,00",05-07-2024,"27,00",27-12-2023,,TRUE
+2,20,Pasta Limpia manos Aiello x 1kg,"4.945,00",08-08-2024,"37,00",18-03-2024,,TRUE
+2,20,Pasta Limpia manos Limpiamax x 4kg,"5.635,00",05-08-2024,"33,00",05-08-2024,,TRUE
+2,20,Shampoo (AUTO),"2.430,00",05-02-2024,"1,00",05-10-2022,40%,TRUE
+2,20,Silicona (AUTO),"2.430,00",05-02-2024,"3,00",07-03-2023,,TRUE
+2,20,Limpia motor (AUTO),"2.430,00",05-02-2024,"5,00",05-10-2022,Caja de 15unid: $ c/u,TRUE
+2,20,Cera (AUTO),"2.430,00",05-02-2024,"9,00",05-10-2022,,TRUE
+2,20,Perfume (AUTO),"2.430,00",05-02-2024,"3,00",0,,TRUE
+2,20,Banderas GOMERIA,"4.830,00",18-10-2023,"0,00",28-08-2023,,TRUE
+2,21,Alicate Ford n°6,"0,00",30-12-1899,"0,00",30-12-1899,,TRUE
+2,21,Alicate Ford n°7,"0,00",30-12-1899,"0,00",30-12-1899,,TRUE
+2,21,Alicate Tuv rojo ,"0,00",30-12-1899,"0,00",30-12-1899,,TRUE
+2,21,Anteojos Transparente c/azul,"1.300,00",12-12-2023,"4,00",13-02-2023,,TRUE
+2,21,Anteojos Negros ,"0,00",0,"0,00",0,,TRUE
+2,21,Bornes x2,"4.025,00",12-12-2023,"0,00",10-06-2023,80%,TRUE
+2,21,Chaleco verde reflectario,"0,00",0,"0,00",0,,TRUE
+2,21,Cutter plastico/metal,"0,00",30-12-1899,"0,00",30-12-1899,,TRUE
+2,21,Destornillador x2 Bison,"6.095,00",12-12-2023,"1,00",13-02-2023,,TRUE
+2,21,Destornillador Davidson 4pcs 2y2,"12.075,00",12-12-2023,"2,00",13-02-2023,,TRUE
+2,21,Destornillador Davidson 9pcs,"12.190,00",12-12-2023,"2,00",13-02-2023,,TRUE
+2,21,Destornillador c/tuerca Davidson 6pcs,"12.075,00",12-12-2023,"0,00",13-02-2023,,TRUE
+2,21,Destornillador golpe Jin Ma Shi 6pcs ,"0,00",12-12-2023,"0,00",13-02-2023,,TRUE
+2,21,Destornillador c/puntas 28pcs naranja ,"0,00",12-12-2023,"0,00",27-09-2023,,TRUE
+2,21,Faja ombu ,"6.900,00",17-10-2023,"0,00",12-06-2023,50%,TRUE
+2,21,Fusible mini x10 + tester,"4.600,00",12-12-2023,"0,00",12-06-2023,80%,TRUE
+2,21,Fusible mini x10 ,"2.300,00",12-12-2023,"0,00",12-06-2023,80%,TRUE
+2,21,Guantes de tela gris,"1.265,00",12-12-2023,"62,00",12-09-2023,,TRUE
+2,21,Guantes negroTactil,"4.095,00",20-07-2024,"34,00",20-07-2024,,TRUE
+2,21,Guantes Randon rojo,"4.370,00",24-06-2024,"36,00",15-01-2024,,TRUE
+2,21,Guantes rojo reforzado #300,"1.670,00",12-12-2023,"3,00",12-09-2023,80%,TRUE
+2,21,Guantes de nitrilo,"8.625,00",16-07-2024,"24,00",16-07-2024,,TRUE
+2,21,Kit de Seguridad Estuche chico,"17.250,00",12-12-2023,"0,00",27-08-2022,,TRUE
+2,21,Estuche grande ,"26.450,00",12-12-2023,"0,00",27-08-2022,,TRUE
+2,21,Bocallaves 1/2 Hamilton 20pcs SET,"0,00",0,"0,00",0,,TRUE
+2,21,Puntas Torx Davidson 40pcs SET,"0,00",0,"0,00",0,,TRUE
+2,21,Mini tubos Tool 14pcs SET,"9.085,00",12-12-2023,"1,00",13-02-2023,,TRUE
+2,21,Tubos impacto cortos Eurotech 10pcs SET,"0,00",17-10-2023,"0,00",0,,TRUE
+2,21,Allen Davidson 9pcs larga,"0,00",0,"0,00",0,,TRUE
+2,21,Allen Eurotech 9pcs milimetrica,"0,00",0,"0,00",0,,TRUE
+2,21,Llave combinada 10 Yeii,"3.450,00",12-12-2023,"1,00",09-09-2023,,TRUE
+2,21,Llave combinada 11 Yeii ,"3.450,00",12-12-2023,"2,00",09-09-2023,,TRUE
+2,21,Llave combinada 13 Yeii,"3.450,00",12-12-2023,"3,00",09-09-2023,,TRUE
+2,21,Llave combinada 13 Eurotech,"4.025,00",12-12-2023,"1,00",09-09-2023,,TRUE
+2,21,Llave combinada 17 Yeii,"4.025,00",12-12-2023,"0,00",09-09-2023,,TRUE
+2,21,Llave combinada 21 Eurotech,"4.025,00",12-12-2023,"1,00",09-09-2023,,TRUE
+2,21,Juego combinadas Ford 8pcs,"19.435,00",12-12-2023,"0,00",13-02-2023,,TRUE
+2,21,Juego combinadas Baum 11pcs,"0,00",0,"0,00",0,,TRUE
+2,21,Llave esferica 1/4 ,"7.590,00",22-02-2024,"2,00",12-12-2023,,TRUE
+2,21,Llave esferica 1/2,"7.610,00",22-02-2024,"1,00",01-03-2023,,TRUE
+2,21,"Llave Francesa 6"" Jinfeng","5.050,00",12-12-2023,"0,00",13-02-2023,,TRUE
+2,21,"Llave Francesa 10"" Mota ","10.430,00",12-12-2023,"0,00",10-06-2023,80%,TRUE
+2,21,Torx Harden 9pcs larga,"0,00",0,"0,00",0,,TRUE
+2,21,Torx Davidson larga 9pcs ,"0,00",0,"0,00",0,,TRUE
+2,21,"Pinza punta 7"" Davidson","5.820,00",12-12-2023,"1,00",13-02-2023,,TRUE
+2,21,Pinza Ford n°6,"8.360,00",12-12-2023,"0,00",13-02-2023,,TRUE
+2,21,Pinza Ford n°8,"0,00",0,"0,00",0,,TRUE
+2,21,"Pinza fuerza 10"" Bison","7.020,00",12-12-2023,"2,00",13-02-2023,,TRUE
+2,21,Pinza de fuerza (paquete celeste),"7.420,00",12-12-2023,"3,00",13-02-2023,,TRUE
+2,21,"Pinza universal 7"" Davidson","6.620,00",12-12-2023,"0,00",13-02-2023,,TRUE
+2,21,"Pinza Linea Tools 6""","4.000,00",12-12-2023,"1,00",13-02-2023,,TRUE
+2,21,Saca bujia,"0,00",0,"0,00",0,,TRUE
+2,21,Soga elastica Stretch cords azul,"0,00",0,"0,00",0,,TRUE
+2,21,Pulpo elastico 40x40cm Bison,"3.400,00",12-12-2023,"7,00",25-10-2023,80%,TRUE
+2,21,Linga blanca,"7.620,00",12-12-2023,"13,00",07-03-2023,,TRUE
+2,21,Linga de color x unidad,"1.795,00",12-12-2023,"3,00",12-06-2023,80%,TRUE
+2,21,Linga x3 Bison,"3.550,00",12-12-2023,"0,00",25-10-2023,,TRUE
+2,21,Tijera Raia,"0,00",0,"0,00",0,,TRUE
+2,21,Tijera Xizhi,"0,00",0,"0,00",0,,TRUE
+2,21,Tubo largo 1/2 10mm,"2.530,00",27-02-2024,"1,00",04-11-2023,,TRUE
+2,21,Tubo largo 1/2 12mm,"2.530,00",27-02-2024,"1,00",04-11-2023,,TRUE
+2,21,Tubo largo 1/2 15mm,"2.530,00",27-02-2024,"1,00",04-11-2023,,TRUE
+2,21,Tubo largo 1/2 17mm,"2.875,00",27-02-2024,"1,00",04-11-2023,80%,TRUE
+2,21,Tubo largo 1/2 18mm ,"3.280,00",27-02-2024,"0,00",04-11-2023,,TRUE
+2,21,Tubo largo 1/2 19mm,"3.280,00",27-02-2024,"0,00",04-11-2023,,TRUE
+2,21,Tubo largo 1/2 21mm,"4.775,00",27-02-2024,"4,00",04-11-2023,,TRUE
+2,21,Tubo largo 1/2 23mm,"5.220,00",27-02-2024,"3,00",04-11-2023,,TRUE
+2,21,Tubo largo 1/2 24mm,"5.220,00",27-02-2024,"3,00",04-11-2023,80%,TRUE
+2,21,Inflador pelota,"0,00",0,"0,00",0,,TRUE
+2,21,Roto martillo Makita,"0,00",0,"0,00",0,,TRUE

@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 from .models import empresas, familias, articulos
 import json
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from .forms import articleForm, NewarticleForm
 
 def afterlogin( request, *args, **kwargs):
