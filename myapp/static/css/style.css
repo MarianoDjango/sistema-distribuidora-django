@@ -1,0 +1,9 @@
+/* static/css/custom.css */
+
+.nav-link {
+    color: #704141 !important; /* Cambia el color a azul */
+}
+
+.nav-link:hover {
+    color: #8b6868 !important; /* Cambia el color cuando el mouse pasa sobre el enlace */
+}

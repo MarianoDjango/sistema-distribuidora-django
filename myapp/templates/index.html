@@ -1,0 +1,52 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+<nav class="nav justify-content-center" style="background-color: #df7d7d;">
+  <a class="nav-link active" href="/">Index</a>
+  <a class="nav-link" href="#">Nosotros</a>
+  <a class="nav-link" href="#">Contacto</a>
+<br>  
+</nav>
+
+<div class="container-fluid">
+
+  <div class="shadow-lg">
+    <div id="carouselExampleControls" class="carousel carousel-light slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active" style="border-radius: 50%;">
+          <img src="{% static '/img/carrousel1.png' %}" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h4>Precios</h5>
+            <p> Tenemos los mejores precios en insumos de Gomeria</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static '/img/carrousel2.jpg' %}"class="d-block w-100" alt="..." height="720">
+          <div class="carousel-caption d-none d-md-block">
+            <h4>Productos</h5>
+            <p> de primera calidad</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static '/img/carrousel3.jpg' %}" class="d-block w-100" alt="..." height="720">
+          <div class="carousel-caption d-none d-md-block">
+            <h4>Confianza</h5>
+            <p>Mas de 10 de experiancia</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</div>
+<p></p>
+<div class="row">
+</div>
+{% endblock %}

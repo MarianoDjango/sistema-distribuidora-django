@@ -83,6 +83,16 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+'''DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Marianoscarat$silvadistdb',
+        'USER': 'Marianoscarat',
+        'PASSWORD': 'root123456789',
+        'HOST': 'Marianoscarat.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
+    }
+}'''
 
 
 # Password validation

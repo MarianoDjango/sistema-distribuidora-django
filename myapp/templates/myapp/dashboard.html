@@ -1,0 +1,75 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .left-nav {
+        height: 100vh; /* Barra ocupa todo el alto de la ventana */
+        position: fixed;
+        overflow-y: auto; /* Para hacer scroll si es necesario */
+    }
+    .content {
+        margin-left: 200px; /* Ancho equivalente al de la barra de navegación */
+    }
+</style>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="nav nav-tabs">
+        {% for empresa in empresas %}
+            <li class="nav-item">
+                <a class="nav-link" id="navi{{ empresa.id }}" href="javascript:void(0);" onclick="familias_empresa('{{ empresa.id }}', ' {{ empresa.name }} ')"> {{ empresa.name }} </a>
+            </li>
+        {% endfor %}
+        <button class="btn btn-light"><i class="bi bi-cart"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+            </svg></i></button>
+    </ul>
+</nav>
+<div class="container-xxl">
+    <div class="row flex-nowrap">
+        <div class="col-auto px-0">
+            <div id="sidebar" class="collapse collapse-horizontal show border-end">
+                <div id="sidebar-nav" class="list-group border-0 rounded-0 text-sm-start min-vh-100">
+
+                </div>
+            </div>
+        </div>
+        <main class="col ps-md-2 pt-2">
+            <h1 id="idempresa" style="display: none;">{{ id_empresa }}</h1>
+            <h1 id="empresa">{{ nomempresa }}</h1>
+            <h6 id="idfamilia" value="{{ id_familia }}" style="display: none;">{{ id_familia }}</h6>
+            <h1 id="familia">{{ familia_nom }}</h1>
+            <input class="form-control" type="text" id="articsearch" oninput="buscart()" placeholder="Buscar artículo...">
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-striped shadow p-3 mb-5 bg-body-tertiary rounded">
+                        <thead>
+                            <tr>
+                                <th scope="col">Descripcion</th>
+                                <th class="text-center" scope="col">Precio</th>
+                                <th class="text-center" scope="col">Fecha P.</th>
+                                <th class="text-center" scope="col">Stock</th>
+                                <th class="text-center" scope="col">Fecha S.</th>
+                                <th class="text-center" scope="col" width="100"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="articulosList">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="{% static 'js/articulos.js' %}"></script>
+<script>
+	$(document).ready(function (){
+		familias_empresa(1);
+        buscart();
+	});
+function ponerfamilia(idfamilia, nomfamilia){
+    $('#idfamilia').html(idfamilia);
+    $('#familia').html(nomfamilia);
+    buscart();
+}
+</script>
+{% endblock %}
