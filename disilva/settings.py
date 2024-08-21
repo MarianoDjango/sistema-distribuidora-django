@@ -24,8 +24,8 @@ SECRET_KEY = 'django-insecure-yu_9y+ydu7$^a!_8_$z&kgm_o2t9&%z(dhq%=270^$a(jq(aiz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['marianoscarat.pythonanywhere.com']
 
 # Application definition
 
@@ -73,7 +73,7 @@ WSGI_APPLICATION = 'disilva.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'silvadistdb',
@@ -82,8 +82,8 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
     }
-}
-'''DATABASES = {
+}'''
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Marianoscarat$silvadistdb',
@@ -92,7 +92,7 @@ DATABASES = {
         'HOST': 'Marianoscarat.mysql.pythonanywhere-services.com',
         'PORT': '3306',
     }
-}'''
+}
 
 
 # Password validation
@@ -129,10 +129,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'myapp/static/'
-
+#STATIC_URL = 'myapp/static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = '/home/Marianoscarat/dsilva/static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/myapp/afterlogin/'   # Name of the URL pattern
+LOGOUT_REDIRECT_URL = '/'

@@ -7,9 +7,12 @@ import json
 from django.http import HttpResponse
 from .forms import articleForm, NewarticleForm
 
+def index(request):
+    return render(request, 'index.html')
+
 def afterlogin( request, *args, **kwargs):
     idempresa = request.user.perfil.idempresa
-    urlredirect = "/myapp/dashboard/" + str(idempresa.id) + "/"
+    urlredirect = "/myapp/dashboard/"
     return redirect(urlredirect)
 
 def famlias_empresa(request, **kwargs):
