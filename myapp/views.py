@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 from .models import empresas, familias, articulos
 import json
 from django.http import HttpResponse
-from .forms import articleForm, NewarticleForm
+from .forms import articulosForm, NewarticleForm
 
 def index(request):
     return render(request, 'index.html')
@@ -76,9 +76,25 @@ class dashboard_view(View, LoginRequiredMixin):
 
         return render(self.request, 'myapp/dashboard.html', context)
 
+def articulo_create_or_update(request, pk=None):
+    if pk:
+        articulo = get_object_or_404(articulos, pk=pk)
+    else:
+        articulo = articulos()
+
+    if request.method == 'POST':
+        form = articulosForm(request.POST, instance=articulo)
+        if form.is_valid():
+            form.save()
+            return redirect('myapp/dashboard.html')
+    else:
+        form = articulosForm(instance=articulo)
+
+    return render(request, 'myapp/articulo_form.html', {'form': form})
+
 class articleView(View,LoginRequiredMixin):
     model = articulos
-    form_class = articleForm
+    form_class = articulosForm
     
     def get(self, request, *args, **kwargs):
         form = self.form_class()

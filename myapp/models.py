@@ -19,12 +19,25 @@ class perfil(models.Model):
     class Meta:
         ordering = ["nombre"]
 
+class tipomovimientos(models.Model):
+    TIPO_CHOICES = [
+        ('entrada', 'Entrada'),
+        ('salida', 'Salida'),
+        ('transferencia', 'Transferencia'),
+    ]
+
+    nombre = models.CharField(max_length=100)
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+
+    def __str__(self):
+        return f"{self.nombre} ({self.tipo})"
+    
 class familias(models.Model):
     idempresa = models.ForeignKey(empresas, on_delete=models.CASCADE, null=True)
     nombre = models.CharField(max_length = 50, blank=True, null=True)
 
     def __str__(self):
-        return str(self.idempresa) + " - " + str(self.id) + "-" + self.nombre
+        return str(self.id) + "-" + self.nombre
 
     class Meta:
         ordering = ["id"]
@@ -42,7 +55,10 @@ class articulos(models.Model):
     imagen = models.CharField(max_length = 250, blank=True)
     activo = models.BooleanField(default=True)
     comentarios = models.CharField(max_length = 250, blank=True)
-
+    precio_compra = models.DecimalField(max_digits =  8, decimal_places = 2, default=0)
+    margen = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
+    dtoefectvo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)   # Porcentaje de descuento por pago en efectivo
+    
     def __str__(self):
         return self.descripcion
 
@@ -51,5 +67,20 @@ class articulos(models.Model):
     
     class Meta:
         ordering = ["-activo", "descripcion"]
+
+class clientes(models.Model):
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    telefono = models.CharField(max_length=15, blank=True, null=True)
+    direccion = models.CharField(max_length=255, blank=True, null=True)
+    ciudad = models.CharField(max_length=100, blank=True, null=True)
+    provincia = models.CharField(max_length=100, blank=True, null=True)
+    codigo_postal = models.CharField(max_length=10, blank=True, null=True)
+    fecha_registro = models.DateTimeField(auto_now_add=True)
+    activo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido}"
 
 # Create your models here.
