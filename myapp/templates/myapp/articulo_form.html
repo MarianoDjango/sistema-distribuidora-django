@@ -26,10 +26,10 @@
 							<div class="col-lg-2">
 								{{form.familia.label_tag}} {{form.familia}}
 							</div>
-							<div class="col-lg-2">
+							<div class="col-lg-2" step="1.00">
 								{{form.precio_compra.label_tag}} {{form.precio_compra}}
 							</div>
-							<div class="col-lg-2">
+							<div class="col-lg-2" step="1.00">
 								{{form.margen.label_tag}} {{form.margen}}
                             </div>
 						</div>
@@ -103,5 +103,40 @@
 {% endif %}
 </div>
 </body>
-<script src="{% static 'js/articulos.js' %}"></script>
-{% endblock %}
+<script src="{% static 'js/articulos.js' %}?v=9.1"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', (event) => {
+		const formatNumber = (number) => {
+			return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".").replace('.', ',');
+		};
+	
+		const parseNumber = (formattedNumber) => {
+			return parseFloat(formattedNumber.replace('.', '').replace(',', '.'));
+		};
+	
+		const precioCompraInput = document.getElementById('precio_compra');
+		const margenInput = document.getElementById('margen');
+		const precioVentaInput = document.getElementById('precio_venta');
+		alert(precioCompraInput.value)
+		const updatePrecioVenta = () => {
+			const precioCompra = parseNumber(precioCompraInput.value);
+			const margen = parseNumber(margenInput.value);
+			const precioVenta = precioCompra + (precioCompra * (margen / 100));
+			precioVentaInput.value = formatNumber(precioVenta.toFixed(2));
+		};
+	
+		const handleInput = (event) => {
+			const input = event.target;
+			const formattedValue = formatNumber(parseNumber(input.value).toFixed(2));
+			input.value = formattedValue;
+			updatePrecioVenta();
+		};
+	
+		if (precioCompraInput && margenInput) {
+            precioCompraInput.addEventListener('input', handleInput);
+            margenInput.addEventListener('input', handleInput);
+			alert()
+        }
+	});
+	</script>
+	{% endblock %}

@@ -5,15 +5,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import empresas, familias, articulos
 import json
 from django.http import HttpResponse
-from .forms import articulosForm, NewarticleForm
+from .forms import articulosForm
 
 def index(request):
     return render(request, 'index.html')
 
 def afterlogin( request, *args, **kwargs):
     idempresa = request.user.perfil.idempresa
-    urlredirect = "/myapp/dashboard/"
-    return redirect(urlredirect)
+    urlredirect = "dashboard"
+    return redirect('dashboard')
 
 def famlias_empresa(request, **kwargs):
     empresa_id = request.GET['idempresa']
@@ -62,7 +62,10 @@ def articulos_famila(request, **kwargs):
     data = json.dumps(recs)
     return HttpResponse(data, 'application/json')
 
-class dashboard_view(View, LoginRequiredMixin):
+class dashboard_view(LoginRequiredMixin,View):
+    template_name = 'myapp/dashboard.html'
+    login_url = '/accounts/login/'
+
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
             context = {}
@@ -74,7 +77,7 @@ class dashboard_view(View, LoginRequiredMixin):
             empresa = str(companies_var[0]).split((" - ")[1])
             context = {'empresas': companies_var, 'id_empresa':int(empresa_user),'nomempresa' : empresa[1],  'id_familia' : familia.id, 'familia_nom' : familia.nombre }
 
-        return render(self.request, 'myapp/dashboard.html', context)
+        return render(self.request, self.template_name, context)
 
 def articulo_create_or_update(request, pk=None):
     if pk:
@@ -86,33 +89,9 @@ def articulo_create_or_update(request, pk=None):
         form = articulosForm(request.POST, instance=articulo)
         if form.is_valid():
             form.save()
-            return redirect('myapp/dashboard.html')
+            return redirect('dashboard')
     else:
         form = articulosForm(instance=articulo)
 
     return render(request, 'myapp/articulo_form.html', {'form': form})
-
-class articleView(View,LoginRequiredMixin):
-    model = articulos
-    form_class = articulosForm
-    
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        #context = {'form': form}
-        if self.request.user.is_authenticated:
-        #raise Http404("Poll does not exist")
-        #return render(request, "polls/detail.html", {"poll": p}) 
-            try:
-                articulo = articulos.objects.get(id=kwargs['pk'])
-                form = self.form_class(instance=articulo)
-                imagen = articulo.imagen
-                doesnexist = False
-            except articulos.DoesNotExist:
-                articulo = articulos(id=kwargs['pk'], descripcion='')
-                form = NewarticleForm(instance=articulo)
-                doesnexist = True                
-        else:
-            articulo = None
-            form = self.form_class(instance=articulo)
-        return render(request, 'myapp/article_form.html', {'form': form, 'active' : 'Articulos', 'doesentexist' : doesnexist} )
 
