@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-yu_9y+ydu7$^a!_8_$z&kgm_o2t9&%z(dhq%=270^$a(jq(aiz
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['marianoscarat.pythonanywhere.com']
-
+#ALLOWED_HOSTS = ['marianoscarat.pythonanywhere.com']
+ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp'
+    'myapp',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,7 @@ WSGI_APPLICATION = 'disilva.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'silvadistdb',
@@ -82,8 +83,8 @@ WSGI_APPLICATION = 'disilva.wsgi.application'
         'HOST': 'localhost',
         'PORT': '3306',
     }
-}'''
-DATABASES = {
+}
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Marianoscarat$silvadistdb',
@@ -92,7 +93,7 @@ DATABASES = {
         'HOST': 'Marianoscarat.mysql.pythonanywhere-services.com',
         'PORT': '3306',
     }
-}
+}'''
 
 
 # Password validation
@@ -138,3 +139,4 @@ STATIC_ROOT = '/home/Marianoscarat/dsilva/static'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/myapp/afterlogin/'   # Name of the URL pattern
 LOGOUT_REDIRECT_URL = '/'
+DATE_INPUT_FORMATS = ['%Y-%m-%d']

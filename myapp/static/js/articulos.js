@@ -1,9 +1,7 @@
 function familias_empresa(idempresa, nomempresa){
-  var item = 'navi' + idempresa
-  var nav = document.getElementById(item);
-  nav.style.fontSize = 24
-  $('navi' + idempresa).add("active");
+  $('#navi' + idempresa).add("active");
   $('#empresa').html(nomempresa);
+  $('#idempresa').html(idempresa);
   $('#sidebar-nav').html("");
     $.ajax({
         url:'/myapp/familias/',
@@ -13,16 +11,20 @@ function familias_empresa(idempresa, nomempresa){
         type:"get",
         datatype: "json",
         success:function(response){
-          for(let i = 0;i < response.length;i++){
-              $('#sidebar-nav').append(response[i]['fila']);
-          }
+          $('#idfamilia').html(response.id_familia)
+          response.filas.forEach(function(item) {
+            $('#sidebar-nav').append(item.fila);
+          });
         },
       });
+    buscart()
 }
+
 function buscart(){
   var nombre = document.getElementById('articsearch').value;
-  var idfamilia = document.getElementById('idfamilia').innerText;
+  var idfamilia = document.getElementById('idfamilia').innerHTML;
   var id_empresa = document.getElementById('idempresa').innerText;
+  console.log(idfamilia)
   $('#articulosList').html("");
     $.ajax({
         url:'/myapp/articulos/',

@@ -13,14 +13,16 @@
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <ul class="nav nav-tabs">
-            {% for empresa in empresas %}
-                <li class="nav-item">
-                    <a class="nav-link" id="navi{{ empresa.id }}" href="javascript:void(0);" onclick="familias_empresa('{{ empresa.id }}', ' {{ empresa.name }} ')"> {{ empresa.name }} </a>
-                </li>
-            {% endfor %}
-        </ul>
-    <div class="col-lg-8" style="align-items:self-end;">
+    <ul class="nav nav-tabs">
+        {% for empresa in empresas %}
+            <li class="nav-item">
+                <a class="nav-link {% if empresa.id == id_empresa %}active{% endif %}" id="navi{{ empresa.id }}" href="{% url 'dashboard' empresa.id %}">
+                    {{ empresa.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+        <div class="col-lg-8" style="align-items:self-end;">
         <button type="button" class="btn btn-outline-success position-relative" title="Ver Pedido" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="ver_carrito()">Mi Carrito<i class="bi bi-cart"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
         </svg></i><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="spancantitms">{{tot_items}}</span></button>
@@ -72,13 +74,17 @@
         <main class="col ps-md-2 pt-2">
             <h1 id="idempresa" style="display: none;">{{ id_empresa }}</h1>
             <h1 id="empresa">{{ nomempresa }}</h1>
-            <h6 id="idfamilia" value="{{ id_familia }}" style="display: none;">{{ id_familia }}</h6>
+            <h1 id="idfamilia" style="display: none;">{{ id_familia }}</h1>
             <h1 id="familia">{{ familia_nom }}</h1>
             <input class="form-control" type="text" id="articsearch" oninput="buscart()" placeholder="Buscar artículo...">
             <hr>
+            {% if id_empresa == user.perfil.idempresa_id or user.is_staff %}
+                <a class="btn btn-primary" href="{% url 'article-detail' id_empresa 0 %}">Nuevo</a>
+                <hr>
+            {% endif %}
             <div class="row">
                 <div class="col-12">
-                    <table class="table table-striped shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <table class="table table-striped shadow p-3 mb-5 bg-body-tertiary rounded" id="tableart">
                         <thead>
                             <tr>
                                 <th scope="col">Descripcion</th>
@@ -100,13 +106,14 @@
 <script src="{% static 'js/articulos.js' %}"></script>
 <script>
 	$(document).ready(function (){
-		familias_empresa(1);
-        buscart();
+        var id_empresa = document.getElementById('idempresa').innerText
+        familias_empresa(id_empresa);
 	});
 function ponerfamilia(idfamilia, nomfamilia){
     $('#idfamilia').html(idfamilia);
     $('#familia').html(nomfamilia);
     buscart();
 }
+
 </script>
 {% endblock %}
