@@ -24,7 +24,6 @@ function buscart(){
   var nombre = document.getElementById('articsearch').value;
   var idfamilia = document.getElementById('idfamilia').innerHTML;
   var id_empresa = document.getElementById('idempresa').innerText;
-  console.log(idfamilia)
   $('#articulosList').html("");
     $.ajax({
         url:'/myapp/articulos/',

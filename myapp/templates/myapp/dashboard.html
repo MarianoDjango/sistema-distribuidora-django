@@ -80,6 +80,35 @@
             <hr>
             {% if id_empresa == user.perfil.idempresa_id or user.is_staff %}
                 <a class="btn btn-primary" href="{% url 'article-detail' id_empresa 0 %}">Nuevo</a>
+                <button class="btn btn-primary" id="toggleSeleccion">Seleccionar Todos</button>
+                <button id="cambiarPrecio" class="btn btn-primary" disabled >Cambiar Precio</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="precioModal" tabindex="-1" aria-labelledby="precioModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="precioModalLabel">Cambiar Precio de Venta</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="margenPorcentaje" class="form-label">Porcentaje de Margen</label>
+                                    <input type="number" class="form-control" id="margenPorcentaje">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nuevoPrecioVenta" class="form-label">Nuevo Precio de Venta</label>
+                                    <input type="number" class="form-control" id="nuevoPrecioVenta" readonly>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" id="guardarCambios">Guardar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
                 <hr>
             {% endif %}
             <div class="row">
@@ -105,7 +134,83 @@
 </div>
 <script src="{% static 'js/articulos.js' %}"></script>
 <script>
-	$(document).ready(function (){
+     //JavaScript para manejar la tabla, botones y modal
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const formatNumber = (number) => {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".").replace('.', ',');
+        };
+
+        const parseNumber = (formattedNumber) => {
+            return parseFloat(formattedNumber.replace('.', '').replace(',', '.'));
+        };
+
+        const checkboxes = document.querySelectorAll('.check-row');
+        const toggleBtn = document.getElementById('toggleSeleccion');
+        const cambiarPrecioBtn = document.getElementById('cambiarPrecio');
+
+        // Función para alternar seleccionar/deseleccionar todos los checkboxes
+        toggleBtn.addEventListener('click', function() {
+            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = !allChecked;
+            });
+            this.textContent = allChecked ? 'Seleccionar Todos' : 'Deseleccionar Todos';
+            toggleCambiarPrecioBtn();
+        });
+
+        // Habilitar/deshabilitar el botón "Cambiar Precio" según el estado de los checkboxes
+        const toggleCambiarPrecioBtn = () => {
+            const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+            cambiarPrecioBtn.disabled = !anyChecked;
+        };
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', toggleCambiarPrecioBtn);
+        });
+
+        // Abrir el modal al hacer clic en "Cambiar Precio"
+        cambiarPrecioBtn.addEventListener('click', () => {
+            const precioModal = new bootstrap.Modal(document.getElementById('precioModal'));
+            precioModal.show();
+        });
+
+        // Calcular el nuevo precio de venta en el modal
+        document.getElementById('margenPorcentaje').addEventListener('input', function() {
+            const porcentaje = parseFloat(this.value);
+            if (!isNaN(porcentaje)) {
+                // Suponiendo que tenemos un precio base, este es un ejemplo.
+                const precioBase = 100; // Esto puede ser dinámico según tus necesidades.
+                const nuevoPrecio = precioBase + (precioBase * (porcentaje / 100));
+                document.getElementById('nuevoPrecioVenta').value = nuevoPrecio.toFixed(2);
+            }
+        });
+
+        // Funcionalidad para guardar cambios al hacer clic en "Guardar Cambios"
+        document.getElementById('guardarCambios').addEventListener('click', function() {
+            // Aquí va la lógica para aplicar el nuevo precio a los artículos seleccionados.
+            alert('Precio de venta actualizado.');
+        });
+    });
+</script>
+<script>
+/* document.getElementById('toggleSeleccion').addEventListener('click', function() {
+       // Selecciona todos los checkboxes con la clase 'checkbox-row'
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        const isSelectAll = this.textContent === 'Seleccionar Todos';
+        // Itera sobre los checkboxes y los marca como 'checked'
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                checkbox.checked = false;    
+            } else {
+                checkbox.checked = true;
+            }
+        });
+        
+        this.textContent = isSelectAll ? 'Deseleccionar Todos' : 'Seleccionar Todos';
+});*/
+</script>
+<script>
+    $(document).ready(function (){
         var id_empresa = document.getElementById('idempresa').innerText
         familias_empresa(id_empresa);
 	});

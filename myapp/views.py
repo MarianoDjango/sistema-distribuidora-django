@@ -6,6 +6,7 @@ from .models import empresas, familias, articulos
 import json
 from django.http import JsonResponse, HttpResponse
 from .forms import articulosForm
+import datetime
 
 def index(request):
     return render(request, 'index.html')
@@ -52,7 +53,8 @@ def articulos_famila(request, **kwargs):
             
                 fila += f'<td class="text-center"><input type="text" class="form-control" style="border-radius: 10px;" placeholder="Cant."></td>'
                 fila += f'<td class="text-center"><button class="btn" style="background-color: #92dea3;"><i class="bi bi-cart-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16"><path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/><path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></i></button></td>'
-                fila += f'<td class="text-center"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault"></label></div></td>'
+                id_articulo = str(articulo['id'])
+                fila += f'<td class="text-center"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault{id_articulo}"><label class="form-check-label" for="flexCheckDefault{id_articulo}"></label></div></td>'
             else:
                 fila += '<td>'+ articulo['descripcion'] + '</td>'
                 fila += '<td class="text-end">{:,.2f}'.format(articulo['precio_venta']).replace(",", "@").replace(".", ",").replace("@", ".") + '</td>'
@@ -107,6 +109,9 @@ def articulo_create_or_update(request, **kwargs):
                 articulo.idempresa = empresa
                 familia = familias.objects.filter(idempresa=empresa).first()
                 articulo.familia = familia
+                articulo.fecha_precio = datetime.datetime.today().date()
+                articulo.fecha_stock = datetime.datetime.today().date()
+
                 form = articulosForm(instance=articulo, empresa_id=int(kwargs['id_empresa']))
 
         return render(request, 'myapp/articulo_form.html', {'form': form})

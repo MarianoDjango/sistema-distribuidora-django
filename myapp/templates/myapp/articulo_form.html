@@ -54,10 +54,7 @@
 							</div>
 						</div>
 						<div class="row mb-3">
-							<div class="col-lg-2">
-								{{form.dtoefectvo.label_tag}}{{form.dtoefectvo}}
-							</div>
-							<div class="col-lg-8">
+							<div class="col-lg-10">
 								{{form.comentarios.label_tag}} {{form.comentarios}}
 							</div>
 							<div class="col-lg-2">
@@ -114,29 +111,27 @@
 			return parseFloat(formattedNumber.replace('.', '').replace(',', '.'));
 		};
 	
-		const precioCompraInput = document.getElementById('precio_compra');
-		const margenInput = document.getElementById('margen');
-		const precioVentaInput = document.getElementById('precio_venta');
-		alert(precioCompraInput.value)
-		const updatePrecioVenta = () => {
-			const precioCompra = parseNumber(precioCompraInput.value);
-			const margen = parseNumber(margenInput.value);
-			const precioVenta = precioCompra + (precioCompra * (margen / 100));
-			precioVentaInput.value = formatNumber(precioVenta.toFixed(2));
-		};
+		//const precioCompraInput = document.getElementById('id_precio_compra');
+		//const margenInput = document.getElementById('id_margen');
+		//const precioVentaInput = document.getElementById('id_precio_venta');
+		//const updatePrecioVenta = () => {
+		//	const precioCompra = parseNumber(precioCompraInput.value);
+		//	const margen = parseNumber(margenInput.value);
+		//	const precioVenta = precioCompra + (precioCompra * (margen / 100));
+		//	precioVentaInput.value = formatNumber(precioVenta.toFixed(2));
+		//};
 	
-		const handleInput = (event) => {
-			const input = event.target;
-			const formattedValue = formatNumber(parseNumber(input.value).toFixed(2));
-			input.value = formattedValue;
-			updatePrecioVenta();
-		};
+		//const handleInput = (event) => {
+		//	const input = event.target;
+		//	const formattedValue = formatNumber(parseNumber(input.value).toFixed(2));
+		//	input.value = formattedValue;
+		//	updatePrecioVenta();
+		//};
 	
-		if (precioCompraInput && margenInput) {
-            precioCompraInput.addEventListener('input', handleInput);
-            margenInput.addEventListener('input', handleInput);
-			alert()
-        }
+		//if (precioCompraInput && margenInput) {
+        //    precioCompraInput.addEventListener('input', handleInput);
+        //    margenInput.addEventListener('input', handleInput);
+        //}
 	});
 	</script>
 	{% endblock %}
