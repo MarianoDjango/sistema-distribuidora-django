@@ -7,4 +7,5 @@ urlpatterns = [
     path('articulos/', views.articulos_famila, name='articfam'),
     path('familias/', views.famlias_empresa, name='articfam'),
     path('articulo/<id_empresa>/<pk>/', views.articulo_create_or_update, name='article-detail'),
+    path('actualizar_precios/', views.actualizar_precios, name='updateprices'),
 ]

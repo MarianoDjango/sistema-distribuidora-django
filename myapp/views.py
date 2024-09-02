@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
-from .models import empresas, familias, articulos
+from .models import empresas, familias, articulos, hist_movart, tipomovimientos
 import json
 from django.http import JsonResponse, HttpResponse
 from .forms import articulosForm
@@ -61,7 +61,7 @@ def articulos_famila(request, **kwargs):
                 fila += '<td class="text-center">' + str(articulo['fecha_precio']) + '</td>'
                 fila += '<td class="text-end">{:,.2f}'.format(articulo['stock']).replace(",", "@").replace(".", ",").replace("@", ".") + '</td>'
                 fila += '<td class="text-center">' + str(articulo['fecha_stock']) + '</td>'
-
+            fila += '<td class="text-center" style="display : none;">' + str(articulo['id']) + '</td>'
             json_list = {
                 'fila': fila,
             }
@@ -117,3 +117,28 @@ def articulo_create_or_update(request, **kwargs):
         return render(request, 'myapp/articulo_form.html', {'form': form})
     
     return redirect('login')
+
+def actualizar_precios(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        articulos_var = data.get('articulos', [])
+
+        for articulo_data in articulos_var:
+                articulo = articulos.objects.get(pk=articulo_data['id'])
+                histo_mov = hist_movart()
+
+                histo_mov.articulo = articulo
+                histo_mov.fechamov = datetime.datetime.today().date()
+                tipo_mov = tipomovimientos.objects.get(nombre='regulast')
+                histo_mov.tipomov = tipo_mov
+                histo_mov.precioactual = articulo.precio_venta
+                histo_mov.porprecio = articulo
+                histo_mov.nuevoprecio = articulo_data['nuevo_precio']
+                histo_mov.usuario = request.user.id
+                histo_mov.save()
+                
+                articulo.precio_venta = articulo_data['nuevo_precio']                
+                articulo.save()
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'message': 'Método no permitido.'})

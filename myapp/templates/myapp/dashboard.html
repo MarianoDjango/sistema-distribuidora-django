@@ -81,34 +81,42 @@
             {% if id_empresa == user.perfil.idempresa_id or user.is_staff %}
                 <a class="btn btn-primary" href="{% url 'article-detail' id_empresa 0 %}">Nuevo</a>
                 <button class="btn btn-primary" id="toggleSeleccion">Seleccionar Todos</button>
-                <button id="cambiarPrecio" class="btn btn-primary" disabled >Cambiar Precio</button>
-
+                <!-- Button trigger modal -->
+                <button type="button" id="cambioprecio" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled>
+                    Cambiar Precios</button>
+                
                 <!-- Modal -->
-                <div class="modal fade" id="precioModal" tabindex="-1" aria-labelledby="precioModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="precioModalLabel">Cambiar Precio de Venta</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="margenPorcentaje" class="form-label">Porcentaje de Margen</label>
-                                    <input type="number" class="form-control" id="margenPorcentaje">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nuevoPrecioVenta" class="form-label">Nuevo Precio de Venta</label>
-                                    <input type="number" class="form-control" id="nuevoPrecioVenta" readonly>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary" id="guardarCambios">Guardar Cambios</button>
-                            </div>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cambio Precio varios Articulos</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped shadow p-3 mb-5 bg-body-tertiary rounded" id="tableart_sel">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Descripcion</th>
+                                        <th class="text-center" scope="col">Precio Actual</th>
+                                        <th class="text-center" scope="col">Precio Nuevo</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="articulos_sel">
+                                </tbody>
+                            </table>
+                            <div class="mb-3">
+                                <label for="margenPorcentaje" class="form-label">Porcentaje de Subida</label>
+                                <input type="number" class="form-control" id="margenPorcentaje" style="text-align: right;" placeholder="0.00" oninput="calcula_precio_nuevo()">
+                            </div>                                    
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="guardarprecio">Guardar</button>
                         </div>
                     </div>
-                </div>
-            
+                    </div>
+                </div>            
                 <hr>
             {% endif %}
             <div class="row">
@@ -134,80 +142,160 @@
 </div>
 <script src="{% static 'js/articulos.js' %}"></script>
 <script>
-     //JavaScript para manejar la tabla, botones y modal
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const formatNumber = (number) => {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".").replace('.', ',');
-        };
+    document.getElementById('guardarprecio').addEventListener('click', () => {
+    const tablaModal = document.getElementById('articulos_sel');
+    const articulosActualizados = [];
+    const margenPorcentaje = document.getElementById('margenPorcentaje');
+    console.log(margenPorcentaje)
+    Array.from(tablaModal.rows).forEach((row, rowIndex) => {
+        //if (rowIndex === 0) return; // Saltar la fila de encabezado, si existe
 
-        const parseNumber = (formattedNumber) => {
-            return parseFloat(formattedNumber.replace('.', '').replace(',', '.'));
-        };
+        const articuloId = row.cells[3].innerText;  // Suponiendo que el ID del artículo está en la primera celda
+        const nuevoPrecio = parseFloat(row.cells[2].innerText.replace('.', '').replace(',', '.'));  // Suponiendo que el nuevo precio está en la tercera celda y formateado como "9.999,00"
 
-        const checkboxes = document.querySelectorAll('.check-row');
-        const toggleBtn = document.getElementById('toggleSeleccion');
-        const cambiarPrecioBtn = document.getElementById('cambiarPrecio');
-
-        // Función para alternar seleccionar/deseleccionar todos los checkboxes
-        toggleBtn.addEventListener('click', function() {
-            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = !allChecked;
-            });
-            this.textContent = allChecked ? 'Seleccionar Todos' : 'Deseleccionar Todos';
-            toggleCambiarPrecioBtn();
-        });
-
-        // Habilitar/deshabilitar el botón "Cambiar Precio" según el estado de los checkboxes
-        const toggleCambiarPrecioBtn = () => {
-            const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-            cambiarPrecioBtn.disabled = !anyChecked;
-        };
-
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', toggleCambiarPrecioBtn);
-        });
-
-        // Abrir el modal al hacer clic en "Cambiar Precio"
-        cambiarPrecioBtn.addEventListener('click', () => {
-            const precioModal = new bootstrap.Modal(document.getElementById('precioModal'));
-            precioModal.show();
-        });
-
-        // Calcular el nuevo precio de venta en el modal
-        document.getElementById('margenPorcentaje').addEventListener('input', function() {
-            const porcentaje = parseFloat(this.value);
-            if (!isNaN(porcentaje)) {
-                // Suponiendo que tenemos un precio base, este es un ejemplo.
-                const precioBase = 100; // Esto puede ser dinámico según tus necesidades.
-                const nuevoPrecio = precioBase + (precioBase * (porcentaje / 100));
-                document.getElementById('nuevoPrecioVenta').value = nuevoPrecio.toFixed(2);
-            }
-        });
-
-        // Funcionalidad para guardar cambios al hacer clic en "Guardar Cambios"
-        document.getElementById('guardarCambios').addEventListener('click', function() {
-            // Aquí va la lógica para aplicar el nuevo precio a los artículos seleccionados.
-            alert('Precio de venta actualizado.');
-        });
+        // Agregar artículo a la lista con el ID y el nuevo precio
+        articulosActualizados.push({ id: articuloId, nuevo_precio: nuevoPrecio, pocentaje : margenPorcentaje });
     });
-</script>
-<script>
-/* document.getElementById('toggleSeleccion').addEventListener('click', function() {
+
+    // Enviar la lista de artículos actualizados al servidor usando AJAX
+    fetch('/myapp/actualizar_precios/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')  // Incluye el token CSRF si usas Django
+        },
+        body: JSON.stringify({ articulos: articulosActualizados })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Cerrar el modal al completar la actualización
+            $('#exampleModal').modal('hide');
+            alert('¡Precios actualizados con éxito!');
+            const btnCambioprecio = document.getElementById('cambioprecio');
+            const margenPorcentaje = document.getElementById('margenPorcentaje');
+            btnCambioprecio.disabled = true
+            margenPorcentaje.innerHTML = '0,00'
+            // actualizo dashboard
+            buscart();
+        } else {
+            alert('Error al actualizar los precios. Por favor, inténtalo de nuevo.');
+        }
+    })
+    .catch(error => console.error('Error al actualizar precios:', error));
+});
+
+// Función para obtener el token CSRF si usas Django
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+ document.getElementById('toggleSeleccion').addEventListener('click', function() {
        // Selecciona todos los checkboxes con la clase 'checkbox-row'
         const checkboxes = document.querySelectorAll('.form-check-input');
         const isSelectAll = this.textContent === 'Seleccionar Todos';
+        const btnCambioprecio = document.getElementById('cambioprecio');
         // Itera sobre los checkboxes y los marca como 'checked'
         checkboxes.forEach(checkbox => {
             if (checkbox.checked) {
-                checkbox.checked = false;    
+                checkbox.checked = false;
+                btnCambioprecio.disabled = true    
             } else {
                 checkbox.checked = true;
+                btnCambioprecio.disabled = false    
             }
         });
         
         this.textContent = isSelectAll ? 'Deseleccionar Todos' : 'Seleccionar Todos';
-});*/
+});
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Ejecutar código cuando el modal se abre
+    const modal = document.getElementById('exampleModal');
+    modal.addEventListener('shown.bs.modal', () => {
+        moverFilasSeleccionadas(); // Llamar a la función que mueve las filas seleccionadas
+    });
+});
+
+function moverFilasSeleccionadas() {
+    const tablaOriginal = document.getElementById('articulosList');
+    const tablaModal = document.getElementById('articulos_sel');
+    // Limpia la tabla del modal para evitar duplicados
+    tablaModal.innerHTML = "";
+
+    // Recorre todas las filas de la tabla original
+    Array.from(tablaOriginal.rows).forEach(row => {
+        // Encuentra el checkbox en la fila actual
+        const checkbox = row.querySelector('.form-check-input');
+
+        // Si el checkbox está seleccionado
+        if (checkbox && checkbox.checked) {
+            // Crea una nueva fila en la tabla del modal
+            const nuevaFila = tablaModal.insertRow();
+
+            // Copia el contenido de las celdas de la fila original
+            Array.from(row.cells).forEach((cell, index) => {
+                if (index == 0 || index == 1) {  // Excluye la columna del checkbox
+                    const nuevaCelda = nuevaFila.insertCell();
+                    if (index == 1) {
+                        nuevaCelda.style.textAlign = 'right';
+                    }
+                    nuevaCelda.innerHTML = cell.innerText;
+                    if (index == 1) {
+                        const nuevaCelda = nuevaFila.insertCell();
+                        nuevaCelda.innerHTML = '0.00'
+                        nuevaCelda.style.textAlign = 'right';
+                    }
+                }
+                if (index == 8) {
+                    const nuevaCelda = nuevaFila.insertCell();
+                    nuevaCelda.innerHTML = cell.innerText;
+                    nuevaCelda.style.display = 'none'
+                }
+            });
+        }
+    });
+}
+function calcula_precio_nuevo() {
+    const tablaModal = document.getElementById('articulos_sel');
+    const margen = document.getElementById('margenPorcentaje');
+    // Limpia la tabla del modal para evitar duplicados
+    var precionuevo = 0
+    var multi = (margen.value * 0.01) + 1
+    // Recorre todas las filas de la tabla original
+    Array.from(tablaModal.rows).forEach(row => {
+            Array.from(row.cells).forEach((cell, index) => {
+                if (index == 1) {
+                    const precioOriginal = parseFloat(cell.innerHTML.replace('.', '').replace(',', '.')); // Convertir a número
+                    precionuevo = precioOriginal * multi;
+                }
+                if (index == 2) {  
+                    cell.innerHTML = formatNumberToEuropeanStyle(precionuevo)
+                }
+            });
+    });
+}
+function formatNumberToEuropeanStyle(number) {
+    // Convertir el número a un string con 2 decimales
+    const formattedNumber = number.toFixed(2);
+    
+    // Reemplazar el punto decimal con una coma
+    const parts = formattedNumber.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    
+    return parts.join(',');
+}
 </script>
 <script>
     $(document).ready(function (){
