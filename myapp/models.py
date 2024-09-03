@@ -28,41 +28,26 @@ class formaspago(models.Model):
 
 class tipomovimientos(models.Model):
     TIPO_CHOICES = [
-        ('entradast', 'Compra'), #sst codigo que indica que se SUMA al stock lo entrado por sistema
-        ('salidast', 'Venta'), #rst codigo que indica que se le debe RESTA al stock lo entrado por sistema
-        ('regulast', 'Regularizacion Stock'), #ast codigo que indica que se ACTUALIZA el stock a lo entrado por sistema
-        ('traspado', 'Traspaso empresas'),  
-        ('subaprecio', 'Subir Precio'), #spr codigo que indica que se SUBE el precio el porcentaje entrado por pantalla
-        ('bajaprecio', 'Bajar Precio'), #rpr codigo que indica que se SUBE el precio el porcentaje entrado por pantalla
+        ('entrada', 'Entrada'),
+        ('salida', 'Salida'),
+        ('regularizacion', 'Regularización'),
     ]
 
-    TIPO_CODIGO_MAP = {
-        'entradast': 'sst',
-        'salidast': 'rst',
-        'regulast': 'ast',
-        'traspado': 'rst',
-        'subaprecio': 'spr',
-        'bajaprecio': 'rpr',
-    }
+    MOTIVO_CHOICES = [
+        ('compra', 'Compra'),  # Entrada
+        ('traspaso_entrada', 'Traspaso desde'),  # Entrada
+        ('venta', 'Venta'),  # Salida
+        ('traspaso_salida', 'Traspaso a'),  # Salida
+        ('ajuste', 'Ajuste de stock'),  # Regularización
+    ]
 
-    nombre = models.CharField(max_length=100)
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
-    mov_st_pr = models.CharField(max_length=10, default='') #codgio de movimiento sobre stock o precio
-    ''' codigos : sst codigo que indica que se SUMA al stock lo entrado por sistema
-        rst codigo que indica que se le debe RESTA al stock lo entrado por sistema
-        ast codigo que indica que se ACTUALIZA el stock a lo entrado por sistema
-        spr codigo que indica que se SUBE el precio el porcentaje entrado por pantalla
-        rpr codigo que indica que se SUBE el precio el porcentaje entrado por pantalla'''
-
-    def save(self, *args, **kwargs):
-        # Completa el campo `mov_st_pr` basado en `tipo`
-        if self.tipo in self.TIPO_CODIGO_MAP:
-            self.mov_st_pr = self.TIPO_CODIGO_MAP[self.tipo]
-        super().save(*args, **kwargs)    
+    motivo = models.CharField(max_length=30, choices=MOTIVO_CHOICES, default=None)
+    descripcion = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.nombre} ({self.tipo})"
-
+        return f"{self.get_tipo_display()} - {self.get_motivo_display()}"
+    
 class empresas(models.Model):
     name = models.CharField(max_length=255,blank=False, null=False)
     dtoefectvo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)   # Porcentaje de descuento por pago en efectivo
@@ -146,8 +131,8 @@ class cabecera_venta(models.Model):
 class hist_movart(models.Model):
     articulo = models.ForeignKey(articulos, on_delete=models.CASCADE, null=False)
     fechamov = models.DateField()
-    tipomov = models.ForeignKey(tipomovimientos, on_delete=models.CASCADE, null=False)
-    numdoc = models.CharField(max_length = 50, default=0) #este campo representa numero tique venta o numero de remito o factura de compra
+    tipomov = models.CharField(max_length=20, null=False)
+    numdoc = models.CharField(max_length = 50, default=0) #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
     cantidad = models.DecimalField(max_digits =  7, decimal_places = 2, default=0.00)
     precioactual = models.DecimalField(max_digits =  11, decimal_places = 2, default=0) 
     porprecio = models.DecimalField(max_digits=5, decimal_places=2, default=0.00) #porcentaje de suba o baja de precio

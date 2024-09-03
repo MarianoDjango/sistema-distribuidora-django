@@ -10,8 +10,8 @@
     .content {
         margin-left: 200px; /* Ancho equivalente al de la barra de navegación */
     }
-</style>
 
+</style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="nav nav-tabs">
         {% for empresa in empresas %}
@@ -121,9 +121,10 @@
             {% endif %}
             <div class="row">
                 <div class="col-12">
-                    <table class="table table-striped shadow p-3 mb-5 bg-body-tertiary rounded" id="tableart">
+                    <table class="table" id="tableart">
                         <thead>
                             <tr>
+                                <th scope="col">Sel.</th>
                                 <th scope="col">Descripcion</th>
                                 <th class="text-center" scope="col">Precio</th>
                                 <th class="text-center" scope="col">Fecha P.</th>
@@ -137,16 +138,188 @@
                     </table>
                 </div>
             </div>
+            <!-- Modal para Regularizacion de Stock -->
+            <div class="modal fade" id="regularizaStockModal" tabindex="-1" role="dialog" aria-labelledby="movimientoStockModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="regularizaStockModalLabel">Regularizacion de Stock</h5>
+                            
+                        </div>
+                        <div class="modal-body">
+                            <form id="formregularizaStock">
+                                <div class="form-group mb-3">
+                                    <input type="hidden" class="form-control" id="idartr">
+                                    <h2 id="descriartr"></h2>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="tipoMovimiento">Tipo de Movimiento</label>
+                                    <select class="form-control" id="tipoMovimientor">
+                                        <option value="regularizacion" selected>Regularización</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="motivoMovimiento">Motivo del Movimiento</label>
+                                    <select class="form-control" id="motivoMovimientor">
+                                        <option value="ajuste" selected>Ajuste de stock</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="cantidadMovimiento">Cantidad</label>
+                                    <input type="number" step="1.00" class="form-control" id="cantidadMovimientor" style="text-align: right;" placeholder="0.00" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="guardarregularizaStock">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal para Entrada de Stock -->
+            <div class="modal fade" id="entradaStockModal" tabindex="-1" role="dialog" aria-labelledby="entradaStockModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="entradaStockModalLabel">Regularizacion de Stock</h5>
+                            
+                        </div>
+                        <div class="modal-body">
+                            <form id="formentradaStock">
+                                <div class="form-group mb-3">
+                                    <input type="hidden" class="form-control" id="idarte">
+                                    <h2 id="descriarte"></h2>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="tipoMovimiento">Tipo de Movimiento</label>
+                                    <select class="form-control" id="tipoMovimientoe">
+                                        <option value="regularizacion" selected>Regularización</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="motivoMovimiento">Motivo del Movimiento</label>
+                                    <select class="form-control" id="motivoMovimientoe">
+                                        <option value="ajuste" selected>Ajuste de stock</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="cantidadMovimiento">Cantidad</label>
+                                    <input type="number" step="1.00" class="form-control" id="cantidadMovimientoe" style="text-align: right;" placeholder="0.00" required>
+                                </div>
+                                <div class="form-group mb-3" id="precioCompraGroup" style="display: none;">
+                                    <label for="precioCompra">Precio de Compra</label>
+                                    <input type="number" step="1.00" class="form-control" id="precioComprae">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="guardarentradaStock">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal para Salida de Stock -->
+            <div class="modal fade" id="salidaStockModal" tabindex="-1" role="dialog" aria-labelledby="movimientoStockModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="salidaStockModalLabel">Regularizacion de Stock</h5>
+                            
+                        </div>
+                        <div class="modal-body">
+                            <form id="formsalidaStock">
+                                <div class="form-group mb-3">
+                                    <input type="hidden" class="form-control" id="idarts">
+                                    <h2 id="descriarts"></h2>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="tipoMovimiento">Tipo de Movimiento</label>
+                                    <select class="form-control" id="tipoMovimientos">
+                                        <option value="regularizacion" selected>Regularización</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="motivoMovimiento">Motivo del Movimiento</label>
+                                    <select class="form-control" id="motivoMovimientos">
+                                        <option value="ajuste" selected>Ajuste de stock</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="cantidadMovimiento">Cantidad</label>
+                                    <input type="number" step="1.00" class="form-control" id="cantidadMovimientos" style="text-align: right;" placeholder="0.00" required>
+                                </div>
+                                <div class="form-group mb-3" id="precioCompraGroup" style="display: none;">
+                                    <label for="precioCompra">Precio de Compra</label>
+                                    <input type="number" step="1.00" class="form-control" id="precioCompras">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="guardarsalidaStock">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 </div>
 <script src="{% static 'js/articulos.js' %}"></script>
 <script>
-    document.getElementById('guardarprecio').addEventListener('click', () => {
+document.addEventListener("click", function(e) {
+    const target = e.target;
+    // Verifica si el clic fue en el botón o en un hijo del botón
+    if (target.classList.contains("actualizar-stock") || target.closest(".actualizar-stock")) {
+        const boton = target.closest(".actualizar-stock"); // Obtén el botón
+        const idArticulo = boton.getAttribute("data-id-articulo");
+        const descripcion = document.getElementById(`descri${idArticulo}`);
+        // Lógica para abrir el modal
+        const idart_modal = document.getElementById('idartr')
+        idart_modal.innerText = idArticulo
+        const descriart_modal = document.getElementById('descriartr')
+        descriart_modal.innerHTML = descripcion.textContent;
+        $("#regularizaStockModal").modal("show");
+    }
+});
+
+document.addEventListener("click", function(e) {
+    const target = e.target;
+    // Verifica si el clic fue en el botón o en un hijo del botón
+    if (target.classList.contains("entrada-stock") || target.closest(".entrada-stock")) {
+        const boton = target.closest(".entrada-stock"); // Obtén el botón
+        const idArticulo = boton.getAttribute("data-id-articulo");
+        const descripcion = document.getElementById(`descri${idArticulo}`);
+        // Lógica para abrir el modal
+        const idart_modal = document.getElementById('idarte')
+        idart_modal.innerText = idArticulo
+        const descriart_modal = document.getElementById('descriarte')
+        descriart_modal.innerHTML = descripcion.textContent;
+        $("#entradaStockModal").modal("show");
+    }
+});
+
+document.addEventListener("click", function(e) {
+    const target = e.target;
+    // Verifica si el clic fue en el botón o en un hijo del botón
+    if (target.classList.contains("salida-stock") || target.closest(".salida-stock")) {
+        const boton = target.closest(".salida-stock"); // Obtén el botón
+        const idArticulo = boton.getAttribute("data-id-articulo");
+        const descripcion = document.getElementById(`descri${idArticulo}`);
+        // Lógica para abrir el modal
+        const idart_modal = document.getElementById('idarts')
+        idart_modal.innerText = idArticulo
+        const descriart_modal = document.getElementById('descriarts')
+        descriart_modal.innerHTML = descripcion.textContent;
+        $("#salidaStockModal").modal("show");
+    }
+});
+
+document.getElementById('guardarprecio').addEventListener('click', () => {
     const tablaModal = document.getElementById('articulos_sel');
     const articulosActualizados = [];
-    const margenPorcentaje = document.getElementById('margenPorcentaje');
-    console.log(margenPorcentaje)
+    const margen = document.getElementById('margenPorcentaje');
     Array.from(tablaModal.rows).forEach((row, rowIndex) => {
         //if (rowIndex === 0) return; // Saltar la fila de encabezado, si existe
 
@@ -154,7 +327,7 @@
         const nuevoPrecio = parseFloat(row.cells[2].innerText.replace('.', '').replace(',', '.'));  // Suponiendo que el nuevo precio está en la tercera celda y formateado como "9.999,00"
 
         // Agregar artículo a la lista con el ID y el nuevo precio
-        articulosActualizados.push({ id: articuloId, nuevo_precio: nuevoPrecio, pocentaje : margenPorcentaje });
+        articulosActualizados.push({ id: articuloId, nuevo_precio: nuevoPrecio, porcentaje : margen.value });
     });
 
     // Enviar la lista de artículos actualizados al servidor usando AJAX
@@ -174,10 +347,13 @@
             alert('¡Precios actualizados con éxito!');
             const btnCambioprecio = document.getElementById('cambioprecio');
             const margenPorcentaje = document.getElementById('margenPorcentaje');
+            const btnselall = document.getElementById('toggleSeleccion')
             btnCambioprecio.disabled = true
             margenPorcentaje.innerHTML = '0,00'
             // actualizo dashboard
             buscart();
+            btnCambioprecio.disabled = true
+            btnselall.textContent = "Seleccionar Todos"
         } else {
             alert('Error al actualizar los precios. Por favor, inténtalo de nuevo.');
         }
