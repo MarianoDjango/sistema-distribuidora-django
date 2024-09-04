@@ -150,18 +150,14 @@
                             <form id="formregularizaStock">
                                 <div class="form-group mb-3">
                                     <input type="hidden" class="form-control" id="idartr">
-                                    <h2 id="descriartr"></h2>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="tipoMovimiento">Tipo de Movimiento</label>
-                                    <select class="form-control" id="tipoMovimientor">
-                                        <option value="regularizacion" selected>Regularización</option>
-                                    </select>
+                                    <h3 id="descriartr"></h3>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="motivoMovimiento">Motivo del Movimiento</label>
-                                    <select class="form-control" id="motivoMovimientor">
-                                        <option value="ajuste" selected>Ajuste de stock</option>
+                                    <select class="form-control" id="motivoMovimientor" disabled>
+                                        {% for motivo in motivos_regularizacion %}                                                
+                                            <option value="{{ motivo }}">{{ motivo.get_motivo_display }}</option>
+                                        {% endfor %}        
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
@@ -182,34 +178,40 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="entradaStockModalLabel">Regularizacion de Stock</h5>
+                            <h5 class="modal-title" id="entradaStockModalLabel">Entrada de Stock</h5>
                             
                         </div>
                         <div class="modal-body">
                             <form id="formentradaStock">
                                 <div class="form-group mb-3">
                                     <input type="hidden" class="form-control" id="idarte">
-                                    <h2 id="descriarte"></h2>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="tipoMovimiento">Tipo de Movimiento</label>
-                                    <select class="form-control" id="tipoMovimientoe">
-                                        <option value="regularizacion" selected>Regularización</option>
-                                    </select>
+                                    <h3 id="descriarte"></h3>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="motivoMovimiento">Motivo del Movimiento</label>
                                     <select class="form-control" id="motivoMovimientoe">
-                                        <option value="ajuste" selected>Ajuste de stock</option>
+                                        {% for motivo in motivos_entrada %}                                                
+                                            <option value="{{ key }}">{{ motivo.get_motivo_display }}</option>
+                                        {% endfor %}        
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="empresaOrigen">Empresa Origen</label>
+                                    <select class="form-control" id="empresaOrigen">
+                                        {% for empresa in empresas %}
+                                            {% if empresa.id != id_empresa %}                                                
+                                                <option value="{{ key }}">{{ empresa.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}        
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="cantidadMovimiento">Cantidad</label>
                                     <input type="number" step="1.00" class="form-control" id="cantidadMovimientoe" style="text-align: right;" placeholder="0.00" required>
                                 </div>
-                                <div class="form-group mb-3" id="precioCompraGroup" style="display: none;">
+                                <div class="form-group mb-3" id="precioCompraGroup">
                                     <label for="precioCompra">Precio de Compra</label>
-                                    <input type="number" step="1.00" class="form-control" id="precioComprae">
+                                    <input type="number" step="1.00" class="form-control" id="precioComprae" style="text-align: right;"/>
                                 </div>
                             </form>
                         </div>
@@ -225,34 +227,36 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="salidaStockModalLabel">Regularizacion de Stock</h5>
+                            <h5 class="modal-title" id="salidaStockModalLabel">Salida de Stock</h5>
                             
                         </div>
                         <div class="modal-body">
                             <form id="formsalidaStock">
                                 <div class="form-group mb-3">
                                     <input type="hidden" class="form-control" id="idarts">
-                                    <h2 id="descriarts"></h2>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="tipoMovimiento">Tipo de Movimiento</label>
-                                    <select class="form-control" id="tipoMovimientos">
-                                        <option value="regularizacion" selected>Regularización</option>
-                                    </select>
+                                    <h3 id="descriarts"></h3>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="motivoMovimiento">Motivo del Movimiento</label>
-                                    <select class="form-control" id="motivoMovimientos">
-                                        <option value="ajuste" selected>Ajuste de stock</option>
+                                    <select class="form-control" id="motivoMovimientos" disabled>
+                                        {% for motivo in motivos_salida %}                                                
+                                            <option value="{{ motivo }}">{{ motivo.get_motivo_display }}</option>
+                                        {% endfor %}        
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="empresaDestino">Empresa</label>
+                                    <select class="form-control" id="empresaDestino">
+                                        {% for empresa in empresas %}
+                                            {% if empresa.id != id_empresa %}                                                
+                                                <option value="{{ key }}">{{ empresa.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}        
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="cantidadMovimiento">Cantidad</label>
                                     <input type="number" step="1.00" class="form-control" id="cantidadMovimientos" style="text-align: right;" placeholder="0.00" required>
-                                </div>
-                                <div class="form-group mb-3" id="precioCompraGroup" style="display: none;">
-                                    <label for="precioCompra">Precio de Compra</label>
-                                    <input type="number" step="1.00" class="form-control" id="precioCompras">
                                 </div>
                             </form>
                         </div>
@@ -275,6 +279,7 @@ document.addEventListener("click", function(e) {
         const boton = target.closest(".actualizar-stock"); // Obtén el botón
         const idArticulo = boton.getAttribute("data-id-articulo");
         const descripcion = document.getElementById(`descri${idArticulo}`);
+        
         // Lógica para abrir el modal
         const idart_modal = document.getElementById('idartr')
         idart_modal.innerText = idArticulo
@@ -295,7 +300,20 @@ document.addEventListener("click", function(e) {
         const idart_modal = document.getElementById('idarte')
         idart_modal.innerText = idArticulo
         const descriart_modal = document.getElementById('descriarte')
-        descriart_modal.innerHTML = descripcion.textContent;
+        descriart_modal.innerHTML = descripcion.textContent;    
+
+        const fila = boton.closest("tr"); 
+    
+    // Encuentra la celda de precio de compra en la misma fila
+        const precioCompraCelda = fila.querySelector(".preciocompra");
+        
+        // Recupera el valor del precio de compra de la celda
+        const precio_compra = precioCompraCelda.textContent; 
+
+        const precio_compra_num = precio_compra.replace(/\./g, '').replace(',', '.');
+        const precio_compra_modal = document.getElementById('precioComprae');
+        precio_compra_modal.value = parseFloat(precio_compra_num);
+        console.log(precio_compra)
         $("#entradaStockModal").modal("show");
     }
 });
@@ -462,6 +480,66 @@ function calcula_precio_nuevo() {
             });
     });
 }
+function guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, precioCompra) {
+    // Configura los datos a enviar
+    const datos = {
+        empresa : empresa,
+        id_articulo : id_articulo,
+        tipo_movimiento: tipoMovimiento,
+        motivo: motivo,
+        cantidad: cantidad,
+        precio_compra: precioCompra
+    };
+
+    // Envía la solicitud a la URL para guardar el movimiento en la base de datos
+    fetch('/myapp/guardar_movimiento/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(datos)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Éxito:', data);
+        // Maneja la respuesta aquí (por ejemplo, cierra el modal y muestra un mensaje)
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Maneja el error aquí
+    });
+}
+document.getElementById('guardarregularizaStock').addEventListener('click', function() {
+    const tipoMovimiento = 'Regularizacion';
+    const id_articulo = document.getElementById('idartr').innerText;
+    const motivo = document.getElementById('motivoMovimientor').value;
+    const cantidad = document.getElementById('cantidadMovimientor').value;
+
+    guardarMovimiento('0', id_articulo, tipoMovimiento, motivo, cantidad, 0);
+});
+
+document.getElementById('guardarentradaStock').addEventListener('click', function() {
+    const tipoMovimiento = 'Entrada';
+    const id_articulo = document.getElementById('idarte').value;
+    const empresa = document.getElementById('empresaOrigen').value;
+    const motivo = document.getElementById('motivoMovimientoe').value;
+    const cantidad = document.getElementById('cantidadEntrada').value;
+    const precioCompra = document.getElementById('precioComprae').value;
+
+    guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, precioCompra);
+});
+
+document.getElementById('guardarsalidaStock').addEventListener('click', function() {
+    const tipoMovimiento = 'Salida';
+    const id_articulo = document.getElementById('idarts').value;
+    const empresa = document.getElementById('empresaDestino').value;
+    const motivo = document.getElementById('motivoMovimientos').value;
+    const cantidad = document.getElementById('cantidadSalida').value;
+
+    guardarMovimiento(empresa, id_articulo, motivo, cantidad, 0);
+});
+
 function formatNumberToEuropeanStyle(number) {
     // Convertir el número a un string con 2 decimales
     const formattedNumber = number.toFixed(2);

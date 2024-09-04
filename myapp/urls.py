@@ -8,4 +8,5 @@ urlpatterns = [
     path('familias/', views.famlias_empresa, name='articfam'),
     path('articulo/<id_empresa>/<pk>/', views.articulo_create_or_update, name='article-detail'),
     path('actualizar_precios/', views.actualizar_precios, name='updateprices'),
+    path('guardar_movimiento/', views.guardar_movs_stock, name='updatestocks'),
 ]

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .models import empresas, familias, articulos, hist_movart, tipomovimientos
 import json
@@ -37,9 +38,9 @@ def articulos_famila(request, **kwargs):
         nombre_var = request.GET['nombre']
         idempresa_var = request.GET['idempresa']
         if nombre_var == "":
-            articles = articulos.objects.filter(familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia' )
+            articles = articulos.objects.filter(familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra' )
         else:
-            articles = articulos.objects.filter(familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock')
+            articles = articulos.objects.filter(familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'precio_compra')
         familia = familias.objects.get(id=int(familia_id))
         recs.append(json_list)
         for articulo in articles:
@@ -57,6 +58,7 @@ def articulos_famila(request, **kwargs):
                 fila += f'<td class="text-end"><button class="btn btn-success entrada-stock" title="Entrada Stock" data-id-articulo="' +  id_articulo + '" data-toggle="modal" data-target="#movimientoStockModal"><i class="bi bi-window-plus"></i><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-window-plus" viewBox="0 0 16 16"><path d="M2.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1M4 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/><path d="M0 4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v4a.5.5 0 0 1-1 0V7H1v5a1 1 0 0 0 1 1h5.5a.5.5 0 0 1 0 1H2a2 2 0 0 1-2-2zm1 2h13V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1z"/><path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5"/></svg></i></button></td>'
                 fila += f'<td class="text-end"><button class="btn btn-danger salida-stock" title="Salida Stock" data-id-articulo="' +  id_articulo + '" data-toggle="modal" data-target="#movimientoStockModal"><i class="bi bi-window-dash"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-window-dash" viewBox="0 0 16 16"><path d="M2.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1M4 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/><path d="M0 4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v4a.5.5 0 0 1-1 0V7H1v5a1 1 0 0 0 1 1h5.5a.5.5 0 0 1 0 1H2a2 2 0 0 1-2-2zm1 2h13V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1z"/><path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-5.5 0a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5"/></svg></i></button></td>'
                 fila += f'<td class="text-end"><button class="btn btn-secondary actualizar-stock" title="Regularizar Stock" data-id-articulo="' +  id_articulo + '" data-toggle="modal" data-target="#movimientoStockModal"><i class="bi bi-boxes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16"><path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/></svg></i></button></td>'
+                fila += '<td class="text-center preciocompra" style="display : none;">' + '{:,.2f}'.format(articulo['precio_compra']).replace(",", "@").replace(".", ",").replace("@", ".") + '</td>'
             else:
                 fila += '<td>'+ articulo['descripcion'] + '</td>'
                 fila += '<td class="text-end">{:,.2f}'.format(articulo['precio_venta']).replace(",", "@").replace(".", ",").replace("@", ".") + '</td>'
@@ -77,23 +79,32 @@ class dashboard_view(LoginRequiredMixin,View):
     login_url = '/accounts/login/'
 
     def get(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            context = {}
-        else:
-            empresa_id = kwargs['id_empresa']
-            empresa_obj = get_object_or_404(empresas, id=empresa_id)
-            companies_var = empresas.objects.all()  # Obtenemos todas las empresas
-            empresa_user = self.request.user.perfil.idempresa.id
-            nomempresa_user = self.request.user.perfil.idempresa.name
-            familias_var = familias.objects.filter(idempresa=empresa_id)
-            familia = familias_var[0]
-            
-            context = {'empresas': companies_var, 'id_empresa':int(empresa_id),'nomempresa' : empresa_obj.name,  'id_familia' : familia.id, 'familia_nom' : familia.nombre }
+        empresa_id = kwargs['id_empresa']
+        empresa_obj = get_object_or_404(empresas, id=empresa_id)
+        companies_var = empresas.objects.all()  # Obtenemos todas las empresas
+        empresa_user = self.request.user.perfil.idempresa.id
+        nomempresa_user = self.request.user.perfil.idempresa.name
+        familias_var = familias.objects.filter(idempresa=empresa_id)
+        familia = familias_var[0]
+        motivos_entrada = tipomovimientos.objects.filter(tipo='entrada')
+        motivos_salida = tipomovimientos.objects.filter(tipo='salida').exclude(motivo='venta')
+        motivos_regularizacion = tipomovimientos.objects.filter(tipo='regularizacion')
+
+        context = {'empresas': companies_var,
+                    'id_empresa':int(empresa_id),
+                    'nomempresa' : empresa_obj.name, 
+                    'id_familia' : familia.id,
+                    'familia_nom' : familia.nombre,
+                    'motivos_entrada': motivos_entrada,
+                    'motivos_salida': motivos_salida,
+                    'motivos_regularizacion': motivos_regularizacion
+        }
 
         return render(self.request, self.template_name, context)
 
+@login_required
 def articulo_create_or_update(request, **kwargs):
-    if request.user.is_authenticated:
+    #if request.user.is_authenticated:
         if request.user.perfil.idempresa.id == int(kwargs['id_empresa']) or request.user.is_staff:
             if kwargs['pk'] != '0':
                 articulo = get_object_or_404(articulos, pk=kwargs['pk'])
@@ -118,8 +129,9 @@ def articulo_create_or_update(request, **kwargs):
 
         return render(request, 'myapp/articulo_form.html', {'form': form})
     
-    return redirect('login')
+    #return redirect('login')
 
+@login_required
 def actualizar_precios(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -142,6 +154,70 @@ def actualizar_precios(request):
                 articulo.precio_venta = articulo_data['nuevo_precio']
                 articulo.fecha_precio = datetime.datetime.today().date()                
                 articulo.save()
+
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'message': 'Método no permitido.'})
+
+@login_required
+def guardar_movs_stock(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        empresa = data.get('empresa')
+        idarticulo_var = data.get('id_articulo')
+        tipomov_var = data.get('tipo_movimiento')
+        motivo_var = data.get('motivo')
+        cantidad_var = data.get('cantidad')
+        preciocompra_var = data.get('precio_compra')
+
+        articulo = articulos.objects.get(pk=idarticulo_var)
+        histo_mov = hist_movart()
+        histo_mov.articulo = articulo
+        histo_mov.fechamov = datetime.datetime.today().date()
+        if tipomov_var == 'Regularizacion':                
+            histo_mov.tipomov = motivo_var
+            histo_mov.numdoc = '' #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
+            histo_mov.cantidad = cantidad_var
+            histo_mov.stockactual = articulo.stock
+            histo_mov.nuevostock = cantidad_var
+            histo_mov.usuario = request.user
+            histo_mov.save()
+                
+            articulo.stock = cantidad_var
+            articulo.fecha_stock = datetime.datetime.today().date()                
+            articulo.save()
+        if tipomov_var == 'Entrada':                
+            histo_mov.tipomov = motivo_var
+            histo_mov.cantidad = cantidad_var
+            histo_mov.usuario = request.user
+            histo_mov.stockactual = articulo.stock
+            histo_mov.nuevostock = cantidad_var + articulo.stock
+            if motivo_var == "Compra":
+                histo_mov.numdoc = '' #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
+                histo_mov.precioactual = articulo.precio_compra
+                histo_mov.porprecio = 0
+                histo_mov.nuevoprecio = preciocompra_var
+            if 'Traspaso' in motivo_var:
+                histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
+                histo_mov.precioactual = articulo.precio_compra
+                histo_mov.porprecio = 0
+                histo_mov.nuevoprecio = preciocompra_var
+            histo_mov.save()
+                
+            articulo.stock = cantidad_var + articulo.stock
+            articulo.fecha_stock = datetime.datetime.today().date()                
+            articulo.save()
+        if tipomov_var == 'Salida':                
+            histo_mov.tipomov = motivo_var
+            histo_mov.numdoc = '' #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
+            histo_mov.cantidad = cantidad_var
+            histo_mov.stockactual = articulo.stock
+            histo_mov.nuevostock = articulo.stock - cantidad_var
+            histo_mov.usuario = request.user
+            histo_mov.save()
+                
+            articulo.stock = articulo.stock - cantidad_var
+            articulo.fecha_stock = datetime.datetime.today().date()                
+            articulo.save()
 
         return JsonResponse({'success': True})
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})

@@ -46,7 +46,7 @@ class tipomovimientos(models.Model):
     descripcion = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.get_tipo_display()} - {self.get_motivo_display()}"
+        return f"{self.get_motivo_display()}"
     
 class empresas(models.Model):
     name = models.CharField(max_length=255,blank=False, null=False)
