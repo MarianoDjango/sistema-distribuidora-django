@@ -82,11 +82,11 @@
                 <a class="btn btn-primary" href="{% url 'article-detail' id_empresa 0 %}">Nuevo</a>
                 <button class="btn btn-primary" id="toggleSeleccion">Seleccionar Todos</button>
                 <!-- Button trigger modal -->
-                <button type="button" id="cambioprecio" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled>
+                <button type="button" id="cambioprecio" class="btn btn-primary btn-cambiarprecios" data-toggle="modal" data-target="#exampleModal">
                     Cambiar Precios</button>
                 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -189,15 +189,15 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="motivoMovimiento">Motivo del Movimiento</label>
-                                    <select class="form-control" id="motivoMovimientoe">
+                                    <select class="form-control" id="motivoMovimientoe" onchange="manejar_disabled_compra()">
                                         {% for motivo in motivos_entrada %}                                                
-                                            <option value="{{ key }}">{{ motivo.get_motivo_display }}</option>
+                                            <option value="{{ motivo }}">{{ motivo.get_motivo_display }}</option>
                                         {% endfor %}        
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="empresaOrigen">Empresa Origen</label>
-                                    <select class="form-control" id="empresaOrigen">
+                                    <select class="form-control" id="empresaOrigen" disabled>
                                         {% for empresa in empresas %}
                                             {% if empresa.id != id_empresa %}                                                
                                                 <option value="{{ key }}">{{ empresa.name }}</option>
@@ -207,11 +207,15 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="cantidadMovimiento">Cantidad</label>
-                                    <input type="number" step="1.00" class="form-control" id="cantidadMovimientoe" style="text-align: right;" placeholder="0.00" required>
+                                    <input type="number"  class="form-control" id="cantidadMovimientoe" style="text-align: right;" placeholder="0.00" required>
                                 </div>
                                 <div class="form-group mb-3" id="precioCompraGroup">
                                     <label for="precioCompra">Precio de Compra</label>
-                                    <input type="number" step="1.00" class="form-control" id="precioComprae" style="text-align: right;"/>
+                                    <input type="number" step="1.00" class="form-control" id="precioComprae" style="text-align: right;" placeholder="0.00" required/>
+                                </div>
+                                <div class="form-group mb-3" id="docGroup">
+                                    <label for="documentoe">Factura/Remito Compra </label>
+                                    <input type="text" class="form-control" id="documentoe"/>
                                 </div>
                             </form>
                         </div>
@@ -279,7 +283,8 @@ document.addEventListener("click", function(e) {
         const boton = target.closest(".actualizar-stock"); // Obtén el botón
         const idArticulo = boton.getAttribute("data-id-articulo");
         const descripcion = document.getElementById(`descri${idArticulo}`);
-        
+        const cantidad = document.getElementById('cantidadMovimientor')
+        cantidad.value = ''
         // Lógica para abrir el modal
         const idart_modal = document.getElementById('idartr')
         idart_modal.innerText = idArticulo
@@ -301,6 +306,10 @@ document.addEventListener("click", function(e) {
         idart_modal.innerText = idArticulo
         const descriart_modal = document.getElementById('descriarte')
         descriart_modal.innerHTML = descripcion.textContent;    
+        const cantidad = document.getElementById('cantidadMovimientoe')
+        cantidad.value = ''
+        const documentoe = document.getElementById('documentoe')
+        documentoe.value = ''
 
         const fila = boton.closest("tr"); 
     
@@ -313,7 +322,6 @@ document.addEventListener("click", function(e) {
         const precio_compra_num = precio_compra.replace(/\./g, '').replace(',', '.');
         const precio_compra_modal = document.getElementById('precioComprae');
         precio_compra_modal.value = parseFloat(precio_compra_num);
-        console.log(precio_compra)
         $("#entradaStockModal").modal("show");
     }
 });
@@ -330,15 +338,38 @@ document.addEventListener("click", function(e) {
         idart_modal.innerText = idArticulo
         const descriart_modal = document.getElementById('descriarts')
         descriart_modal.innerHTML = descripcion.textContent;
+        const cantidad = document.getElementById('cantidadMovimientos')
+        cantidad.value = ''
+
         $("#salidaStockModal").modal("show");
     }
 });
-
+document.addEventListener("click", function(e) {
+    const target = e.target;
+    // Verifica si el clic fue en el botón o en un hijo del botón
+    if (target.classList.contains("btn-cambiarprecios")) {
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        var anyselected = false
+        // Itera sobre los checkboxes y los marca como 'checked'
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                anyselected = true;
+            }
+        });
+        if (anyselected){
+            moverFilasSeleccionadas(); // Llamar a la función que mueve las filas seleccionadas
+            $("#exampleModal").modal("show");
+        } else {
+            alert('Seleccione al menos un Articulo')
+        }
+    }
+});
 document.getElementById('guardarprecio').addEventListener('click', () => {
     const tablaModal = document.getElementById('articulos_sel');
     const articulosActualizados = [];
     const margen = document.getElementById('margenPorcentaje');
-    Array.from(tablaModal.rows).forEach((row, rowIndex) => {
+    if (margen.value !='0' && margen.value != ''){
+        Array.from(tablaModal.rows).forEach((row, rowIndex) => {
         //if (rowIndex === 0) return; // Saltar la fila de encabezado, si existe
 
         const articuloId = row.cells[3].innerText;  // Suponiendo que el ID del artículo está en la primera celda
@@ -346,37 +377,39 @@ document.getElementById('guardarprecio').addEventListener('click', () => {
 
         // Agregar artículo a la lista con el ID y el nuevo precio
         articulosActualizados.push({ id: articuloId, nuevo_precio: nuevoPrecio, porcentaje : margen.value });
-    });
+        });
 
-    // Enviar la lista de artículos actualizados al servidor usando AJAX
-    fetch('/myapp/actualizar_precios/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')  // Incluye el token CSRF si usas Django
-        },
-        body: JSON.stringify({ articulos: articulosActualizados })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Cerrar el modal al completar la actualización
-            $('#exampleModal').modal('hide');
-            alert('¡Precios actualizados con éxito!');
-            const btnCambioprecio = document.getElementById('cambioprecio');
-            const margenPorcentaje = document.getElementById('margenPorcentaje');
-            const btnselall = document.getElementById('toggleSeleccion')
-            btnCambioprecio.disabled = true
-            margenPorcentaje.innerHTML = '0,00'
-            // actualizo dashboard
-            buscart();
-            btnCambioprecio.disabled = true
-            btnselall.textContent = "Seleccionar Todos"
-        } else {
-            alert('Error al actualizar los precios. Por favor, inténtalo de nuevo.');
-        }
-    })
-    .catch(error => console.error('Error al actualizar precios:', error));
+        // Enviar la lista de artículos actualizados al servidor usando AJAX
+        fetch('/myapp/actualizar_precios/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Incluye el token CSRF si usas Django
+            },
+            body: JSON.stringify({ articulos: articulosActualizados })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Cerrar el modal al completar la actualización
+                $('#exampleModal').modal('hide');
+                alert('¡Precios actualizados con éxito!');
+                const btnCambioprecio = document.getElementById('cambioprecio');
+                const margenPorcentaje = document.getElementById('margenPorcentaje');
+                const btnselall = document.getElementById('toggleSeleccion')
+                margenPorcentaje.innerHTML = '0,00'
+                // actualizo dashboard
+                buscart();
+                btnselall.textContent = "Seleccionar Todos"
+            } else {
+                alert('Error al actualizar los precios. Por favor, inténtalo de nuevo.');
+            }
+        })
+        .catch(error => console.error('Error al actualizar precios:', error));
+    } else {
+        alert('Porcentaje de Subida no puede ser 0')
+    }
+
 });
 
 // Función para obtener el token CSRF si usas Django
@@ -427,7 +460,7 @@ function moverFilasSeleccionadas() {
     const tablaModal = document.getElementById('articulos_sel');
     // Limpia la tabla del modal para evitar duplicados
     tablaModal.innerHTML = "";
-
+    var checked = false 
     // Recorre todas las filas de la tabla original
     Array.from(tablaOriginal.rows).forEach(row => {
         // Encuentra el checkbox en la fila actual
@@ -437,22 +470,22 @@ function moverFilasSeleccionadas() {
         if (checkbox && checkbox.checked) {
             // Crea una nueva fila en la tabla del modal
             const nuevaFila = tablaModal.insertRow();
-
+            checked = true
             // Copia el contenido de las celdas de la fila original
             Array.from(row.cells).forEach((cell, index) => {
-                if (index == 0 || index == 1) {  // Excluye la columna del checkbox
+                if (index == 1 || index == 2) {  // Excluye la columna del checkbox
                     const nuevaCelda = nuevaFila.insertCell();
-                    if (index == 1) {
+                    if (index == 2) {
                         nuevaCelda.style.textAlign = 'right';
                     }
                     nuevaCelda.innerHTML = cell.innerText;
-                    if (index == 1) {
+                    if (index == 2) {
                         const nuevaCelda = nuevaFila.insertCell();
                         nuevaCelda.innerHTML = '0.00'
                         nuevaCelda.style.textAlign = 'right';
                     }
                 }
-                if (index == 8) {
+                if (index == 12) {
                     const nuevaCelda = nuevaFila.insertCell();
                     nuevaCelda.innerHTML = cell.innerText;
                     nuevaCelda.style.display = 'none'
@@ -480,7 +513,7 @@ function calcula_precio_nuevo() {
             });
     });
 }
-function guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, precioCompra) {
+function guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, precioCompra, numdoc) {
     // Configura los datos a enviar
     const datos = {
         empresa : empresa,
@@ -488,57 +521,98 @@ function guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantida
         tipo_movimiento: tipoMovimiento,
         motivo: motivo,
         cantidad: cantidad,
-        precio_compra: precioCompra
+        precio_compra: precioCompra,
+        numdoc: numdoc
     };
-
-    // Envía la solicitud a la URL para guardar el movimiento en la base de datos
-    fetch('/myapp/guardar_movimiento/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify(datos)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Éxito:', data);
-        // Maneja la respuesta aquí (por ejemplo, cierra el modal y muestra un mensaje)
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Maneja el error aquí
-    });
+    if (cantidad.value !='0' && cantidad.value != ''){
+        // Envía la solicitud a la URL para guardar el movimiento en la base de datos
+        fetch('/myapp/guardar_movimiento/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(datos)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message)
+            if (data.modal == 'Regularizacion'){
+                $('#regularizaStockModal').modal('hide');
+            } else if (data.modal == 'Entrada'){  
+                $('#entradaStockModal').modal('hide');
+            } else {
+                $('#salidaStockModal').modal('hide');
+            }    
+            buscart();
+            // Maneja la respuesta aquí (por ejemplo, cierra el modal y muestra un mensaje)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Maneja el error aquí
+        });
+    } else {
+        alert('Cantidad no puede ser 0')
+    }
 }
 document.getElementById('guardarregularizaStock').addEventListener('click', function() {
     const tipoMovimiento = 'Regularizacion';
     const id_articulo = document.getElementById('idartr').innerText;
     const motivo = document.getElementById('motivoMovimientor').value;
     const cantidad = document.getElementById('cantidadMovimientor').value;
-
-    guardarMovimiento('0', id_articulo, tipoMovimiento, motivo, cantidad, 0);
+    if (cantidad !='0' && cantidad != ''){
+        guardarMovimiento('0', id_articulo, tipoMovimiento, motivo, cantidad, 0, '');
+    } else {
+        alert('Entre una cantidad')
+    }
 });
 
 document.getElementById('guardarentradaStock').addEventListener('click', function() {
     const tipoMovimiento = 'Entrada';
-    const id_articulo = document.getElementById('idarte').value;
-    const empresa = document.getElementById('empresaOrigen').value;
+    const id_articulo = document.getElementById('idarte').innerText;
+    const empresa = document.getElementById('empresaOrigen').innerText;
     const motivo = document.getElementById('motivoMovimientoe').value;
-    const cantidad = document.getElementById('cantidadEntrada').value;
+    const cantidad = document.getElementById('cantidadMovimientoe').value;
     const precioCompra = document.getElementById('precioComprae').value;
-
-    guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, precioCompra);
+    const documentoe = document.getElementById('documentoe').value;
+    if (cantidad !='0' && cantidad != ''){
+        guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, precioCompra, documentoe);
+    } else {
+        alert('Cantidad no puede ser 0')
+    }
 });
 
 document.getElementById('guardarsalidaStock').addEventListener('click', function() {
     const tipoMovimiento = 'Salida';
-    const id_articulo = document.getElementById('idarts').value;
-    const empresa = document.getElementById('empresaDestino').value;
+    const id_articulo = document.getElementById('idarts').innerText;
+    const empresa = document.getElementById('empresaDestino').innerText;
     const motivo = document.getElementById('motivoMovimientos').value;
-    const cantidad = document.getElementById('cantidadSalida').value;
-
-    guardarMovimiento(empresa, id_articulo, motivo, cantidad, 0);
+    const cantidad = document.getElementById('cantidadMovimientos').value;
+    if (cantidad !='0' && cantidad != ''){
+        guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, 0, '');
+    } else {
+        alert('Cantidad no puede ser 0')
+    }
 });
+
+function manejar_disabled_compra() {
+    const motivo = document.getElementById('motivoMovimientoe').value;
+    const empresa = document.getElementById('empresaOrigen');
+    const preciocompra = document.getElementById('precioComprae');
+    const documentoe = document.getElementById('documentoe');
+// Agrega un event listener al select que controla el estado
+    // Verifica el valor seleccionado y habilita/deshabilita los campos según corresponda
+    console.log(motivo)
+    if (motivo == 'Compra') {
+        empresa.disabled = true;
+        preciocompra.disabled = false;
+        documentoe.disabled = false;
+    } else {
+        empresa.disabled = false;
+        preciocompra.disabled = true;
+        documentoe.disabled = true;
+    }
+}
 
 function formatNumberToEuropeanStyle(number) {
     // Convertir el número a un string con 2 decimales

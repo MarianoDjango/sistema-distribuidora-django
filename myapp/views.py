@@ -8,6 +8,7 @@ import json
 from django.http import JsonResponse, HttpResponse
 from .forms import articulosForm
 import datetime
+from decimal import Decimal
 
 def index(request):
     return render(request, 'index.html')
@@ -49,7 +50,7 @@ def articulos_famila(request, **kwargs):
                 id_articulo = str(articulo['id'])
                 fila += f'<td class="text-center"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault{id_articulo}"><label class="form-check-label" for="flexCheckDefault{id_articulo}"></label></div></td>'
                 fila += '<td><a href="../../articulo/' + idempresa_var + '/' + str(articulo['id']) + '/" id="descri' + str(articulo['id']) + '">' + articulo['descripcion'] + '</a></td>'
-                fila += '<td class="text-end"><a href="#">' + '{:,.2f}'.format(articulo['precio_venta']).replace(",", "@").replace(".", ",").replace("@", ".") + '</a></td>'
+                fila += '<td class="text-end">' + '{:,.2f}'.format(articulo['precio_venta']).replace(",", "@").replace(".", ",").replace("@", ".") + '</td>'
                 fila += '<td class="text-center">' + str(articulo['fecha_precio'].strftime('%d-%b-%Y').lower()) + '</td>'
                 fila += '<td class="text-end">' +  '{:,.2f}'.format(articulo['stock']).replace(",", "@").replace(".", ",").replace("@", ".") + '</button></td>'
                 fila += '<td class="text-center">' + str(articulo['fecha_stock'].strftime('%d-%b-%Y').lower()) + '</td>'
@@ -168,56 +169,63 @@ def guardar_movs_stock(request):
         motivo_var = data.get('motivo')
         cantidad_var = data.get('cantidad')
         preciocompra_var = data.get('precio_compra')
+        numdoc_var = data.get('numdoc')
 
         articulo = articulos.objects.get(pk=idarticulo_var)
         histo_mov = hist_movart()
         histo_mov.articulo = articulo
         histo_mov.fechamov = datetime.datetime.today().date()
-        if tipomov_var == 'Regularizacion':                
-            histo_mov.tipomov = motivo_var
-            histo_mov.numdoc = '' #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
-            histo_mov.cantidad = cantidad_var
-            histo_mov.stockactual = articulo.stock
-            histo_mov.nuevostock = cantidad_var
-            histo_mov.usuario = request.user
-            histo_mov.save()
-                
-            articulo.stock = cantidad_var
-            articulo.fecha_stock = datetime.datetime.today().date()                
-            articulo.save()
-        if tipomov_var == 'Entrada':                
-            histo_mov.tipomov = motivo_var
-            histo_mov.cantidad = cantidad_var
-            histo_mov.usuario = request.user
-            histo_mov.stockactual = articulo.stock
-            histo_mov.nuevostock = cantidad_var + articulo.stock
-            if motivo_var == "Compra":
-                histo_mov.numdoc = '' #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
-                histo_mov.precioactual = articulo.precio_compra
-                histo_mov.porprecio = 0
-                histo_mov.nuevoprecio = preciocompra_var
-            if 'Traspaso' in motivo_var:
-                histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
-                histo_mov.precioactual = articulo.precio_compra
-                histo_mov.porprecio = 0
-                histo_mov.nuevoprecio = preciocompra_var
-            histo_mov.save()
-                
-            articulo.stock = cantidad_var + articulo.stock
-            articulo.fecha_stock = datetime.datetime.today().date()                
-            articulo.save()
-        if tipomov_var == 'Salida':                
-            histo_mov.tipomov = motivo_var
-            histo_mov.numdoc = '' #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
-            histo_mov.cantidad = cantidad_var
-            histo_mov.stockactual = articulo.stock
-            histo_mov.nuevostock = articulo.stock - cantidad_var
-            histo_mov.usuario = request.user
-            histo_mov.save()
-                
-            articulo.stock = articulo.stock - cantidad_var
-            articulo.fecha_stock = datetime.datetime.today().date()                
-            articulo.save()
+        mensaje = 'ATENCION!! Cantidad Entrada = 0, no se realizo ningun cambio'
+        if cantidad_var !='':
+            if tipomov_var == 'Regularizacion':                
+                mensaje = 'Regularizacion de stock realizada con exito!'
+                histo_mov.tipomov = motivo_var
+                histo_mov.cantidad = cantidad_var
+                histo_mov.stockactual = articulo.stock
+                histo_mov.nuevostock = cantidad_var
+                histo_mov.usuario = request.user
+                histo_mov.save()
+                    
+                articulo.stock = cantidad_var
+                articulo.fecha_stock = datetime.datetime.today().date()                
+                articulo.save()
+            elif tipomov_var == 'Entrada':
+                mensaje = 'Entrada de stock realizada con exito!'
+                histo_mov.tipomov = motivo_var
+                histo_mov.cantidad = cantidad_var
+                histo_mov.usuario = request.user
+                histo_mov.stockactual = articulo.stock
+                histo_mov.nuevostock = Decimal(cantidad_var) + articulo.stock
+                histo_mov.usuario = request.user
+                if motivo_var == "Compra":
+                    histo_mov.numdoc = numdoc_var
+                    histo_mov.precioactual = articulo.precio_compra
+                    histo_mov.nuevoprecio = preciocompra_var
 
-        return JsonResponse({'success': True})
+                    articulo.precio_compra = preciocompra_var
+                    articulo.fecha_precio = datetime.datetime.today().date()
+                    multi = Decimal(articulo.margen) *  Decimal(0.01) + 1
+                    articulo.precio_venta = Decimal(preciocompra_var) * multi
+                elif 'Traspaso' in motivo_var:
+                    histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
+                histo_mov.save()
+                
+                articulo.stock = Decimal(cantidad_var) + articulo.stock
+                articulo.fecha_stock = datetime.datetime.today().date()                
+                articulo.save()
+            elif tipomov_var == 'Salida':
+                mensaje = 'Salida de stock realizada con exito!'         
+                histo_mov.tipomov = motivo_var
+                histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
+                histo_mov.cantidad = cantidad_var
+                histo_mov.stockactual = articulo.stock
+                histo_mov.nuevostock = articulo.stock - Decimal(cantidad_var)
+                histo_mov.usuario = request.user
+                histo_mov.save()
+                    
+                articulo.stock = articulo.stock - Decimal(cantidad_var)
+                articulo.fecha_stock = datetime.datetime.today().date()                
+                articulo.save()
+            return JsonResponse({'success': True, 'modal': tipomov_var, 'message': mensaje})
+        return JsonResponse({'success': True, 'modal': tipomov_var, 'message': mensaje})
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
