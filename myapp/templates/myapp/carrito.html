@@ -1,0 +1,24 @@
+<!-- carrito.html -->
+
+<h1>Carrito de Compras</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Artículo</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for key, item in carrito.items %}
+        <tr>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.precio }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>{{ item.precio }} * {{ item.cantidad }} = {{ item.precio }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
