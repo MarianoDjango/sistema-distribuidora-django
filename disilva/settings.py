@@ -25,10 +25,8 @@ SECRET_KEY = 'django-insecure-yu_9y+ydu7$^a!_8_$z&kgm_o2t9&%z(dhq%=270^$a(jq(aiz
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-#ALLOWED_HOSTS = ['marianoscarat.pythonanywhere.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['marianoscarat.pythonanywhere.com']
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,7 +72,7 @@ WSGI_APPLICATION = 'disilva.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'silvadistdb',
@@ -83,8 +81,9 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
     }
-}
-'''DATABASES = {
+}'''
+
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Marianoscarat$silvadistdb',
@@ -93,8 +92,7 @@ DATABASES = {
         'HOST': 'Marianoscarat.mysql.pythonanywhere-services.com',
         'PORT': '3306',
     }
-}'''
-
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
