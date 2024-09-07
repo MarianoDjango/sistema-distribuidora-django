@@ -5,11 +5,11 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .models import empresas, familias, articulos, hist_movart, tipomovimientos
 import json
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from .forms import articulosForm
 import datetime
 from decimal import Decimal
-
+from django.urls import reverse
 def index(request):
     return render(request, 'index.html')
 
@@ -256,4 +256,29 @@ def agregar_al_carrito(request, articulo_id, **kwargs):
 
 def ver_carrito(request, **kwargs):
     carrito = request.session.get('carrito', {})
-    return render(request, 'myapp/carrito.html', {'carrito': carrito})
+    descuento_efectivo = obtener_descuento_efectivo()  # Lógica para obtener el descuento por pago en efectivo
+    total = calcular_total_con_descuentos(carrito, descuento_efectivo)  # Lógica para calcular el total
+
+    if request.method == 'POST':
+        # Manejar el formulario de cierre de venta
+        metodo_pago = request.POST.get('payment_method')
+        descuento_adicional = request.POST.get('descuento_adicional')
+        cerrar_venta(carrito, metodo_pago, descuento_adicional)  # Lógica para cerrar la venta
+        return HttpResponseRedirect(reverse('venta_confirmada'))  # Redirigir a una página de confirmación
+
+    return render(request, 'myapp/carrito.html', {
+        'carrito': carrito,
+        'descuento_efectivo': descuento_efectivo,
+        'total': total, 
+        'empresa' : kwargs['id_empresa']
+    })
+def obtener_descuento_efectivo():
+    # Lógica para obtener el descuento por pago en efectivo
+    return 10  # Ejemplo de valor fijo
+
+def calcular_total_con_descuentos(carrito, descuento_efectivo):
+    total = sum(item['precio'] * item['cantidad'] for item in carrito.values())
+    return total  # Aplica descuentos aquí si es necesario
+
+def cerrar_venta(carrito, metodo_pago, descuento_adicional):
+    pass
