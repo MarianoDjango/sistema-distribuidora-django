@@ -53,6 +53,12 @@ class empresas(models.Model):
     dtoefectvo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)   # Porcentaje de descuento por pago en efectivo
     margen_emp = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
     recargo_emp = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de recargo pago tarjeta
+    venta = models.BooleanField(default=True)
+    linea1 = models.CharField(max_length=100, blank=True, null=True, default=None)
+    linea2 = models.CharField(max_length=100, blank=True, null=True, default=None)
+    linea3 = models.CharField(max_length=100, blank=True, null=True, default=None)
+    linea4 = models.CharField(max_length=100, blank=True, null=True, default=None)
+    linea5 = models.CharField(max_length=100, blank=True, null=True, default=None)
     
     def __str__(self):
         return f"{self.id} - {self.name}"

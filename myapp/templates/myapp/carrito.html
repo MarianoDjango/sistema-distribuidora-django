@@ -2,66 +2,133 @@
 {% extends "base_generic.html" %}
 {% load static %}
 {% block content %}
-<h1>Carrito de Compras</h1>
 
-<div class="carrito-container">
-    {% for key, item in carrito.items %}
-    <div class="col-log-4" >
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{ item.nombre }}</h5>
-                <p class="card-text">Precio: {{ item.precio }}</p>
-                <div class="quantity-controls">
-                    <button class="btn btn-success" onclick="updateQuantity('{{ key }}', 'add')">+</button>
-                    <input type="text" id="quantity-{{ key }}" value="{{ item.cantidad }}" readonly>
-                    <button class="btn btn-danger" onclick="updateQuantity('{{ key }}', 'subtract')">-</button>
+<div class="container-fluid p-3">
+    <h1>Carrito de Compras - {{nombre_empresa}}</h1>
+    <hr>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h4>Detalle de Articulos</h4> 
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Artículo</th>
+                                <th>Precio Unitario</th>
+                                <th></th>
+                                <th>Cantidad</th>
+                                <th></th>
+                                <th>Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, item in carrito.items %}
+                            <tr>
+                                <td>{{ item.nombre }}</td>
+                                <td>{{ item.precio }}</td>
+                                <td>
+                                    <button class="btn btn-danger" onclick="updateCantidad('{{ key }}', -1)">-</button>
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" value="{{ item.cantidad }}" readonly style="width: 60px; text-align: center;" />
+                                </td>
+                                <td>
+                                    <button class="btn btn-success" onclick="updateCantidad('{{ key }}', 1)">+</button>
+                                </td>
+                                <td>{{ item.total_linea }}</td>
+                                <td>
+                                    <button class="btn btn-danger" onclick="removeItem('{{ key }}')">X</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>    
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5>Formas de Pago y Descuentos</h5> 
+                </div>
+                <div class="card-body">
+                    <form id="pago-form">
+                        <label for="forma_pago">Forma de Pago:</label>
+                        <select class="form-control" id="forma_pago" onchange="actualizarDescuentoEfectivo()">
+                            <option value="Contado">Contado</option>
+                            <option value="Tarjeta Crédito">Tarjeta Crédito</option>
+                            <option value="Débito">Débito</option>
+                            <option value="Transferencia">Transferencia</option>
+                        </select>
+                        
+                        <label for="descuento_efectivo">Descuento Efectivo:</label>
+                        <input class="form-control" type="text" id="descuento_efectivo" value="10%" readonly />
+                    
+                        <label for="descuento_adicional">Descuento Adicional (%):</label>
+                        <input class="form-control" type="number" id="descuento_adicional" min="0" max="100" step="1" value="0" onchange="calcularTotal()" />
+                    
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h3>SubTotal: <span id="total_carrito">{{ total }}</span></h3>
+                        </div>
+                        <div class="card-body">
+                            <h3>Total descuentos: <span id="total_carrito">{{ total }}</span></h3>
+                                <hr>
+                            <h3>Total: <span id="total_carrito">{{ total }}</span></h3>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary" type="button" onclick="cerrarVenta()">Cerrar Venta</button>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endfor %}
 </div>
-
-<form action="{% url 'cerrar_venta' id_empresa=empresa %}" method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="payment_method">Forma de Pago:</label>
-        <select id="payment_method" name="payment_method" class="form-control">
-            <option value="contado">Contado</option>
-            <option value="tarjeta_credito">Tarjeta Crédito</option>
-            <option value="debito">Débito</option>
-            <option value="transferencia">Transferencia</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="descuento_efectivo">Descuento por pago en efectivo:</label>
-        <input type="text" id="descuento_efectivo" name="descuento_efectivo" value="{{ descuento_efectivo }}" readonly>
-    </div>
-    <div class="form-group">
-        <label for="descuento_adicional">Descuento Adicional:</label>
-        <input type="text" id="descuento_adicional" name="descuento_adicional" class="form-control">
-    </div>
-    <div class="form-group">
-        <label for="total">Total:</label>
-        <input type="text" id="total" name="total" value="{{ total }}" readonly>
-    </div>
-    <button type="submit" class="btn btn-primary">Cerrar Venta</button>
-</form>
 <script>
-function updateQuantity(itemKey, action) {
-    const quantityInput = document.getElementById(`quantity-${itemKey}`);
-    let currentQuantity = parseInt(quantityInput.value);
-    
-    if (action === 'add') {
-        currentQuantity += 1;
-    } else if (action === 'subtract' && currentQuantity > 1) {
-        currentQuantity -= 1;
+    // Funciones JavaScript para actualizar cantidades, calcular el total y manejar la forma de pago
+    function updateCantidad(itemKey, delta) {
+        // Lógica para actualizar la cantidad del artículo
     }
-    
-    quantityInput.value = currentQuantity;
-    
-    // Aquí puedes hacer una llamada AJAX para actualizar el carrito en el servidor
-}
-    
+
+    function removeItem(itemKey) {
+        // Lógica para eliminar un artículo del carrito
+    }
+
+    function calcularTotal() {
+        let total = 0;
+        let total_sin_dto = document.getElementById('total_carrito').innerText
+        let descuentoEfectivo = document.getElementById('forma_pago').value === 'Contado' ? 10 : 0; // Suponiendo 10% de descuento
+        let descuentoAdicional = parseInt(document.getElementById('descuento_adicional').value) || 0;
+
+        var multi_efectivo = (descuentoEfectivo * 0.01) + 1
+        var multi_otro_dto = (descuentoAdicional * 0.01) + 1
+        console.log(multi_efectivo)
+        console.log(multi_otro_dto)
+
+        // Recalcular el total del carrito aplicando los descuentos
+        // Aquí podrías iterar sobre los artículos del carrito usando JavaScript para recalcular
+        document.getElementById('total_carrito').textContent = total.toFixed(2);
+        console.log(total.toFixed(2))
+    }
+
+    function actualizarDescuentoEfectivo() {
+        // Actualizar el descuento de efectivo basado en la forma de pago seleccionada
+        calcularTotal();
+    }
+
+    function cerrarVenta() {
+        // Lógica para cerrar la venta y generar el ticket
+    }
+
+    document.addEventListener('DOMContentLoaded', calcularTotal);
 </script>
+
 {% endblock %}
