@@ -34,7 +34,7 @@
                                     <button class="btn btn-danger" onclick="updateCantidad('{{ key }}', -1)">-</button>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="text" value="{{ item.cantidad }}" readonly style="width: 60px; text-align: center;" />
+                                    <input class="form-control" id="cant{{key}}" type="text" value="{{ item.cantidad }}" style="width: 60px; text-align: center;" />
                                 </td>
                                 <td>
                                     <button class="btn btn-success" onclick="updateCantidad('{{ key }}', 1)">+</button>
@@ -58,32 +58,40 @@
                 <div class="card-body">
                     <form id="pago-form">
                         <label for="forma_pago">Forma de Pago:</label>
-                        <select class="form-control" id="forma_pago" onchange="actualizarDescuentoEfectivo()">
-                            <option value="Contado">Contado</option>
-                            <option value="Tarjeta Crédito">Tarjeta Crédito</option>
-                            <option value="Débito">Débito</option>
-                            <option value="Transferencia">Transferencia</option>
+                        <select class="form-control m-1" id="forma_pago" onchange="calcularTotal()">
+                            {% for fpago in formas_pago %}
+                                <option value={{fpago.id}}>{{fpago.get_tipo_display}}</option>
+                            {% endfor %}
                         </select>
-                        
-                        <label for="descuento_efectivo">Descuento Efectivo:</label>
-                        <input class="form-control" type="text" id="descuento_efectivo" value="10%" readonly />
+                        <label for="descuento_efectivo">Descuento Efectivo (%):</label>
+                        <input class="form-control m-1" type="text" id="descuento_efectivo" style="text-align: right;" value="{{dtoefectvo}}" readonly />
                     
                         <label for="descuento_adicional">Descuento Adicional (%):</label>
-                        <input class="form-control" type="number" id="descuento_adicional" min="0" max="100" step="1" value="0" onchange="calcularTotal()" />
-                    
+                        <input class="form-control m-1" type="number" id="descuento_adicional" style="text-align: right;" min="0" max="100" step="1" value="0" oninput="calcularTotal()"/>
+
+                        <label for="cliente">Cliente :</label>
+                        <input class="form-control m-1" type="text" id="cliente" list="clientesList" />
+                        <datalist id="clientesList">
+                            {% for cliente in clientes %}
+                            <!-- Los valores pueden ser llenados con datos de la base de datos de clientes -->
+                                <option value={{cliente.nombre}} data-id={{cliente.id}}></option>
+                            {% endfor %}
+                        </datalist>                        
+                        <input type="hidden" id="id_cliente"/>
                     </form>
                 </div>
                 <div class="card-footer">
                     <div class="card shadow">
                         <div class="card-header">
-                            <h3>SubTotal: <span id="total_carrito">{{ total }}</span></h3>
+                            <label for="subtotal_carrito" style="font-weight: bolder;">SubTotal:</label>  
+                            <span class="form-control m-1" id="subtotal_carrito" style="text-align: right;">{{ total }}</span>
+                            <label for="total_dtos" style="font-weight: bolder;">Total descuentos: </label>  
+                            <span class="form-control m-1" id="total_dtos" style="text-align: right;">0.00</span>
+                            <hr>
+                            <label for="total_carrito" style="font-weight: bolder;">Total: </label>  
+                            <span class="form-control m-1" id="total_carrito" style="text-align: right;">{{ total }}</span>
                         </div>
-                        <div class="card-body">
-                            <h3>Total descuentos: <span id="total_carrito">{{ total }}</span></h3>
-                                <hr>
-                            <h3>Total: <span id="total_carrito">{{ total }}</span></h3>
-                        </div>
-                        <div class="card-footer">
+                        <div class="card-footer justify-content-right">
                             <button class="btn btn-primary" type="button" onclick="cerrarVenta()">Cerrar Venta</button>                            
                         </div>
                     </div>
@@ -94,9 +102,56 @@
 </div>
 <script>
     // Funciones JavaScript para actualizar cantidades, calcular el total y manejar la forma de pago
-    function updateCantidad(itemKey, delta) {
-        // Lógica para actualizar la cantidad del artículo
+function updateCantidad(itemKey, delta) {
+    const inputId = `cant${itemKey}`; // genera el id dinámico
+    const cantidadInput = document.getElementById(inputId).value; // Asumiendo que la clase de la columna de cantidad es "cantidad"
+    const cantidad = (cantidadInput && !isNaN(cantidadInput.value) && cantidadInput.value !== '') ? parseInt(cantidadInput.value, 10) : 1;
+    // Crear un objeto con los datos a enviar
+    const data = {
+        cantidad: cantidad
+    };
+//    dashboard/<id_empresa>/agregar/<int:articulo_id>/'
+    if (delta) {
+        fetch(`../agregar/${itemKey}/`, {
+            method: 'POST',  // Cambiamos a POST para enviar datos
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Asegúrate de enviar el CSRF token para solicitudes POST
+            },
+            body: JSON.stringify(data) // Convertir el objeto de datos a JSON
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                cantidadInput.value = 
+                calcularTotal()
+            } else {
+                alert('Stock Insuficiente')
+            }
+        })
+        .catch(error => console.error('Error al agregar al carrito:', error));
+
+    } else {
+        fetch(`../restar/${itemKey}/`, {
+            method: 'POST',  // Cambiamos a POST para enviar datos
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Asegúrate de enviar el CSRF token para solicitudes POST
+            },
+            body: JSON.stringify(data) // Convertir el objeto de datos a JSON
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                cantidadInput.value = 
+                calcularTotal()
+            } else {
+                alert('Stock Insuficiente')
+            }
+        })
+        .catch(error => console.error('Error al agregar al carrito:', error));
     }
+}
 
     function removeItem(itemKey) {
         // Lógica para eliminar un artículo del carrito
@@ -104,15 +159,25 @@
 
     function calcularTotal() {
         let total = 0;
-        let total_sin_dto = document.getElementById('total_carrito').innerText
-        let descuentoEfectivo = document.getElementById('forma_pago').value === 'Contado' ? 10 : 0; // Suponiendo 10% de descuento
+        var total_dto_efectivo = 0;
+        var total_dto_adicional = 0;
+        let subtotal_carrito = document.getElementById('subtotal_carrito').innerText.replace(',', '.')
+        
+        let formasPago = document.getElementById('forma_pago')
+        let fpago = formasPago.options[formasPago.selectedIndex].innerText;
+        let descuentoEfectivo = parseInt(document.getElementById('descuento_efectivo').value) || 0;
         let descuentoAdicional = parseInt(document.getElementById('descuento_adicional').value) || 0;
-
         var multi_efectivo = (descuentoEfectivo * 0.01) + 1
-        var multi_otro_dto = (descuentoAdicional * 0.01) + 1
-        console.log(multi_efectivo)
-        console.log(multi_otro_dto)
-
+        var multi_dto_adicional = (descuentoAdicional * 0.01) + 1
+        
+        if (fpago === "Efectivo"){
+            console.log(fpago)
+            total_dto_efectivo = (parseFloat(subtotal_carrito) * multi_efectivo) - parseFloat(subtotal_carrito )
+        }
+        if (descuentoAdicional != 0){
+            total_dto_adicional = (parseFloat(subtotal_carrito) * multi_dto_adicional) - parseFloat(subtotal_carrito )
+        }
+        total = parseFloat(subtotal_carrito) - total_dto_efectivo - total_dto_adicional
         // Recalcular el total del carrito aplicando los descuentos
         // Aquí podrías iterar sobre los artículos del carrito usando JavaScript para recalcular
         document.getElementById('total_carrito').textContent = total.toFixed(2);
@@ -129,6 +194,23 @@
     }
 
     document.addEventListener('DOMContentLoaded', calcularTotal);
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 </script>
 
 {% endblock %}

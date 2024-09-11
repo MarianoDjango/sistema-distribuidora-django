@@ -23,28 +23,37 @@
             {% endfor %}
         </ul>
     </nav>    
-    <div class="container-fluid">
-        <ul class="nav navbar-expand-lg navbar-light bg-light justify-content-end">    
-            <li class="nav-item">
-                <button type="button" class="btn btn-outline-success position-relative" title="Ver Pedido" onclick="window.location.href='carrito/'"><i class="bi bi-cart">
-                    <span id="badgeCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {{cantidad_carrito}} <!-- Número de artículos inicial -->
-                    </span>        
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                </svg></i></button>
-            </li>
-            <li>&nbsp;&nbsp;&nbsp;</li>
-            <li class="nav-item">
-                <button type="button" class="btn btn-danger" title="Borrar Carrito" onclick="window.location.href='vaciar/'"><i class="bi bi-cart-x">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                    </svg>
-                </i></button>
-            </li>        
-        </ul>
-    </div>
+        <div class="container-fluid">
+            <ul class="nav navbar-expand-lg navbar-light bg-light justify-content-end">
+                <li class="nav-item">
+                    <button class="btn btn-secondary" onclick="window.location.href='clientes/'" title="Clientes" type="button"><i class="bi bi-person-add"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
+                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                        <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
+                      </svg></i></button>
+                </li>
+                {% if id_empresa == user.perfil.idempresa_id or user.is_staff %}
+                <li>&nbsp;&nbsp;&nbsp;</li>
+                <li class="nav-item">
+                        <button type="button" class="btn btn-outline-success position-relative" title="Ver Pedido" onclick="window.location.href='carrito/'"><i class="bi bi-cart">
+                            <span id="badgeCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{cantidad_carrito}} <!-- Número de artículos inicial -->
+                            </span>        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg></i></button>
+                    </li>
+                    <li>&nbsp;&nbsp;&nbsp;</li>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-danger" title="Borrar Carrito" onclick="window.location.href='vaciar/'"><i class="bi bi-cart-x">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </i></button>
+                    </li>        
+                {% endif %}
+                </ul>
+        </div>
     <div class="container-xxl">
     <div class="row flex-nowrap">
         <div class="col-auto px-0">
@@ -107,7 +116,9 @@
                     <table class="table" id="tableart">
                         <thead>
                             <tr>
-                                <th scope="col">Sel.</th>
+                                {% if id_empresa == user.perfil.idempresa_id or user.is_staff %}
+                                    <th scope="col">Sel.</th>
+                                {% endif %}
                                 <th scope="col">Descripcion</th>
                                 <th class="text-center" scope="col">Precio</th>
                                 <th class="text-center" scope="col">Fecha P.</th>
@@ -136,7 +147,7 @@
                                     <h3 id="descriartr"></h3>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="motivoMovimiento">Motivo del Movimiento</label>
+                                    <label for="motivoMovimientor">Motivo del Movimiento</label>
                                     <select class="form-control" id="motivoMovimientor" disabled>
                                         {% for motivo in motivos_regularizacion %}                                                
                                             <option value="{{ motivo }}">{{ motivo.get_motivo_display }}</option>
@@ -144,7 +155,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="cantidadMovimiento">Cantidad</label>
+                                    <label for="cantidadMovimientor">Cantidad</label>
                                     <input type="number" step="1.00" class="form-control" id="cantidadMovimientor" style="text-align: right;" placeholder="0.00" required>
                                 </div>
                             </form>
@@ -171,7 +182,7 @@
                                     <h3 id="descriarte"></h3>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="motivoMovimiento">Motivo del Movimiento</label>
+                                    <label for="motivoMovimientoe">Motivo del Movimiento</label>
                                     <select class="form-control" id="motivoMovimientoe" onchange="manejar_disabled_compra()">
                                         {% for motivo in motivos_entrada %}                                                
                                             <option value="{{ motivo }}">{{ motivo.get_motivo_display }}</option>
@@ -189,11 +200,11 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="cantidadMovimiento">Cantidad</label>
+                                    <label for="cantidadMovimientoe">Cantidad</label>
                                     <input type="number"  class="form-control" id="cantidadMovimientoe" style="text-align: right;" placeholder="0.00" required>
                                 </div>
                                 <div class="form-group mb-3" id="precioCompraGroup">
-                                    <label for="precioCompra">Precio de Compra</label>
+                                    <label for="precioComprae">Precio de Compra</label>
                                     <input type="number" step="1.00" class="form-control" id="precioComprae" style="text-align: right;" placeholder="0.00" required/>
                                 </div>
                                 <div class="form-group mb-3" id="docGroup">
@@ -224,7 +235,7 @@
                                     <h3 id="descriarts"></h3>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="motivoMovimiento">Motivo del Movimiento</label>
+                                    <label for="motivoMovimientos">Motivo del Movimiento</label>
                                     <select class="form-control" id="motivoMovimientos" disabled>
                                         {% for motivo in motivos_salida %}                                                
                                             <option value="{{ motivo }}">{{ motivo.get_motivo_display }}</option>
@@ -242,7 +253,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="cantidadMovimiento">Cantidad</label>
+                                    <label for="cantidadMovimientos">Cantidad</label>
                                     <input type="number" step="1.00" class="form-control" id="cantidadMovimientos" style="text-align: right;" placeholder="0.00" required>
                                 </div>
                             </form>

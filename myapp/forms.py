@@ -1,4 +1,4 @@
-from .models import articulos, familias, empresas
+from .models import articulos, familias, empresas, clientes
 from django.forms import ModelForm, TextInput, Select, CheckboxInput
 from django import forms
 from django.core.exceptions import ValidationError
@@ -58,3 +58,23 @@ class articulosForm(forms.ModelForm):
         
         self.fields['familia'].label_from_instance = lambda obj: obj.nombre                
 
+class clientesForm(forms.ModelForm):
+
+    class Meta:
+        model = clientes
+        fields = ['idempresa', 'nombre', 'apellido', 'email', 'telefono', 
+                  'direccion', 'ciudad', 'provincia', 'codigo_postal', 
+                  'activo']
+        widgets = {
+            'activo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        empresa_id = kwargs.pop('empresa_id', None)
+        super(clientesForm, self).__init__(*args, **kwargs)
+
+        # Asegúrate de que todos los campos tengan la clase form-control
+        for field in self.fields:
+            if not isinstance(self.fields[field].widget, forms.CheckboxInput):
+                self.fields[field].widget.attrs.update({'class': 'form-control'})
+        

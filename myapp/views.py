@@ -3,10 +3,10 @@ from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-from .models import empresas, familias, articulos, hist_movart, tipomovimientos
+from .models import empresas, familias, articulos, hist_movart, tipomovimientos, formaspago, clientes
 import json
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from .forms import articulosForm
+from .forms import articulosForm, clientesForm
 import datetime
 from decimal import Decimal
 from django.urls import reverse
@@ -85,6 +85,50 @@ def articulos_famila(request, **kwargs):
     data = json.dumps(recs)
     return HttpResponse(data, 'application/json')
 
+@login_required
+def clientes_empresa(request, **kwargs):
+    recs = []
+    json_list = {}
+    #if request.user.is_authenticated:
+    nombre_var = request.GET['nombre']
+    idempresa_var = request.GET['id_empresa']
+    empresa_obj = get_object_or_404(empresas, id=idempresa_var)
+    if nombre_var == "":
+        clientes_qry = clientes.objects.filter(idempresa=empresa_obj, activo=True).values('id', 'idempresa','nombre', 'apellido', 'email', 'telefono')
+    else:
+        clientes_qry = clientes.objects.filter(idempresa=empresa_obj, nombre__icontains=nombre_var, activo=True).values('id', 'idempresa','nombre', 'apellido', 'email', 'telefono')
+    recs.append(json_list)
+    for cliente in clientes_qry:
+        fila = '<tr style="cursor:hand;">'
+        if cliente['idempresa'] == request.user.perfil.idempresa.id or request.user.is_staff:
+            id_cliente = str(cliente['id'])
+            fila += '<td><a href="' + id_cliente + '/" id="descri' + id_cliente + '">' + cliente['nombre'] + '</a></td>'
+        else:
+            fila += '<td>' + cliente['nombre'] + '</td>'
+        fila += '<td class="text-center">' + cliente['apellido'] + '</td>'
+        fila += '<td class="text-center">' + cliente['email'] + '</td>'
+        if (cliente['telefono']):
+            fila += '<td class="text-end">' +  cliente['telefono'] + '</td>'
+        fila += '<td class="text-center" style="display : none;">' + str(cliente['id']) + '</td>'
+        json_list = {
+            'fila': fila,
+        }
+        recs.append(json_list)
+    
+    data = json.dumps(recs)
+    return HttpResponse(data, 'application/json')
+
+class clientes_view(LoginRequiredMixin,View):
+    template_name = 'myapp/clientes.html'
+
+    def get(self, request, *args, **kwargs):
+        empresa_id = kwargs['id_empresa']
+        empresa_obj = get_object_or_404(empresas, id=empresa_id)
+        context = {'id_empresa':int(empresa_id),
+                    'nomempresa' : empresa_obj.name, 
+                }
+        return render(self.request, self.template_name, context)
+
 class dashboard_view(LoginRequiredMixin,View):
     template_name = 'myapp/dashboard.html'
     login_url = '/accounts/login/'
@@ -145,6 +189,31 @@ def articulo_create_or_update(request, **kwargs):
         return render(request, 'myapp/articulo_form.html', {'form': form})
     
     #return redirect('login')
+
+@login_required
+def cliente_create_or_update(request, **kwargs):
+    #if request.user.is_authenticated:
+        if request.user.perfil.idempresa.id == int(kwargs['id_empresa']) or request.user.is_staff:
+            if kwargs['pk'] != '0':
+                cliente = get_object_or_404(clientes, pk=kwargs['pk'])
+            else:
+                cliente = clientes()
+                
+            if request.method == 'POST':
+                form = clientesForm(request.POST, instance=cliente)
+                if form.is_valid():
+                    form.save()
+                    urlredirect = "/myapp/dashboard/" + str(request.user.perfil.idempresa.id) +'/clientes/'
+                    return redirect(urlredirect)
+            else:
+                empresa = empresas.objects.get(id=int(kwargs['id_empresa']))
+                cliente.idempresa = empresa
+                cliente.fecha_registro = datetime.datetime.today().date()
+
+                form = clientesForm(instance=cliente, empresa_id=int(kwargs['id_empresa']))
+        else:
+            form = None
+        return render(request, 'myapp/cliente_form.html', {'form': form})
 
 @login_required
 def actualizar_precios(request):
@@ -245,6 +314,49 @@ def guardar_movs_stock(request):
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
 
 @login_required
+def restar_al_carrito(request, articulo_id, **kwargs):
+    articulo = get_object_or_404(articulos, id=articulo_id)
+    id_empresa = kwargs['id_empresa']
+    empresa = empresas.objects.get(id=id_empresa)
+
+    # Obtener el carrito de la sesión, o inicializarlo si no existe
+    carrito = request.session.get(f'carrito_{id_empresa}', {})
+    data = json.loads(request.body)
+    cantidad_table = int(data.get('cantidad', 1))  # Valor por defecto es 1
+    success = True
+    # Si el artículo ya está en el carrito, incrementar la cantidad
+    if str(articulo_id) in carrito:
+        new_cant_carrito = carrito[str(articulo_id)]['cantidad'] - cantidad_table
+        if new_cant_carrito >= 0:
+            carrito[str(articulo_id)]['cantidad'] -= cantidad_table
+        else:
+            success = False
+    else:
+            success = False
+    # Asegúrate de que la clave sea una cadena de caracteres
+    if success:
+        carrito[str(articulo_id)]['total_linea'] = carrito[str(articulo_id)]['cantidad'] * carrito[str(articulo_id)]['precio']
+
+    # Guardar el carrito en la sesión
+    request.session[f'carrito_{id_empresa}'] = carrito
+
+    # Calcular el total del carrito
+    
+    for item in carrito.values():
+        total_carrito -= item['total_linea'] 
+                            
+    request.session[f'total_carrito_{id_empresa}'] = total_carrito
+
+    request.session.modified = True
+    for item in carrito.values():
+        cantidad_total -= item['cantidad']     
+        
+    context = {
+        'cantidad_carrito' : cantidad_total
+    }
+    return JsonResponse({'success': success, 'cantidad_total': cantidad_total})
+
+@login_required
 def agregar_al_carrito(request, articulo_id, **kwargs):
     articulo = get_object_or_404(articulos, id=articulo_id)
     id_empresa = kwargs['id_empresa']
@@ -298,10 +410,11 @@ def ver_carrito(request, **kwargs):
     id_empresa = kwargs['id_empresa']
     carrito = request.session.get(f'carrito_{id_empresa}', {})
     descuento_efectivo = obtener_descuento_efectivo()  # Lógica para obtener el descuento por pago en efectivo
-    total = calcular_total_con_descuentos(carrito, descuento_efectivo)  # Lógica para calcular el total
+    total = calcular_total_carrito(carrito)  # Lógica para calcular el total
     empresa_id = kwargs['id_empresa']
     empresa_obj = get_object_or_404(empresas, id=empresa_id)
-
+    formas_pago = formaspago.objects.all()
+    cliente_list = clientes.objects.filter(idempresa=id_empresa, activo=True)
     if request.method == 'POST':
         # Manejar el formulario de cierre de venta
         metodo_pago = request.POST.get('payment_method')
@@ -314,7 +427,10 @@ def ver_carrito(request, **kwargs):
         'descuento_efectivo': descuento_efectivo,
         'total': total, 
         'empresa' : empresa_id,
-        'nombre_empresa' : empresa_obj.name
+        'nombre_empresa' : empresa_obj.name,
+        'formas_pago' : formas_pago,
+        'dtoefectvo' : empresa_obj.dtoefectvo,
+        'clientes' : cliente_list
     })
 
 def vaciar_carrito(request, id_empresa):
@@ -329,7 +445,7 @@ def obtener_descuento_efectivo():
     # Lógica para obtener el descuento por pago en efectivo
     return 10  # Ejemplo de valor fijo
 
-def calcular_total_con_descuentos(carrito, descuento_efectivo):
+def calcular_total_carrito(carrito):
     total = sum(item['precio'] * item['cantidad'] for item in carrito.values())
     return total  # Aplica descuentos aquí si es necesario
 
