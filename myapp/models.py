@@ -110,9 +110,10 @@ class articulos(models.Model):
         ordering = ["-activo", "descripcion"]
 
 class clientes(models.Model):
+    idempresa = models.ForeignKey(empresas, on_delete=models.CASCADE, null=True) 
     nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
+    apellido = models.CharField(max_length=100, blank=True)
+    email = models.CharField(unique=True, max_length=100, blank=True)
     telefono = models.CharField(max_length=15, blank=True, null=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
     ciudad = models.CharField(max_length=100, blank=True, null=True)
@@ -126,9 +127,9 @@ class clientes(models.Model):
 
 class cabecera_venta(models.Model):
     fechav = models.DateField()    
-    cliente = models.ForeignKey(clientes, on_delete=models.CASCADE, null=False)
-    nomcliente = models.CharField(max_length = 50, default='') #este campo permite entrar un nombre cuando elcliente es el 0='generico'
+    cliente = models.CharField(max_length = 50, default='') #este campo permite entrar un nombre cuando elcliente es el 0='generico'
     formapago = models.ForeignKey(formaspago, on_delete=models.CASCADE, null=False)
+    subtotal = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     dtoeftvo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     otrodto = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     recargo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)

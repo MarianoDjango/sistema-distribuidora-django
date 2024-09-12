@@ -34,14 +34,14 @@
                                     <button class="btn btn-danger" onclick="updateCantidad('{{ key }}', -1)">-</button>
                                 </td>
                                 <td>
-                                    <input class="form-control" id="cant{{key}}" type="text" value="{{ item.cantidad }}" style="width: 60px; text-align: center;" />
+                                    <input class="form-control" id="cant{{key}}" type="text" value="{{ item.cantidad }}" style="width: 60px; text-align: center;" readonly />
                                 </td>
                                 <td>
                                     <button class="btn btn-success" onclick="updateCantidad('{{ key }}', 1)">+</button>
                                 </td>
-                                <td>{{ item.total_linea }}</td>
+                                <td id="totlin{{key}}">{{ item.total_linea }}</td>
                                 <td>
-                                    <button class="btn btn-danger" onclick="removeItem('{{ key }}')">X</button>
+                                    <button class="btn btn-danger" id="del{{key}}" onclick="removeItem(this)">X</button>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -70,14 +70,13 @@
                         <input class="form-control m-1" type="number" id="descuento_adicional" style="text-align: right;" min="0" max="100" step="1" value="0" oninput="calcularTotal()"/>
 
                         <label for="cliente">Cliente :</label>
-                        <input class="form-control m-1" type="text" id="cliente" list="clientesList" />
-                        <datalist id="clientesList">
+                        <select class="form-control m-1" id="cliente">
+                            <option value='0'>Generico</option>
                             {% for cliente in clientes %}
                             <!-- Los valores pueden ser llenados con datos de la base de datos de clientes -->
-                                <option value={{cliente.nombre}} data-id={{cliente.id}}></option>
+                                <option value={{cliente.id}}>{{cliente.nombre}}</option>
                             {% endfor %}
-                        </datalist>                        
-                        <input type="hidden" id="id_cliente"/>
+                        </select>
                     </form>
                 </div>
                 <div class="card-footer">
@@ -104,14 +103,17 @@
     // Funciones JavaScript para actualizar cantidades, calcular el total y manejar la forma de pago
 function updateCantidad(itemKey, delta) {
     const inputId = `cant${itemKey}`; // genera el id dinámico
-    const cantidadInput = document.getElementById(inputId).value; // Asumiendo que la clase de la columna de cantidad es "cantidad"
-    const cantidad = (cantidadInput && !isNaN(cantidadInput.value) && cantidadInput.value !== '') ? parseInt(cantidadInput.value, 10) : 1;
+    const totlinid = `totlin${itemKey}`;
+    var cantidadInput = document.getElementById(inputId); // Asumiendo que la clase de la columna de cantidad es "cantidad"
+    var totlintable = document.getElementById(totlinid); // Asumiendo que la clase de la columna de cantidad es "cantidad"
+    var subtotal = document.getElementById('subtotal_carrito');
+    const cantidad = 1;
     // Crear un objeto con los datos a enviar
     const data = {
         cantidad: cantidad
     };
 //    dashboard/<id_empresa>/agregar/<int:articulo_id>/'
-    if (delta) {
+    if (delta == 1) {
         fetch(`../agregar/${itemKey}/`, {
             method: 'POST',  // Cambiamos a POST para enviar datos
             headers: {
@@ -123,7 +125,9 @@ function updateCantidad(itemKey, delta) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                cantidadInput.value = 
+                cantidadInput.value = data.new_cantidad_art
+                totlintable.innerText = data.new_total_linea
+                subtotal.innerText = data.subtotalcarrito
                 calcularTotal()
             } else {
                 alert('Stock Insuficiente')
@@ -143,30 +147,58 @@ function updateCantidad(itemKey, delta) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                cantidadInput.value = 
+                cantidadInput.value = data.new_cantidad_art
+                totlintable.innerText = data.new_total_linea
+                subtotal.innerText = data.subtotalcarrito
                 calcularTotal()
-            } else {
-                alert('Stock Insuficiente')
-            }
+                console.log(cantidadInput.value)
+            } 
         })
         .catch(error => console.error('Error al agregar al carrito:', error));
     }
 }
 
-    function removeItem(itemKey) {
+function removeItem(btndel) {
+    let subtotal_carrito = document.getElementById('subtotal_carrito');
+    const fila = btndel.parentNode.parentNode; // Obtiene la fila (tr)
+    var itemKey = btndel.id.substring(3);
+
+    fetch(`../remove/${itemKey}/`, {
+        method: 'POST',  // Cambiamos a POST para enviar datos
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken') // Asegúrate de enviar el CSRF token para solicitudes POST
+        },
+    })
+    .then(response => response.json())  // Convertimos la respuesta a JSON
+    .then(data => {
+        if (data.success) {  // Verificamos si la operación fue exitosa
+            fila.remove(); // Elimina la fila del DOM
+            console.log(data.subtotalcarrito);  // Imprime el subtotal actualizado en la consola
+            subtotal_carrito.innerText = data.subtotalcarrito;  // Actualiza el subtotal en el input
+            calcularTotal();  // Llama a la función para calcular el total
+        } else {
+            console.error('Error: Operación no exitosa.');
+        }
+    })
+    .catch(error => console.error('Error al agregar al carrito:', error));
+} 
+
         // Lógica para eliminar un artículo del carrito
-    }
+    
 
     function calcularTotal() {
         let total = 0;
         var total_dto_efectivo = 0;
         var total_dto_adicional = 0;
+        var totaldtos = 0;
         let subtotal_carrito = document.getElementById('subtotal_carrito').innerText.replace(',', '.')
         
         let formasPago = document.getElementById('forma_pago')
         let fpago = formasPago.options[formasPago.selectedIndex].innerText;
         let descuentoEfectivo = parseInt(document.getElementById('descuento_efectivo').value) || 0;
         let descuentoAdicional = parseInt(document.getElementById('descuento_adicional').value) || 0;
+        let totalDtos = parseInt(document.getElementById('total_dtos').value) || 0;
         var multi_efectivo = (descuentoEfectivo * 0.01) + 1
         var multi_dto_adicional = (descuentoAdicional * 0.01) + 1
         
@@ -178,10 +210,11 @@ function updateCantidad(itemKey, delta) {
             total_dto_adicional = (parseFloat(subtotal_carrito) * multi_dto_adicional) - parseFloat(subtotal_carrito )
         }
         total = parseFloat(subtotal_carrito) - total_dto_efectivo - total_dto_adicional
+        totaldtos = total_dto_efectivo + total_dto_adicional
         // Recalcular el total del carrito aplicando los descuentos
         // Aquí podrías iterar sobre los artículos del carrito usando JavaScript para recalcular
         document.getElementById('total_carrito').textContent = total.toFixed(2);
-        console.log(total.toFixed(2))
+        document.getElementById('total_dtos').textContent = totaldtos.toFixed(2);
     }
 
     function actualizarDescuentoEfectivo() {
@@ -190,10 +223,40 @@ function updateCantidad(itemKey, delta) {
     }
 
     function cerrarVenta() {
+        let formasPago = document.getElementById('forma_pago')
+        let fpago = formasPago.options[formasPago.selectedIndex].innerText;
+        let descuentoAdicional = parseInt(document.getElementById('descuento_adicional').value) || 0;
+        let clientes = document.getElementById('cliente')
+        let cliente = clientes.options[clientes.selectedIndex].innerText;
         // Lógica para cerrar la venta y generar el ticket
-    }
+        const data = {
+            formapago: fpago,
+            descuentoAdicional: parseFloat(),
+            cliente: cliente
+        };
 
-    document.addEventListener('DOMContentLoaded', calcularTotal);
+        fetch('finalizar_compra/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Asegúrate de enviar el CSRF token para solicitudes POST
+            },
+            body: JSON.stringify(data)  // Reemplaza con el ID de empresa real
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Venta cerrada con éxito. ¿Desea imprimir el ticket?');
+                // Lógica adicional para imprimir el ticket o redirigir
+            } else {
+                alert(data.message || 'Hubo un error al cerrar la venta. Inténtelo de nuevo.');
+            }
+        })
+        .catch(error => console.error('Error al cerrar la venta:', error));
+    };
+
+
+document.addEventListener('DOMContentLoaded', calcularTotal);
 
 function getCookie(name) {
     let cookieValue = null;

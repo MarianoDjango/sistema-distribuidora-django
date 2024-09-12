@@ -330,9 +330,9 @@ def restar_al_carrito(request, articulo_id, **kwargs):
         if new_cant_carrito >= 0:
             carrito[str(articulo_id)]['cantidad'] -= cantidad_table
         else:
-            success = False
+            carrito[str(articulo_id)]['cantidad'] = 0
     else:
-            success = False
+        success = False
     # Asegúrate de que la clave sea una cadena de caracteres
     if success:
         carrito[str(articulo_id)]['total_linea'] = carrito[str(articulo_id)]['cantidad'] * carrito[str(articulo_id)]['precio']
@@ -341,20 +341,15 @@ def restar_al_carrito(request, articulo_id, **kwargs):
     request.session[f'carrito_{id_empresa}'] = carrito
 
     # Calcular el total del carrito
-    
-    for item in carrito.values():
-        total_carrito -= item['total_linea'] 
+    total_carrito = sum(item['total_linea'] for item in carrito.values())
                             
     request.session[f'total_carrito_{id_empresa}'] = total_carrito
 
     request.session.modified = True
-    for item in carrito.values():
-        cantidad_total -= item['cantidad']     
-        
-    context = {
-        'cantidad_carrito' : cantidad_total
-    }
-    return JsonResponse({'success': success, 'cantidad_total': cantidad_total})
+    cantidad_total = sum(item['cantidad'] for item in carrito.values())
+    new_cant_art_carrito = carrito[str(articulo_id)]['cantidad']
+    new_total_linea = carrito[str(articulo_id)]['total_linea']
+    return JsonResponse({'success': success, 'new_cantidad_art': new_cant_art_carrito, 'cantidad_total': cantidad_total, 'new_total_linea' : new_total_linea, 'subtotalcarrito' : total_carrito})
 
 @login_required
 def agregar_al_carrito(request, articulo_id, **kwargs):
@@ -398,12 +393,42 @@ def agregar_al_carrito(request, articulo_id, **kwargs):
 
     request.session.modified = True
     cantidad_total = sum(item['cantidad'] for item in carrito.values())
-    context = {
-        'cantidad_carrito' : cantidad_total
-    }
-    return JsonResponse({'success': success, 'cantidad_total': cantidad_total})
+    new_cant_art_carrito = carrito[str(articulo_id)]['cantidad']
+    new_total_linea = carrito[str(articulo_id)]['total_linea']
+    return JsonResponse({'success': success, 'new_cantidad_art': new_cant_art_carrito, 'cantidad_total': cantidad_total, 'new_total_linea' : new_total_linea, 'subtotalcarrito' : total_carrito})
     #return redirect('dashboard', id_empresa)  # Redirigir a la página de lista de artículos o carrito
 # views.py
+
+@login_required
+def quitar_art_de_carrito(request, articulo_id, **kwargs):
+    articulo = get_object_or_404(articulos, id=articulo_id)
+    id_empresa = kwargs['id_empresa']
+    empresa = empresas.objects.get(id=id_empresa)
+
+    # Obtener el carrito de la sesión, o inicializarlo si no existe
+    carrito = request.session.get(f'carrito_{id_empresa}', {})
+    success = True
+    # Si el artículo ya está en el carrito, incrementar la cantidad
+    if str(articulo_id) in carrito:
+        del carrito[str(articulo_id)]
+    else:
+        success = False
+    # Asegúrate de que la clave sea una cadena de caracteres
+    # Guardar el carrito en la sesión
+
+    # Calcular el total del carrito
+    total_carrito = sum(item['total_linea'] for item in carrito.values())
+    cantidad_total = sum(item['cantidad'] for item in carrito.values())
+    request.session[f'total_carrito_{id_empresa}'] = total_carrito
+    request.session.modified = True
+    return JsonResponse({'success': success, 'cantidad_total': cantidad_total, 'subtotalcarrito' : total_carrito})
+
+@login_required
+def cantidad_total_carrito(request, **kwargs):
+    id_empresa = kwargs['id_empresa']
+    carrito = request.session.get(f'carrito_{id_empresa}', {})
+    cantidad_total = sum(item['cantidad'] for item in carrito.values())
+    return JsonResponse({'cantidad_carrito': cantidad_total})
 
 @login_required
 def ver_carrito(request, **kwargs):
@@ -449,5 +474,5 @@ def calcular_total_carrito(carrito):
     total = sum(item['precio'] * item['cantidad'] for item in carrito.values())
     return total  # Aplica descuentos aquí si es necesario
 
-def cerrar_venta(carrito, metodo_pago, descuento_adicional):
+def cerrar_venta(request, **kwargs):
     pass
