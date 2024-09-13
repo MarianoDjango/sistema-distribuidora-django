@@ -34,7 +34,7 @@
                 {% if id_empresa == user.perfil.idempresa_id or user.is_staff %}
                 <li>&nbsp;&nbsp;&nbsp;</li>
                 <li class="nav-item">
-                        <button type="button" class="btn btn-outline-success position-relative" title="Ver Pedido" onclick="window.location.href='carrito/'"><i class="bi bi-cart">
+                        <button type="button" class="btn btn-outline-success position-relative" title="Ver Pedido" onclick="verificarCarrito()"><i class="bi bi-cart">
                             <span id="badgeCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 {{cantidad_carrito}} <!-- Número de artículos inicial -->
                             </span>        
@@ -270,4 +270,19 @@
 </div>
 <script src="{% static 'js/articulos.js' %}"></script>
 <script src="{% static 'js/dashboard.js' %}"></script>
+<script>
+function verificarCarrito() {
+    // Obtener el valor de cantidad_carrito desde el span
+    let cantidadCarrito = parseInt(document.getElementById('badgeCarrito').innerText);
+    
+    // Verificar si la cantidad es mayor que 0
+    if (cantidadCarrito > 0) {
+        // Si es mayor que 0, redirigir a la URL
+        window.location.href = 'carrito/';
+    } else {
+        // Si no, mostrar una alerta o hacer otra cosa
+        alert('El carrito está vacío.');
+    }
+}
+</script>
 {% endblock %}

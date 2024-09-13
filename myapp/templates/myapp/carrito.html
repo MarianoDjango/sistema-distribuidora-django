@@ -70,14 +70,13 @@
                         <input class="form-control m-1" type="number" id="descuento_adicional" style="text-align: right;" min="0" max="100" step="1" value="0" oninput="calcularTotal()"/>
 
                         <label for="cliente">Cliente :</label>
-                        <select class="form-control m-1" id="cliente">
-                            <option value='0'>Generico</option>
+                        <input class="form-control m-1" type="text" id="cliente" list="clientesList" placeholder="Ingrese el nombre del cliente"/>
+                        <datalist id="clientesList">
                             {% for cliente in clientes %}
-                            <!-- Los valores pueden ser llenados con datos de la base de datos de clientes -->
-                                <option value={{cliente.id}}>{{cliente.nombre}}</option>
+                                <option value="{{ cliente.nombre }}" data-id="{{ cliente.id }}"></option>
                             {% endfor %}
-                        </select>
-                    </form>
+                        </datalist>
+                </form>
                 </div>
                 <div class="card-footer">
                     <div class="card shadow">
@@ -224,15 +223,22 @@ function removeItem(btndel) {
 
     function cerrarVenta() {
         let formasPago = document.getElementById('forma_pago')
-        let fpago = formasPago.options[formasPago.selectedIndex].innerText;
-        let descuentoAdicional = parseInt(document.getElementById('descuento_adicional').value) || 0;
-        let clientes = document.getElementById('cliente')
-        let cliente = clientes.options[clientes.selectedIndex].innerText;
+        let fpago = formasPago.options[formasPago.selectedIndex].value;
+        let descuentoAdicional = document.getElementById('descuento_adicional').value.replace(',', '.') || 0;
+        console.log(descuentoAdicional)
+        let subtotal = parseFloat(document.getElementById('subtotal_carrito').innerText) || 0;
+        let total = parseFloat(document.getElementById('total_carrito').innerText) || 0;
+
+        const clienteInput = document.getElementById('cliente').value;        
+        //let clientes = document.getElementById('cliente')
+        //let cliente = clientes.options[clientes.selectedIndex].innerText;
         // Lógica para cerrar la venta y generar el ticket
         const data = {
             formapago: fpago,
-            descuentoAdicional: parseFloat(),
-            cliente: cliente
+            descuentoAdicional: descuentoAdicional,
+            subtotal: subtotal,
+            total: total,
+            cliente: clienteInput
         };
 
         fetch('finalizar_compra/', {
@@ -246,7 +252,12 @@ function removeItem(btndel) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Venta cerrada con éxito. ¿Desea imprimir el ticket?');
+                const resultado = confirm('Venta cerrada con éxito. ¿Desea imprimir el ticket?');
+                if (resultado) {
+                    console.log(resultado)
+                    imprimirTicket()
+                }
+                
                 // Lógica adicional para imprimir el ticket o redirigir
             } else {
                 alert(data.message || 'Hubo un error al cerrar la venta. Inténtelo de nuevo.');
@@ -272,6 +283,17 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+function imprimirTicket() {
+    const printWindow = window.open('', '', 'height=400,width=600');
+    printWindow.document.write('<html><head><title>Ticket</title>');
+    printWindow.document.write('</head><body >');
+    printWindow.document.write('<h1>Tu Ticket</h1>');
+    printWindow.document.write('<p>Contenido del ticket...</p>');
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
 }
 
 </script>

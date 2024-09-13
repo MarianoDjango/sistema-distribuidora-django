@@ -3,13 +3,14 @@ from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-from .models import empresas, familias, articulos, hist_movart, tipomovimientos, formaspago, clientes
+from .models import empresas, familias, articulos, hist_movart, tipomovimientos, formaspago, clientes, cabecera_venta
 import json
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from .forms import articulosForm, clientesForm
 import datetime
 from decimal import Decimal
 from django.urls import reverse
+from django.db import transaction
 def index(request):
     return render(request, 'index.html')
 
@@ -401,7 +402,6 @@ def agregar_al_carrito(request, articulo_id, **kwargs):
 
 @login_required
 def quitar_art_de_carrito(request, articulo_id, **kwargs):
-    articulo = get_object_or_404(articulos, id=articulo_id)
     id_empresa = kwargs['id_empresa']
     empresa = empresas.objects.get(id=id_empresa)
 
@@ -450,7 +450,7 @@ def ver_carrito(request, **kwargs):
     return render(request, 'myapp/carrito.html', {
         'carrito': carrito,
         'descuento_efectivo': descuento_efectivo,
-        'total': total, 
+        'total': str(total).replace(',','.'), 
         'empresa' : empresa_id,
         'nombre_empresa' : empresa_obj.name,
         'formas_pago' : formas_pago,
@@ -475,4 +475,80 @@ def calcular_total_carrito(carrito):
     return total  # Aplica descuentos aquí si es necesario
 
 def cerrar_venta(request, **kwargs):
-    pass
+    if request.method == 'POST':
+        id_empresa = kwargs['id_empresa']
+        empresa = get_object_or_404(empresas, id=id_empresa)
+        
+        carrito = request.session.get(f'carrito_{id_empresa}', {})
+        data = json.loads(request.body)
+        fpago = data.get('formapago', [])
+        formapago = get_object_or_404(formaspago, id=fpago)
+        destoadicional = data.get('descuentoAdicional', [])
+        subtotal = data.get('subtotal', [])
+        total = data.get('total', [])
+        cliente = data.get('cliente', [])
+        success = True
+        if formapago.nombre == 'contado':
+            dtoeftvo = empresa.dtoefectvo
+        else:
+            dtoeftvo = 0
+
+        try:
+            # Inicia una transacción atómica
+            with transaction.atomic():
+                # Crear la cabecera de la venta
+                cabecera = cabecera_venta.objects.create(fechav=datetime.date.today(), 
+                        cliente = cliente, formapago = formapago, subtotal = subtotal, 
+                        dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
+
+                respuesta = {
+                    'success': True,
+                    'mensaje': 'Venta cerrada con éxito',
+                    'cabecera': {
+                        'fecha': '2024-09-12',
+                        'numero_ticket': '12345',
+                        # Otros detalles de la cabecera
+                    },
+                    'detalles': [
+                        {'descripcion': 'Articulo 1', 'cantidad': 2, 'precio_unitario': 5.00, 'total': 10.00},
+                        {'descripcion': 'Articulo 2', 'cantidad': 1, 'precio_unitario': 3.00, 'total': 3.00},
+                        # Otros detalles de la venta
+                    ]
+                }
+
+                # Iterar a través de las líneas y crearlas
+                for item in carrito.items():
+                    #sum(item['cantidad'] for item in carrito.values())
+                    articulo_id = item[0]
+                    cantidad = item[1]['cantidad']
+                    precio_unitario = str(item[1]['precio'])
+
+                    # Recuperar el artículo
+                    articulo = get_object_or_404(articulos, id=articulo_id)
+                    
+                    # Calcula el subtotal para la línea
+                    nuevo_stock = articulo.stock - cantidad
+                    
+                    # Crear la línea de venta
+                    hist_movart.objects.create(
+                        articulo = articulo,
+                        fechamov = datetime.date.today(),
+                        tipomov = 'venta',
+                        numdoc = cabecera.id,
+                        cantidad = cantidad,
+                        precioactual = Decimal(precio_unitario),
+                        stockactual = articulo.stock,
+                        nuevostock = Decimal(str(nuevo_stock)),
+                        usuario = request.user,
+                    )
+                    articulo.stock = nuevo_stock
+                    articulo.save()
+            vaciar_carrito(request, id_empresa)
+            # Si todo salió bien, devuelve una respuesta JSON de éxito
+            return JsonResponse({'success': True, 'message': 'Venta registrada con éxito.'})
+
+        except Exception as e:
+            # Si ocurre un error, la transacción se revierte automáticamente
+            return JsonResponse({'success': False, 'message': str(e)})
+
+    return JsonResponse({'success': False, 'message': 'Método no permitido.'})
