@@ -1,0 +1,45 @@
+{% extends "base_generic.html" %}
+{% load widget_tweaks %}
+{% load static%}
+{% block content %}
+<div class="container-fluid">
+    <div class="row m-3">
+        <h1 id="idempresa" style="display: none;">{{ id_empresa }}</h1>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-sm-1">
+                    <button class="btn btn-primary" onclick="window.location.href=document.referrer"><i class="bi bi-arrow-bar-left"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"/>
+                      </svg></i></button>
+                </div>
+                <div class="col-lg-4">
+                    <h3>Clientes - {{ nomempresa }}</h3>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-10 col-md-10 col-lg-10">
+                    <input class="form-control" type="text" id="clientesearch" oninput="buscarcli()" placeholder="Buscar cliente...">
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <button class="btn btn-primary" onclick="window.location.href='0/'">Nuevo</button>
+                </div>
+            </div>
+            <hr>		
+            <table class="table" id="tablecli">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th class="text-center" scope="col">Apellido</th>
+                        <th class="text-center" scope="col">Email</th>
+                        <th class="text-center" scope="col">Telefono</th>
+                    </tr>
+                </thead>
+                <tbody id="clientesList">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/clientes.js' %}"></script>
+{% endblock %}

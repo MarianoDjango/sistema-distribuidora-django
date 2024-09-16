@@ -34,12 +34,12 @@
                                     <button class="btn btn-danger" onclick="updateCantidad('{{ key }}', -1)">-</button>
                                 </td>
                                 <td>
-                                    <input class="form-control" id="cant{{key}}" type="text" value="{{ item.cantidad }}" style="width: 60px; text-align: center;" readonly />
+                                    <input class="form-control" id="cant{{key}}" type="text" value="{{ item.cantidad }}" style="width: 60px; text-align: center;" disabled />
                                 </td>
                                 <td>
                                     <button class="btn btn-success" onclick="updateCantidad('{{ key }}', 1)">+</button>
                                 </td>
-                                <td id="totlin{{key}}">{{ item.total_linea }}</td>
+                                <td id="totlin{{key}}"  style="text-align: right;" disabled>{{ item.total_linea }}</td>
                                 <td>
                                     <button class="btn btn-danger" id="del{{key}}" onclick="removeItem(this)">X</button>
                                 </td>
@@ -225,7 +225,6 @@ function removeItem(btndel) {
         let formasPago = document.getElementById('forma_pago')
         let fpago = formasPago.options[formasPago.selectedIndex].value;
         let descuentoAdicional = document.getElementById('descuento_adicional').value.replace(',', '.') || 0;
-        console.log(descuentoAdicional)
         let subtotal = parseFloat(document.getElementById('subtotal_carrito').innerText) || 0;
         let total = parseFloat(document.getElementById('total_carrito').innerText) || 0;
 
@@ -254,8 +253,7 @@ function removeItem(btndel) {
             if (data.success) {
                 const resultado = confirm('Venta cerrada con éxito. ¿Desea imprimir el ticket?');
                 if (resultado) {
-                    console.log(resultado)
-                    imprimirTicket()
+                    imprimirTicket(data.ticket_html)
                 }
                 
                 // Lógica adicional para imprimir el ticket o redirigir
@@ -284,13 +282,9 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-function imprimirTicket() {
+function imprimirTicket(ticket) {
     const printWindow = window.open('', '', 'height=400,width=600');
-    printWindow.document.write('<html><head><title>Ticket</title>');
-    printWindow.document.write('</head><body >');
-    printWindow.document.write('<h1>Tu Ticket</h1>');
-    printWindow.document.write('<p>Contenido del ticket...</p>');
-    printWindow.document.write('</body></html>');
+    printWindow.document.write(ticket);
     printWindow.document.close();
     printWindow.focus();
     printWindow.print();

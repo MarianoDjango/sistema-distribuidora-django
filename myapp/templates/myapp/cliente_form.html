@@ -1,0 +1,98 @@
+{% extends "base_generic.html" %}
+{% load widget_tweaks %}
+{% load static%}
+{% block content %}
+<body style="background: linear-gradient(to right, #e0ebff, #eef3fa);">
+    <div class="container">
+        <p></p>
+        {% if user.is_authenticated %}
+            <div class="card">
+				<div class="card-header">
+					<h2>Alta y Modificacion de Clientes</h2>
+				</div>
+                <form class="form" method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+						{% if form.errors %}
+							{% for error in form.errors %}
+								{{error}}
+							{% endfor %}
+						{% else %}
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                {{form.idempresa.as_hidden}}
+								{{form.nombre.label_tag}} {{form.nombre}}
+								
+							</div>
+							<br>
+							<div class="col-lg-6">
+								{{form.apellido.label_tag}} {{form.apellido}}
+							</div>
+						</div>
+                        <div class="row mb-3">
+							<div class="col-lg-6" step="1.00">
+								{{form.email.label_tag}} {{form.email}}
+							</div>
+							<div class="col-lg-6" step="1.00">
+								{{form.telefono.label_tag}} {{form.telefono}}
+                            </div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-lg-3">
+								{{form.direccion.label_tag}} {{form.direccion}}
+							</div>
+							<div class="col-lg-3">
+								{{form.ciudad.label_tag}} {{form.ciudad}}
+							</div>
+							<div class="col-lg-3">
+								{{form.provincia.label_tag}} {{form.provincia}}
+							</div>
+							<div class="col-lg-3">
+								{{form.codigo_postal.label_tag}} {{form.codigo_postal}}
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-lg-2">
+								{{ form.activo.label_tag }}
+								<div class="form-check form-switch">
+									{{ form.activo|add_class:"form-check-input" }}
+								</div>
+							</div>
+						</div>
+                        {% endif %}
+                    </div>  
+                    <div class="card-footer">
+                        <input class="btn btn-primary" id="guardar" value="Guardar" type="submit">
+                        <div style="display: none;">
+                            <input class="btn btn-primary" id="submit" />
+                        </div>
+                    </div>
+                </form>
+			</div>
+        {% else %}
+		<div class="row justify-content-center">
+			<div class="col-xl-10 col-lg-12 col-md-9">
+				<div class="card o-hidden border-0 shadow-lg my-5">
+					<div class="card-body p-0">
+						<!-- Nested Row within Card Body -->
+						<div class="row">
+							<div class="col-lg-2"></div>
+							<div class="col-lg-2 d-none d-lg-block bg-reservas-image"><img src="{% static '/img/forviden.png' %}" style="height: auto;" class="img-fluid"></div>
+								<div class="col-lg-6">
+									<div class="p-5">
+										<form action="">
+											<p style="color: black;font-weight: 400;"><b>No tiene permisos para visualizar ésta página</b></p>
+										</form>  
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+{% endif %}
+</div>
+</body>
+<script src="{% static 'js/clientes.js' %}?v=9.1"></script>
+{% endblock %}

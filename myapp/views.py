@@ -350,7 +350,7 @@ def restar_al_carrito(request, articulo_id, **kwargs):
     cantidad_total = sum(item['cantidad'] for item in carrito.values())
     new_cant_art_carrito = carrito[str(articulo_id)]['cantidad']
     new_total_linea = carrito[str(articulo_id)]['total_linea']
-    return JsonResponse({'success': success, 'new_cantidad_art': new_cant_art_carrito, 'cantidad_total': cantidad_total, 'new_total_linea' : new_total_linea, 'subtotalcarrito' : total_carrito})
+    return JsonResponse({'success': success, 'new_cantidad_art': new_cant_art_carrito, 'cantidad_total': cantidad_total, 'new_total_linea' : '{:.2f}'.format(new_total_linea), 'subtotalcarrito' : total_carrito})
 
 @login_required
 def agregar_al_carrito(request, articulo_id, **kwargs):
@@ -396,7 +396,7 @@ def agregar_al_carrito(request, articulo_id, **kwargs):
     cantidad_total = sum(item['cantidad'] for item in carrito.values())
     new_cant_art_carrito = carrito[str(articulo_id)]['cantidad']
     new_total_linea = carrito[str(articulo_id)]['total_linea']
-    return JsonResponse({'success': success, 'new_cantidad_art': new_cant_art_carrito, 'cantidad_total': cantidad_total, 'new_total_linea' : new_total_linea, 'subtotalcarrito' : total_carrito})
+    return JsonResponse({'success': success, 'new_cantidad_art': new_cant_art_carrito, 'cantidad_total': cantidad_total, 'new_total_linea' : '{:.2f}'.format(new_total_linea), 'subtotalcarrito' : total_carrito})
     #return redirect('dashboard', id_empresa)  # Redirigir a la página de lista de artículos o carrito
 # views.py
 
@@ -487,6 +487,15 @@ def cerrar_venta(request, **kwargs):
         subtotal = data.get('subtotal', [])
         total = data.get('total', [])
         cliente = data.get('cliente', [])
+        tel_cliente = ''
+        dir_cliente = ''
+        try:
+            cliente_obj = get_object_or_404(clientes, nombre=cliente)
+            cliente = cliente_obj.nombre + ' ' + cliente_obj.apellido
+            tel_cliente = cliente_obj.telefono
+            dir_cliente = cliente_obj.direccion + ' - ' + cliente_obj.ciudad + ' - ' + cliente_obj.provincia
+        except:
+            pass
         success = True
         if formapago.nombre == 'contado':
             dtoeftvo = empresa.dtoefectvo
@@ -501,21 +510,82 @@ def cerrar_venta(request, **kwargs):
                         cliente = cliente, formapago = formapago, subtotal = subtotal, 
                         dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
 
-                respuesta = {
-                    'success': True,
-                    'mensaje': 'Venta cerrada con éxito',
-                    'cabecera': {
-                        'fecha': '2024-09-12',
-                        'numero_ticket': '12345',
-                        # Otros detalles de la cabecera
-                    },
-                    'detalles': [
-                        {'descripcion': 'Articulo 1', 'cantidad': 2, 'precio_unitario': 5.00, 'total': 10.00},
-                        {'descripcion': 'Articulo 2', 'cantidad': 1, 'precio_unitario': 3.00, 'total': 3.00},
-                        # Otros detalles de la venta
-                    ]
-                }
-
+                tfechav = cabecera.fechav.strftime(('%d-%m-%Y'))
+                cabecera_html = f"""
+                <html>
+                <head>
+                    <title>Ticket</title>
+                    <style>
+                        body {{
+                            font-family: Console, sans-serif;
+                            font-size: 12px;
+                        }}
+                        h3 {{
+                            font-size: 16px;
+                            font-weight: bold;
+                        }}
+                        .bold {{
+                            font-weight: bold;
+                        }}
+                        .small {{
+                            font-size: 10px;
+                        }}
+                        .xsmall {{
+                            font-size: 6px;
+                        }}
+                        img {{
+                            width: 200px;
+                            height: 45px;
+                            display: block;
+                            margin: 0 auto; /* Centrará la imagen horizontalmente */
+                        }}
+                        subcab {{
+                            width: 200px;
+                            height: 6px;
+                            display: block;
+                            margin: 0 auto; /* Centrará la imagen horizontalmente */
+                            text-align: center;
+                        }}
+                        table {{
+                            width: 100%;
+                            border-collapse: collapse;
+                        }}
+                        th, td {{
+                            border: 1px solid black;
+                            padding: 5px;
+                            text-align: left;
+                        }}
+                    </style>
+                </head>
+                <body>
+                    <div class="row align-items-center">
+                        <img src="{'/static/img/logo.png'}" alt="Logo">
+                    </div>
+                    <subcab class="xsmall">{empresa.linea1}</subcab>
+                    <subcab class="xsmall">{empresa.linea2}</subcab>
+                    <subcab class="small">{empresa.linea3}</subcab>
+                    <p></p>
+                    <hr/>
+                    <p><span class="bold">Nro.: </span>{cabecera.id}</p>
+                    <p></p>
+                    <p><span class="bold">Fecha: </span>{tfechav}</p>
+                    <hr/>
+                    <p><span class="bold">Cliente: </span>{cliente}</p>
+                    <p><span class="bold"> Telefono: </span>{tel_cliente}</p>
+                    <p><span class="bold">Dirección: </span>{dir_cliente}</p>
+                    <hr/>
+                    <h3>Detalles</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="small">Artículo</th>
+                                <th class="small">Cantidad</th>
+                                <th class="small">Precio</th>
+                                <th class="small">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                """
                 # Iterar a través de las líneas y crearlas
                 for item in carrito.items():
                     #sum(item['cantidad'] for item in carrito.values())
@@ -544,8 +614,9 @@ def cerrar_venta(request, **kwargs):
                     articulo.stock = nuevo_stock
                     articulo.save()
             vaciar_carrito(request, id_empresa)
+            ticket_html = cabecera_html
             # Si todo salió bien, devuelve una respuesta JSON de éxito
-            return JsonResponse({'success': True, 'message': 'Venta registrada con éxito.'})
+            return JsonResponse({'success': True, 'message': 'Venta registrada con éxito.', 'ticket_html': ticket_html})
 
         except Exception as e:
             # Si ocurre un error, la transacción se revierte automáticamente
