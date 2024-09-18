@@ -231,6 +231,7 @@ function getCookie(name) {
 
 const sellect_all = document.getElementById('toggleSeleccion')
 if (sellect_all){
+    sellect_all.addEventListener('click', () => {
     // Selecciona todos los checkboxes con la clase 'checkbox-row'
         const checkboxes = document.querySelectorAll('.form-check-input');
         const isSelectAll = this.textContent === 'Seleccionar Todos';
@@ -246,6 +247,7 @@ if (sellect_all){
             }
         });
         this.textContent = isSelectAll ? 'Deseleccionar Todos' : 'Seleccionar Todos';
+    })
 };
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -288,9 +290,9 @@ function moverFilasSeleccionadas() {
                         nuevaCelda.style.textAlign = 'right';
                     }
                 }
-                if (index == 12) {
+                if (index == 10) {
                     const nuevaCelda = nuevaFila.insertCell();
-                    nuevaCelda.innerHTML = cell.innerText;
+                    nuevaCelda.innerHTML = cell.innerHTML;
                     nuevaCelda.style.display = 'none'
                 }
             });

@@ -483,25 +483,27 @@ def cerrar_venta(request, **kwargs):
         data = json.loads(request.body)
         fpago = data.get('formapago', [])
         formapago = get_object_or_404(formaspago, id=fpago)
-        destoadicional = data.get('descuentoAdicional', [])
+        descripcion_forma_pago = formapago.get_tipo_display()
+        destoadicional = float(data.get('descuentoAdicional', []))
         subtotal = data.get('subtotal', [])
         total = data.get('total', [])
         cliente = data.get('cliente', [])
         tel_cliente = ''
         dir_cliente = ''
         try:
-            cliente_obj = get_object_or_404(clientes, nombre=cliente)
+            cliente_obj = get_object_or_404(clientes, nombre=cliente, idempresa=id_empresa)
             cliente = cliente_obj.nombre + ' ' + cliente_obj.apellido
             tel_cliente = cliente_obj.telefono
             dir_cliente = cliente_obj.direccion + ' - ' + cliente_obj.ciudad + ' - ' + cliente_obj.provincia
         except:
             pass
         success = True
-        if formapago.nombre == 'contado':
+        if descripcion_forma_pago == 'Efectivo':
             dtoeftvo = empresa.dtoefectvo
         else:
             dtoeftvo = 0
-
+        detalle_html = ''
+        footer_html = ''
         try:
             # Inicia una transacción atómica
             with transaction.atomic():
@@ -511,17 +513,30 @@ def cerrar_venta(request, **kwargs):
                         dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
 
                 tfechav = cabecera.fechav.strftime(('%d-%m-%Y'))
+                timp_dtoadi = subtotal * (destoadicional * 0.01 + 1) - subtotal
+                timp_dtoadif = f"{timp_dtoadi:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+                if descripcion_forma_pago == 'Efectivo':
+                    timp_dtoeft = subtotal * (float(empresa.dtoefectvo) * 0.01 + 1) - subtotal
+                    timp_dtoeftf = f"{timp_dtoeft:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+                else:
+                    timp_dtoeftf = '0.00'
+
+                subtotalf = f"{subtotal:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+                totalf = f"{total:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
                 cabecera_html = f"""
                 <html>
                 <head>
                     <title>Ticket</title>
                     <style>
                         body {{
-                            font-family: Console, sans-serif;
-                            font-size: 12px;
+                            font-family: Verdana, Geneva, sans-serif;
+                            font-size: 10px;
+                        }}
+                        p{{
+                            font-size: 10px;
                         }}
                         h3 {{
-                            font-size: 16px;
+                            font-size: 12px;
                             font-weight: bold;
                         }}
                         .bold {{
@@ -540,8 +555,17 @@ def cerrar_venta(request, **kwargs):
                             margin: 0 auto; /* Centrará la imagen horizontalmente */
                         }}
                         subcab {{
-                            width: 200px;
+                            font-sze : 6px;
+                            width: 220px;
                             height: 6px;
+                            display: block;
+                            margin: 0 auto; /* Centrará la imagen horizontalmente */
+                            text-align: center;
+                        }}
+                        footer {{
+                            font-size : 8px;
+                            width: 250px;
+                            height: 10px;
                             display: block;
                             margin: 0 auto; /* Centrará la imagen horizontalmente */
                             text-align: center;
@@ -551,10 +575,18 @@ def cerrar_venta(request, **kwargs):
                             border-collapse: collapse;
                         }}
                         th, td {{
-                            border: 1px solid black;
-                            padding: 5px;
+                            padding: 1px;
+                            font-size: 8px;
+                        }}
+                        .left-align {{
                             text-align: left;
                         }}
+                        .right-align {{
+                            text-align: right;
+                        }}
+                        th {{
+                            text-align: center; /* Centrar los encabezados por defecto */
+                        }}                    
                     </style>
                 </head>
                 <body>
@@ -566,33 +598,35 @@ def cerrar_venta(request, **kwargs):
                     <subcab class="small">{empresa.linea3}</subcab>
                     <p></p>
                     <hr/>
-                    <p><span class="bold">Nro.: </span>{cabecera.id}</p>
+                    <p><span class="small bold">Nro.: </span>{cabecera.id}</p>
                     <p></p>
-                    <p><span class="bold">Fecha: </span>{tfechav}</p>
+                    <p><span class="small bold">Fecha: </span>{tfechav}</p>
                     <hr/>
-                    <p><span class="bold">Cliente: </span>{cliente}</p>
-                    <p><span class="bold"> Telefono: </span>{tel_cliente}</p>
-                    <p><span class="bold">Dirección: </span>{dir_cliente}</p>
+                    <p><span class="small bold">Cliente: </span>{cliente}</p>
+                    <p><span class="small bold">Telefono: </span>{tel_cliente}</p>
+                    <p><span class="small bold">Dirección: </span>{dir_cliente}</p>
                     <hr/>
-                    <h3>Detalles</h3>
                     <table>
                         <thead>
                             <tr>
                                 <th class="small">Artículo</th>
-                                <th class="small">Cantidad</th>
+                                <th class="small">Cant.</th>
                                 <th class="small">Precio</th>
                                 <th class="small">Subtotal</th>
                             </tr>
                         </thead>
+                        <p></p>
                         <tbody>
-                """
+                        <td colspan="4" class="table-active"><hr/></td>
+                    """
                 # Iterar a través de las líneas y crearlas
                 for item in carrito.items():
                     #sum(item['cantidad'] for item in carrito.values())
                     articulo_id = item[0]
+                    nombre_art = item[1]['nombre']
                     cantidad = item[1]['cantidad']
                     precio_unitario = str(item[1]['precio'])
-
+                    total_linea = str(item[1]['total_linea'])
                     # Recuperar el artículo
                     articulo = get_object_or_404(articulos, id=articulo_id)
                     
@@ -613,8 +647,56 @@ def cerrar_venta(request, **kwargs):
                     )
                     articulo.stock = nuevo_stock
                     articulo.save()
+                    detalle_html += f"""
+                        <tr><td class="left-align">{nombre_art}</td>
+                        <td style="text-align: center;">{f"{cantidad}"}</td>
+                        <td class="right-align">{f"${float(precio_unitario):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
+                        <td class="right-align">{f"${float(total_linea):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
+                        </tr>"""
+            detalle_html += f"""
+                        <tr>
+                        <td></td>
+                        <td colspan="3" class="table-active"><hr/></td>
+                        </tr>                    
+                        <tr>
+                        <td></td>
+                        <td colspan="2" class="table-active bold">Subtotal :</td>
+                        <td class="right-align bold">${subtotalf}</td>
+                        </tr>                    
+                        <tr>
+                        <td></td>
+                        <td colspan="2" class="table-active bold">Dto.:</td>
+                        <td class="right-align bold">${timp_dtoadif}</td>
+                        </tr>                    
+                        <tr>
+                        <td></td>
+                        <td colspan="2" class="table-active bold">F. Pago :</td>
+                        <td class="right-align bold">{descripcion_forma_pago}</td>
+                        </tr>                    
+                        <tr>
+                        <td></td>
+                        <td colspan="2" class="table-active bold">Dto. Efectivo : </td>
+                        <td class="right-align bold">${timp_dtoeftf}</td>
+                        </tr>                    
+                        <tr>
+                        <td></td>
+                        <td colspan="2" class="table-active bold">Total :</td>
+                        <td class="bold right-align">${totalf}</td>
+                        </tr></tbody></table>                    
+                """
+            footer_html = f"""
+            <p></p>
+            <p></p>
+            <p><hr/></p>
+            <p><hr/></p>
+            <footer>{empresa.linea4}</footer>
+            <footer>{empresa.linea5}</footer>
+            <footer class="bold">ATENCION AL GREMIO CAMIONEROS</footer>
+            <footer class="bold">GRACIAS POR SEGUIRNOS!</footer>
+            </body></html>
+            """
             vaciar_carrito(request, id_empresa)
-            ticket_html = cabecera_html
+            ticket_html = cabecera_html + detalle_html + footer_html
             # Si todo salió bien, devuelve una respuesta JSON de éxito
             return JsonResponse({'success': True, 'message': 'Venta registrada con éxito.', 'ticket_html': ticket_html})
 
