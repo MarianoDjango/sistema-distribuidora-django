@@ -21,7 +21,7 @@ class articulosForm(forms.ModelForm):
         model = articulos
         fields = ['idempresa', 'codigobarras', 'familia', 'descripcion', 'precio_venta', 
                   'fecha_precio', 'stock', 'fecha_stock', 'imagen', 'activo', 
-                  'comentarios', 'precio_compra', 'margen']
+                  'comentarios', 'precio_compra', 'margen', 'margen2']
         widgets = {
             'activo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'familia': forms.Select(attrs={'class': 'form-select'}),  # Si familia se ve como input, prueba con Select
@@ -31,6 +31,7 @@ class articulosForm(forms.ModelForm):
             'stock': forms.NumberInput(attrs={'class': 'form-control', 'style': 'text-align: right;'}),
             'precio_compra': forms.NumberInput(attrs={'class': 'form-control', 'style': 'text-align: right;'}),
             'margen': forms.NumberInput(attrs={'class': 'form-control', 'style': 'text-align: right;'}),
+            'margen2': forms.NumberInput(attrs={'class': 'form-control', 'style': 'text-align: right;'}),
         }
     
     def __init__(self, *args, **kwargs):

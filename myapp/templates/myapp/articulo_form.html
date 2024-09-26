@@ -26,17 +26,20 @@
 								{{form.descripcion.label_tag}} {{form.descripcion}}
 							</div>
 							<br>
-							<div class="col-lg-2">
+							<div class="col-lg-3">
 								{{form.familia.label_tag}} {{form.familia}}
 							</div>
-							<div class="col-lg-2" step="1.00">
+							<div class="col-lg-3" step="1.00">
 								{{form.precio_compra.label_tag}} {{form.precio_compra}}
 							</div>
-							<div class="col-lg-2" step="1.00">
+						</div>
+						<div class="row mb-3">
+							<div class="col-lg-3" step="1.00">
 								{{form.margen.label_tag}} {{form.margen}}
                             </div>
-						</div>
-                        <div class="row  mb-3">
+							<div class="col-lg-3" step="1.00">
+								{{form.margen2.label_tag}} {{form.margen2}}
+                            </div>
 							<div class="col-lg-3">
 								{{form.precio_venta.label_tag}} {{form.precio_venta}}
 							</div>
@@ -46,6 +49,8 @@
 									{{form.fecha_precio}}
 								</div>
 							</div>
+						</div>
+                        <div class="row  mb-3">
 							<div class="col-lg-3">
 								{{form.stock.label_tag}} {{form.stock}}
 							</div>
@@ -55,16 +60,16 @@
 									{{form.fecha_stock}}
 								</div>
 							</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-lg-10">
-								{{form.comentarios.label_tag}} {{form.comentarios}}
-							</div>
 							<div class="col-lg-2">
 								{{ form.activo.label_tag }}
 								<div class="form-check form-switch">
 									{{ form.activo|add_class:"form-check-input" }}
 								</div>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-lg-12">
+								{{form.comentarios.label_tag}} {{form.comentarios}}
 							</div>
 						</div>
                         {% endif %}

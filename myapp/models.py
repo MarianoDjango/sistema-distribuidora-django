@@ -98,7 +98,7 @@ class articulos(models.Model):
     comentarios = models.CharField(max_length = 250, blank=True)
     precio_compra = models.DecimalField(max_digits =  11, decimal_places = 2, default=0)
     margen = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
-    
+    margen2 = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
     
     def __str__(self):
         return self.descripcion
@@ -107,7 +107,7 @@ class articulos(models.Model):
         return reverse("article-detail", kwargs={"pk": self.pk})
     
     class Meta:
-        ordering = ["-activo", "descripcion"]
+        ordering = ["-activo","familia", "descripcion"]
 
 class clientes(models.Model):
     idempresa = models.ForeignKey(empresas, on_delete=models.CASCADE, null=True) 
