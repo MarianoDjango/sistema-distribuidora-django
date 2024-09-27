@@ -172,7 +172,7 @@ if (guardarPrecioBtn) {
             Array.from(tablaModal.rows).forEach((row, rowIndex) => {
             //if (rowIndex === 0) return; // Saltar la fila de encabezado, si existe
     
-            const articuloId = row.cells[3].innerText;  // Suponiendo que el ID del artículo está en la primera celda
+            const articuloId = row.cells[3].innerText;  
             const nuevoPrecio = parseFloat(row.cells[2].innerText.replace('.', '').replace(',', '.'));  // Suponiendo que el nuevo precio está en la tercera celda y formateado como "9.999,00"
     
             // Agregar artículo a la lista con el ID y el nuevo precio
@@ -290,7 +290,7 @@ function moverFilasSeleccionadas() {
                         nuevaCelda.style.textAlign = 'right';
                     }
                 }
-                if (index == 10) {
+                if (index == 12) {
                     const nuevaCelda = nuevaFila.insertCell();
                     nuevaCelda.innerHTML = cell.innerHTML;
                     nuevaCelda.style.display = 'none'
@@ -365,7 +365,7 @@ document.getElementById('guardarregularizaStock').addEventListener('click', func
     const id_articulo = document.getElementById('idartr').innerText;
     const motivo = document.getElementById('motivoMovimientor').value;
     const cantidad = document.getElementById('cantidadMovimientor').value;
-    if (cantidad !='0' && cantidad != ''){
+    if (cantidad != ''){
         guardarMovimiento('0', id_articulo, tipoMovimiento, motivo, cantidad, 0, '');
     } else {
         alert('Entre una cantidad')
@@ -440,3 +440,41 @@ function ponerfamilia(idfamilia, nomfamilia){
     buscart();
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    const modalr = document.getElementById('regularizaStockModal');
+    const saveBtnr = document.getElementById('guardarregularizaStock');
+
+    const stockInputr = document.getElementById('cantidadMovimientor');
+
+    // Coloca el foco en el input cuando se abre el modal
+    modalr.addEventListener('shown.bs.modal', function () {
+      stockInputr.focus();
+    });
+  
+    // Escucha cuando se presione una tecla en el modal
+    modalr.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Evita que el formulario se envíe si es un formulario
+        saveBtnr.click(); // Simula el click en el botón "Guardar"
+      }
+    });
+
+    const modals = document.getElementById('salidaStockModal');
+    const saveBtns = document.getElementById('guardarsalidaStock');
+
+    const stockInputs = document.getElementById('cantidadMovimientos');
+
+    // Coloca el foco en el input cuando se abre el modal
+    modals.addEventListener('shown.bs.modal', function () {
+      stockInputs.focus();
+    });
+  
+    // Escucha cuando se presione una tecla en el modal
+    modals.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Evita que el formulario se envíe si es un formulario
+        saveBtns.click(); // Simula el click en el botón "Guardar"
+      }
+    });
+  });
+    

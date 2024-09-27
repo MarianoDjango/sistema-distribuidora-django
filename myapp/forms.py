@@ -6,14 +6,20 @@ from django.utils.timezone import now
 from django.utils import timezone
 
 class articulosForm(forms.ModelForm):
+    precio_venta = forms.DecimalField(
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'style': 'text-align: right;', 'readonly': 'readonly'})
+    )
     fecha_precio = forms.DateField(
-        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
-        input_formats=['%Y-%m-%d'],
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'style': 'text-align: right;', 'readonly': 'readonly'}, format='%Y-%m-%d'),
+        input_formats=['%d/%m/%Y', '%Y-%m-%d'],
         initial= now().date()
     )
+    stock = forms.IntegerField(
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'style': 'text-align: right;', 'readonly': 'readonly'})
+    )
     fecha_stock = forms.DateField(
-        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
-        input_formats=['%Y-%m-%d'],
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'style': 'text-align: right;', 'readonly': 'readonly'}, format='%Y-%m-%d'),
+        input_formats=['%d/%m/%Y', '%Y-%m-%d'],
         initial= now().date()
     )
 

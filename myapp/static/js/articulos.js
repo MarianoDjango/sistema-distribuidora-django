@@ -41,3 +41,53 @@ function buscart(){
         },
       });
     }
+    document.addEventListener('DOMContentLoaded', function () {
+      const precioCompraInput = document.getElementById('id_precio_compra');
+      const margenInput = document.getElementById('id_margen');
+      const margen2Input = document.getElementById('id_margen2');
+      const precioVentaInput = document.getElementById('id_precio_venta');
+      const fechaPrecioInput = document.getElementById('id_fecha_precio');
+    
+      precioCompraInput.addEventListener('input', function () {
+        const precioCompra = parseFloat(precioCompraInput.value) || 0;
+        const margen = parseFloat(margenInput.value) || 0;
+        const margen2 = parseFloat(margen2Input.value) || 0;
+        
+        const precioVenta = precioCompra * (1 + margen / 100) * (1 + margen2 / 100);
+        precioVentaInput.value = precioVenta.toFixed(2);
+    
+        // Actualiza el campo de fecha_precio con la fecha actual
+        const hoy = new Date().toISOString().split('T')[0];
+        fechaPrecioInput.value = hoy;
+        console.log(hoy)
+      });
+      
+      margenInput.addEventListener('input', function () {
+        const precioCompra = parseFloat(precioCompraInput.value) || 0;
+        const margen = parseFloat(margenInput.value) || 0;
+        const margen2 = parseFloat(margen2Input.value) || 0;
+        
+        const precioVenta = precioCompra * (1 + margen / 100) * (1 + margen2 / 100);
+        precioVentaInput.value = precioVenta.toFixed(2);
+    
+        // Actualiza el campo de fecha_precio con la fecha actual
+        const hoy = new Date().toISOString().split('T')[0];
+        fechaPrecioInput.value = hoy;
+        console.log(hoy)
+      });
+      
+      margen2Input.addEventListener('input', function () {
+        const precioCompra = parseFloat(precioCompraInput.value) || 0;
+        const margen = parseFloat(margenInput.value) || 0;
+        const margen2 = parseFloat(margen2Input.value) || 0;
+        
+        const precioVenta = precioCompra * (1 + margen / 100) * (1 + margen2 / 100);
+        precioVentaInput.value = precioVenta.toFixed(2);
+    
+        // Actualiza el campo de fecha_precio con la fecha actual
+        const hoy = new Date().toISOString().split('T')[0];
+        fechaPrecioInput.value = hoy;
+        console.log(hoy)
+      });
+    });
+  

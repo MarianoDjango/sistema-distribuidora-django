@@ -48,7 +48,7 @@ def importar_articulos(csv_file):
             except articulos.DoesNotExist:
                 if familia_var != row['idfamilia']:
                     idempresa = empresas.objects.get(id=row['idempresa'])
-                    family = familias.objects.get(id=row["idfamilia"])
+                    family = familias.objects.get(id=row['idfamilia'])
                     familia_var = family.id
 
                 activo = True if row["activo"] == "TRUE" else False

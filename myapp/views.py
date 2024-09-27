@@ -193,6 +193,20 @@ def articulo_create_or_update(request, **kwargs):
                 form = articulosForm(request.POST, instance=articulo)
                 if form.is_valid():
                     form.save()
+                    historico = hist_movart( articulo = articulo,
+                                    fechamov = datetime.datetime.today(),
+                                    tipomov = 'cambio precio',
+                                    numdoc = '0',
+                                    cantidad = 0,
+                                    precioactual = 0,
+                                    porprecio = 0,
+                                    nuevoprecio = articulo.precio_venta,
+                                    stockactual = articulo.stock,
+                                    nuevostock = articulo.stock,
+                                    usuario = request.user
+                                )
+                    historico.save()
+
                     urlredirect = "/myapp/dashboard/" + str(request.user.perfil.idempresa.id)
                     return redirect(urlredirect)
             else:
@@ -200,8 +214,8 @@ def articulo_create_or_update(request, **kwargs):
                 articulo.idempresa = empresa
                 familia = familias.objects.filter(idempresa=empresa).first()
                 articulo.familia = familia
-                articulo.fecha_precio = datetime.datetime.today().date()
-                articulo.fecha_stock = datetime.datetime.today().date()
+                #articulo.fecha_precio = datetime.datetime.today().date()
+                #articulo.fecha_stock = datetime.datetime.today().date()
 
                 form = articulosForm(instance=articulo, empresa_id=int(kwargs['id_empresa']))
 
@@ -316,18 +330,22 @@ def guardar_movs_stock(request):
                 articulo.fecha_stock = datetime.datetime.today().date()                
                 articulo.save()
             elif tipomov_var == 'Salida':
-                mensaje = 'Salida de stock realizada con exito!'         
-                histo_mov.tipomov = motivo_var
-                histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
-                histo_mov.cantidad = cantidad_var
-                histo_mov.stockactual = articulo.stock
-                histo_mov.nuevostock = articulo.stock - Decimal(cantidad_var)
-                histo_mov.usuario = request.user
-                histo_mov.save()
-                    
-                articulo.stock = articulo.stock - Decimal(cantidad_var)
-                articulo.fecha_stock = datetime.datetime.today().date()                
-                articulo.save()
+                if Decimal(cantidad_var) <= articulo.stock:
+                    mensaje = 'Salida de stock realizada con exito!'         
+                    histo_mov.tipomov = motivo_var
+                    histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
+                    histo_mov.cantidad = cantidad_var
+                    histo_mov.stockactual = articulo.stock
+                    histo_mov.nuevostock = articulo.stock - Decimal(cantidad_var)
+                    histo_mov.usuario = request.user
+                    histo_mov.save()
+                        
+                    articulo.stock = articulo.stock - Decimal(cantidad_var)
+                    articulo.fecha_stock = datetime.datetime.today().date()                
+                    articulo.save()
+                else:
+                    mensaje = 'Stock Insuficiente!'
+                    return JsonResponse({'success': False, 'modal': tipomov_var, 'message': mensaje})        
             return JsonResponse({'success': True, 'modal': tipomov_var, 'message': mensaje})
         return JsonResponse({'success': True, 'modal': tipomov_var, 'message': mensaje})
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
@@ -381,6 +399,8 @@ def agregar_al_carrito(request, articulo_id, **kwargs):
     data = json.loads(request.body)
     cantidad_table = int(data.get('cantidad', 1))  # Valor por defecto es 1
     success = True
+    new_cant_art_carrito = 0
+    new_total_linea = 0
     # Si el artículo ya está en el carrito, incrementar la cantidad
     if str(articulo_id) in carrito:
         new_cant_carrito = carrito[str(articulo_id)]['cantidad'] + cantidad_table
@@ -403,17 +423,19 @@ def agregar_al_carrito(request, articulo_id, **kwargs):
     if success:
         carrito[str(articulo_id)]['total_linea'] = carrito[str(articulo_id)]['cantidad'] * carrito[str(articulo_id)]['precio']
 
-    # Guardar el carrito en la sesión
+        # Guardar el carrito en la sesión
     request.session[f'carrito_{id_empresa}'] = carrito
 
-    # Calcular el total del carrito
+        # Calcular el total del carrito
     total_carrito = sum(item['total_linea'] for item in carrito.values())
     request.session[f'total_carrito_{id_empresa}'] = total_carrito
 
     request.session.modified = True
     cantidad_total = sum(item['cantidad'] for item in carrito.values())
-    new_cant_art_carrito = carrito[str(articulo_id)]['cantidad']
-    new_total_linea = carrito[str(articulo_id)]['total_linea']
+    if str(articulo_id) in carrito:
+        new_cant_art_carrito = carrito[str(articulo_id)]['cantidad']
+        new_total_linea = carrito[str(articulo_id)]['total_linea']
+    
     return JsonResponse({'success': success, 'new_cantidad_art': new_cant_art_carrito, 'cantidad_total': cantidad_total, 'new_total_linea' : '{:.2f}'.format(new_total_linea), 'subtotalcarrito' : total_carrito})
     #return redirect('dashboard', id_empresa)  # Redirigir a la página de lista de artículos o carrito
 # views.py
