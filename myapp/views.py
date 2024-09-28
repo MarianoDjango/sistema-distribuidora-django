@@ -11,6 +11,7 @@ import datetime
 from decimal import Decimal
 from django.urls import reverse
 from django.db import transaction
+
 def index(request):
     return render(request, 'index.html')
 
@@ -19,6 +20,7 @@ def afterlogin( request, *args, **kwargs):
     urlredirect = "/myapp/dashboard/" + str(idempresa.id)
     return redirect(urlredirect)
 
+@login_required
 def famlias_empresa(request, **kwargs):
     empresa_id = request.GET['idempresa']
     familias_var = familias.objects.filter(idempresa=empresa_id)
@@ -44,9 +46,9 @@ def articulos_famila(request, **kwargs):
     empresa_obj = get_object_or_404(empresas, id=idempresa_var)
     if familia_id != '0':
         if nombre_var == "":
-            articles = articulos.objects.filter(familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')[:10]
+            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')[:10]
         else:
-            articles = articulos.objects.filter(familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'precio_compra', 'activo')[:10]
+            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'precio_compra', 'activo')[:10]
     else:
         if nombre_var == "":
             articles = articulos.objects.filter(idempresa=idempresa_var).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
@@ -58,7 +60,8 @@ def articulos_famila(request, **kwargs):
     recs.append(json_list)
     for articulo in articles:
         fila = '<tr style="cursor:hand;">'
-        if articulo['idempresa'] == request.user.perfil.idempresa.id or request.user.is_staff:
+        #if articulo['idempresa'] == request.user.perfil.idempresa.id:
+        if request.user.is_staff:
             id_articulo = str(articulo['id'])
             fila += f'<td class="text-center"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault{id_articulo}"><label class="form-check-label" for="flexCheckDefault{id_articulo}"></label></div></td>'
             if articulo['activo']:
@@ -90,11 +93,23 @@ def articulos_famila(request, **kwargs):
                 fila += f'<td class="text-end"><button class="btn btn-secondary actualizar-stock" title="Regularizar Stock" data-id-articulo="' +  id_articulo + '" data-toggle="modal" data-target="#movimientoStockModal" disabled><i class="bi bi-boxes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16"><path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/></svg></i></button></td>'
             fila += '<td class="text-center preciocompra" style="display : none;">' + '{:,.2f}'.format(articulo['precio_compra']).replace(",", "@").replace(".", ",").replace("@", ".") + '</td>'
         else:
-            fila += '<td>'+ articulo['descripcion'] + '</td>'
+            if articulo['activo']:
+                fila += '<td>'+ articulo['descripcion'] + '</td>'
+            else:
+                fila += '<td style="color:red;">'+ articulo['descripcion'] + '</td>'
             fila += '<td class="text-end">{:,.2f}'.format(articulo['precio_venta']).replace(",", "@").replace(".", ",").replace("@", ".") + '</td>'
             fila += '<td class="text-center">' + str(articulo['fecha_precio']) + '</td>'
             fila += '<td class="text-end">{:,.2f}'.format(articulo['stock']).replace(",", "@").replace(".", ",").replace("@", ".") + '</td>'
             fila += '<td class="text-center">' + str(articulo['fecha_stock']) + '</td>'
+            if empresa_obj.venta:
+                if articulo['idempresa'] == request.user.perfil.idempresa.id:
+                    if articulo['stock'] == 0 or not articulo['activo']:
+                        fila += f'<td class="text-center"><input type="text" class="form-control cantidad-plus" style="border-radius: 10px;" placeholder="Sin Stock" readonly></td>'
+                        fila += f'<td class="text-center"><button class="btn btn-secondary agregar-carrito" data-id="'+ str(articulo['id']) + '" title="Agregar al Pedido" disabled><i class="bi bi-cart-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16"><path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/><path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></i></button></td>'
+                    else:
+                        fila += f'<td class="text-center"><input type="text" class="form-control cantidad-plus" style="border-radius: 10px;" placeholder="Cant."></td>'
+                        fila += f'<td class="text-center"><button class="btn agregar-carrito" data-id="'+ str(articulo['id']) + '" style="background-color: #92dea3;" title="Agregar al Pedido"><i class="bi bi-cart-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16"><path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/><path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></i></button></td>'
+
         fila += '<td class="text-center" style="display : none;">' + str(articulo['id']) + '</td>'
         json_list = {
             'fila': fila,
@@ -183,7 +198,7 @@ class dashboard_view(LoginRequiredMixin,View):
 @login_required
 def articulo_create_or_update(request, **kwargs):
     #if request.user.is_authenticated:
-        if request.user.perfil.idempresa.id == int(kwargs['id_empresa']) or request.user.is_staff:
+        if request.user.is_staff:
             if kwargs['pk'] != '0':
                 articulo = get_object_or_404(articulos, pk=kwargs['pk'])
             else:
@@ -219,8 +234,9 @@ def articulo_create_or_update(request, **kwargs):
 
                 form = articulosForm(instance=articulo, empresa_id=int(kwargs['id_empresa']))
 
-        return render(request, 'myapp/articulo_form.html', {'form': form})
-    
+            return render(request, 'myapp/articulo_form.html', {'form': form})
+        else:
+            return render(request, 'myapp/articulo_form.html')
     #return redirect('login')
 
 @login_required

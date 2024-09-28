@@ -75,11 +75,13 @@
                         {% endif %}
                     </div>  
                     <div class="card-footer">
-                        <input class="btn btn-primary" id="guardar" value="Guardar" type="submit">
-                        <div style="display: none;">
-                            <input class="btn btn-primary" id="submit" />
-                        </div>
-                    </div>
+						{% if user.is_staff %}
+							<input class="btn btn-primary" id="guardar" value="Guardar" type="submit">
+							<div style="display: none;">
+								<input class="btn btn-primary" id="submit" />
+							</div>
+						{% endif %}
+					</div>
                 </form>
 			</div>               
         {% else %}
