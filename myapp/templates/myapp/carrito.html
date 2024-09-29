@@ -202,11 +202,10 @@ function removeItem(btndel) {
         var multi_dto_adicional = (descuentoAdicional * 0.01) + 1
         
         if (fpago === "Efectivo"){
-            console.log(fpago)
-            total_dto_efectivo = (parseFloat(subtotal_carrito) * multi_efectivo) - parseFloat(subtotal_carrito )
+            total_dto_efectivo = (parseFloat(subtotal_carrito) * (1 + descuentoEfectivo / 100)) - parseFloat(subtotal_carrito )
         }
         if (descuentoAdicional != 0){
-            total_dto_adicional = (parseFloat(subtotal_carrito) * multi_dto_adicional) - parseFloat(subtotal_carrito )
+            total_dto_adicional = (parseFloat(subtotal_carrito) * (1 + descuentoAdicional / 100)) - parseFloat(subtotal_carrito )
         }
         total = parseFloat(subtotal_carrito) - total_dto_efectivo - total_dto_adicional
         totaldtos = total_dto_efectivo + total_dto_adicional

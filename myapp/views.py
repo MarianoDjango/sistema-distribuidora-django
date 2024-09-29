@@ -201,26 +201,30 @@ def articulo_create_or_update(request, **kwargs):
         if request.user.is_staff:
             if kwargs['pk'] != '0':
                 articulo = get_object_or_404(articulos, pk=kwargs['pk'])
+                precio_venta_anterior = articulo.precio_venta
             else:
                 articulo = articulos()
-                
+                precio_venta_anterior = None
+
             if request.method == 'POST':
                 form = articulosForm(request.POST, instance=articulo)
                 if form.is_valid():
                     form.save()
-                    historico = hist_movart( articulo = articulo,
-                                    fechamov = datetime.datetime.today(),
-                                    tipomov = 'cambio precio',
-                                    numdoc = '0',
-                                    cantidad = 0,
-                                    precioactual = 0,
-                                    porprecio = 0,
-                                    nuevoprecio = articulo.precio_venta,
-                                    stockactual = articulo.stock,
-                                    nuevostock = articulo.stock,
-                                    usuario = request.user
-                                )
-                    historico.save()
+                    #print(art_val_ant)
+                    if (precio_venta_anterior != articulo.precio_venta):
+                        historico = hist_movart( articulo = articulo,
+                                        fechamov = datetime.datetime.today(),
+                                        tipomov = 'CRUD Articulos',
+                                        numdoc = '0',
+                                        cantidad = 0,
+                                        precioactual = precio_venta_anterior,
+                                        porprecio = 0,
+                                        nuevoprecio = articulo.precio_venta,
+                                        stockactual = articulo.stock,
+                                        nuevostock = articulo.stock,
+                                        usuario = request.user
+                                    )
+                        historico.save()
 
                     urlredirect = "/myapp/dashboard/" + str(request.user.perfil.idempresa.id)
                     return redirect(urlredirect)
@@ -231,7 +235,6 @@ def articulo_create_or_update(request, **kwargs):
                 articulo.familia = familia
                 #articulo.fecha_precio = datetime.datetime.today().date()
                 #articulo.fecha_stock = datetime.datetime.today().date()
-
                 form = articulosForm(instance=articulo, empresa_id=int(kwargs['id_empresa']))
 
             return render(request, 'myapp/articulo_form.html', {'form': form})
@@ -336,8 +339,7 @@ def guardar_movs_stock(request):
 
                     articulo.precio_compra = preciocompra_var
                     articulo.fecha_precio = datetime.datetime.today().date()
-                    multi = Decimal(articulo.margen) *  Decimal(0.01) + 1
-                    articulo.precio_venta = Decimal(preciocompra_var) * multi
+                    articulo.precio_venta = Decimal(preciocompra_var) * (1 + articulo.margen / 100) * (1 + articulo.margen2 / 100)
                 elif 'Traspaso' in motivo_var:
                     histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
                 histo_mov.save()
@@ -490,10 +492,11 @@ def cantidad_total_carrito(request, **kwargs):
 def ver_carrito(request, **kwargs):
     id_empresa = kwargs['id_empresa']
     carrito = request.session.get(f'carrito_{id_empresa}', {})
-    descuento_efectivo = obtener_descuento_efectivo()  # Lógica para obtener el descuento por pago en efectivo
+      # Lógica para obtener el descuento por pago en efectivo
     total = calcular_total_carrito(carrito)  # Lógica para calcular el total
     empresa_id = kwargs['id_empresa']
     empresa_obj = get_object_or_404(empresas, id=empresa_id)
+    descuento_efectivo = empresa_obj.dtoefectvo
     formas_pago = formaspago.objects.all()
     cliente_list = clientes.objects.filter(idempresa=id_empresa, activo=True)
     if request.method == 'POST':
