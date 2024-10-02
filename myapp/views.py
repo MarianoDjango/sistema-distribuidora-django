@@ -204,26 +204,34 @@ def articulo_create_or_update(request, **kwargs):
                 precio_venta_anterior = articulo.precio_venta
             else:
                 articulo = articulos()
+                articulo.fecha_precio = datetime.date.today()
+                articulo.fecha_stock = datetime.date.today()
                 precio_venta_anterior = None
 
             if request.method == 'POST':
                 form = articulosForm(request.POST, instance=articulo)
                 if form.is_valid():
+                    is_new = form.instance.pk is None
+                    if is_new:
+                        tipo_mov = 'Creacion Articulo'
+                        precio_venta_anterior = 0
+                    else:
+                        tipo_mov = 'Actualiza Articulo'
                     form.save()
                     #print(art_val_ant)
-                    if (precio_venta_anterior != articulo.precio_venta):
+                    if (precio_venta_anterior != articulo.precio_venta) or is_new:
                         historico = hist_movart( articulo = articulo,
-                                        fechamov = datetime.datetime.today(),
-                                        tipomov = 'CRUD Articulos',
-                                        numdoc = '0',
-                                        cantidad = 0,
-                                        precioactual = precio_venta_anterior,
-                                        porprecio = 0,
-                                        nuevoprecio = articulo.precio_venta,
-                                        stockactual = articulo.stock,
-                                        nuevostock = articulo.stock,
-                                        usuario = request.user
-                                    )
+                                    fechamov = datetime.datetime.today(),
+                                    tipomov = tipo_mov,
+                                    numdoc = '0',
+                                    cantidad = 0,
+                                    precioactual = precio_venta_anterior,
+                                    porprecio = 0,
+                                    nuevoprecio = articulo.precio_venta,
+                                    stockactual = articulo.stock,
+                                    nuevostock = articulo.stock,
+                                    usuario = request.user
+                                )
                         historico.save()
 
                     urlredirect = "/myapp/dashboard/" + str(request.user.perfil.idempresa.id)
