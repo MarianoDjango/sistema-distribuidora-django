@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="{% static 'bootstrap-5.3.3-dist/css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="{% static 'bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js' %}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         
     <title>Distribuidora Silva</title>
     <style>
@@ -58,8 +58,10 @@
           {% else %}
             <div class="col-lg-7"></div>
             <div class="col-lg-2">
-              <a class="btn btn-secondary" href="{% url 'login' %}" aria-expanded="false">Entrar
-              </a>
+              <form method="post" style="display:inline;">
+                {% csrf_token %}
+                <a class="btn btn-warning" href="{% url 'login' %}" aria-expanded="false">Entrar</a>
+              </form>
             </div>
           {% endif %}
           </div>
