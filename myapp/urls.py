@@ -19,4 +19,5 @@ urlpatterns = [
     path('clientes/', views.clientes_empresa, name='clientesempresa'),
     path('dashboard/<id_empresa>/vaciar/', views.vaciar_carrito, name='vaciar_carrito'),
     path('dashboard/<id_empresa>/carrito/finalizar_compra/', views.cerrar_venta, name='cerrar_venta'),
+    path('movimientos/', views.listar_movimientos, name='lista_movimientos'),
 ]

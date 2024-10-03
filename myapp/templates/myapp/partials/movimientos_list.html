@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Artículo</th>
+                    <th>Tipo Movimiento</th>
+                    <th>Número Documento</th>
+                    <th>Cantidad</th>
+                    <th>Precio Actual</th>
+                    <th>Nuevo Precio</th>
+                    <th>Stock Actual</th>
+                    <th>Nuevo Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for articulo, movimientos in page_obj %}
+                    <tr class="table-info">
+                        <td colspan="8"><strong>{{ articulo }}</strong></td>
+                    </tr>
+                    {% for movimiento in movimientos %}
+                    <tr>
+                        <td></td> <!-- Dejar vacío porque el artículo ya se mostró -->
+                        <td>{{ movimiento.tipomov }}</td>
+                        <td>{{ movimiento.numdoc }}</td>
+                        <td>{{ movimiento.cantidad }}</td>
+                        <td>{{ movimiento.precioactual }}</td>
+                        <td>{{ movimiento.nuevoprecio }}</td>
+                        <td>{{ movimiento.stockactual }}</td>
+                        <td>{{ movimiento.nuevostock }}</td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item {% if not movimientos.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="?page={{ movimientos.previous_page_number }}">Anterior</a>
+            </li>
+            <li class="page-item {% if not movimientos.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?page={{ movimientos.next_page_number }}">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+</div>

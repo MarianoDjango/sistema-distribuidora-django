@@ -1,0 +1,68 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="container-fluid p-3">
+    <div class="card shadow  p-2 m-2">
+        <form method="get" id="filter-form" class="row g-3">
+            <div class="col-md-4">
+                <label for="id_empresa" class="form-label">Empresa</label>
+                {{ form.empresa|add_class:"form-select" }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_articulo" class="form-label">Artículo</label>
+                {{ form.articulo|add_class:"form-select" }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_familia" class="form-label">Familia</label>
+                {{ form.familia|add_class:"form-select" }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_tipomov" class="form-label">Tipo Movimiento</label>
+                {{ form.tipomov|add_class:"form-select" }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_fecha_desde" class="form-label">Fecha Desde</label>
+                {{ form.fecha_desde|add_class:"form-control" }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_fecha_hasta" class="form-label">Fecha Hasta</label>
+                {{ form.fecha_hasta|add_class:"form-control" }}
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="movimientos-list">
+    {% include 'myapp/partials/movimientos_list.html' %}
+</div>
+
+<script>
+    // Escuchar el evento de submit del formulario para cargar vía Ajax
+    $('#filter-form').on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: "{% url 'lista_movimientos' %}",
+            data: $(this).serialize(),
+            success: function(data) {
+                $('#movimientos-list').html(data.html);
+            }
+        });
+    });
+
+    // Manejar la paginación vía Ajax
+    $('#movimientos-list').on('click', '.pagination a', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('href'),
+            data: $('#filter-form').serialize(),
+            success: function(data) {
+                $('#movimientos-list').html(data.html);
+            }
+        });
+    });
+</script>
+{% endblock %}

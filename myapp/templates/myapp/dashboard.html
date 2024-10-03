@@ -12,6 +12,18 @@
     }
 
 </style>
+<nav class="nav justify-content-center" style="background-color: #fffcd6;">
+    <li class="nav-item custom-nav-item">
+      <a class="nav-link active" href="clientes/">Clientes</a>
+    </li>
+    {% if user.is_staff %}
+    <li class="nav-item custom-nav-item">
+      <a class="nav-link" href="../../movimientos/">Movimientos</a>
+    </li>
+    {% endif %}
+  <br>  
+  </nav>
+  
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="nav nav-tabs">
             {% for empresa in empresas %}
@@ -25,14 +37,6 @@
     </nav>    
         <div class="container-fluid">
             <ul class="nav navbar-expand-lg navbar-light bg-light justify-content-end">
-                {% if user.is_staff %}
-                <li class="nav-item">
-                    <button class="btn btn-secondary" onclick="window.location.href='clientes/'" title="Clientes" type="button"><i class="bi bi-person-add"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
-                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                        <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
-                      </svg></i></button>
-                </li>
-                {% endif %}
                 {% if id_empresa == user.perfil.idempresa_id or user.is_staff %}
                 <li>&nbsp;&nbsp;&nbsp;</li>
                 <li class="nav-item">

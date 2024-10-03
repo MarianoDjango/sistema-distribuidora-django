@@ -84,4 +84,32 @@ class clientesForm(forms.ModelForm):
         for field in self.fields:
             if not isinstance(self.fields[field].widget, forms.CheckboxInput):
                 self.fields[field].widget.attrs.update({'class': 'form-control'})
-        
+
+class MovimientosFiltroForm(forms.Form):
+    empresa = forms.ModelChoiceField(
+        queryset=empresas.objects.all(), required=False, label='Empresa')
+    articulo = forms.ModelChoiceField(
+        queryset=articulos.objects.all(), required=False, label="Artículo"
+    )
+    familia = forms.ModelChoiceField(
+        queryset=familias.objects.all(), required=False, label="Familia"
+    )
+    tipomov = forms.ChoiceField(
+        choices=[
+            ('todos', 'Todos'),
+            ('compra', 'Compra'),
+            ('traspaso', 'Traspaso'),
+            ('venta', 'Venta'),
+            ('ajuste', 'Ajuste')
+        ],
+        required=False, label="Tipo Movimiento"
+    )
+    fecha_desde = forms.DateField(
+        required=False, label="Fecha Desde",
+        widget=forms.TextInput(attrs={'type': 'date'})
+    )
+    fecha_hasta = forms.DateField(
+        required=False, label="Fecha Hasta",
+        widget=forms.TextInput(attrs={'type': 'date'})
+    )
+

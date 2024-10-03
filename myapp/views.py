@@ -6,11 +6,14 @@ from django.contrib.auth.decorators import login_required
 from .models import empresas, familias, articulos, hist_movart, tipomovimientos, formaspago, clientes, cabecera_venta
 import json
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from .forms import articulosForm, clientesForm
+from .forms import articulosForm, clientesForm, MovimientosFiltroForm
 import datetime
 from decimal import Decimal
 from django.urls import reverse
 from django.db import transaction
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
+from django.db.models import Count, Sum
 
 def index(request):
     return render(request, 'index.html')
@@ -772,3 +775,52 @@ def cerrar_venta(request, **kwargs):
             return JsonResponse({'success': False, 'message': str(e)})
 
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
+
+@login_required
+def listar_movimientos(request):
+    form = MovimientosFiltroForm(request.GET or None)
+    movimientos = hist_movart.objects.all()
+
+    # Si se selecciona un artículo específico (pk diferente de 0)
+    if form.is_valid():
+        empresa = form.cleaned_data.get('empresa')
+        articulo = form.cleaned_data.get('articulo')
+        familia = form.cleaned_data.get('familia')
+        tipomov = form.cleaned_data.get('tipomov')
+        fecha_desde = form.cleaned_data.get('fecha_desde')
+        fecha_hasta = form.cleaned_data.get('fecha_hasta')
+
+        if empresa:
+            movimientos = movimientos.filter(articulo__idempresa=empresa)
+        if articulo:
+            movimientos = movimientos.filter(articulo=articulo)
+        if familia:
+            movimientos = movimientos.filter(articulo__familia=familia)
+        if tipomov != 'todos':
+            movimientos = movimientos.filter(tipomov=tipomov)
+        if fecha_desde:
+            movimientos = movimientos.filter(fechamov__gte=fecha_desde)
+        if fecha_hasta:
+            movimientos = movimientos.filter(fechamov__lte=fecha_hasta)
+
+    movimientos_agrupados = {}
+    for movimiento in movimientos.order_by('articulo__descripcion', 'id'):
+        articulo = movimiento.articulo.descripcion
+        if articulo not in movimientos_agrupados:
+            movimientos_agrupados[articulo] = []
+        movimientos_agrupados[articulo].append(movimiento)
+
+    movimientos_agrupados_list = list(movimientos_agrupados.items())
+    paginator = Paginator(movimientos_agrupados_list, 10)  # 10 artículos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({
+            'html': render_to_string('myapp/partials/movimientos_list.html', {'page_obj': page_obj}),
+        })
+
+    return render(request, 'myapp/lista_movimientos.html', {
+        'form': form,
+        'page_obj': page_obj,
+    })
