@@ -776,51 +776,45 @@ def cerrar_venta(request, **kwargs):
 
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
 
-@login_required
-def listar_movimientos(request):
-    form = MovimientosFiltroForm(request.GET or None)
+def movimientos_list_view(request,**kwargs):
+    # Renderizamos solo el HTML con la tabla vacía para que luego se llene vía AJAX
+    return render(request, 'myapp/lista_movimientos.html', {
+        'fecha_desde': datetime.datetime.now().date(),
+        'fecha_hasta': datetime.datetime.now().date(),
+    })
+
+def ajax_list_movimientos(request):
+    empresa = request.GET.get('empresa', 'todos')
+    fecha_desde = request.GET.get('fecha_desde', datetime.datetime.now().date())
+    fecha_hasta = request.GET.get('fecha_hasta', datetime.datetime.now().date())
+
+    # Aplicar los filtros al queryset
     movimientos = hist_movart.objects.all()
 
-    # Si se selecciona un artículo específico (pk diferente de 0)
-    if form.is_valid():
-        empresa = form.cleaned_data.get('empresa')
-        articulo = form.cleaned_data.get('articulo')
-        familia = form.cleaned_data.get('familia')
-        tipomov = form.cleaned_data.get('tipomov')
-        fecha_desde = form.cleaned_data.get('fecha_desde')
-        fecha_hasta = form.cleaned_data.get('fecha_hasta')
+    if empresa != 'todos':
+        movimientos = movimientos.filter(empresa=empresa)
 
-        if empresa:
-            movimientos = movimientos.filter(articulo__idempresa=empresa)
-        if articulo:
-            movimientos = movimientos.filter(articulo=articulo)
-        if familia:
-            movimientos = movimientos.filter(articulo__familia=familia)
-        if tipomov != 'todos':
-            movimientos = movimientos.filter(tipomov=tipomov)
-        if fecha_desde:
-            movimientos = movimientos.filter(fechamov__gte=fecha_desde)
-        if fecha_hasta:
-            movimientos = movimientos.filter(fechamov__lte=fecha_hasta)
+    if fecha_desde:
+        movimientos = movimientos.filter(fechamov__gte=fecha_desde)
+
+    if fecha_hasta:
+        movimientos = movimientos.filter(fechamov__lte=fecha_hasta)
 
     movimientos_agrupados = {}
-    for movimiento in movimientos.order_by('articulo__descripcion', 'id'):
+    for movimiento in movimientos:
         articulo = movimiento.articulo.descripcion
         if articulo not in movimientos_agrupados:
             movimientos_agrupados[articulo] = []
-        movimientos_agrupados[articulo].append(movimiento)
-
-    movimientos_agrupados_list = list(movimientos_agrupados.items())
-    paginator = Paginator(movimientos_agrupados_list, 10)  # 10 artículos por página
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse({
-            'html': render_to_string('myapp/partials/movimientos_list.html', {'page_obj': page_obj}),
+        movimientos_agrupados[articulo].append({
+            'fechamov': movimiento.fechamov.strftime('%d-%m-%Y'),
+            'tipomov': movimiento.tipomov,
+            'cantidad': movimiento.cantidad,
+            'stockactual': movimiento.stockactual,
         })
 
-    return render(request, 'myapp/lista_movimientos.html', {
-        'form': form,
-        'page_obj': page_obj,
-    })
+    # Serializar los resultados en JSON
+    data = {
+        'movimientos': movimientos_agrupados
+    }
+
+    return JsonResponse(data)

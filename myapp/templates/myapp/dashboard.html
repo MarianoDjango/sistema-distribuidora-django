@@ -17,9 +17,13 @@
       <a class="nav-link active" href="clientes/">Clientes</a>
     </li>
     {% if user.is_staff %}
-    <li class="nav-item custom-nav-item">
-      <a class="nav-link" href="../../movimientos/">Movimientos</a>
-    </li>
+    <li class="nav-item custom-nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reportes</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="movimientos/">Ventas</a></li>
+          <li><a class="dropdown-item" href="movimientos/">Movimientos</a></li>
+        </ul>
+      </li>
     {% endif %}
   <br>  
   </nav>

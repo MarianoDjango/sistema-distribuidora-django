@@ -1,68 +1,124 @@
 {% extends "base_generic.html" %}
-{% load static %}
 {% load widget_tweaks %}
+{% load static%}
 {% block content %}
+<nav class="nav justify-content-center" style="background-color: #fffcd6;">
+    <li class="nav-item custom-nav-item">
+      <a class="nav-link active" href="clientes/">Clientes</a>
+    </li>
+    {% if user.is_staff %}
+    <li class="nav-item custom-nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reportes</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="movimientos/">Ventas</a></li>
+          <li><a class="dropdown-item" href="movimientos/">Movimientos</a></li>
+        </ul>
+      </li>
+    {% endif %}
+  <br>  
+  </nav>
 
 <div class="container-fluid p-3">
-    <div class="card shadow  p-2 m-2">
-        <form method="get" id="filter-form" class="row g-3">
+    <div class="card shadow p-2 m-2">
+        <!-- Aquí puedes agregar otros controles, pero sin un formulario explícito -->
+        <div class="row">
             <div class="col-md-4">
-                <label for="id_empresa" class="form-label">Empresa</label>
-                {{ form.empresa|add_class:"form-select" }}
-            </div>
-            <div class="col-md-4">
-                <label for="id_articulo" class="form-label">Artículo</label>
-                {{ form.articulo|add_class:"form-select" }}
-            </div>
-            <div class="col-md-4">
-                <label for="id_familia" class="form-label">Familia</label>
-                {{ form.familia|add_class:"form-select" }}
+                <label for="empresa" class="form-label">Empresa</label>
+                <select id="empresa" class="form-select">
+                    <option value="todos">Todos</option>
+                    <!-- Aquí puedes agregar las empresas directamente en el HTML si lo deseas -->
+                </select>
             </div>
             <div class="col-md-4">
-                <label for="id_tipomov" class="form-label">Tipo Movimiento</label>
-                {{ form.tipomov|add_class:"form-select" }}
+                <label for="fecha_desde" class="form-label">Fecha Desde</label>
+                <input type="date" id="fecha_desde" class="form-control" value="{{ fecha_desde }}">
             </div>
             <div class="col-md-4">
-                <label for="id_fecha_desde" class="form-label">Fecha Desde</label>
-                {{ form.fecha_desde|add_class:"form-control" }}
+                <label for="fecha_hasta" class="form-label">Fecha Hasta</label>
+                <input type="date" id="fecha_hasta" class="form-control" value="{{ fecha_hasta }}">
             </div>
-            <div class="col-md-4">
-                <label for="id_fecha_hasta" class="form-label">Fecha Hasta</label>
-                {{ form.fecha_hasta|add_class:"form-control" }}
-            </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Filtrar</button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-<div id="movimientos-list">
-    {% include 'myapp/partials/movimientos_list.html' %}
+
+    <!-- Tabla para mostrar los resultados -->
+    <div class="card shadow p-2 m-2">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Artículo</th>
+                    <th>Fecha Movimiento</th>
+                    <th>Tipo Movimiento</th>
+                    <th>Cantidad</th>
+                    <th>Stock Actual</th>
+                </tr>
+            </thead>
+            <tbody id="movimientos-table-body">
+                <!-- Los datos de los movimientos se cargarán aquí dinámicamente vía AJAX -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
-    // Escuchar el evento de submit del formulario para cargar vía Ajax
-    $('#filter-form').on('submit', function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: "{% url 'lista_movimientos' %}",
-            data: $(this).serialize(),
-            success: function(data) {
-                $('#movimientos-list').html(data.html);
-            }
-        });
-    });
+// Función que ejecuta la llamada AJAX para obtener los movimientos
+function loadMovimientos() {
+    const empresa = document.getElementById('empresa').value;
+    const fechaDesde = document.getElementById('fecha_desde').value;
+    const fechaHasta = document.getElementById('fecha_hasta').value;
 
-    // Manejar la paginación vía Ajax
-    $('#movimientos-list').on('click', '.pagination a', function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: $(this).attr('href'),
-            data: $('#filter-form').serialize(),
-            success: function(data) {
-                $('#movimientos-list').html(data.html);
+    const url = "{% url 'ajax_list_movimientos' %}?empresa=" + empresa + "&fecha_desde=" + fechaDesde + "&fecha_hasta=" + fechaHasta;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.getElementById('movimientos-table-body');
+        tableBody.innerHTML = '';  // Limpiar la tabla
+
+        // Iterar sobre los artículos y movimientos agrupados
+        for (const articulo in data.movimientos) {
+            if (data.movimientos.hasOwnProperty(articulo)) {
+                // Agregar una fila de cabecera para el artículo
+                const rowHeader = `
+                    <tr>
+                        <td colspan="5" style="font-weight:bold; background-color: #f8f9fa;">${articulo}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += rowHeader;
+
+                // Agregar las filas para los movimientos de ese artículo
+                data.movimientos[articulo].forEach(movimiento => {
+                    const row = `
+                        <tr>
+                            <td></td>  <!-- La primera columna queda vacía para los movimientos -->
+                            <td>${movimiento.fechamov}</td>
+                            <td>${movimiento.tipomov}</td>
+                            <td>${movimiento.cantidad}</td>
+                            <td>${movimiento.stockactual}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
             }
-        });
+        }
+    })
+    .catch(error => {
+        console.error('Error al cargar los movimientos:', error);
     });
+}
+
+// Llamada inicial cuando se carga la página
+document.addEventListener("DOMContentLoaded", function() {
+    loadMovimientos();
+});
+
+// Agregar event listeners para recargar cuando los filtros cambian
+document.getElementById('empresa').addEventListener('change', loadMovimientos);
+document.getElementById('fecha_desde').addEventListener('change', loadMovimientos);
+document.getElementById('fecha_hasta').addEventListener('change', loadMovimientos);
 </script>
 {% endblock %}

@@ -1,9 +1,10 @@
 from .models import articulos, familias, empresas, clientes
-from django.forms import ModelForm, TextInput, Select, CheckboxInput
+#from django.forms import ModelForm, TextInput, Select, CheckboxInput
 from django import forms
-from django.core.exceptions import ValidationError
+#from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 from django.utils import timezone
+from datetime import date
 
 class articulosForm(forms.ModelForm):
     precio_venta = forms.DecimalField(
@@ -89,10 +90,10 @@ class MovimientosFiltroForm(forms.Form):
     empresa = forms.ModelChoiceField(
         queryset=empresas.objects.all(), required=False, label='Empresa')
     articulo = forms.ModelChoiceField(
-        queryset=articulos.objects.all(), required=False, label="Artículo"
+        queryset=articulos.objects.all(), required=False, label="Artículo", empty_label="Todos"
     )
     familia = forms.ModelChoiceField(
-        queryset=familias.objects.all(), required=False, label="Familia"
+        queryset=familias.objects.all(), required=False, label="Familia", empty_label="Todas"
     )
     tipomov = forms.ChoiceField(
         choices=[
@@ -100,16 +101,32 @@ class MovimientosFiltroForm(forms.Form):
             ('compra', 'Compra'),
             ('traspaso', 'Traspaso'),
             ('venta', 'Venta'),
-            ('ajuste', 'Ajuste')
+            ('ajuste', 'Ajuste Stock'),
+            ('crud', 'Creacion/Actualizacion'),
         ],
         required=False, label="Tipo Movimiento"
     )
     fecha_desde = forms.DateField(
         required=False, label="Fecha Desde",
-        widget=forms.TextInput(attrs={'type': 'date'})
+        widget=forms.TextInput(attrs={'type': 'date'}),
+        initial=date.today
     )
     fecha_hasta = forms.DateField(
         required=False, label="Fecha Hasta",
-        widget=forms.TextInput(attrs={'type': 'date'})
+        widget=forms.TextInput(attrs={'type': 'date'}),
+        initial=date.today
     )
 
+    def __init__(self, *args, **kwargs):
+        empresa_seleccionada = kwargs.pop('empresa', None)
+        super(MovimientosFiltroForm, self).__init__(*args, **kwargs)
+
+        # Filtrar los artículos según la empresa seleccionada
+        if empresa_seleccionada:
+            self.fields['articulo'].queryset = articulos.objects.filter(idempresa=empresa_seleccionada)
+        else:
+            self.fields['articulo'].queryset = articulos.objects.all()
+
+        # Añadir la opción 'Todos' a los selects
+        self.fields['articulo'].choices = [('todos', 'Todos')] + list(self.fields['articulo'].choices)
+        self.fields['familia'].choices = [('todos', 'Todos')] + list(self.fields['familia'].choices)
