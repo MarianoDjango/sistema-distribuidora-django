@@ -21,35 +21,75 @@
 <div class="container-fluid p-3">
     <div class="card shadow p-2 m-2">
         <!-- Aquí puedes agregar otros controles, pero sin un formulario explícito -->
+        <br>
         <div class="row">
             <div class="col-md-4">
                 <label for="empresa" class="form-label">Empresa</label>
                 <select id="empresa" class="form-select">
                     <option value="todos">Todos</option>
-                    <!-- Aquí puedes agregar las empresas directamente en el HTML si lo deseas -->
+                    {% for empresa in empresas %}
+                        {% if empresa == id_empresa %}
+                            <option selected value={{empresa.id}}>{{empresa}}</option>
+                        {% else %}
+                            <option value={{empresa.id}}>{{empresa}}</option>
+                        {% endif %}
+                    {% endfor %}                    
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="articulos" class="form-label">Articulos</label>
+                <select id="articulo" class="form-select">
+                    <option selected value='todos'>Todos</option>
+                    {% for articulo in articulos %}
+                        <option value={{articulo.id}}>{{articulo}}</option>
+                    {% endfor %}                    
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="familias" class="form-label">Familias</label>
+                <select id="familia" class="form-select">
+                    <option selected value='todos'>Todas</option>
+                    {% for familia in familias %}
+                        <option value={{familias.id}}>{{familia}}</option>
+                    {% endfor %}                    
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="tipomov" class="form-label">Tipo Movimiento</label>
+                <select id="tipomov" class="form-select">
+                    <option selected value='todos'>Todos</option>
+                    {% for tipo, descripcion in tipo_movs %}
+                        <option value={{tipo}}>{{descripcion}}</option>
+                    {% endfor %}                    
                 </select>
             </div>
             <div class="col-md-4">
                 <label for="fecha_desde" class="form-label">Fecha Desde</label>
-                <input type="date" id="fecha_desde" class="form-control" value="{{ fecha_desde }}">
+                <input type="date" id="fecha_desde" class="form-control" value="{{ fecha_desde|date:'Y-m-d' }}">
             </div>
             <div class="col-md-4">
                 <label for="fecha_hasta" class="form-label">Fecha Hasta</label>
-                <input type="date" id="fecha_hasta" class="form-control" value="{{ fecha_hasta }}">
+                <input type="date" id="fecha_hasta" class="form-control" value="{{ fecha_hasta|date:'Y-m-d' }}">
             </div>
         </div>
+        
     </div>
-
+    <br>
     <!-- Tabla para mostrar los resultados -->
     <div class="card shadow p-2 m-2">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Artículo</th>
-                    <th>Fecha Movimiento</th>
-                    <th>Tipo Movimiento</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Doc.</th>
                     <th>Cantidad</th>
-                    <th>Stock Actual</th>
+                    <th>Nuevo Precio</th>
+                    <th>Nuevo Stock</th>
                 </tr>
             </thead>
             <tbody id="movimientos-table-body">
@@ -63,10 +103,13 @@
 // Función que ejecuta la llamada AJAX para obtener los movimientos
 function loadMovimientos() {
     const empresa = document.getElementById('empresa').value;
+    const articulo = document.getElementById('articulo').value;
+    const familia = document.getElementById('familia').value;
+    const tipomov = document.getElementById('tipomov').value;
     const fechaDesde = document.getElementById('fecha_desde').value;
     const fechaHasta = document.getElementById('fecha_hasta').value;
 
-    const url = "{% url 'ajax_list_movimientos' %}?empresa=" + empresa + "&fecha_desde=" + fechaDesde + "&fecha_hasta=" + fechaHasta;
+    const url = "{% url 'ajax_list_movimientos' %}?empresa=" + empresa + "&articulo=" + articulo + "&familia=" + familia + "&tipomov=" + tipomov +  "&fecha_desde=" + fechaDesde + "&fecha_hasta=" + fechaHasta;
 
     fetch(url, {
         method: 'GET',
@@ -85,7 +128,7 @@ function loadMovimientos() {
                 // Agregar una fila de cabecera para el artículo
                 const rowHeader = `
                     <tr>
-                        <td colspan="5" style="font-weight:bold; background-color: #f8f9fa;">${articulo}</td>
+                        <td colspan="7" style="font-weight:bold;  style="background-color: rgb(173, 216, 230);">${articulo}</td>
                     </tr>
                 `;
                 tableBody.innerHTML += rowHeader;
@@ -97,8 +140,10 @@ function loadMovimientos() {
                             <td></td>  <!-- La primera columna queda vacía para los movimientos -->
                             <td>${movimiento.fechamov}</td>
                             <td>${movimiento.tipomov}</td>
-                            <td>${movimiento.cantidad}</td>
-                            <td>${movimiento.stockactual}</td>
+                            <td style="text-align: right;">${movimiento.documento}</td>
+                            <td style="text-align: right;">${movimiento.cantidad}</td>
+                            <td style="text-align: right;">${movimiento.nuevoprecio}</td>
+                            <td style="text-align: right;">${movimiento.nuevostock}</td>
                         </tr>
                     `;
                     tableBody.innerHTML += row;

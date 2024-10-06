@@ -20,7 +20,5 @@ urlpatterns = [
     path('dashboard/<id_empresa>/vaciar/', views.vaciar_carrito, name='vaciar_carrito'),
     path('dashboard/<id_empresa>/carrito/finalizar_compra/', views.cerrar_venta, name='cerrar_venta'),
     path('dashboard/<id_empresa>/movimientos/', views.movimientos_list_view, name='movimientos_list'),
-    #path('dashboard/<id_empresa>/movimientos/filtrar_articulos', views.lista_movimientos, name='lista_movimientos'),
-    path('movimientos/', views.movimientos_list_view, name='movimientos_list'),
     path('ajax/list-movimientos/', views.ajax_list_movimientos, name='ajax_list_movimientos'),
 ]

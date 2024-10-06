@@ -707,7 +707,7 @@ def cerrar_venta(request, **kwargs):
                     hist_movart.objects.create(
                         articulo = articulo,
                         fechamov = datetime.date.today(),
-                        tipomov = 'venta',
+                        tipomov = 'Venta',
                         numdoc = cabecera.id,
                         cantidad = cantidad,
                         precioactual = Decimal(precio_unitario),
@@ -776,24 +776,50 @@ def cerrar_venta(request, **kwargs):
 
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
 
-def movimientos_list_view(request,**kwargs):
+def movimientos_list_view(request, **kwargs):
+    id_empresa = kwargs['id_empresa']
+    empresas_var = empresas.objects.all()
+    articulos_var = articulos.objects.filter(idempresa=id_empresa)
+    familias_var = familias.objects.filter(idempresa=id_empresa)
+    tipo_movs = [
+        ('entrada', 'Compra'),
+        ('entrada', 'Traspaso desde'),
+        ('salida', 'Venta'),
+        ('salida', 'Traspaso a'),
+        ('regularizacion', 'Ajuste stock'),
+        ('crud', 'Creacion/actualizacion articulo'),
+    ]
+
     # Renderizamos solo el HTML con la tabla vacía para que luego se llene vía AJAX
     return render(request, 'myapp/lista_movimientos.html', {
+        'id_empresa': id_empresa,
+        'empresas':empresas_var,
+        'familias': familias_var,
+        'articulos' : articulos_var,
+        'tipo_movs' : tipo_movs,
         'fecha_desde': datetime.datetime.now().date(),
         'fecha_hasta': datetime.datetime.now().date(),
     })
 
 def ajax_list_movimientos(request):
-    empresa = request.GET.get('empresa', 'todos')
-    fecha_desde = request.GET.get('fecha_desde', datetime.datetime.now().date())
-    fecha_hasta = request.GET.get('fecha_hasta', datetime.datetime.now().date())
-
+    empresa = request.GET.get('empresa')
+    articulo = request.GET.get('articulo')
+    familia = request.GET.get('familia')
+    tipomov = request.GET.get('tipomov')
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
     # Aplicar los filtros al queryset
     movimientos = hist_movart.objects.all()
 
     if empresa != 'todos':
-        movimientos = movimientos.filter(empresa=empresa)
+        movimientos = movimientos.filter(articulo__idempresa=empresa)
 
+    if articulo != 'todos':
+        movimientos = movimientos.filter(articulo=articulo)
+
+    if familia != 'todos':
+        movimientos = movimientos.filter(articulo__familia=familia)
+    
     if fecha_desde:
         movimientos = movimientos.filter(fechamov__gte=fecha_desde)
 
@@ -808,8 +834,10 @@ def ajax_list_movimientos(request):
         movimientos_agrupados[articulo].append({
             'fechamov': movimiento.fechamov.strftime('%d-%m-%Y'),
             'tipomov': movimiento.tipomov,
+            'documento':movimiento.numdoc,
             'cantidad': movimiento.cantidad,
-            'stockactual': movimiento.stockactual,
+            'nuevoprecio': movimiento.nuevoprecio,
+            'nuevostock':movimiento.nuevostock
         })
 
     # Serializar los resultados en JSON
