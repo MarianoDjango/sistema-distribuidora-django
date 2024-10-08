@@ -2,33 +2,19 @@
 {% load widget_tweaks %}
 {% load static%}
 {% block content %}
-<nav class="nav justify-content-center" style="background-color: #fffcd6;">
-    <li class="nav-item custom-nav-item">
-      <a class="nav-link active" href="clientes/">Clientes</a>
-    </li>
-    {% if user.is_staff %}
-    <li class="nav-item custom-nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reportes</a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="movimientos/">Ventas</a></li>
-          <li><a class="dropdown-item" href="movimientos/">Movimientos</a></li>
-        </ul>
-      </li>
-    {% endif %}
-  <br>  
-  </nav>
-
 <div class="container-fluid p-3">
+    
     <div class="card shadow p-2 m-2">
         <!-- Aquí puedes agregar otros controles, pero sin un formulario explícito -->
+        <div class="shadow m-2"><h1>Movimientos por Articulos</h1></div>
         <br>
         <div class="row">
             <div class="col-md-4">
                 <label for="empresa" class="form-label">Empresa</label>
                 <select id="empresa" class="form-select">
-                    <option value="todos">Todos</option>
+                    <option value="todos">0 - Todos</option>
                     {% for empresa in empresas %}
-                        {% if empresa == id_empresa %}
+                        {% if empresa.id == id_empresa|add:0 %}
                             <option selected value={{empresa.id}}>{{empresa}}</option>
                         {% else %}
                             <option value={{empresa.id}}>{{empresa}}</option>
@@ -46,11 +32,11 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <label for="familias" class="form-label">Familias</label>
+                <label for="familia" class="form-label">Familias</label>
                 <select id="familia" class="form-select">
                     <option selected value='todos'>Todas</option>
                     {% for familia in familias %}
-                        <option value={{familias.id}}>{{familia}}</option>
+                        <option value={{familia.id}}>{{familia}}</option>
                     {% endfor %}                    
                 </select>
             </div>
@@ -87,9 +73,11 @@
                     <th>Fecha</th>
                     <th>Tipo</th>
                     <th>Doc.</th>
+                    <th>Stock</th>
                     <th>Cantidad</th>
                     <th>Nuevo Precio</th>
                     <th>Nuevo Stock</th>
+                    <th>Usuario</th>
                 </tr>
             </thead>
             <tbody id="movimientos-table-body">
@@ -97,19 +85,30 @@
             </tbody>
         </table>
     </div>
+    <div id="pagination" class="pagination-buttons">
+        <!-- Aquí se renderizan los botones de paginación mediante JS -->
+    </div>
 </div>
 
 <script>
-// Función que ejecuta la llamada AJAX para obtener los movimientos
-function loadMovimientos() {
+let currentPage = 1;  // Guardar la página actual
+
+function loadMovimientos(page) {
     const empresa = document.getElementById('empresa').value;
     const articulo = document.getElementById('articulo').value;
     const familia = document.getElementById('familia').value;
-    const tipomov = document.getElementById('tipomov').value;
+    const tipomov = document.getElementById('tipomov');
+    const tipomovText = tipomov.options[tipomov.selectedIndex].text;
     const fechaDesde = document.getElementById('fecha_desde').value;
     const fechaHasta = document.getElementById('fecha_hasta').value;
 
-    const url = "{% url 'ajax_list_movimientos' %}?empresa=" + empresa + "&articulo=" + articulo + "&familia=" + familia + "&tipomov=" + tipomov +  "&fecha_desde=" + fechaDesde + "&fecha_hasta=" + fechaHasta;
+    const url = "{% url 'ajax_list_movimientos' %}?empresa=" + encodeURIComponent(empresa) +
+                "&articulo=" + encodeURIComponent(articulo) +
+                "&familia=" + encodeURIComponent(familia) +
+                "&tipomov=" + encodeURIComponent(tipomovText) +
+                "&fecha_desde=" + encodeURIComponent(fechaDesde) +
+                "&fecha_hasta=" + encodeURIComponent(fechaHasta) +
+                "&page=" + page;
 
     fetch(url, {
         method: 'GET',
@@ -128,7 +127,7 @@ function loadMovimientos() {
                 // Agregar una fila de cabecera para el artículo
                 const rowHeader = `
                     <tr>
-                        <td colspan="7" style="font-weight:bold;  style="background-color: rgb(173, 216, 230);">${articulo}</td>
+                        <td colspan="9" style="font-weight:bold;background-color: LightSteelBlue;">${articulo}</td>
                     </tr>
                 `;
                 tableBody.innerHTML += rowHeader;
@@ -137,19 +136,69 @@ function loadMovimientos() {
                 data.movimientos[articulo].forEach(movimiento => {
                     const row = `
                         <tr>
-                            <td></td>  <!-- La primera columna queda vacía para los movimientos -->
+                            <td></td>
                             <td>${movimiento.fechamov}</td>
                             <td>${movimiento.tipomov}</td>
                             <td style="text-align: right;">${movimiento.documento}</td>
+                            <td style="text-align: right;">${movimiento.stock}</td>
                             <td style="text-align: right;">${movimiento.cantidad}</td>
                             <td style="text-align: right;">${movimiento.nuevoprecio}</td>
                             <td style="text-align: right;">${movimiento.nuevostock}</td>
+                            <td>${movimiento.usuario}</td>
                         </tr>
                     `;
                     tableBody.innerHTML += row;
                 });
             }
         }
+
+        // Actualizar la paginación
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';  // Limpiar la paginación
+
+        let paginationHtml = `<ul class="pagination">`;
+
+        // Botón de "Anterior"
+        if (data.has_previous) {
+            paginationHtml += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="loadMovimientos(${data.page_number - 1})">Previous</a>
+                </li>
+            `;
+        } else {
+            paginationHtml += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Previous</a>
+                </li>
+            `;
+        }
+
+        // Números de página
+        for (let i = 1; i <= data.total_pages; i++) {
+            paginationHtml += `
+                <li class="page-item ${i === data.page_number ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="loadMovimientos(${i})">${i}</a>
+                </li>
+            `;
+        }
+
+        // Botón de "Siguiente"
+        if (data.has_next) {
+            paginationHtml += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="loadMovimientos(${data.page_number + 1})">Next</a>
+                </li>
+            `;
+        } else {
+            paginationHtml += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            `;
+        }
+
+        paginationHtml += `</ul>`;
+        pagination.innerHTML = paginationHtml;
     })
     .catch(error => {
         console.error('Error al cargar los movimientos:', error);
@@ -163,6 +212,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Agregar event listeners para recargar cuando los filtros cambian
 document.getElementById('empresa').addEventListener('change', loadMovimientos);
+document.getElementById('articulo').addEventListener('change', loadMovimientos);
+document.getElementById('familia').addEventListener('change', loadMovimientos);
+document.getElementById('tipomov').addEventListener('change', loadMovimientos);
 document.getElementById('fecha_desde').addEventListener('change', loadMovimientos);
 document.getElementById('fecha_hasta').addEventListener('change', loadMovimientos);
 </script>

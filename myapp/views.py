@@ -6,14 +6,14 @@ from django.contrib.auth.decorators import login_required
 from .models import empresas, familias, articulos, hist_movart, tipomovimientos, formaspago, clientes, cabecera_venta
 import json
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from .forms import articulosForm, clientesForm, MovimientosFiltroForm
+from .forms import articulosForm, clientesForm
 import datetime
 from decimal import Decimal
 from django.urls import reverse
 from django.db import transaction
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
-from django.db.models import Count, Sum
+from django.db.models import Q
 
 def index(request):
     return render(request, 'index.html')
@@ -49,9 +49,9 @@ def articulos_famila(request, **kwargs):
     empresa_obj = get_object_or_404(empresas, id=idempresa_var)
     if familia_id != '0':
         if nombre_var == "":
-            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')[:10]
+            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
         else:
-            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'precio_compra', 'activo')[:10]
+            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'precio_compra', 'activo')
     else:
         if nombre_var == "":
             articles = articulos.objects.filter(idempresa=idempresa_var).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
@@ -248,7 +248,7 @@ def articulo_create_or_update(request, **kwargs):
                 #articulo.fecha_stock = datetime.datetime.today().date()
                 form = articulosForm(instance=articulo, empresa_id=int(kwargs['id_empresa']))
 
-            return render(request, 'myapp/articulo_form.html', {'form': form})
+            return render(request, 'myapp/articulo_form.html', {'form': form, 'id_empresa':kwargs['id_empresa']})
         else:
             return render(request, 'myapp/articulo_form.html')
     #return redirect('login')
@@ -276,7 +276,7 @@ def cliente_create_or_update(request, **kwargs):
                 form = clientesForm(instance=cliente, empresa_id=int(kwargs['id_empresa']))
         else:
             form = None
-        return render(request, 'myapp/cliente_form.html', {'form': form})
+        return render(request, 'myapp/cliente_form.html', {'form': form, 'id_empresa':kwargs['id_empresa']})
 
 @login_required
 def actualizar_precios(request):
@@ -786,7 +786,7 @@ def movimientos_list_view(request, **kwargs):
         ('entrada', 'Traspaso desde'),
         ('salida', 'Venta'),
         ('salida', 'Traspaso a'),
-        ('regularizacion', 'Ajuste stock'),
+        ('regularizacion', 'Ajuste de stock'),
         ('crud', 'Creacion/actualizacion articulo'),
     ]
 
@@ -808,8 +808,9 @@ def ajax_list_movimientos(request):
     tipomov = request.GET.get('tipomov')
     fecha_desde = request.GET.get('fecha_desde')
     fecha_hasta = request.GET.get('fecha_hasta')
+    page_number = request.GET.get('page', 1)
     # Aplicar los filtros al queryset
-    movimientos = hist_movart.objects.all()
+    movimientos = hist_movart.objects.all().order_by('articulo', 'id')
 
     if empresa != 'todos':
         movimientos = movimientos.filter(articulo__idempresa=empresa)
@@ -820,29 +821,122 @@ def ajax_list_movimientos(request):
     if familia != 'todos':
         movimientos = movimientos.filter(articulo__familia=familia)
     
+    if tipomov != 'Todos':
+        movimiento_filter = tipomov
+        if tipomov == 'Creacion/actualizacion articulo':
+            movimientos = movimientos.filter(Q(tipomov='Creacion Articulo') | Q(tipomov='Actualiza Articulo') | Q(tipomov='Actualizacion precio'))
+        else:
+            movimientos = movimientos.filter(tipomov=movimiento_filter)
+
     if fecha_desde:
         movimientos = movimientos.filter(fechamov__gte=fecha_desde)
 
     if fecha_hasta:
         movimientos = movimientos.filter(fechamov__lte=fecha_hasta)
 
+    paginator = Paginator(movimientos, 10)  # 10 movimientos por página (ajústalo a tu preferencia)
+    page_obj = paginator.get_page(page_number)
+
     movimientos_agrupados = {}
-    for movimiento in movimientos:
+    for movimiento in page_obj.object_list:
         articulo = movimiento.articulo.descripcion
         if articulo not in movimientos_agrupados:
             movimientos_agrupados[articulo] = []
         movimientos_agrupados[articulo].append({
             'fechamov': movimiento.fechamov.strftime('%d-%m-%Y'),
             'tipomov': movimiento.tipomov,
-            'documento':movimiento.numdoc,
+            'documento': movimiento.numdoc,  # Aquí agrego el número de documento que usas en el JS
             'cantidad': movimiento.cantidad,
+            'stock': movimiento.stockactual,
             'nuevoprecio': movimiento.nuevoprecio,
-            'nuevostock':movimiento.nuevostock
+            'nuevostock': movimiento.nuevostock,
+            'usuario': movimiento.usuario.username,
         })
 
     # Serializar los resultados en JSON
     data = {
-        'movimientos': movimientos_agrupados
+        'movimientos': movimientos_agrupados,
+        'has_next': page_obj.has_next(),
+        'has_previous': page_obj.has_previous(),
+        'page_number': page_obj.number,
+        'total_pages': paginator.num_pages,
+    }
+
+    return JsonResponse(data)
+
+def ventas_list_view(request, **kwargs):
+    id_empresa = kwargs['id_empresa']
+    empresas_var = empresas.objects.all()
+
+    # Renderizamos solo el HTML con la tabla vacía para que luego se llene vía AJAX
+    return render(request, 'myapp/lista_ventas.html', {
+        'id_empresa': id_empresa,
+        'empresas':empresas_var,
+        'fecha_desde': datetime.datetime.now().date(),
+        'fecha_hasta': datetime.datetime.now().date(),
+    })
+
+def ajax_list_ventas(request):
+    total_imptotal = 0
+    empresa = request.GET.get('empresa')
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
+    page_number = request.GET.get('page', 1)
+
+    # Aplicar los filtros al queryset de cabeceras
+    cabeceras_query = cabecera_venta.objects.all()
+
+    if fecha_desde and fecha_hasta:
+        cabeceras_query = cabeceras_query.filter(fechav__range=[fecha_desde, fecha_hasta])
+
+    # Filtrar los movimientos de tipo 'Venta'
+    movimientos_query = hist_movart.objects.filter(tipomov='Venta')
+
+    if empresa != 'todos':
+        movimientos_query = movimientos_query.filter(articulo__idempresa=empresa)
+
+    # Lista para almacenar los resultados
+    ventas_con_movimientos = []
+
+    for cabecera in cabeceras_query:
+        movimientos = movimientos_query.filter(numdoc=cabecera.id)
+        dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
+        otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
+
+        if movimientos.exists():
+            total_imptotal += cabecera.imptotal
+            ventas_con_movimientos.append({
+                'cabecera': {
+                    'id': cabecera.id,
+                    'fechav': cabecera.fechav.strftime('%Y-%m-%d'),
+                    'cliente': cabecera.cliente,
+                    'fpago': cabecera.formapago.get_tipo_display(),  # Ejecuta el método
+                    'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'usuario': movimientos[0].usuario.username
+                },
+                'movimientos': [{
+                    'articulo': mov.articulo.descripcion,
+                    'cantidad': str(mov.cantidad),
+                    'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                } for mov in movimientos]
+            })
+    
+    total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
+    # Paginación
+    paginator = Paginator(ventas_con_movimientos, 5)  # 10 resultados por página
+    page_obj = paginator.get_page(page_number)
+
+    # Preparar los datos para la respuesta en formato JSON
+    data = {
+        'ventas': page_obj.object_list,
+        'total_imptotal': total_imptotal_formatted,
+        'has_next': page_obj.has_next(),
+        'has_previous': page_obj.has_previous(),
+        'num_pages': paginator.num_pages,
+        'page_number': page_obj.number,
     }
 
     return JsonResponse(data)

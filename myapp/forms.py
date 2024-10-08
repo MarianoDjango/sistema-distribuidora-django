@@ -86,7 +86,7 @@ class clientesForm(forms.ModelForm):
             if not isinstance(self.fields[field].widget, forms.CheckboxInput):
                 self.fields[field].widget.attrs.update({'class': 'form-control'})
 
-class MovimientosFiltroForm(forms.Form):
+'''class MovimientosFiltroForm(forms.Form):
     empresa = forms.ModelChoiceField(
         queryset=empresas.objects.all(), required=False, label='Empresa')
     articulo = forms.ModelChoiceField(
@@ -130,3 +130,4 @@ class MovimientosFiltroForm(forms.Form):
         # Añadir la opción 'Todos' a los selects
         self.fields['articulo'].choices = [('todos', 'Todos')] + list(self.fields['articulo'].choices)
         self.fields['familia'].choices = [('todos', 'Todos')] + list(self.fields['familia'].choices)
+'''

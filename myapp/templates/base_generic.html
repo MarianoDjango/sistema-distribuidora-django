@@ -68,6 +68,24 @@
         </nav>          
       </div>
     </div>
+    {% if user.is_staff %}
+    <nav class="nav justify-content-center" style="background-color: #fffcd6;">
+      <li class="nav-item custom-nav-item">
+        <a class="nav-link active" href="/myapp/dashboard/{{id_empresa}}/">Home</a>
+      </li>
+      <li class="nav-item custom-nav-item">
+        <a class="nav-link active" href="/myapp/dashboard/{{id_empresa}}/clientes/">Clientes</a>
+      </li>
+      <li class="nav-item custom-nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reportes</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/myapp/dashboard/{{id_empresa}}/ventas/">Ventas</a></li>
+            <li><a class="dropdown-item" href="/myapp/dashboard/{{id_empresa}}/movimientos/">Movimientos</a></li>
+          </ul>
+      </li>
+      <br>  
+    </nav>
+    {% endif %}
 </body>
   {% block content %}{% endblock %}
   <footer class="bd-footer py-4 py-md-5 mt-5 bg-light">

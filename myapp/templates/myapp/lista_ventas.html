@@ -1,0 +1,229 @@
+{% extends "base_generic.html" %}
+{% load widget_tweaks %}
+{% load static%}
+{% block content %}
+<div class="container-fluid p-3">
+    <div class="card shadow p-2 m-2">
+        <div class="shadow m-2"><h1>Ventas</h1></div>
+        <!-- Aquí puedes agregar otros controles, pero sin un formulario explícito -->
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="empresa" class="form-label">Empresa</label>
+                <select id="empresa" class="form-select">
+                    <option value="todos">0 - Todos</option>
+                    {% for empresa in empresas %}
+                        {% if empresa.id == id_empresa|add:0 %}
+                            <option selected value={{empresa.id}}>{{empresa}}</option>
+                        {% else %}
+                            <option value={{empresa.id}}>{{empresa}}</option>
+                        {% endif %}
+                    {% endfor %}                    
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="fecha_desde" class="form-label">Fecha Desde</label>
+                <input type="date" id="fecha_desde" class="form-control" value="{{ fecha_desde|date:'Y-m-d' }}">
+            </div>
+            <div class="col-md-4">
+                <label for="fecha_hasta" class="form-label">Fecha Hasta</label>
+                <input type="date" id="fecha_hasta" class="form-control" value="{{ fecha_hasta|date:'Y-m-d' }}">
+            </div>
+        </div>
+        
+    </div>
+    <br>
+    <!-- Tabla para mostrar los resultados -->
+    <div class="card shadow p-2 m-2">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Venta N°</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>F.Pago</th>
+                    <th>Usuario</th>
+                </tr>
+            </thead>
+            <tbody id="ventas-table-body">
+                <!-- Los datos de los movimientos se cargarán aquí dinámicamente vía AJAX -->
+            </tbody>
+        </table>
+        <p>Total Ventas $: <span id="total-imptotal"></span></p>
+    </div>
+    <div id="pagination" class="pagination-buttons">
+        <!-- Aquí se renderizan los botones de paginación mediante JS -->
+    </div>
+</div>
+
+<script>
+let currentPage = 1;  // Guardar la página actual
+
+function loadVentas(page) {
+    const empresa = document.getElementById('empresa').value;
+    const fechaDesde = document.getElementById('fecha_desde').value;
+    const fechaHasta = document.getElementById('fecha_hasta').value;
+
+    const url = "{% url 'ajax_list_ventas' %}?empresa=" + encodeURIComponent(empresa) +
+                "&fecha_desde=" + encodeURIComponent(fechaDesde) +
+                "&fecha_hasta=" + encodeURIComponent(fechaHasta) +
+                "&page=" + page;
+
+                fetch(url, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Datos recibidos:', data);  // Verificar los datos en la consola
+        const tableBody = document.getElementById('ventas-table-body');
+        tableBody.innerHTML = '';  // Limpiar la tabla
+
+        if (data.ventas) {
+            // Iterar sobre las ventas (cabeceras)
+            data.ventas.forEach(venta => {
+                // Acceder a la cabecera
+                const cabecera = venta.cabecera;
+
+                // Crear una fila para la cabecera de la venta
+                const rowCabecera = `             
+                    <tr>
+                        <td style="font-weight:bold;">
+                            ${cabecera.id} 
+                        </td>
+                        <td style="font-weight:bold;">
+                            ${cabecera.fechav} 
+                        </td>
+                        <td style="font-weight:bold;">
+                            ${cabecera.cliente} 
+                        </td>
+                        <td style="font-weight:bold;">
+                            ${cabecera.fpago} 
+                        </td>
+                        <td style="font-weight:bold;">
+                            ${cabecera.usuario} 
+                        </td>
+                        <td style="font-weight:bold;">
+                        </td>
+                        <td style="font-weight:bold;">
+                        </td>
+                        <td style="font-weight:bold;">
+                        </td>
+                        <td style="font-weight:bold;">
+                        </td>
+                    </tr>
+                    `;
+                tableBody.innerHTML += rowCabecera;
+
+                // Acceder a los movimientos de la cabecera
+                venta.movimientos.forEach(mov => {
+                    const rowMovimiento = `
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>${mov.cantidad}</td>
+                            <td>${mov.articulo}</td>
+                            <td style="text-align: right;">${mov.precio}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += rowMovimiento;
+                });
+                const rowTotales = `             
+                    <tr>
+                        <td style="font-weight:bold;">
+                        </td>
+                        <td style="font-weight:bold;">
+                        </td>
+                        <td style="font-weight:bold;">
+                        </td>
+                        <td style="font-weight:bold;">
+                        </td>
+                        <td style="font-weight:bold;text-align: right;">
+                            Subtotal :${cabecera.subtotal} 
+                        </td>
+                        <td style="font-weight:bold;text-align: right;">
+                            Dto. Efectivo :${cabecera.dtoeftvo} 
+                        </td>
+                        <td style="font-weight:bold;text-align: right;">
+                            Otro Dto. :${cabecera.otrodto} 
+                        </td>
+                        <td style="font-weight:bold;text-align: right;">
+                            Total :${cabecera.imptotal} 
+                        </td>
+                    </tr>
+                    `;
+                tableBody.innerHTML += rowTotales;
+            });
+            $('#total-imptotal').text(data.total_imptotal);
+        }
+
+        // Actualizar la paginación
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';  // Limpiar la paginación
+
+        let paginationHtml = `<ul class="pagination">`;
+
+        // Botón de "Anterior"
+        if (data.has_previous) {
+            console.log(data.page_number)
+            paginationHtml += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="loadVentas(${data.page_number - 1})">Previous</a>
+                </li>
+            `;
+        } else {
+            console.log(data.page_number)
+            paginationHtml += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Previous</a>
+                </li>
+            `;
+        }
+
+        // Números de página
+        for (let i = 1; i <= data.total_pages; i++) {
+            paginationHtml += `
+                <li class="page-item ${i === data.page_number ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="loadVentas(${i})">${i}</a>
+                </li>
+            `;
+        }
+
+        // Botón de "Siguiente"
+        if (data.has_next) {
+            paginationHtml += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="loadVentas(${data.page_number + 1})">Next</a>
+                </li>
+            `;
+        } else {
+            paginationHtml += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            `;
+        }
+
+        paginationHtml += `</ul>`;
+        pagination.innerHTML = paginationHtml;
+    })
+    .catch(error => {
+        console.error('Error al cargar las ventas:', error);
+    });
+}
+// Llamada inicial cuando se carga la página
+document.addEventListener("DOMContentLoaded", function() {
+    loadVentas();
+});
+
+// Agregar event listeners para recargar cuando los filtros cambian
+document.getElementById('empresa').addEventListener('change', loadVentas);
+document.getElementById('fecha_desde').addEventListener('change', loadVentas);
+document.getElementById('fecha_hasta').addEventListener('change', loadVentas);
+</script>
+{% endblock %}

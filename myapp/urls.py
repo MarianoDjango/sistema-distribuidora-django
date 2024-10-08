@@ -20,5 +20,7 @@ urlpatterns = [
     path('dashboard/<id_empresa>/vaciar/', views.vaciar_carrito, name='vaciar_carrito'),
     path('dashboard/<id_empresa>/carrito/finalizar_compra/', views.cerrar_venta, name='cerrar_venta'),
     path('dashboard/<id_empresa>/movimientos/', views.movimientos_list_view, name='movimientos_list'),
+    path('dashboard/<id_empresa>/ventas/', views.ventas_list_view, name='ventas_list'),
     path('ajax/list-movimientos/', views.ajax_list_movimientos, name='ajax_list_movimientos'),
+    path('ajax/list-ventas/', views.ajax_list_ventas, name='ajax_list_ventas'),
 ]
