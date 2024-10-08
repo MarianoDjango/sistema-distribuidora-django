@@ -776,19 +776,27 @@ def cerrar_venta(request, **kwargs):
 
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
 
+@login_required
 def movimientos_list_view(request, **kwargs):
-    id_empresa = kwargs['id_empresa']
-    empresas_var = empresas.objects.all()
-    articulos_var = articulos.objects.filter(idempresa=id_empresa)
-    familias_var = familias.objects.filter(idempresa=id_empresa)
-    tipo_movs = [
-        ('entrada', 'Compra'),
-        ('entrada', 'Traspaso desde'),
-        ('salida', 'Venta'),
-        ('salida', 'Traspaso a'),
-        ('regularizacion', 'Ajuste de stock'),
-        ('crud', 'Creacion/actualizacion articulo'),
-    ]
+    if request.user.is_staff:
+        id_empresa = kwargs['id_empresa']
+        empresas_var = empresas.objects.all()
+        articulos_var = articulos.objects.filter(idempresa=id_empresa)
+        familias_var = familias.objects.filter(idempresa=id_empresa)
+        tipo_movs = [
+            ('entrada', 'Compra'),
+            ('entrada', 'Traspaso desde'),
+            ('salida', 'Venta'),
+            ('salida', 'Traspaso a'),
+            ('regularizacion', 'Ajuste de stock'),
+            ('crud', 'Creacion/actualizacion articulo'),
+        ]
+    else: 
+        id_empresa = kwargs['id_empresa']
+        empresas_var = None
+        articulos_var = None
+        familias_var = None
+        tipo_movs = None
 
     # Renderizamos solo el HTML con la tabla vacía para que luego se llene vía AJAX
     return render(request, 'myapp/lista_movimientos.html', {
@@ -801,142 +809,167 @@ def movimientos_list_view(request, **kwargs):
         'fecha_hasta': datetime.datetime.now().date(),
     })
 
+@login_required
 def ajax_list_movimientos(request):
-    empresa = request.GET.get('empresa')
-    articulo = request.GET.get('articulo')
-    familia = request.GET.get('familia')
-    tipomov = request.GET.get('tipomov')
-    fecha_desde = request.GET.get('fecha_desde')
-    fecha_hasta = request.GET.get('fecha_hasta')
-    page_number = request.GET.get('page', 1)
-    # Aplicar los filtros al queryset
-    movimientos = hist_movart.objects.all().order_by('articulo', 'id')
+    if request.user.is_staff:
+        empresa = request.GET.get('empresa')
+        articulo = request.GET.get('articulo')
+        familia = request.GET.get('familia')
+        tipomov = request.GET.get('tipomov')
+        fecha_desde = request.GET.get('fecha_desde')
+        fecha_hasta = request.GET.get('fecha_hasta')
+        page_number = request.GET.get('page', 1)
+        # Aplicar los filtros al queryset
+        movimientos = hist_movart.objects.all().order_by('articulo', 'id')
 
-    if empresa != 'todos':
-        movimientos = movimientos.filter(articulo__idempresa=empresa)
+        if empresa != 'todos':
+            movimientos = movimientos.filter(articulo__idempresa=empresa)
 
-    if articulo != 'todos':
-        movimientos = movimientos.filter(articulo=articulo)
+        if articulo != 'todos':
+            movimientos = movimientos.filter(articulo=articulo)
 
-    if familia != 'todos':
-        movimientos = movimientos.filter(articulo__familia=familia)
-    
-    if tipomov != 'Todos':
-        movimiento_filter = tipomov
-        if tipomov == 'Creacion/actualizacion articulo':
-            movimientos = movimientos.filter(Q(tipomov='Creacion Articulo') | Q(tipomov='Actualiza Articulo') | Q(tipomov='Actualizacion precio'))
-        else:
-            movimientos = movimientos.filter(tipomov=movimiento_filter)
+        if familia != 'todos':
+            movimientos = movimientos.filter(articulo__familia=familia)
+        
+        if tipomov != 'Todos':
+            movimiento_filter = tipomov
+            if tipomov == 'Creacion/actualizacion articulo':
+                movimientos = movimientos.filter(Q(tipomov='Creacion Articulo') | Q(tipomov='Actualiza Articulo') | Q(tipomov='Actualizacion precio'))
+            else:
+                movimientos = movimientos.filter(tipomov=movimiento_filter)
 
-    if fecha_desde:
-        movimientos = movimientos.filter(fechamov__gte=fecha_desde)
+        if fecha_desde:
+            movimientos = movimientos.filter(fechamov__gte=fecha_desde)
 
-    if fecha_hasta:
-        movimientos = movimientos.filter(fechamov__lte=fecha_hasta)
+        if fecha_hasta:
+            movimientos = movimientos.filter(fechamov__lte=fecha_hasta)
 
-    paginator = Paginator(movimientos, 10)  # 10 movimientos por página (ajústalo a tu preferencia)
-    page_obj = paginator.get_page(page_number)
+        paginator = Paginator(movimientos, 10)  # 10 movimientos por página (ajústalo a tu preferencia)
+        page_obj = paginator.get_page(page_number)
 
-    movimientos_agrupados = {}
-    for movimiento in page_obj.object_list:
-        articulo = movimiento.articulo.descripcion
-        if articulo not in movimientos_agrupados:
-            movimientos_agrupados[articulo] = []
-        movimientos_agrupados[articulo].append({
-            'fechamov': movimiento.fechamov.strftime('%d-%m-%Y'),
-            'tipomov': movimiento.tipomov,
-            'documento': movimiento.numdoc,  # Aquí agrego el número de documento que usas en el JS
-            'cantidad': movimiento.cantidad,
-            'stock': movimiento.stockactual,
-            'nuevoprecio': movimiento.nuevoprecio,
-            'nuevostock': movimiento.nuevostock,
-            'usuario': movimiento.usuario.username,
-        })
+        movimientos_agrupados = {}
+        for movimiento in page_obj.object_list:
+            articulo = movimiento.articulo.descripcion
+            if articulo not in movimientos_agrupados:
+                movimientos_agrupados[articulo] = []
+            movimientos_agrupados[articulo].append({
+                'fechamov': movimiento.fechamov.strftime('%d-%m-%Y'),
+                'tipomov': movimiento.tipomov,
+                'documento': movimiento.numdoc,  # Aquí agrego el número de documento que usas en el JS
+                'cantidad': movimiento.cantidad,
+                'stock': movimiento.stockactual,
+                'nuevoprecio': movimiento.nuevoprecio,
+                'nuevostock': movimiento.nuevostock,
+                'usuario': movimiento.usuario.username,
+            })
 
-    # Serializar los resultados en JSON
-    data = {
-        'movimientos': movimientos_agrupados,
-        'has_next': page_obj.has_next(),
-        'has_previous': page_obj.has_previous(),
-        'page_number': page_obj.number,
-        'total_pages': paginator.num_pages,
-    }
+        # Serializar los resultados en JSON
+        data = {
+            'movimientos': movimientos_agrupados,
+            'has_next': page_obj.has_next(),
+            'has_previous': page_obj.has_previous(),
+            'page_number': page_obj.number,
+            'total_pages': paginator.num_pages,
+        }
+    else:
+        data = {
+            'movimientos': 0 ,
+            'has_next': 0,
+            'has_previous': 0,
+            'page_number': 0,
+            'total_pages': 0,
+        }
 
     return JsonResponse(data)
 
+@login_required
 def ventas_list_view(request, **kwargs):
-    id_empresa = kwargs['id_empresa']
-    empresas_var = empresas.objects.all()
+    if request.user.is_staff:
+        id_empresa = kwargs['id_empresa']
+        empresas_var = empresas.objects.all()
+    else:
+        id_empresa = kwargs['id_empresa']
+        empresas_var = None
 
-    # Renderizamos solo el HTML con la tabla vacía para que luego se llene vía AJAX
+        # Renderizamos solo el HTML con la tabla vacía para que luego se llene vía AJAX
     return render(request, 'myapp/lista_ventas.html', {
         'id_empresa': id_empresa,
         'empresas':empresas_var,
         'fecha_desde': datetime.datetime.now().date(),
         'fecha_hasta': datetime.datetime.now().date(),
     })
-
+@login_required
 def ajax_list_ventas(request):
-    total_imptotal = 0
-    empresa = request.GET.get('empresa')
-    fecha_desde = request.GET.get('fecha_desde')
-    fecha_hasta = request.GET.get('fecha_hasta')
-    page_number = request.GET.get('page', 1)
+    if request.user.is_staff:
+        total_imptotal = 0
+        empresa = request.GET.get('empresa')
+        fecha_desde = request.GET.get('fecha_desde')
+        fecha_hasta = request.GET.get('fecha_hasta')
+        page_number = request.GET.get('page', 1)
 
-    # Aplicar los filtros al queryset de cabeceras
-    cabeceras_query = cabecera_venta.objects.all()
+        # Aplicar los filtros al queryset de cabeceras
+        cabeceras_query = cabecera_venta.objects.all()
 
-    if fecha_desde and fecha_hasta:
-        cabeceras_query = cabeceras_query.filter(fechav__range=[fecha_desde, fecha_hasta])
+        if fecha_desde and fecha_hasta:
+            cabeceras_query = cabeceras_query.filter(fechav__range=[fecha_desde, fecha_hasta])
 
-    # Filtrar los movimientos de tipo 'Venta'
-    movimientos_query = hist_movart.objects.filter(tipomov='Venta')
+        # Filtrar los movimientos de tipo 'Venta'
+        movimientos_query = hist_movart.objects.filter(tipomov='Venta')
 
-    if empresa != 'todos':
-        movimientos_query = movimientos_query.filter(articulo__idempresa=empresa)
+        if empresa != 'todos':
+            movimientos_query = movimientos_query.filter(articulo__idempresa=empresa)
 
-    # Lista para almacenar los resultados
-    ventas_con_movimientos = []
+        # Lista para almacenar los resultados
+        ventas_con_movimientos = []
 
-    for cabecera in cabeceras_query:
-        movimientos = movimientos_query.filter(numdoc=cabecera.id)
-        dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
-        otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
+        for cabecera in cabeceras_query:
+            movimientos = movimientos_query.filter(numdoc=cabecera.id)
+            dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
+            otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
 
-        if movimientos.exists():
-            total_imptotal += cabecera.imptotal
-            ventas_con_movimientos.append({
-                'cabecera': {
-                    'id': cabecera.id,
-                    'fechav': cabecera.fechav.strftime('%Y-%m-%d'),
-                    'cliente': cabecera.cliente,
-                    'fpago': cabecera.formapago.get_tipo_display(),  # Ejecuta el método
-                    'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'usuario': movimientos[0].usuario.username
-                },
-                'movimientos': [{
-                    'articulo': mov.articulo.descripcion,
-                    'cantidad': str(mov.cantidad),
-                    'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                } for mov in movimientos]
-            })
-    
-    total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
-    # Paginación
-    paginator = Paginator(ventas_con_movimientos, 5)  # 10 resultados por página
-    page_obj = paginator.get_page(page_number)
-
-    # Preparar los datos para la respuesta en formato JSON
-    data = {
-        'ventas': page_obj.object_list,
-        'total_imptotal': total_imptotal_formatted,
-        'has_next': page_obj.has_next(),
-        'has_previous': page_obj.has_previous(),
-        'num_pages': paginator.num_pages,
-        'page_number': page_obj.number,
-    }
+            if movimientos.exists():
+                total_imptotal += cabecera.imptotal
+                ventas_con_movimientos.append({
+                    'cabecera': {
+                        'id': cabecera.id,
+                        'fechav': cabecera.fechav.strftime('%Y-%m-%d'),
+                        'cliente': cabecera.cliente,
+                        'fpago': cabecera.formapago.get_tipo_display(),  # Ejecuta el método
+                        'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                        'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                        'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                        'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                        'usuario': movimientos[0].usuario.username
+                    },
+                    'movimientos': [{
+                        'articulo': mov.articulo.descripcion,
+                        'cantidad': str(mov.cantidad),
+                        'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    } for mov in movimientos]
+                })
+        
+        total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
+        # Paginación
+        paginator = Paginator(ventas_con_movimientos, 5)  # 10 resultados por página
+        page_obj = paginator.get_page(page_number)
+        
+        # Preparar los datos para la respuesta en formato JSON
+        data = {
+            'ventas': page_obj.object_list,
+            'total_imptotal': total_imptotal_formatted,
+            'has_next': page_obj.has_next(),
+            'has_previous': page_obj.has_previous(),
+            'num_pages': paginator.num_pages,
+            'page_number': page_obj.number,
+        }
+    else:
+        data = {
+            'ventas': 0,
+            'total_imptotal': 0,
+            'has_next': 0,
+            'has_previous': 0,
+            'num_pages': 0,
+            'page_number': 0,
+        }
 
     return JsonResponse(data)
