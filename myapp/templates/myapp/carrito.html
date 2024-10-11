@@ -90,7 +90,8 @@
                             <span class="form-control m-1" id="total_carrito" style="text-align: right;">{{ total }}</span>
                         </div>
                         <div class="card-footer justify-content-right">
-                            <button class="btn btn-primary" type="button" onclick="cerrarVenta()">Cerrar Venta</button>                            
+                            <button class="btn btn-primary" type="button" onclick="cerrarVenta()">Cerrar Venta</button>
+                            <button class="btn btn-primary" type="button" onclick="imprime_presup()">Imprimir Presupuesto</button>                            
                         </div>
                     </div>
                 </div>
@@ -185,8 +186,47 @@ function removeItem(btndel) {
 
         // Lógica para eliminar un artículo del carrito
     
+function imprime_presup() {
+        let formasPago = document.getElementById('forma_pago')
+        let fpago = formasPago.options[formasPago.selectedIndex].value;
+        let descuentoAdicional = document.getElementById('descuento_adicional').value.replace(',', '.') || 0;
+        let subtotal = parseFloat(document.getElementById('subtotal_carrito').innerText) || 0;
+        let total = parseFloat(document.getElementById('total_carrito').innerText) || 0;
 
-    function calcularTotal() {
+        const clienteInput = document.getElementById('cliente').value;        
+        //let clientes = document.getElementById('cliente')
+        //let cliente = clientes.options[clientes.selectedIndex].innerText;
+        // Lógica para cerrar la venta y generar el ticket
+        const data = {
+            formapago: fpago,
+            descuentoAdicional: descuentoAdicional,
+            subtotal: subtotal,
+            total: total,
+            cliente: clienteInput
+        };
+
+        fetch('imprime_presup/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Asegúrate de enviar el CSRF token para solicitudes POST
+            },
+            body: JSON.stringify(data)  // Reemplaza con el ID de empresa real
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log(data.ticket_html)
+                imprimirTicket(data.ticket_html)
+                const dashboardUrl = window.location.href.replace('/carrito/', '/');
+                //window.location.href = dashboardUrl;
+            }
+                
+        })
+        .catch(error => console.error('Error al cerrar la venta:', error));
+    };
+
+function calcularTotal() {
         let total = 0;
         var total_dto_efectivo = 0;
         var total_dto_adicional = 0;

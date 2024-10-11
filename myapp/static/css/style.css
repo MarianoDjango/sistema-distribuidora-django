@@ -7,3 +7,7 @@
 .nav-link:hover {
     color: #8b6868 !important; /* Cambia el color cuando el mouse pasa sobre el enlace */
 }
+
+.btn-danger {
+    color: IndianRed;
+}

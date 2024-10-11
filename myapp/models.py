@@ -134,7 +134,8 @@ class cabecera_venta(models.Model):
     otrodto = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     recargo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     imptotal = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-
+    anulada = models.BooleanField(default=False)
+    
 class hist_movart(models.Model):
     articulo = models.ForeignKey(articulos, on_delete=models.CASCADE, null=False)
     fechamov = models.DateField()
