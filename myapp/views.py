@@ -52,7 +52,7 @@ def articulos_famila(request, **kwargs):
         if nombre_var == "":
             articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
         else:
-            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familila', 'precio_compra', 'activo')
+            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
     else:
         if nombre_var == "":
             articles = articulos.objects.filter(idempresa=idempresa_var).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
@@ -260,7 +260,7 @@ def articulo_create_or_update(request, **kwargs):
                 #articulo.fecha_stock = datetime.datetime.today().date()
                 form = articulosForm(instance=articulo, empresa_id=int(kwargs['id_empresa']))
 
-            return render(request, 'myapp/articulo_form.html', {'form': form, 'id_empresa':kwargs['id_empresa']})
+            return render(request, 'myapp/articulo_form.html', {'form': form, 'id_empresa':kwargs['id_empresa'], 'id_familia': familia.id})
         else:
             return render(request, 'myapp/articulo_form.html')
     #return redirect('login')

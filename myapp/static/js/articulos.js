@@ -20,27 +20,39 @@ function familias_empresa(idempresa, nomempresa){
     buscart()
 }
 
-function buscart(){
-  var nombre = document.getElementById('articsearch').value;
-  var idfamilia = document.getElementById('idfamilia').innerHTML;
-  var id_empresa = document.getElementById('idempresa').innerText;
-  $('#articulosList').html("");
-    $.ajax({
-        url:'/myapp/articulos/',
-        data:{
-          nombre: nombre,
-          familia: idfamilia,
-          idempresa: id_empresa,
-        },
-        type:"get",
-        datatype: "json",
-        success:function(response){
-          for(let i = 0;i < response.length;i++){
-              $('#articulosList').append(response[i]['fila']);
-          }
-        },
-      });
+    let debounceTimeout; // Variable para almacenar el temporizador
+
+    function buscart() {
+        clearTimeout(debounceTimeout); // Limpiar cualquier temporizador existente
+    
+        // Establecer un nuevo temporizador para la búsqueda
+        debounceTimeout = setTimeout(() => {
+            var nombre = document.getElementById('articsearch').value;
+            var idfamilia = document.getElementById('idfamilia').innerHTML;
+            var id_empresa = document.getElementById('idempresa').innerText;
+    
+            $('#articulosList').html(""); // Limpiar la lista de artículos
+            $('#loadingIndicator').show();
+
+            $.ajax({
+                url: '/myapp/articulos/',
+                data: {
+                    nombre: nombre,
+                    familia: idfamilia,
+                    idempresa: id_empresa,
+                },
+                type: "get",
+                datatype: "json",
+                success: function(response) {
+                  $('#loadingIndicator').hide();
+                    for (let i = 0; i < response.length; i++) {
+                        $('#articulosList').append(response[i]['fila']);
+                    }
+                },
+            });
+        }, 400); // Esperar 300 ms después de que el usuario deje de escribir
     }
+        
     document.addEventListener('DOMContentLoaded', function () {
       const precioCompraInput = document.getElementById('id_precio_compra');
       const margenInput = document.getElementById('id_margen');
