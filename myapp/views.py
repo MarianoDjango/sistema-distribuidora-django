@@ -7,20 +7,21 @@ from .models import empresas, familias, articulos, hist_movart, tipomovimientos,
 import json
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from .forms import articulosForm, clientesForm
-import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 from django.urls import reverse
 from django.db import transaction
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.db.models import Q
+from django.utils import timezone
 
 def index(request):
     return render(request, 'index.html')
 
 def afterlogin( request, *args, **kwargs):
     idempresa = request.user.perfil.idempresa
-    urlredirect = "/myapp/dashboard/" + str(idempresa.id)
+    urlredirect = "/myapp/dashboard/" + str(idempresa.id) + '/?pfamilia=0'
     return redirect(urlredirect)
 
 @login_required
@@ -51,12 +52,12 @@ def articulos_famila(request, **kwargs):
         if nombre_var == "":
             articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
         else:
-            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'precio_compra', 'activo')
+            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familila', 'precio_compra', 'activo')
     else:
         if nombre_var == "":
             articles = articulos.objects.filter(idempresa=idempresa_var).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
         else:
-            articles = articulos.objects.filter(idempresa=idempresa_var, descripcion__icontains=nombre_var).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'precio_compra', 'activo')
+            articles = articulos.objects.filter(idempresa=idempresa_var, descripcion__icontains=nombre_var).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
 
         
     #familia = familias.objects.get(id=int(familia_id))
@@ -68,9 +69,9 @@ def articulos_famila(request, **kwargs):
             id_articulo = str(articulo['id'])
             fila += f'<td class="text-center"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault{id_articulo}"><label class="form-check-label" for="flexCheckDefault{id_articulo}"></label></div></td>'
             if articulo['activo']:
-                fila += '<td><a href="../../articulo/' + idempresa_var + '/' + str(articulo['id']) + '/" id="descri' + str(articulo['id']) + '">' + articulo['descripcion'] + '</a></td>'
+                fila += '<td><a href="../../articulo/' + idempresa_var + '/' + str(articulo['id']) + '/?pfamilia=' + str(articulo['familia']) + '" id="descri' + str(articulo['id']) + '">' + articulo['descripcion'] + '</a></td>'
             else:
-                fila += '<td><a href="../../articulo/' + idempresa_var + '/' + str(articulo['id']) + '/" id="descri' + str(articulo['id']) + '" style="color:red">' + articulo['descripcion'] + '</a></td>'
+                fila += '<td><a href="../../articulo/' + idempresa_var + '/' + str(articulo['id']) + '/?pfamilia=' + str(articulo['familia']) + '" id="descri' + str(articulo['id']) + '" style="color:red">' + articulo['descripcion'] + '</a></td>'
             fila += '<td class="text-end">' + '{:,.2f}'.format(articulo['precio_venta']).replace(",", "@").replace(".", ",").replace("@", ".") + '</td>'
             fila += '<td class="text-center">' + str(articulo['fecha_precio'].strftime('%d-%b-%Y').lower()) + '</td>'
             fila += '<td class="text-end">' +  '{:,.2f}'.format(articulo['stock']).replace(",", "@").replace(".", ",").replace("@", ".") + '</button></td>'
@@ -113,7 +114,7 @@ def articulos_famila(request, **kwargs):
                         fila += f'<td class="text-center"><input type="text" class="form-control cantidad-plus" style="border-radius: 10px;" placeholder="Cant."></td>'
                         fila += f'<td class="text-center"><button class="btn agregar-carrito" data-id="'+ str(articulo['id']) + '" style="background-color: #92dea3;" title="Agregar al Pedido"><i class="bi bi-cart-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16"><path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/><path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></i></button></td>'
 
-        fila += '<td class="text-center" style="display : none;">' + str(articulo['id']) + '</td>'
+        fila += '<td class="text-center" style="display : none;">' + str(articulo['id']) + '</td></tr>'
         json_list = {
             'fila': fila,
         }
@@ -172,6 +173,7 @@ class dashboard_view(LoginRequiredMixin,View):
 
     def get(self, request, *args, **kwargs):
         empresa_id = kwargs['id_empresa']
+        pfamilia = request.GET.get('pfamilia')
         empresa_obj = get_object_or_404(empresas, id=empresa_id)
         carrito = request.session.get(f'carrito_{empresa_id}', {})
         cantidad_total = sum(item['cantidad'] for item in carrito.values())
@@ -180,7 +182,11 @@ class dashboard_view(LoginRequiredMixin,View):
         empresa_user = self.request.user.perfil.idempresa.id
         nomempresa_user = self.request.user.perfil.idempresa.name
         familias_var = familias.objects.filter(idempresa=empresa_id)
-        familia = familias_var[0]
+        if pfamilia and pfamilia != '0':
+            familia = familias_var.get(id=pfamilia)
+        else:
+            familia = familias_var[0]
+            
         motivos_entrada = tipomovimientos.objects.filter(tipo='entrada')
         motivos_salida = tipomovimientos.objects.filter(tipo='salida').exclude(motivo='venta')
         motivos_regularizacion = tipomovimientos.objects.filter(tipo='regularizacion')
@@ -201,14 +207,15 @@ class dashboard_view(LoginRequiredMixin,View):
 @login_required
 def articulo_create_or_update(request, **kwargs):
     #if request.user.is_authenticated:
+        pfamilia = request.GET.get('pfamilia')
         if request.user.is_staff:
             if kwargs['pk'] != '0':
                 articulo = get_object_or_404(articulos, pk=kwargs['pk'])
                 precio_venta_anterior = articulo.precio_venta
             else:
                 articulo = articulos()
-                articulo.fecha_precio = datetime.date.today()
-                articulo.fecha_stock = datetime.date.today()
+                articulo.fecha_precio = datetime.today()
+                articulo.fecha_stock = datetime.today()
                 precio_venta_anterior = None
 
             if request.method == 'POST':
@@ -224,7 +231,7 @@ def articulo_create_or_update(request, **kwargs):
                     #print(art_val_ant)
                     if (precio_venta_anterior != articulo.precio_venta) or is_new:
                         historico = hist_movart( articulo = articulo,
-                                    fechamov = datetime.datetime.today(),
+                                    fechamov = datetime.today(),
                                     tipomov = tipo_mov,
                                     numdoc = '0',
                                     cantidad = 0,
@@ -237,12 +244,17 @@ def articulo_create_or_update(request, **kwargs):
                                 )
                         historico.save()
 
-                    urlredirect = "/myapp/dashboard/" + str(request.user.perfil.idempresa.id)
+                    urlredirect = "/myapp/dashboard/" + kwargs['id_empresa'] +'?pfamilia=' + str(articulo.familia.id)
                     return redirect(urlredirect)
             else:
                 empresa = empresas.objects.get(id=int(kwargs['id_empresa']))
                 articulo.idempresa = empresa
-                familia = familias.objects.filter(idempresa=empresa).first()
+                families = familias.objects.filter(idempresa=empresa)
+                if pfamilia == '0':
+                    familia = families[0]
+                else:
+                    familia = families.get(id=pfamilia)
+
                 articulo.familia = familia
                 #articulo.fecha_precio = datetime.datetime.today().date()
                 #articulo.fecha_stock = datetime.datetime.today().date()
@@ -271,7 +283,7 @@ def cliente_create_or_update(request, **kwargs):
             else:
                 empresa = empresas.objects.get(id=int(kwargs['id_empresa']))
                 cliente.idempresa = empresa
-                cliente.fecha_registro = datetime.datetime.today().date()
+                cliente.fecha_registro = datetime.today().date()
 
                 form = clientesForm(instance=cliente, empresa_id=int(kwargs['id_empresa']))
         else:
@@ -288,7 +300,7 @@ def actualizar_precios(request):
                 articulo = articulos.objects.get(pk=articulo_data['id'])
                 histo_mov = hist_movart()
                 histo_mov.articulo = articulo
-                histo_mov.fechamov = datetime.datetime.today().date()
+                histo_mov.fechamov = datetime.today().date()
                 tipo_mov = 'Actualizacion precio'
                 histo_mov.tipomov = tipo_mov
                 histo_mov.precioactual = articulo.precio_venta
@@ -299,7 +311,7 @@ def actualizar_precios(request):
                 histo_mov.save()
                 
                 articulo.precio_venta = articulo_data['nuevo_precio']
-                articulo.fecha_precio = datetime.datetime.today().date()                
+                articulo.fecha_precio = datetime.today().date()                
                 articulo.save()
 
         return JsonResponse({'success': True})
@@ -320,7 +332,7 @@ def guardar_movs_stock(request):
         articulo = articulos.objects.get(pk=idarticulo_var)
         histo_mov = hist_movart()
         histo_mov.articulo = articulo
-        histo_mov.fechamov = datetime.datetime.today().date()
+        histo_mov.fechamov = datetime.today().date()
         mensaje = 'ATENCION!! Cantidad Entrada = 0, no se realizo ningun cambio'
         if cantidad_var !='':
             if tipomov_var == 'Regularizacion':                
@@ -333,7 +345,7 @@ def guardar_movs_stock(request):
                 histo_mov.save()
                     
                 articulo.stock = cantidad_var
-                articulo.fecha_stock = datetime.datetime.today().date()                
+                articulo.fecha_stock = datetime.today().date()                
                 articulo.save()
             elif tipomov_var == 'Entrada':
                 mensaje = 'Entrada de stock realizada con exito!'
@@ -349,14 +361,14 @@ def guardar_movs_stock(request):
                     histo_mov.nuevoprecio = preciocompra_var
 
                     articulo.precio_compra = preciocompra_var
-                    articulo.fecha_precio = datetime.datetime.today().date()
+                    articulo.fecha_precio = datetime.today().date()
                     articulo.precio_venta = Decimal(preciocompra_var) * (1 + articulo.margen / 100) * (1 + articulo.margen2 / 100)
                 elif 'Traspaso' in motivo_var:
                     histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
                 histo_mov.save()
                 
                 articulo.stock = Decimal(cantidad_var) + articulo.stock
-                articulo.fecha_stock = datetime.datetime.today().date()                
+                articulo.fecha_stock = datetime.today().date()                
                 articulo.save()
             elif tipomov_var == 'Salida':
                 if Decimal(cantidad_var) <= articulo.stock:
@@ -370,7 +382,7 @@ def guardar_movs_stock(request):
                     histo_mov.save()
                         
                     articulo.stock = articulo.stock - Decimal(cantidad_var)
-                    articulo.fecha_stock = datetime.datetime.today().date()                
+                    articulo.fecha_stock = datetime.today().date()                
                     articulo.save()
                 else:
                     mensaje = 'Stock Insuficiente!'
@@ -582,7 +594,7 @@ def imprime_presup(request, **kwargs):
                 #        cliente = cliente, formapago = formapago, subtotal = subtotal, 
                 #        dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
 
-        tfechav = datetime.date.today().strftime(('%d-%m-%Y'))
+        tfechav = datetime.today().strftime(('%d-%m-%Y'))
         timp_dtoadi = subtotal * (destoadicional * 0.01 + 1) - subtotal
         timp_dtoadif = f"{timp_dtoadi:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         if descripcion_forma_pago == 'Efectivo':
@@ -743,6 +755,7 @@ def cerrar_venta(request, **kwargs):
         fpago = data.get('formapago', [])
         formapago = get_object_or_404(formaspago, id=fpago)
         descripcion_forma_pago = formapago.get_tipo_display()
+        destoaeftvo = float(data.get('dtoefectivo', []))
         destoadicional = float(data.get('descuentoAdicional', []))
         subtotal = data.get('subtotal', [])
         total = data.get('total', [])
@@ -758,7 +771,7 @@ def cerrar_venta(request, **kwargs):
             pass
         success = True
         if descripcion_forma_pago == 'Efectivo':
-            dtoeftvo = empresa.dtoefectvo
+            dtoeftvo = destoaeftvo
         else:
             dtoeftvo = 0
         detalle_html = ''
@@ -767,11 +780,11 @@ def cerrar_venta(request, **kwargs):
             # Inicia una transacción atómica
             with transaction.atomic():
                 # Crear la cabecera de la venta
-                cabecera = cabecera_venta.objects.create(fechav=datetime.date.today(), 
+                cabecera = cabecera_venta.objects.create(fechav=timezone.now(), 
                         cliente = cliente, formapago = formapago, subtotal = subtotal, 
                         dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
-
-                tfechav = cabecera.fechav.strftime(('%d-%m-%Y'))
+                
+                tfechav = timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S')
                 timp_dtoadi = subtotal * (destoadicional * 0.01 + 1) - subtotal
                 timp_dtoadif = f"{timp_dtoadi:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
                 if descripcion_forma_pago == 'Efectivo':
@@ -895,7 +908,7 @@ def cerrar_venta(request, **kwargs):
                     # Crear la línea de venta
                     hist_movart.objects.create(
                         articulo = articulo,
-                        fechamov = datetime.date.today(),
+                        fechamov = datetime.today(),
                         tipomov = 'Venta',
                         numdoc = cabecera.id,
                         cantidad = cantidad,
@@ -986,9 +999,9 @@ def anular_venta(request, **kwargs):
             nuevo_stock = articulo.stock + item.cantidad
             hist_movart.objects.create(
                 articulo = articulo,
-                fechamov = datetime.date.today(),
+                fechamov = datetime.today(),
                 tipomov = 'Anula Venta',
-                numdoc = item.id,
+                numdoc = nventa,
                 cantidad = item.cantidad,
                 precioactual = Decimal(item.precioactual),
                 stockactual = articulo.stock,
@@ -1031,8 +1044,8 @@ def movimientos_list_view(request, **kwargs):
         'familias': familias_var,
         'articulos' : articulos_var,
         'tipo_movs' : tipo_movs,
-        'fecha_desde': datetime.datetime.now().date(),
-        'fecha_hasta': datetime.datetime.now().date(),
+        'fecha_desde': datetime.now().date(),
+        'fecha_hasta': datetime.now().date(),
     })
 
 @login_required
@@ -1121,8 +1134,8 @@ def ventas_list_view(request, **kwargs):
     return render(request, 'myapp/lista_ventas.html', {
         'id_empresa': id_empresa,
         'empresas':empresas_var,
-        'fecha_desde': datetime.datetime.now().date(),
-        'fecha_hasta': datetime.datetime.now().date(),
+        'fecha_desde': datetime.now().date(),
+        'fecha_hasta': datetime.now().date(),
     })
 
 @login_required
@@ -1135,9 +1148,16 @@ def ajax_list_ventas(request):
         page_number = request.GET.get('page', 1)
 
         # Aplicar los filtros al queryset de cabeceras
-        cabeceras_query = cabecera_venta.objects.filter(anulada=False)
+        cabeceras_query = cabecera_venta.objects.all()
+        fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
+        fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
 
         if fecha_desde and fecha_hasta:
+            fecha_desde = datetime.combine(fecha_desde, datetime.min.time())
+
+            # Asegurarse de que la fecha_hasta sea al final del día (23:59:59)
+            fecha_hasta = datetime.combine(fecha_hasta, datetime.max.time())
+
             cabeceras_query = cabeceras_query.filter(fechav__range=[fecha_desde, fecha_hasta])
 
         # Filtrar los movimientos de tipo 'Venta'
@@ -1155,18 +1175,22 @@ def ajax_list_ventas(request):
             otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
 
             if movimientos.exists():
-                total_imptotal += cabecera.imptotal
+                cab_anulada = 'Anulada por ' + movimientos[0].usuario.username
+                if not cabecera.anulada:
+                    cab_anulada = ''
+                    total_imptotal += cabecera.imptotal
                 ventas_con_movimientos.append({
                     'cabecera': {
                         'id': cabecera.id,
-                        'fechav': cabecera.fechav.strftime('%Y-%m-%d'),
+                        'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
                         'cliente': cabecera.cliente,
                         'fpago': cabecera.formapago.get_tipo_display(),  # Ejecuta el método
                         'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
                         'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
                         'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
                         'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                        'usuario': movimientos[0].usuario.username
+                        'usuario': movimientos[0].usuario.username,
+                        'anulada' : cab_anulada
                     },
                     'movimientos': [{
                         'articulo': mov.articulo.descripcion,

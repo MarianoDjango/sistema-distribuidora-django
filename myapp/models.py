@@ -126,7 +126,7 @@ class clientes(models.Model):
         return f"{self.nombre} {self.apellido}"
 
 class cabecera_venta(models.Model):
-    fechav = models.DateField()    
+    fechav = models.DateTimeField()    
     cliente = models.CharField(max_length = 50, default='') #este campo permite entrar un nombre cuando elcliente es el 0='generico'
     formapago = models.ForeignKey(formaspago, on_delete=models.CASCADE, null=False)
     subtotal = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)

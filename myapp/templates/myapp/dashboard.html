@@ -65,7 +65,7 @@
             <input class="form-control" type="text" id="articsearch" oninput="buscart()" placeholder="Buscar artículo...">
             <hr>
             {% if user.is_staff %}
-                <a class="btn btn-primary" href="{% url 'article-detail' id_empresa 0 %}">Nuevo</a>
+                <a class="btn btn-primary" id="nuevoArticulo" href="/myapp/articulo/{{id_empresa}}/0/?pfamilia={{ id_familia }}">Nuevo</a>
                 <button class="btn btn-primary" id="toggleSeleccion">Seleccionar Todos</button>
                 <!-- Button trigger modal -->
                 <button type="button" id="cambioprecio" class="btn btn-primary btn-cambiarprecios" data-toggle="modal" data-target="#exampleModal">

@@ -26,7 +26,7 @@
     <div class="row"></div>
     <div class="row">
       <div class="col-lg-12">
-        <nav class="navbar navbar-expand-lg" style="background-color: #c73e3e;">
+        <nav class="navbar navbar-expand-lg" style="background-color: #ffffff;">
           <div class="container-fluid">
             <div class="col-lg-6">
               {% if user.is_authenticated %}
@@ -71,7 +71,7 @@
     {% if user.is_staff %}
     <nav class="nav justify-content-center" style="background-color: #fffcd6;">
       <li class="nav-item custom-nav-item">
-        <a class="nav-link active" href="/myapp/dashboard/{{id_empresa}}/">Home</a>
+        <a class="nav-link active" href="/myapp/dashboard/{{id_empresa}}/?pfamilia=0">Home</a>
       </li>
       <li class="nav-item custom-nav-item">
         <a class="nav-link active" href="/myapp/dashboard/{{id_empresa}}/clientes/">Clientes</a>

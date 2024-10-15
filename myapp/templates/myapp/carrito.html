@@ -64,7 +64,7 @@
                             {% endfor %}
                         </select>
                         <label for="descuento_efectivo">Descuento Efectivo (%):</label>
-                        <input class="form-control m-1" type="text" id="descuento_efectivo" style="text-align: right;" value="{{dtoefectvo}}" readonly />
+                        <input class="form-control m-1" type="text" id="descuento_efectivo" style="text-align: right;" value="{{dtoefectvo}}" oninput="calcularTotal()"/>
                     
                         <label for="descuento_adicional">Descuento Adicional (%):</label>
                         <input class="form-control m-1" type="number" id="descuento_adicional" style="text-align: right;" min="0" max="100" step="1" value="0" oninput="calcularTotal()"/>
@@ -264,6 +264,7 @@ function calcularTotal() {
         let formasPago = document.getElementById('forma_pago')
         let fpago = formasPago.options[formasPago.selectedIndex].value;
         let descuentoAdicional = document.getElementById('descuento_adicional').value.replace(',', '.') || 0;
+        let descuentoefectivo = document.getElementById('descuento_efectivo').value.replace(',', '.') || 0;
         let subtotal = parseFloat(document.getElementById('subtotal_carrito').innerText) || 0;
         let total = parseFloat(document.getElementById('total_carrito').innerText) || 0;
 
@@ -273,6 +274,7 @@ function calcularTotal() {
         // Lógica para cerrar la venta y generar el ticket
         const data = {
             formapago: fpago,
+            dtoefectivo: descuentoefectivo,
             descuentoAdicional: descuentoAdicional,
             subtotal: subtotal,
             total: total,
@@ -295,7 +297,7 @@ function calcularTotal() {
                     console.log(data.ticket_html)
                     imprimirTicket(data.ticket_html)
                     const dashboardUrl = window.location.href.replace('/carrito/', '/');
-                    window.location.href = dashboardUrl;
+                    window.location.href = dashboardUrl + '?pfamilia=0';
                 }
                 
                 // Lógica adicional para imprimir el ticket o redirigir

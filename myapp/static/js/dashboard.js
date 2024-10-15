@@ -434,9 +434,13 @@ $(document).ready(function (){
         var id_empresa = document.getElementById('idempresa').innerText
         familias_empresa(id_empresa);
 	});
+
 function ponerfamilia(idfamilia, nomfamilia){
     $('#idfamilia').html(idfamilia);
     $('#familia').html(nomfamilia);
+    var nuevoArticuloLink = document.getElementById('nuevoArticulo');
+    var idempresa = document.getElementById('idempresa').innerText;    
+    nuevoArticuloLink.href = '/myapp/articulo/' + idempresa + '/0/?pfamilia=' + idfamilia
     buscart();
 }
 
