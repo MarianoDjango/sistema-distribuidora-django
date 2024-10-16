@@ -3,8 +3,9 @@ function familias_empresa(idempresa, nomempresa){
   $('#empresa').html(nomempresa);
   $('#idempresa').html(idempresa);
   $('#sidebar-nav').html("");
+  var idfamilia = document.getElementById('idfamilia').innerHTML;
     $.ajax({
-        url:'/myapp/familias/',
+        url:'/myapp/familias/?pfamilia=' + idfamilia,
         data:{
           idempresa: idempresa,
         },
@@ -30,7 +31,6 @@ function familias_empresa(idempresa, nomempresa){
             var nombre = document.getElementById('articsearch').value;
             var idfamilia = document.getElementById('idfamilia').innerHTML;
             var id_empresa = document.getElementById('idempresa').innerText;
-    
             $('#articulosList').html(""); // Limpiar la lista de artículos
             $('#loadingIndicator').show();
 
@@ -71,7 +71,7 @@ function familias_empresa(idempresa, nomempresa){
         // Actualiza el campo de fecha_precio con la fecha actual
         const hoy = new Date().toISOString().split('T')[0];
         fechaPrecioInput.value = hoy;
-        console.log(hoy)
+
       });
       
       margenInput.addEventListener('input', function () {
@@ -85,7 +85,7 @@ function familias_empresa(idempresa, nomempresa){
         // Actualiza el campo de fecha_precio con la fecha actual
         const hoy = new Date().toISOString().split('T')[0];
         fechaPrecioInput.value = hoy;
-        console.log(hoy)
+
       });
       
       margen2Input.addEventListener('input', function () {
@@ -99,7 +99,7 @@ function familias_empresa(idempresa, nomempresa){
         // Actualiza el campo de fecha_precio con la fecha actual
         const hoy = new Date().toISOString().split('T')[0];
         fechaPrecioInput.value = hoy;
-        console.log(hoy)
+
       });
     });
   

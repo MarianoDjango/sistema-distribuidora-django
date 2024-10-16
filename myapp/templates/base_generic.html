@@ -68,24 +68,26 @@
         </nav>          
       </div>
     </div>
-    {% if user.is_staff %}
+    {% if user.is_authenticated %}
     <nav class="nav justify-content-center" style="background-color: #fffcd6;">
       <li class="nav-item custom-nav-item">
-        <a class="nav-link active" href="/myapp/dashboard/{{id_empresa}}/?pfamilia={{id_familia}}">Home</a>
+        <a class="nav-link active" id="home" href="/myapp/dashboard/{{id_empresa}}/?pfamilia={{id_familia}}">Home</a>
       </li>
+      {% if user.is_staff %}
       <li class="nav-item custom-nav-item">
-        <a class="nav-link active" href="/myapp/dashboard/{{id_empresa}}/clientes/">Clientes</a>
+        <a class="nav-link active" id="clientes" href="/myapp/dashboard/{{id_empresa}}/clientes/?pfamilia={{id_familia}}">Clientes</a>
       </li>
       <li class="nav-item custom-nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reportes</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/myapp/dashboard/{{id_empresa}}/ventas/">Ventas</a></li>
-            <li><a class="dropdown-item" href="/myapp/dashboard/{{id_empresa}}/movimientos/">Movimientos</a></li>
-          </ul>
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-expanded="false">Reportes</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" id="ventas" href="/myapp/dashboard/{{id_empresa}}/ventas/?pfamilia={{id_familia}}">Ventas</a></li>
+          <li><a class="dropdown-item" id="movimientos" href="/myapp/dashboard/{{id_empresa}}/movimientos/?pfamilia={{id_familia}}">Movimientos</a></li>
+        </ul>
       </li>
-      <br>  
-    </nav>
-    {% endif %}
+      {% endif %}
+    <br>  
+  </nav>
+  {% endif %}
 </body>
   {% block content %}{% endblock %}
   <footer class="bd-footer py-4 py-md-5 mt-5 bg-light">

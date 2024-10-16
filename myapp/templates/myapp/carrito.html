@@ -151,7 +151,6 @@ function updateCantidad(itemKey, delta) {
                 totlintable.innerText = data.new_total_linea
                 subtotal.innerText = data.subtotalcarrito
                 calcularTotal()
-                console.log(cantidadInput.value)
             } 
         })
         .catch(error => console.error('Error al agregar al carrito:', error));
@@ -174,7 +173,6 @@ function removeItem(btndel) {
     .then(data => {
         if (data.success) {  // Verificamos si la operación fue exitosa
             fila.remove(); // Elimina la fila del DOM
-            console.log(data.subtotalcarrito);  // Imprime el subtotal actualizado en la consola
             subtotal_carrito.innerText = data.subtotalcarrito;  // Actualiza el subtotal en el input
             calcularTotal();  // Llama a la función para calcular el total
         } else {
@@ -216,7 +214,6 @@ function imprime_presup() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                console.log(data.ticket_html)
                 imprimirTicket(data.ticket_html)
                 const dashboardUrl = window.location.href.replace('/carrito/', '/');
                 //window.location.href = dashboardUrl;
@@ -293,11 +290,11 @@ function calcularTotal() {
         .then(data => {
             if (data.success) {
                 const resultado = confirm('Venta cerrada con éxito. ¿Desea imprimir el ticket?');
-                if (resultado) {
-                    console.log(data.ticket_html)
+                if (resultado) {                    
                     imprimirTicket(data.ticket_html)
                     const dashboardUrl = window.location.href.replace('/carrito/', '/');
-                    window.location.href = dashboardUrl + '?pfamilia=0';
+                    ///\/carrito\/.*$/
+                    window.location.href = dashboardUrl ;
                 }
                 
                 // Lógica adicional para imprimir el ticket o redirigir

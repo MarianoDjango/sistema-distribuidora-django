@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .models import empresas, familias, articulos, hist_movart, tipomovimientos, formaspago, clientes, cabecera_venta
 import json
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from .forms import articulosForm, clientesForm
 from datetime import datetime, timedelta
 from decimal import Decimal
@@ -15,6 +15,7 @@ from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.timezone import make_aware
 
 def index(request):
     return render(request, 'index.html')
@@ -28,7 +29,7 @@ def afterlogin( request, *args, **kwargs):
 def famlias_empresa(request, **kwargs):
     empresa_id = request.GET['idempresa']
     familias_var = familias.objects.filter(idempresa=empresa_id)
-    id_familia = familias_var[0].id if familias_var else None
+    id_familia = request.GET['pfamilia']
     recs = []
     for fam in familias_var:
         fila = f'<a id="fam{fam.id}" href="javascript:void(0);" class="list-group-item border-end-0 d-inline-block text-truncate" data-bs-parent="#sidebar" onclick="ponerfamilia({fam.id}, \'{fam.nombre}\')"><span>{fam.nombre}</span></a>'
@@ -50,9 +51,9 @@ def articulos_famila(request, **kwargs):
     empresa_obj = get_object_or_404(empresas, id=idempresa_var)
     if familia_id != '0':
         if nombre_var == "":
-            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
+            articles = articulos.objects.filter(idempresa=idempresa_var, familia=familia_id, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
         else:
-            articles = articulos.objects.filter(idempresa=idempresa_var, familia=int(familia_id), descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
+            articles = articulos.objects.filter(idempresa=idempresa_var, familia=familia_id, descripcion__icontains=nombre_var, activo=True).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
     else:
         if nombre_var == "":
             articles = articulos.objects.filter(idempresa=idempresa_var).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
@@ -130,6 +131,7 @@ def clientes_empresa(request, **kwargs):
     #if request.user.is_authenticated:
     nombre_var = request.GET['nombre']
     idempresa_var = request.GET['id_empresa']
+    pfamilia = request.GET['pfamilia']
     empresa_obj = get_object_or_404(empresas, id=idempresa_var)
     if nombre_var == "":
         clientes_qry = clientes.objects.filter(idempresa=empresa_obj, activo=True).values('id', 'idempresa','nombre', 'apellido', 'email', 'telefono')
@@ -140,11 +142,11 @@ def clientes_empresa(request, **kwargs):
         fila = '<tr style="cursor:hand;">'
         if cliente['idempresa'] == request.user.perfil.idempresa.id or request.user.is_staff:
             id_cliente = str(cliente['id'])
-            fila += '<td><a href="' + id_cliente + '/" id="descri' + id_cliente + '">' + cliente['nombre'] + '</a></td>'
+            fila += '<td><a href="' + id_cliente + '/?pfamilia=' + pfamilia + '" id="descri' + id_cliente + '">' + cliente['nombre'] + '</a></td>'
         else:
             fila += '<td>' + cliente['nombre'] + '</td>'
         fila += '<td class="text-center">' + cliente['apellido'] + '</td>'
-        fila += '<td class="text-center">' + cliente['email'] + '</td>'
+        fila += '<td class="text-center">' + str(cliente['email']) + '</td>'
         if (cliente['telefono']):
             fila += '<td class="text-end">' +  cliente['telefono'] + '</td>'
         fila += '<td class="text-center" style="display : none;">' + str(cliente['id']) + '</td>'
@@ -160,10 +162,12 @@ class clientes_view(LoginRequiredMixin,View):
     template_name = 'myapp/clientes.html'
 
     def get(self, request, *args, **kwargs):
+        id_familia = request.GET['pfamilia']
         empresa_id = kwargs['id_empresa']
         empresa_obj = get_object_or_404(empresas, id=empresa_id)
         context = {'id_empresa':int(empresa_id),
-                    'nomempresa' : empresa_obj.name, 
+                    'nomempresa' : empresa_obj.name,
+                    'id_familia': id_familia 
                 }
         return render(self.request, self.template_name, context)
 
@@ -173,7 +177,7 @@ class dashboard_view(LoginRequiredMixin,View):
 
     def get(self, request, *args, **kwargs):
         empresa_id = kwargs['id_empresa']
-        pfamilia = request.GET.get('pfamilia')
+        pfamilia = request.GET['pfamilia']
         empresa_obj = get_object_or_404(empresas, id=empresa_id)
         carrito = request.session.get(f'carrito_{empresa_id}', {})
         cantidad_total = sum(item['cantidad'] for item in carrito.values())
@@ -267,6 +271,7 @@ def articulo_create_or_update(request, **kwargs):
 
 @login_required
 def cliente_create_or_update(request, **kwargs):
+        pfamilia = request.GET.get('pfamilia')
     #if request.user.is_authenticated:
         if request.user.perfil.idempresa.id == int(kwargs['id_empresa']) or request.user.is_staff:
             if kwargs['pk'] != '0':
@@ -278,7 +283,7 @@ def cliente_create_or_update(request, **kwargs):
                 form = clientesForm(request.POST, instance=cliente)
                 if form.is_valid():
                     form.save()
-                    urlredirect = "/myapp/dashboard/" + str(request.user.perfil.idempresa.id) +'/clientes/'
+                    urlredirect = "/myapp/dashboard/" + str(request.user.perfil.idempresa.id) +'/clientes/?pfamilia=' + pfamilia
                     return redirect(urlredirect)
             else:
                 empresa = empresas.objects.get(id=int(kwargs['id_empresa']))
@@ -288,7 +293,7 @@ def cliente_create_or_update(request, **kwargs):
                 form = clientesForm(instance=cliente, empresa_id=int(kwargs['id_empresa']))
         else:
             form = None
-        return render(request, 'myapp/cliente_form.html', {'form': form, 'id_empresa':kwargs['id_empresa']})
+        return render(request, 'myapp/cliente_form.html', {'form': form, 'id_empresa':kwargs['id_empresa'], 'id_familia':pfamilia})
 
 @login_required
 def actualizar_precios(request):
@@ -514,6 +519,7 @@ def cantidad_total_carrito(request, **kwargs):
 @login_required
 def ver_carrito(request, **kwargs):
     id_empresa = kwargs['id_empresa']
+    pfamilia = request.GET['pfamilia']
     carrito = request.session.get(f'carrito_{id_empresa}', {})
       # Lógica para obtener el descuento por pago en efectivo
     total = calcular_total_carrito(carrito)  # Lógica para calcular el total
@@ -537,7 +543,8 @@ def ver_carrito(request, **kwargs):
         'nombre_empresa' : empresa_obj.name,
         'formas_pago' : formas_pago,
         'dtoefectvo' : empresa_obj.dtoefectvo,
-        'clientes' : cliente_list
+        'clientes' : cliente_list,
+        'id_familia': pfamilia
     })
 
 def vaciar_carrito(request, id_empresa):
@@ -545,6 +552,11 @@ def vaciar_carrito(request, id_empresa):
     request.session[f'carrito_{id_empresa}'] = {}
     request.session[f'total_carrito_{id_empresa}'] = 0
     request.session.modified = True
+
+    previous_url = request.META.get('HTTP_REFERER')
+    if previous_url:
+        # Redirigir a la URL anterior, sin 'vaciar/'
+        return redirect(previous_url)
     
     return redirect('dashboard', id_empresa)
 
@@ -1016,26 +1028,23 @@ def anular_venta(request, **kwargs):
 
 @login_required
 def movimientos_list_view(request, **kwargs):
-    if request.user.is_staff:
-        id_empresa = kwargs['id_empresa']
-        empresas_var = empresas.objects.all()
-        articulos_var = articulos.objects.filter(idempresa=id_empresa)
-        familias_var = familias.objects.filter(idempresa=id_empresa)
-        tipo_movs = [
-            ('entrada', 'Compra'),
-            ('entrada', 'Traspaso desde'),
-            ('entrada', 'Anula Venta'),
-            ('salida', 'Venta'),
-            ('salida', 'Traspaso a'),
-            ('regularizacion', 'Ajuste de stock'),
-            ('crud', 'Creacion/actualizacion articulo'),
-        ]
-    else: 
-        id_empresa = kwargs['id_empresa']
-        empresas_var = None
-        articulos_var = None
-        familias_var = None
-        tipo_movs = None
+    if not request.user.is_staff:
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+
+    familia = request.GET['pfamilia']
+    id_empresa = kwargs['id_empresa']
+    empresas_var = empresas.objects.all()
+    articulos_var = articulos.objects.filter(idempresa=id_empresa)
+    familias_var = familias.objects.filter(idempresa=id_empresa)
+    tipo_movs = [
+        ('entrada', 'Compra'),
+        ('entrada', 'Traspaso desde'),
+        ('entrada', 'Anula Venta'),
+        ('salida', 'Venta'),
+        ('salida', 'Traspaso a'),
+        ('regularizacion', 'Ajuste de stock'),
+        ('crud', 'Creacion/actualizacion articulo'),
+    ]
 
     # Renderizamos solo el HTML con la tabla vacía para que luego se llene vía AJAX
     return render(request, 'myapp/lista_movimientos.html', {
@@ -1046,89 +1055,84 @@ def movimientos_list_view(request, **kwargs):
         'tipo_movs' : tipo_movs,
         'fecha_desde': datetime.now().date(),
         'fecha_hasta': datetime.now().date(),
+        'id_familia': familia
     })
 
 @login_required
 def ajax_list_movimientos(request):
-    if request.user.is_staff:
-        empresa = request.GET.get('empresa')
-        articulo = request.GET.get('articulo')
-        familia = request.GET.get('familia')
-        tipomov = request.GET.get('tipomov')
-        fecha_desde = request.GET.get('fecha_desde')
-        fecha_hasta = request.GET.get('fecha_hasta')
-        page_number = request.GET.get('page', 1)
-        # Aplicar los filtros al queryset
-        movimientos = hist_movart.objects.all().order_by('articulo', 'id')
+    if not request.user.is_staff:
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
 
-        if empresa != 'todos':
-            movimientos = movimientos.filter(articulo__idempresa=empresa)
+    empresa = request.GET.get('empresa')
+    articulo = request.GET.get('articulo')
+    familia = request.GET.get('familia')
+    tipomov = request.GET.get('tipomov')
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
+    page_number = request.GET.get('page', 1)
+    # Aplicar los filtros al queryset
+    movimientos = hist_movart.objects.all().order_by('articulo', 'id')
 
-        if articulo != 'todos':
-            movimientos = movimientos.filter(articulo=articulo)
+    if empresa != 'todos':
+        movimientos = movimientos.filter(articulo__idempresa=empresa)
 
-        if familia != 'todos':
-            movimientos = movimientos.filter(articulo__familia=familia)
+    if articulo != 'todos':
+        movimientos = movimientos.filter(articulo=articulo)
+
+    if familia != 'todos':
+        movimientos = movimientos.filter(articulo__familia=familia)
         
-        if tipomov != 'Todos':
-            movimiento_filter = tipomov
-            if tipomov == 'Creacion/actualizacion articulo':
-                movimientos = movimientos.filter(Q(tipomov='Creacion Articulo') | Q(tipomov='Actualiza Articulo') | Q(tipomov='Actualizacion precio'))
-            else:
-                movimientos = movimientos.filter(tipomov=movimiento_filter)
+    if tipomov != 'Todos':
+        movimiento_filter = tipomov
+        if tipomov == 'Creacion/actualizacion articulo':
+            movimientos = movimientos.filter(Q(tipomov='Creacion Articulo') | Q(tipomov='Actualiza Articulo') | Q(tipomov='Actualizacion precio'))
+        else:
+            movimientos = movimientos.filter(tipomov=movimiento_filter)
 
-        if fecha_desde:
-            movimientos = movimientos.filter(fechamov__gte=fecha_desde)
+    if fecha_desde:
+        movimientos = movimientos.filter(fechamov__gte=fecha_desde)
 
-        if fecha_hasta:
-            movimientos = movimientos.filter(fechamov__lte=fecha_hasta)
+    if fecha_hasta:
+        movimientos = movimientos.filter(fechamov__lte=fecha_hasta)
 
-        paginator = Paginator(movimientos, 10)  # 10 movimientos por página (ajústalo a tu preferencia)
-        page_obj = paginator.get_page(page_number)
+    paginator = Paginator(movimientos, 10)  # 10 movimientos por página (ajústalo a tu preferencia)
+    page_obj = paginator.get_page(page_number)
 
-        movimientos_agrupados = {}
-        for movimiento in page_obj.object_list:
-            articulo = movimiento.articulo.descripcion
-            if articulo not in movimientos_agrupados:
-                movimientos_agrupados[articulo] = []
-            movimientos_agrupados[articulo].append({
-                'fechamov': movimiento.fechamov.strftime('%d-%m-%Y'),
-                'tipomov': movimiento.tipomov,
-                'documento': movimiento.numdoc,  # Aquí agrego el número de documento que usas en el JS
-                'cantidad': movimiento.cantidad,
-                'stock': movimiento.stockactual,
-                'nuevoprecio': movimiento.nuevoprecio,
-                'nuevostock': movimiento.nuevostock,
-                'usuario': movimiento.usuario.username,
-            })
+    movimientos_agrupados = {}
+    for movimiento in page_obj.object_list:
+        articulo = movimiento.articulo.descripcion
+        if articulo not in movimientos_agrupados:
+            movimientos_agrupados[articulo] = []
+        movimientos_agrupados[articulo].append({
+            'fechamov': movimiento.fechamov.strftime('%d-%m-%Y'),
+            'tipomov': movimiento.tipomov,
+            'documento': movimiento.numdoc,  # Aquí agrego el número de documento que usas en el JS
+            'cantidad': movimiento.cantidad,
+            'stock': movimiento.stockactual,
+            'nuevoprecio': movimiento.nuevoprecio,
+            'nuevostock': movimiento.nuevostock,
+            'usuario': movimiento.usuario.username,
+        })
 
         # Serializar los resultados en JSON
-        data = {
-            'movimientos': movimientos_agrupados,
-            'has_next': page_obj.has_next(),
-            'has_previous': page_obj.has_previous(),
-            'page_number': page_obj.number,
-            'total_pages': paginator.num_pages,
-        }
-    else:
-        data = {
-            'movimientos': 0 ,
-            'has_next': 0,
-            'has_previous': 0,
-            'page_number': 0,
-            'total_pages': 0,
-        }
+    data = {
+        'movimientos': movimientos_agrupados,
+        'has_next': page_obj.has_next(),
+        'has_previous': page_obj.has_previous(),
+        'page_number': page_obj.number,
+        'total_pages': paginator.num_pages,
+    }
 
     return JsonResponse(data)
 
 @login_required
 def ventas_list_view(request, **kwargs):
-    if request.user.is_staff:
-        id_empresa = kwargs['id_empresa']
-        empresas_var = empresas.objects.all()
-    else:
-        id_empresa = kwargs['id_empresa']
-        empresas_var = None
+    if not request.user.is_staff:
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+
+    familia = request.GET['pfamilia']
+    id_empresa = kwargs['id_empresa']
+    empresas_var = empresas.objects.all()
 
         # Renderizamos solo el HTML con la tabla vacía para que luego se llene vía AJAX
     return render(request, 'myapp/lista_ventas.html', {
@@ -1136,91 +1140,89 @@ def ventas_list_view(request, **kwargs):
         'empresas':empresas_var,
         'fecha_desde': datetime.now().date(),
         'fecha_hasta': datetime.now().date(),
+        'id_familia' : familia
     })
 
 @login_required
 def ajax_list_ventas(request):
-    if request.user.is_staff:
-        total_imptotal = 0
-        empresa = request.GET.get('empresa')
-        fecha_desde = request.GET.get('fecha_desde')
-        fecha_hasta = request.GET.get('fecha_hasta')
-        page_number = request.GET.get('page', 1)
+    if not request.user.is_staff:
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
 
-        # Aplicar los filtros al queryset de cabeceras
-        cabeceras_query = cabecera_venta.objects.all()
-        fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
-        fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
+    total_imptotal = 0
+    empresa = request.GET.get('empresa')
+    pfamilia = request.GET.get('pfamilia')
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
+    page_number = request.GET.get('page', 1)
 
-        if fecha_desde and fecha_hasta:
-            fecha_desde = datetime.combine(fecha_desde, datetime.min.time())
+    # Aplicar los filtros al queryset de cabeceras
+    cabeceras_query = cabecera_venta.objects.all()
+    fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
+    fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
 
-            # Asegurarse de que la fecha_hasta sea al final del día (23:59:59)
-            fecha_hasta = datetime.combine(fecha_hasta, datetime.max.time())
+    if fecha_desde and fecha_hasta:
+        fecha_desde = make_aware(datetime.combine(fecha_desde, datetime.min.time()))
 
-            cabeceras_query = cabeceras_query.filter(fechav__range=[fecha_desde, fecha_hasta])
+        # Asegurarse de que la fecha_hasta sea al final del día (23:59:59)
+        fecha_hasta = make_aware(datetime.combine(fecha_hasta, datetime.max.time()))
 
-        # Filtrar los movimientos de tipo 'Venta'
-        movimientos_query = hist_movart.objects.filter(tipomov='Venta')
+        cabeceras_query = cabeceras_query.filter(fechav__range=[fecha_desde, fecha_hasta])
 
-        if empresa != 'todos':
-            movimientos_query = movimientos_query.filter(articulo__idempresa=empresa)
+    # Filtrar los movimientos de tipo 'Venta'
+    movimientos_query = hist_movart.objects.filter(tipomov='Venta')
 
-        # Lista para almacenar los resultados
-        ventas_con_movimientos = []
+    if empresa != 'todos':
+        movimientos_query = movimientos_query.filter(articulo__idempresa=empresa)
 
-        for cabecera in cabeceras_query:
-            movimientos = movimientos_query.filter(numdoc=cabecera.id)
-            dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
-            otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
+    # Lista para almacenar los resultados
+    ventas_con_movimientos = []
 
-            if movimientos.exists():
-                cab_anulada = 'Anulada por ' + movimientos[0].usuario.username
-                if not cabecera.anulada:
-                    cab_anulada = ''
-                    total_imptotal += cabecera.imptotal
-                ventas_con_movimientos.append({
-                    'cabecera': {
-                        'id': cabecera.id,
-                        'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
-                        'cliente': cabecera.cliente,
-                        'fpago': cabecera.formapago.get_tipo_display(),  # Ejecuta el método
-                        'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                        'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                        'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                        'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                        'usuario': movimientos[0].usuario.username,
-                        'anulada' : cab_anulada
-                    },
-                    'movimientos': [{
-                        'articulo': mov.articulo.descripcion,
-                        'cantidad': str(mov.cantidad),
-                        'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    } for mov in movimientos]
-                })
+    for cabecera in cabeceras_query:
+        movimientos = hist_movart.objects.filter(numdoc=cabecera.id)
+        dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
+        otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
+
+        if movimientos.exists():
+            anula_venta = movimientos.filter(tipomov='Anula Venta').first()
+            if anula_venta:
+                cab_anulada = 'Anulada por ' + anula_venta.usuario.username
+            else:
+                cab_anulada = ''
+                total_imptotal += cabecera.imptotal
+            ventas_con_movimientos.append({
+                'cabecera': {
+                    'id': cabecera.id,
+                    'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
+                    'cliente': cabecera.cliente,
+                    'fpago': cabecera.formapago.get_tipo_display(),  # Ejecuta el método
+                    'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'usuario': movimientos[0].usuario.username,
+                    'anulada' : cab_anulada
+                },
+                'movimientos': [{
+                    'articulo': mov.articulo.descripcion,
+                    'cantidad': str(mov.cantidad),
+                    'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                } for mov in movimientos if mov.tipomov == 'Venta' or mov.tipomov == 'venta']
+            })
         
-        total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
+    total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
         # Paginación
-        paginator = Paginator(ventas_con_movimientos, 5)  # 10 resultados por página
-        page_obj = paginator.get_page(page_number)
+    paginator = Paginator(ventas_con_movimientos, 5)  # 10 resultados por página
+    page_obj = paginator.get_page(page_number)
         
         # Preparar los datos para la respuesta en formato JSON
-        data = {
-            'ventas': page_obj.object_list,
-            'total_imptotal': total_imptotal_formatted,
-            'has_next': page_obj.has_next(),
-            'has_previous': page_obj.has_previous(),
-            'num_pages': paginator.num_pages,
-            'page_number': page_obj.number,
-        }
-    else:
-        data = {
-            'ventas': 0,
-            'total_imptotal': 0,
-            'has_next': 0,
-            'has_previous': 0,
-            'num_pages': 0,
-            'page_number': 0,
-        }
+    data = {
+        'ventas': page_obj.object_list,
+        'total_imptotal': total_imptotal_formatted,
+        'has_next': page_obj.has_next(),
+        'has_previous': page_obj.has_previous(),
+        'num_pages': paginator.num_pages,
+        'page_number': page_obj.number,
+        'id_familia' : pfamilia
+    }
 
     return JsonResponse(data)

@@ -407,7 +407,7 @@ function manejar_disabled_compra() {
     const documentoe = document.getElementById('documentoe');
 // Agrega un event listener al select que controla el estado
     // Verifica el valor seleccionado y habilita/deshabilita los campos según corresponda
-    console.log(motivo)
+
     if (motivo == 'Compra') {
         empresa.disabled = true;
         preciocompra.disabled = false;
@@ -438,16 +438,34 @@ $(document).ready(function (){
 function ponerfamilia(idfamilia, nomfamilia){
     $('#idfamilia').html(idfamilia);
     $('#familia').html(nomfamilia);
+    var idempresa = document.getElementById('idempresa').innerText;
     var nuevoArticuloLink = document.getElementById('nuevoArticulo');
-    var idempresa = document.getElementById('idempresa').innerText;    
-    nuevoArticuloLink.href = '/myapp/articulo/' + idempresa + '/0/?pfamilia=' + idfamilia
+    if (nuevoArticuloLink) {
+        nuevoArticuloLink.href = '/myapp/articulo/' + idempresa + '/0/?pfamilia=' + idfamilia
+    }
+    var nuevoclientesLink = document.getElementById('clientes');
+    if (nuevoclientesLink) {
+        nuevoclientesLink.href = '/myapp/dashboard/' + idempresa + '/clientes/?pfamilia=' + idfamilia
+    }
+    
+    var nuevohomeLink = document.getElementById('home');   
+    nuevohomeLink.href = '/myapp/dashboard/' + idempresa + '/?pfamilia=' + idfamilia
+    var nuevoventasLink = document.getElementById('ventas');
+    var nuevomovimientosLink = document.getElementById('movimientos');
+    if (nuevoventasLink) {
+        nuevoventasLink.href = '/myapp/dashboard/' + idempresa + '/ventas/?pfamilia=' + idfamilia
+        nuevomovimientosLink.href = '/myapp/dashboard/' + idempresa + '/movimientos/?pfamilia=' + idfamilia
+    }
+
     buscart();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     const modalr = document.getElementById('regularizaStockModal');
     const saveBtnr = document.getElementById('guardarregularizaStock');
-
+    const idfamilia = document.getElementById('idfamilia').innerText;
+    const familia = document.getElementById('familia').innerText;
+    ponerfamilia(idfamilia, familia);
     const stockInputr = document.getElementById('cantidadMovimientor');
 
     // Coloca el foco en el input cuando se abre el modal

@@ -16,7 +16,7 @@
         <ul class="nav nav-tabs">
             {% for empresa in empresas %}
                 <li class="nav-item">
-                    <a class="nav-link {% if empresa.id == id_empresa %}active{% endif %}" id="navi{{ empresa.id }}" href="{% url 'dashboard' empresa.id %}">
+                    <a class="nav-link {% if empresa.id == id_empresa %}active{% endif %}" id="navi{{ empresa.id }}" href="{% url 'dashboard' empresa.id %}?pfamilia=">
                         {{ empresa.name }}
                     </a>
                 </li>
@@ -272,11 +272,11 @@
 function verificarCarrito() {
     // Obtener el valor de cantidad_carrito desde el span
     let cantidadCarrito = parseInt(document.getElementById('badgeCarrito').innerText);
-    
+    let familia = document.getElementById('idfamilia')
     // Verificar si la cantidad es mayor que 0
     if (cantidadCarrito > 0) {
         // Si es mayor que 0, redirigir a la URL
-        window.location.href = 'carrito/';
+        window.location.href = 'carrito/?pfamilia=' + familia.innerText;
     } else {
         // Si no, mostrar una alerta o hacer otra cosa
         alert('El carrito está vacío.');

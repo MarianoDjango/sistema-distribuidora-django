@@ -113,7 +113,7 @@ class clientes(models.Model):
     idempresa = models.ForeignKey(empresas, on_delete=models.CASCADE, null=True) 
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100, blank=True)
-    email = models.CharField(unique=True, max_length=100, blank=True)
+    email = models.CharField(unique=True, max_length=100, blank=True, null=True)
     telefono = models.CharField(max_length=15, blank=True, null=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
     ciudad = models.CharField(max_length=100, blank=True, null=True)

@@ -4,9 +4,10 @@ $(document).ready(function (){
 function buscarcli(){
   var nombre = document.getElementById('clientesearch').value;
   var id_empresa = document.getElementById('idempresa').innerText;
+  var id_familia = document.getElementById('pfamilia').value;
   $('#clientesList').html("");
     $.ajax({
-        url:'/myapp/clientes/',
+        url:'/myapp/clientes/?pfamilia=' + id_familia,
         data:{
           id_empresa: id_empresa,
           nombre: nombre,
