@@ -447,7 +447,11 @@ function ponerfamilia(idfamilia, nomfamilia){
     if (nuevoclientesLink) {
         nuevoclientesLink.href = '/myapp/dashboard/' + idempresa + '/clientes/?pfamilia=' + idfamilia
     }
-    
+    var nuevoborrarcarritolink = document.getElementById('borracarrito')
+    if (nuevoborrarcarritolink) {
+        console.log(idfamilia)
+        nuevoborrarcarritolink.href = '/myapp/dashboard/' + idempresa + '/vaciar/?pfamilia=' + idfamilia
+    }
     var nuevohomeLink = document.getElementById('home');   
     nuevohomeLink.href = '/myapp/dashboard/' + idempresa + '/?pfamilia=' + idfamilia
     var nuevoventasLink = document.getElementById('ventas');

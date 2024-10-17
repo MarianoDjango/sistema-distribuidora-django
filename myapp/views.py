@@ -547,19 +547,25 @@ def ver_carrito(request, **kwargs):
         'id_familia': pfamilia
     })
 
+@login_required
 def vaciar_carrito(request, id_empresa):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+
     # Vaciar el carrito de la sesión
     request.session[f'carrito_{id_empresa}'] = {}
     request.session[f'total_carrito_{id_empresa}'] = 0
     request.session.modified = True
-
+    pfamilia = request.GET.get('pfamilia')
     previous_url = request.META.get('HTTP_REFERER')
     if previous_url:
         # Redirigir a la URL anterior, sin 'vaciar/'
-        return redirect(previous_url)
+        previous_url = previous_url.split('?')[0]
+        new_url = f'{previous_url}?pfamilia={pfamilia}'
+        return redirect(new_url)
     
     return redirect('dashboard', id_empresa)
-
+@login_required
 def obtener_descuento_efectivo():
     # Lógica para obtener el descuento por pago en efectivo
     return 10  # Ejemplo de valor fijo
@@ -568,183 +574,424 @@ def calcular_total_carrito(carrito):
     total = sum(item['precio'] * item['cantidad'] for item in carrito.values())
     return total  # Aplica descuentos aquí si es necesario
 
+@login_required
 def imprime_presup(request, **kwargs):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+
     if request.method == 'POST':
         id_empresa = kwargs['id_empresa']
-        empresa = get_object_or_404(empresas, id=id_empresa)
-        
         carrito = request.session.get(f'carrito_{id_empresa}', {})
-        data = json.loads(request.body)
-        fpago = data.get('formapago', [])
-        formapago = get_object_or_404(formaspago, id=fpago)
-        descripcion_forma_pago = formapago.get_tipo_display()
-        destoadicional = float(data.get('descuentoAdicional', []))
-        subtotal = data.get('subtotal', [])
-        total = data.get('total', [])
-        cliente = data.get('cliente', [])
-        tel_cliente = ''
-        dir_cliente = ''
-        try:
-            cliente_obj = get_object_or_404(clientes, nombre=cliente, idempresa=id_empresa)
-            cliente = cliente_obj.nombre + ' ' + cliente_obj.apellido
-            tel_cliente = cliente_obj.telefono
-            dir_cliente = cliente_obj.direccion + ' - ' + cliente_obj.ciudad + ' - ' + cliente_obj.provincia
-        except:
-            pass
-        success = True
-        if descripcion_forma_pago == 'Efectivo':
-            dtoeftvo = empresa.dtoefectvo
-        else:
-            dtoeftvo = 0
-        detalle_html = ''
-        footer_html = ''
-        #try:
-            # Inicia una transacción atómica
-            #with transaction.atomic():
-                # Crear la cabecera de la venta
-                #cabecera = cabecera_venta.objects.create(fechav=datetime.date.today(), 
-                #        cliente = cliente, formapago = formapago, subtotal = subtotal, 
-                #        dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
+        if carrito:
+            empresa = get_object_or_404(empresas, id=id_empresa)
+            
+            
+            data = json.loads(request.body)
+            fpago = data.get('formapago', [])
+            formapago = get_object_or_404(formaspago, id=fpago)
+            descripcion_forma_pago = formapago.get_tipo_display()
+            destoadicional = float(data.get('descuentoAdicional', []))
+            subtotal = data.get('subtotal', [])
+            total = data.get('total', [])
+            cliente = data.get('cliente', [])
+            tel_cliente = ''
+            dir_cliente = ''
+            try:
+                cliente_obj = get_object_or_404(clientes, nombre=cliente, idempresa=id_empresa)
+                cliente = cliente_obj.nombre + ' ' + cliente_obj.apellido
+                tel_cliente = cliente_obj.telefono
+                dir_cliente = cliente_obj.direccion + ' - ' + cliente_obj.ciudad + ' - ' + cliente_obj.provincia
+            except:
+                pass
+            success = True
+            if descripcion_forma_pago == 'Efectivo':
+                dtoeftvo = empresa.dtoefectvo
+            else:
+                dtoeftvo = 0
+            detalle_html = ''
+            footer_html = ''
+            #try:
+                # Inicia una transacción atómica
+                #with transaction.atomic():
+                    # Crear la cabecera de la venta
+                    #cabecera = cabecera_venta.objects.create(fechav=datetime.date.today(), 
+                    #        cliente = cliente, formapago = formapago, subtotal = subtotal, 
+                    #        dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
 
-        tfechav = datetime.today().strftime(('%d-%m-%Y'))
-        timp_dtoadi = subtotal * (destoadicional * 0.01 + 1) - subtotal
-        timp_dtoadif = f"{timp_dtoadi:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        if descripcion_forma_pago == 'Efectivo':
-            timp_dtoeft = subtotal * (float(empresa.dtoefectvo) * 0.01 + 1) - subtotal
-            timp_dtoeftf = f"{timp_dtoeft:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        else:
-            timp_dtoeftf = '0.00'
+            tfechav = datetime.today().strftime(('%d-%m-%Y'))
+            timp_dtoadi = subtotal * (destoadicional * 0.01 + 1) - subtotal
+            timp_dtoadif = f"{timp_dtoadi:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            if descripcion_forma_pago == 'Efectivo':
+                timp_dtoeft = subtotal * (float(empresa.dtoefectvo) * 0.01 + 1) - subtotal
+                timp_dtoeftf = f"{timp_dtoeft:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            else:
+                timp_dtoeftf = '0.00'
 
-        subtotalf = f"{subtotal:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        totalf = f"{total:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        cabecera_html = f"""
-            <html>
-                <head>
-                    <title>Ticket</title>
-                    <style>
-                        body {{
-                            font-family: Verdana, Geneva, sans-serif;
-                            font-size: 10px;
-                        }}
-                        p{{
-                            font-size: 10px;
-                        }}
-                        h3 {{
-                            font-size: 12px;
-                            font-weight: bold;
-                        }}
-                        .bold {{
-                            font-weight: bold;
-                        }}
-                        .small {{
-                            font-size: 10px;
-                        }}
-                        .xsmall {{
-                            font-size: 6px;
-                        }}
-                        img {{
-                            width: 200px;
-                            height: 45px;
-                            display: block;
-                            margin: 0 auto; /* Centrará la imagen horizontalmente */
-                        }}
-                        subcab {{
-                            font-sze : 6px;
-                            width: 220px;
-                            height: 6px;
-                            display: block;
-                            margin: 0 auto; /* Centrará la imagen horizontalmente */
-                            text-align: center;
-                        }}
-                        footer {{
-                            font-size : 8px;
-                            width: 250px;
-                            height: 10px;
-                            display: block;
-                            margin: 0 auto; /* Centrará la imagen horizontalmente */
-                            text-align: center;
-                        }}
-                        table {{
-                            width: 100%;
-                            border-collapse: collapse;
-                        }}
-                        th, td {{
-                            padding: 1px;
-                            font-size: 8px;
-                        }}
-                        .left-align {{
-                            text-align: left;
-                        }}
-                        .right-align {{
-                            text-align: right;
-                        }}
-                        th {{
-                            text-align: center; /* Centrar los encabezados por defecto */
-                        }}                    
-                    </style>
-                </head>
-                <body>
-                    <div class="row align-items-center">
-                        <img src="{'/static/img/logo.png'}" alt="Logo">
-                    </div>
-                    <subcab class="xsmall">{empresa.linea1}</subcab>
-                    <subcab class="xsmall">{empresa.linea2}</subcab>
-                    <subcab class="small">{empresa.linea3}</subcab>
-                    <p></p>
-                    <hr/>
-                    <p><span class="medium bold">Presupuesto</span></p>
-                    <p></p>
-                    <p><span class="small bold">Fecha: </span>{tfechav}</p>
-                    <hr/>
-                    <p><span class="small bold">Cliente: </span>{cliente}</p>
-                    <p><span class="small bold">Telefono: </span>{tel_cliente}</p>
-                    <p><span class="small bold">Dirección: </span>{dir_cliente}</p>
-                    <hr/>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="small">Artículo</th>
-                                <th class="small">Cant.</th>
-                                <th class="small">Precio</th>
-                                <th class="small">Subtotal</th>
-                            </tr>
-                        </thead>
+            subtotalf = f"{subtotal:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            totalf = f"{total:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            cabecera_html = f"""
+                <html>
+                    <head>
+                        <title>Ticket</title>
+                        <style>
+                            body {{
+                                font-family: Verdana, Geneva, sans-serif;
+                                font-size: 10px;
+                            }}
+                            p{{
+                                font-size: 10px;
+                            }}
+                            h3 {{
+                                font-size: 12px;
+                                font-weight: bold;
+                            }}
+                            .bold {{
+                                font-weight: bold;
+                            }}
+                            .small {{
+                                font-size: 10px;
+                            }}
+                            .xsmall {{
+                                font-size: 6px;
+                            }}
+                            img {{
+                                width: 200px;
+                                height: 45px;
+                                display: block;
+                                margin: 0 auto; /* Centrará la imagen horizontalmente */
+                            }}
+                            subcab {{
+                                font-sze : 6px;
+                                width: 220px;
+                                height: 6px;
+                                display: block;
+                                margin: 0 auto; /* Centrará la imagen horizontalmente */
+                                text-align: center;
+                            }}
+                            footer {{
+                                font-size : 8px;
+                                width: 250px;
+                                height: 10px;
+                                display: block;
+                                margin: 0 auto; /* Centrará la imagen horizontalmente */
+                                text-align: center;
+                            }}
+                            table {{
+                                width: 100%;
+                                border-collapse: collapse;
+                            }}
+                            th, td {{
+                                padding: 1px;
+                                font-size: 8px;
+                            }}
+                            .left-align {{
+                                text-align: left;
+                            }}
+                            .right-align {{
+                                text-align: right;
+                            }}
+                            th {{
+                                text-align: center; /* Centrar los encabezados por defecto */
+                            }}                    
+                        </style>
+                    </head>
+                    <body>
+                        <div class="row align-items-center">
+                            <img src="{'/static/img/logo.png'}" alt="Logo">
+                        </div>
+                        <subcab class="xsmall">{empresa.linea1}</subcab>
+                        <subcab class="xsmall">{empresa.linea2}</subcab>
+                        <subcab class="small">{empresa.linea3}</subcab>
                         <p></p>
-                        <tbody>
-                        <td colspan="4" class="table-active"><hr/></td>
-                    """
-                # Iterar a través de las líneas y crearlas
-        for item in carrito.items():
-            #sum(item['cantidad'] for item in carrito.values())
-            articulo_id = item[0]
-            nombre_art = item[1]['nombre']
-            cantidad = item[1]['cantidad']
-            precio_unitario = str(item[1]['precio'])
-            total_linea = str(item[1]['total_linea'])
-                    # Recuperar el artículo
-            articulo = get_object_or_404(articulos, id=articulo_id)
-                    
-                    # Calcula el subtotal para la línea
+                        <hr/>
+                        <p><span class="medium bold">Presupuesto</span></p>
+                        <p></p>
+                        <p><span class="small bold">Fecha: </span>{tfechav}</p>
+                        <hr/>
+                        <p><span class="small bold">Cliente: </span>{cliente}</p>
+                        <p><span class="small bold">Telefono: </span>{tel_cliente}</p>
+                        <p><span class="small bold">Dirección: </span>{dir_cliente}</p>
+                        <hr/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="small">Artículo</th>
+                                    <th class="small">Cant.</th>
+                                    <th class="small">Precio</th>
+                                    <th class="small">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <p></p>
+                            <tbody>
+                            <td colspan="4" class="table-active"><hr/></td>
+                        """
+                    # Iterar a través de las líneas y crearlas
+            for item in carrito.items():
+                #sum(item['cantidad'] for item in carrito.values())
+                articulo_id = item[0]
+                nombre_art = item[1]['nombre']
+                cantidad = item[1]['cantidad']
+                precio_unitario = str(item[1]['precio'])
+                total_linea = str(item[1]['total_linea'])
+                        # Recuperar el artículo
+                articulo = get_object_or_404(articulos, id=articulo_id)
+                        
+                        # Calcula el subtotal para la línea
+                detalle_html += f"""
+                    <tr><td class="left-align">{nombre_art}</td>
+                    <td style="text-align: center;">{f"{cantidad}"}</td>
+                    <td class="right-align">{f"${float(precio_unitario):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
+                    <td class="right-align">{f"${float(total_linea):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
+                    </tr>"""
             detalle_html += f"""
-                <tr><td class="left-align">{nombre_art}</td>
-                <td style="text-align: center;">{f"{cantidad}"}</td>
-                <td class="right-align">{f"${float(precio_unitario):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
-                <td class="right-align">{f"${float(total_linea):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
-                </tr>"""
-        detalle_html += f"""
-            <tr>
-            <td></td>
-            <td colspan="3" class="table-active"><hr/></td>
-            </tr>                    
-            <td></td>
-            <td colspan="2" class="table-active bold">Total :</td>
-            <td class="bold right-align">${totalf}</td>
-            </tr></tbody></table>                    
-        """
-        footer_html = f"""
+                <tr>
+                <td></td>
+                <td colspan="3" class="table-active"><hr/></td>
+                </tr>                    
+                <td></td>
+                <td colspan="2" class="table-active bold">Total :</td>
+                <td class="bold right-align">${totalf}</td>
+                </tr></tbody></table>                    
+            """
+            footer_html = f"""
+                    <p></p>
+                    <p></p>
+                    <p class="bold">**Pago en Efectivo 13% de descuento</p>
+                    <p><hr/></p>
+                    <footer>{empresa.linea4}</footer>
+                    <footer>{empresa.linea5}</footer>
+                    <footer class="bold">ATENCION AL GREMIO CAMIONEROS</footer>
+                    <footer class="bold">GRACIAS POR SEGUIRNOS!</footer>
+                    </body></html>
+                    """
+                    #vaciar_carrito(request, id_empresa)
+            ticket_html = cabecera_html + detalle_html + footer_html
+                    # Si todo salió bien, devuelve una respuesta JSON de éxito
+            return JsonResponse({'success': True, 'ticket_html': ticket_html})
+        else:
+            return JsonResponse({'success': False})
+        
+@login_required
+def cerrar_venta(request, **kwargs):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+    if request.method == 'POST':
+        id_empresa = kwargs['id_empresa']
+        carrito = request.session.get(f'carrito_{id_empresa}', {})
+        if carrito:
+            
+            empresa = get_object_or_404(empresas, id=id_empresa)
+            
+            carrito = request.session.get(f'carrito_{id_empresa}', {})
+            data = json.loads(request.body)
+            fpago = data.get('formapago', [])
+            formapago = get_object_or_404(formaspago, id=fpago)
+            descripcion_forma_pago = formapago.get_tipo_display()
+            destoaeftvo = float(data.get('dtoefectivo', []))
+            destoadicional = float(data.get('descuentoAdicional', []))
+            subtotal = data.get('subtotal', [])
+            total = data.get('total', [])
+            cliente = data.get('cliente', [])
+            tel_cliente = ''
+            dir_cliente = ''
+            try:
+                cliente_obj = get_object_or_404(clientes, nombre=cliente, idempresa=id_empresa)
+                cliente = cliente_obj.nombre + ' ' + cliente_obj.apellido
+                tel_cliente = cliente_obj.telefono
+                dir_cliente = cliente_obj.direccion + ' - ' + cliente_obj.ciudad + ' - ' + cliente_obj.provincia
+            except:
+                pass
+            success = True
+            if descripcion_forma_pago == 'Efectivo':
+                dtoeftvo = destoaeftvo
+            else:
+                dtoeftvo = 0
+            detalle_html = ''
+            footer_html = ''
+            try:
+                # Inicia una transacción atómica
+                with transaction.atomic():
+                    # Crear la cabecera de la venta
+                    cabecera = cabecera_venta.objects.create(fechav=timezone.now(), 
+                            cliente = cliente, formapago = formapago, subtotal = subtotal, 
+                            dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
+                    
+                    tfechav = timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S')
+                    timp_dtoadi = subtotal * (destoadicional * 0.01 + 1) - subtotal
+                    timp_dtoadif = f"{timp_dtoadi:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+                    if descripcion_forma_pago == 'Efectivo':
+                        timp_dtoeft = subtotal * (float(empresa.dtoefectvo) * 0.01 + 1) - subtotal
+                        timp_dtoeftf = f"{timp_dtoeft:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+                    else:
+                        timp_dtoeftf = '0.00'
+
+                    subtotalf = f"{subtotal:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+                    totalf = f"{total:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+                    cabecera_html = f"""
+                    <html>
+                    <head>
+                        <title>Ticket</title>
+                        <style>
+                            body {{
+                                font-family: Verdana, Geneva, sans-serif;
+                                font-size: 10px;
+                            }}
+                            p{{
+                                font-size: 10px;
+                            }}
+                            h3 {{
+                                font-size: 12px;
+                                font-weight: bold;
+                            }}
+                            .bold {{
+                                font-weight: bold;
+                            }}
+                            .small {{
+                                font-size: 10px;
+                            }}
+                            .xsmall {{
+                                font-size: 6px;
+                            }}
+                            img {{
+                                width: 200px;
+                                height: 45px;
+                                display: block;
+                                margin: 0 auto; /* Centrará la imagen horizontalmente */
+                            }}
+                            subcab {{
+                                font-sze : 6px;
+                                width: 220px;
+                                height: 6px;
+                                display: block;
+                                margin: 0 auto; /* Centrará la imagen horizontalmente */
+                                text-align: center;
+                            }}
+                            footer {{
+                                font-size : 8px;
+                                width: 250px;
+                                height: 10px;
+                                display: block;
+                                margin: 0 auto; /* Centrará la imagen horizontalmente */
+                                text-align: center;
+                            }}
+                            table {{
+                                width: 100%;
+                                border-collapse: collapse;
+                            }}
+                            th, td {{
+                                padding: 1px;
+                                font-size: 8px;
+                            }}
+                            .left-align {{
+                                text-align: left;
+                            }}
+                            .right-align {{
+                                text-align: right;
+                            }}
+                            th {{
+                                text-align: center; /* Centrar los encabezados por defecto */
+                            }}                    
+                        </style>
+                    </head>
+                    <body>
+                        <div class="row align-items-center">
+                            <img src="{'/static/img/logo.png'}" alt="Logo">
+                        </div>
+                        <subcab class="xsmall">{empresa.linea1}</subcab>
+                        <subcab class="xsmall">{empresa.linea2}</subcab>
+                        <subcab class="small">{empresa.linea3}</subcab>
+                        <p></p>
+                        <hr/>
+                        <p><span class="small bold">Nro.: </span>{cabecera.id}</p>
+                        <p></p>
+                        <p><span class="small bold">Fecha: </span>{tfechav}</p>
+                        <hr/>
+                        <p><span class="small bold">Cliente: </span>{cliente}</p>
+                        <p><span class="small bold">Telefono: </span>{tel_cliente}</p>
+                        <p><span class="small bold">Dirección: </span>{dir_cliente}</p>
+                        <hr/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="small">Artículo</th>
+                                    <th class="small">Cant.</th>
+                                    <th class="small">Precio</th>
+                                    <th class="small">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <p></p>
+                            <tbody>
+                            <td colspan="4" class="table-active"><hr/></td>
+                        """
+                    # Iterar a través de las líneas y crearlas
+                    for item in carrito.items():
+                        #sum(item['cantidad'] for item in carrito.values())
+                        articulo_id = item[0]
+                        nombre_art = item[1]['nombre']
+                        cantidad = item[1]['cantidad']
+                        precio_unitario = str(item[1]['precio'])
+                        total_linea = str(item[1]['total_linea'])
+                        # Recuperar el artículo
+                        articulo = get_object_or_404(articulos, id=articulo_id)
+                        
+                        # Calcula el subtotal para la línea
+                        nuevo_stock = articulo.stock - cantidad
+                        
+                        # Crear la línea de venta
+                        hist_movart.objects.create(
+                            articulo = articulo,
+                            fechamov = datetime.today(),
+                            tipomov = 'Venta',
+                            numdoc = cabecera.id,
+                            cantidad = cantidad,
+                            precioactual = Decimal(precio_unitario),
+                            stockactual = articulo.stock,
+                            nuevostock = Decimal(str(nuevo_stock)),
+                            usuario = request.user,
+                        )
+                        articulo.stock = nuevo_stock
+                        articulo.save()
+                        detalle_html += f"""
+                            <tr><td class="left-align">{nombre_art}</td>
+                            <td style="text-align: center;">{f"{cantidad}"}</td>
+                            <td class="right-align">{f"${float(precio_unitario):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
+                            <td class="right-align">{f"${float(total_linea):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
+                            </tr>"""
+                detalle_html += f"""
+                            <tr>
+                            <td></td>
+                            <td colspan="3" class="table-active"><hr/></td>
+                            </tr>                    
+                            <tr>
+                            <td></td>
+                            <td colspan="2" class="table-active bold">Subtotal :</td>
+                            <td class="right-align bold">${subtotalf}</td>
+                            </tr>                    
+                            <tr>
+                            <td></td>
+                            <td colspan="2" class="table-active bold">Dto.:</td>
+                            <td class="right-align bold">${timp_dtoadif}</td>
+                            </tr>                    
+                            <tr>
+                            <td></td>
+                            <td colspan="2" class="table-active bold">F. Pago :</td>
+                            <td class="right-align bold">{descripcion_forma_pago}</td>
+                            </tr>                    
+                            <tr>
+                            <td></td>
+                            <td colspan="2" class="table-active bold">Dto. Efectivo : </td>
+                            <td class="right-align bold">${timp_dtoeftf}</td>
+                            </tr>                    
+                            <tr>
+                            <td></td>
+                            <td colspan="2" class="table-active bold">Total :</td>
+                            <td class="bold right-align">${totalf}</td>
+                            </tr></tbody></table>                    
+                    """
+                footer_html = f"""
                 <p></p>
                 <p></p>
-                <p class="bold">**Pago en Efectivo 13% de descuento</p>
+                <p><hr/></p>
                 <p><hr/></p>
                 <footer>{empresa.linea4}</footer>
                 <footer>{empresa.linea5}</footer>
@@ -752,246 +999,22 @@ def imprime_presup(request, **kwargs):
                 <footer class="bold">GRACIAS POR SEGUIRNOS!</footer>
                 </body></html>
                 """
-                #vaciar_carrito(request, id_empresa)
-        ticket_html = cabecera_html + detalle_html + footer_html
+                vaciar_carrito(request, id_empresa)
+                ticket_html = cabecera_html + detalle_html + footer_html
                 # Si todo salió bien, devuelve una respuesta JSON de éxito
-    return JsonResponse({'success': True, 'ticket_html': ticket_html})
+                return JsonResponse({'success': True, 'message': 'Venta registrada con éxito.', 'ticket_html': ticket_html})
 
-def cerrar_venta(request, **kwargs):
-    if request.method == 'POST':
-        id_empresa = kwargs['id_empresa']
-        empresa = get_object_or_404(empresas, id=id_empresa)
-        
-        carrito = request.session.get(f'carrito_{id_empresa}', {})
-        data = json.loads(request.body)
-        fpago = data.get('formapago', [])
-        formapago = get_object_or_404(formaspago, id=fpago)
-        descripcion_forma_pago = formapago.get_tipo_display()
-        destoaeftvo = float(data.get('dtoefectivo', []))
-        destoadicional = float(data.get('descuentoAdicional', []))
-        subtotal = data.get('subtotal', [])
-        total = data.get('total', [])
-        cliente = data.get('cliente', [])
-        tel_cliente = ''
-        dir_cliente = ''
-        try:
-            cliente_obj = get_object_or_404(clientes, nombre=cliente, idempresa=id_empresa)
-            cliente = cliente_obj.nombre + ' ' + cliente_obj.apellido
-            tel_cliente = cliente_obj.telefono
-            dir_cliente = cliente_obj.direccion + ' - ' + cliente_obj.ciudad + ' - ' + cliente_obj.provincia
-        except:
-            pass
-        success = True
-        if descripcion_forma_pago == 'Efectivo':
-            dtoeftvo = destoaeftvo
-        else:
-            dtoeftvo = 0
-        detalle_html = ''
-        footer_html = ''
-        try:
-            # Inicia una transacción atómica
-            with transaction.atomic():
-                # Crear la cabecera de la venta
-                cabecera = cabecera_venta.objects.create(fechav=timezone.now(), 
-                        cliente = cliente, formapago = formapago, subtotal = subtotal, 
-                        dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
-                
-                tfechav = timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S')
-                timp_dtoadi = subtotal * (destoadicional * 0.01 + 1) - subtotal
-                timp_dtoadif = f"{timp_dtoadi:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-                if descripcion_forma_pago == 'Efectivo':
-                    timp_dtoeft = subtotal * (float(empresa.dtoefectvo) * 0.01 + 1) - subtotal
-                    timp_dtoeftf = f"{timp_dtoeft:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-                else:
-                    timp_dtoeftf = '0.00'
+            except Exception as e:
+                # Si ocurre un error, la transacción se revierte automáticamente
+                return JsonResponse({'success': False, 'message': str(e)})
 
-                subtotalf = f"{subtotal:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-                totalf = f"{total:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-                cabecera_html = f"""
-                <html>
-                <head>
-                    <title>Ticket</title>
-                    <style>
-                        body {{
-                            font-family: Verdana, Geneva, sans-serif;
-                            font-size: 10px;
-                        }}
-                        p{{
-                            font-size: 10px;
-                        }}
-                        h3 {{
-                            font-size: 12px;
-                            font-weight: bold;
-                        }}
-                        .bold {{
-                            font-weight: bold;
-                        }}
-                        .small {{
-                            font-size: 10px;
-                        }}
-                        .xsmall {{
-                            font-size: 6px;
-                        }}
-                        img {{
-                            width: 200px;
-                            height: 45px;
-                            display: block;
-                            margin: 0 auto; /* Centrará la imagen horizontalmente */
-                        }}
-                        subcab {{
-                            font-sze : 6px;
-                            width: 220px;
-                            height: 6px;
-                            display: block;
-                            margin: 0 auto; /* Centrará la imagen horizontalmente */
-                            text-align: center;
-                        }}
-                        footer {{
-                            font-size : 8px;
-                            width: 250px;
-                            height: 10px;
-                            display: block;
-                            margin: 0 auto; /* Centrará la imagen horizontalmente */
-                            text-align: center;
-                        }}
-                        table {{
-                            width: 100%;
-                            border-collapse: collapse;
-                        }}
-                        th, td {{
-                            padding: 1px;
-                            font-size: 8px;
-                        }}
-                        .left-align {{
-                            text-align: left;
-                        }}
-                        .right-align {{
-                            text-align: right;
-                        }}
-                        th {{
-                            text-align: center; /* Centrar los encabezados por defecto */
-                        }}                    
-                    </style>
-                </head>
-                <body>
-                    <div class="row align-items-center">
-                        <img src="{'/static/img/logo.png'}" alt="Logo">
-                    </div>
-                    <subcab class="xsmall">{empresa.linea1}</subcab>
-                    <subcab class="xsmall">{empresa.linea2}</subcab>
-                    <subcab class="small">{empresa.linea3}</subcab>
-                    <p></p>
-                    <hr/>
-                    <p><span class="small bold">Nro.: </span>{cabecera.id}</p>
-                    <p></p>
-                    <p><span class="small bold">Fecha: </span>{tfechav}</p>
-                    <hr/>
-                    <p><span class="small bold">Cliente: </span>{cliente}</p>
-                    <p><span class="small bold">Telefono: </span>{tel_cliente}</p>
-                    <p><span class="small bold">Dirección: </span>{dir_cliente}</p>
-                    <hr/>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="small">Artículo</th>
-                                <th class="small">Cant.</th>
-                                <th class="small">Precio</th>
-                                <th class="small">Subtotal</th>
-                            </tr>
-                        </thead>
-                        <p></p>
-                        <tbody>
-                        <td colspan="4" class="table-active"><hr/></td>
-                    """
-                # Iterar a través de las líneas y crearlas
-                for item in carrito.items():
-                    #sum(item['cantidad'] for item in carrito.values())
-                    articulo_id = item[0]
-                    nombre_art = item[1]['nombre']
-                    cantidad = item[1]['cantidad']
-                    precio_unitario = str(item[1]['precio'])
-                    total_linea = str(item[1]['total_linea'])
-                    # Recuperar el artículo
-                    articulo = get_object_or_404(articulos, id=articulo_id)
-                    
-                    # Calcula el subtotal para la línea
-                    nuevo_stock = articulo.stock - cantidad
-                    
-                    # Crear la línea de venta
-                    hist_movart.objects.create(
-                        articulo = articulo,
-                        fechamov = datetime.today(),
-                        tipomov = 'Venta',
-                        numdoc = cabecera.id,
-                        cantidad = cantidad,
-                        precioactual = Decimal(precio_unitario),
-                        stockactual = articulo.stock,
-                        nuevostock = Decimal(str(nuevo_stock)),
-                        usuario = request.user,
-                    )
-                    articulo.stock = nuevo_stock
-                    articulo.save()
-                    detalle_html += f"""
-                        <tr><td class="left-align">{nombre_art}</td>
-                        <td style="text-align: center;">{f"{cantidad}"}</td>
-                        <td class="right-align">{f"${float(precio_unitario):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
-                        <td class="right-align">{f"${float(total_linea):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
-                        </tr>"""
-            detalle_html += f"""
-                        <tr>
-                        <td></td>
-                        <td colspan="3" class="table-active"><hr/></td>
-                        </tr>                    
-                        <tr>
-                        <td></td>
-                        <td colspan="2" class="table-active bold">Subtotal :</td>
-                        <td class="right-align bold">${subtotalf}</td>
-                        </tr>                    
-                        <tr>
-                        <td></td>
-                        <td colspan="2" class="table-active bold">Dto.:</td>
-                        <td class="right-align bold">${timp_dtoadif}</td>
-                        </tr>                    
-                        <tr>
-                        <td></td>
-                        <td colspan="2" class="table-active bold">F. Pago :</td>
-                        <td class="right-align bold">{descripcion_forma_pago}</td>
-                        </tr>                    
-                        <tr>
-                        <td></td>
-                        <td colspan="2" class="table-active bold">Dto. Efectivo : </td>
-                        <td class="right-align bold">${timp_dtoeftf}</td>
-                        </tr>                    
-                        <tr>
-                        <td></td>
-                        <td colspan="2" class="table-active bold">Total :</td>
-                        <td class="bold right-align">${totalf}</td>
-                        </tr></tbody></table>                    
-                """
-            footer_html = f"""
-            <p></p>
-            <p></p>
-            <p><hr/></p>
-            <p><hr/></p>
-            <footer>{empresa.linea4}</footer>
-            <footer>{empresa.linea5}</footer>
-            <footer class="bold">ATENCION AL GREMIO CAMIONEROS</footer>
-            <footer class="bold">GRACIAS POR SEGUIRNOS!</footer>
-            </body></html>
-            """
-            vaciar_carrito(request, id_empresa)
-            ticket_html = cabecera_html + detalle_html + footer_html
-            # Si todo salió bien, devuelve una respuesta JSON de éxito
-            return JsonResponse({'success': True, 'message': 'Venta registrada con éxito.', 'ticket_html': ticket_html})
-
-        except Exception as e:
-            # Si ocurre un error, la transacción se revierte automáticamente
-            return JsonResponse({'success': False, 'message': str(e)})
-
-    return JsonResponse({'success': False, 'message': 'Método no permitido.'})
+        return JsonResponse({'success': False, 'message': 'Carrito está Vacío.'})
 
 @login_required
 def anular_venta(request, **kwargs):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+
     if request.method == 'POST':
         data = json.loads(request.body)
         nventa = data.get('id_venta', [])
@@ -1071,10 +1094,10 @@ def ajax_list_movimientos(request):
     fecha_hasta = request.GET.get('fecha_hasta')
     page_number = request.GET.get('page', 1)
     # Aplicar los filtros al queryset
-    movimientos = hist_movart.objects.all().order_by('articulo', 'id')
-
-    if empresa != 'todos':
-        movimientos = movimientos.filter(articulo__idempresa=empresa)
+    if empresa == 'todos':
+        movimientos = hist_movart.objects.filter(fechamov__range=(fecha_desde, fecha_hasta)).order_by('articulo__idempresa','articulo', 'id')
+    else:
+        movimientos = hist_movart.objects.filter(articulo__idempresa=empresa, fechamov__range=(fecha_desde, fecha_hasta)).order_by('articulo__idempresa','articulo', 'id')
 
     if articulo != 'todos':
         movimientos = movimientos.filter(articulo=articulo)
@@ -1088,12 +1111,6 @@ def ajax_list_movimientos(request):
             movimientos = movimientos.filter(Q(tipomov='Creacion Articulo') | Q(tipomov='Actualiza Articulo') | Q(tipomov='Actualizacion precio'))
         else:
             movimientos = movimientos.filter(tipomov=movimiento_filter)
-
-    if fecha_desde:
-        movimientos = movimientos.filter(fechamov__gte=fecha_desde)
-
-    if fecha_hasta:
-        movimientos = movimientos.filter(fechamov__lte=fecha_hasta)
 
     paginator = Paginator(movimientos, 10)  # 10 movimientos por página (ajústalo a tu preferencia)
     page_obj = paginator.get_page(page_number)
@@ -1155,35 +1172,32 @@ def ajax_list_ventas(request):
     fecha_hasta = request.GET.get('fecha_hasta')
     page_number = request.GET.get('page', 1)
 
-    # Aplicar los filtros al queryset de cabeceras
-    cabeceras_query = cabecera_venta.objects.all()
     fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
     fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
+    if empresa == 'todos':
+        movimientos = hist_movart.objects.filter(
+            tipomov__icontains='venta',
+            fechamov__range=(fecha_desde, fecha_hasta)
+        ).order_by('articulo__idempresa')
+    else:
+        movimientos = hist_movart.objects.filter(
+            articulo__idempresa=empresa,
+            tipomov__icontains='venta',
+            fechamov__range=(fecha_desde, fecha_hasta)
+        ).order_by('articulo__idempresa')
 
-    if fecha_desde and fecha_hasta:
-        fecha_desde = make_aware(datetime.combine(fecha_desde, datetime.min.time()))
-
-        # Asegurarse de que la fecha_hasta sea al final del día (23:59:59)
-        fecha_hasta = make_aware(datetime.combine(fecha_hasta, datetime.max.time()))
-
-        cabeceras_query = cabeceras_query.filter(fechav__range=[fecha_desde, fecha_hasta])
-
+    documentos_ids = movimientos.values_list('numdoc', flat=True).distinct()
+    cabeceras_query = cabecera_venta.objects.filter(id__in=documentos_ids)
     # Filtrar los movimientos de tipo 'Venta'
-    movimientos_query = hist_movart.objects.filter(tipomov='Venta')
-
-    if empresa != 'todos':
-        movimientos_query = movimientos_query.filter(articulo__idempresa=empresa)
-
     # Lista para almacenar los resultados
     ventas_con_movimientos = []
 
     for cabecera in cabeceras_query:
-        movimientos = hist_movart.objects.filter(numdoc=cabecera.id)
         dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
         otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
-
-        if movimientos.exists():
-            anula_venta = movimientos.filter(tipomov='Anula Venta').first()
+        movis_cabecera = movimientos.filter(numdoc=cabecera.id)
+        if movis_cabecera.exists():
+            anula_venta = movis_cabecera.filter(tipomov='Anula Venta').first()
             if anula_venta:
                 cab_anulada = 'Anulada por ' + anula_venta.usuario.username
             else:
@@ -1199,14 +1213,14 @@ def ajax_list_ventas(request):
                     'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
                     'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
                     'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'usuario': movimientos[0].usuario.username,
+                    'usuario': movis_cabecera[0].usuario.username,
                     'anulada' : cab_anulada
                 },
                 'movimientos': [{
                     'articulo': mov.articulo.descripcion,
                     'cantidad': str(mov.cantidad),
                     'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                } for mov in movimientos if mov.tipomov == 'Venta' or mov.tipomov == 'venta']
+                } for mov in movis_cabecera if mov.tipomov == 'Venta' or mov.tipomov == 'venta']
             })
         
     total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')

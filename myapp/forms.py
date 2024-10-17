@@ -85,7 +85,15 @@ class clientesForm(forms.ModelForm):
         for field in self.fields:
             if not isinstance(self.fields[field].widget, forms.CheckboxInput):
                 self.fields[field].widget.attrs.update({'class': 'form-control'})
+        # Hacer que el email no sea obligatorio en el formulario
+        self.fields['email'].required = False
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email:  # Solo hacer validación si el email no está vacío
+            if clientes.objects.filter(email=email).exists():
+                raise forms.ValidationError('Este correo electrónico ya está registrado.')
+        return email
 '''class MovimientosFiltroForm(forms.Form):
     empresa = forms.ModelChoiceField(
         queryset=empresas.objects.all(), required=False, label='Empresa')

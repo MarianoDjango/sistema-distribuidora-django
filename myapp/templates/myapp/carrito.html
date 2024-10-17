@@ -217,6 +217,8 @@ function imprime_presup() {
                 imprimirTicket(data.ticket_html)
                 const dashboardUrl = window.location.href.replace('/carrito/', '/');
                 //window.location.href = dashboardUrl;
+            } else {
+                alert('Carrito está Vacío')
             }
                 
         })
