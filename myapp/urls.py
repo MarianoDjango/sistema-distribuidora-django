@@ -25,4 +25,5 @@ urlpatterns = [
     path('ajax/list-movimientos/', views.ajax_list_movimientos, name='ajax_list_movimientos'),
     path('ajax/list-ventas/', views.ajax_list_ventas, name='ajax_list_ventas'),
     path('anular_venta/', views.anular_venta, name='anular_venta'),
+    path('reimprime_venta/', views.reimprime_venta, name='reimprime_venta'),
 ]

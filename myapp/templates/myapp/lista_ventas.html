@@ -11,7 +11,11 @@
             <input type="hidden" id="pfamilia" value="{{id_familia}}">
             <div class="col-md-4">
                 <label for="empresa" class="form-label">Empresa</label>
-                <select id="empresa" class="form-select">
+                {% if user.is_staff %}
+                    <select id="empresa" class="form-select">
+                {% else %}
+                    <select id="empresa" class="form-select" disabled>
+                {% endif %}
                     <option value="todos">0 - Todos</option>
                         {% for empresa in empresas %}
                             {% if empresa.id == id_empresa|add:0 %}
@@ -115,23 +119,33 @@ function loadVentas(page) {
                         </td>
                         <td style="font-weight:bold;">
                         </td>
-                    <td style="font-weight:bold;">`;
-                if (venta.cabecera.anulada == "")  {
-                    rowCabecera += ` 
-                            <button class="btn btn-danger" style="background-color : IndianRed;" id="${cabecera.id}" onclick="removeVenta(this.id)" title="Eliminar Venta"><i class="bi bi-trash3"></i>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                            </svg>
-                            </button>
-                        </td>`
-                }
-                rowCabecera += '</tr>'
+                        <td style="font-weight:bold;">`
+                    if (venta.cabecera.anulada == "")  {
+                        if (data.userstaff){
+                            rowCabecera += ` 
+                                <button class="btn btn-danger" style="background-color : IndianRed;" id="${cabecera.id}" onclick="removeVenta(this.id)" title="Eliminar Venta"><i class="bi bi-trash3"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                </svg>
+                                </button>
+                            `
+                        }
+                    }
+                    rowCabecera += `</td><td style="font-weight:bold;">
+                                <button class="btn btn-light"  id="${cabecera.id}" onclick="imprimeVenta(this.id)" title="Imprimir Venta"><i class="bi bi-printer"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+                                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                                <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
+                                </svg></button>
+                            </td>`
+                    rowCabecera += '</tr>'
                 tableBody.innerHTML += rowCabecera;
 
                 // Acceder a los movimientos de la cabecera
                 venta.movimientos.forEach(mov => {
                     const rowMovimiento = `
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -157,10 +171,7 @@ function loadVentas(page) {
                         </td>
                         <td style="font-weight:bold;">
                         </td>
-                        <td style="font-weight:bold;">
-                            
-                        </td>
-                        <td colspan="3" style="font-weight:bold;text-align: right;">
+                        <td colspan="5" style="font-weight:bold;text-align: right;">
                             Sub-Total $: ${cabecera.subtotal}&nbsp;&nbsp;&nbsp;&nbsp;Dto. Eftvo.: ${cabecera.dtoeftvo}&nbsp;&nbsp;&nbsp;&nbsp;Otro Dto.:${cabecera.otrodto}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total $: ${cabecera.imptotal}
                         </td>
                         </tr>
@@ -222,6 +233,90 @@ function loadVentas(page) {
         console.error('Error al cargar las ventas:', error);
     });
 }
+/*function imprimeVenta(id) {
+    const empresa = document.getElementById('empresa').value;
+    const data = {
+        idempresa : empresa,
+        id_venta : id,
+    }
+
+    fetch('/myapp/reimprime_venta/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Asegúrate de enviar el CSRF token para solicitudes POST
+            },
+            body: JSON.stringify(data)  // Reemplaza con el ID de empresa real
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                imprimirTicket(data.ticket_html);
+            } else {
+                alert(data.message || 'Hubo un error al Anular la venta. Inténtelo de nuevo.');
+            }
+        })
+
+}
+
+function imprimirTicket(ticket) {
+    const printWindow = window.open('', '', 'height=400,width=600');
+    if (!printWindow) {
+        console.error("Error al abrir la ventana. El navegador puede estar bloqueando ventanas emergentes.");
+        return;
+    }
+    printWindow.document.write(ticket);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+}*/
+
+function imprimeVenta(id) {
+    const empresa = document.getElementById('empresa').value;
+    const data = {
+        idempresa: empresa,
+        id_venta: id,
+    };
+
+    // Abre la ventana de impresión inmediatamente, y luego espera los datos.
+    const printWindow = window.open('', '', 'height=400,width=600');
+    if (!printWindow) {
+        console.error("Error al abrir la ventana. El navegador puede estar bloqueando ventanas emergentes.");
+        return;
+    }
+
+    fetch('/myapp/reimprime_venta/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            imprimirTicket(printWindow, data.ticket_html);
+        } else {
+            alert(data.message || 'Hubo un error al imprimir la venta. Inténtelo de nuevo.');
+            printWindow.close(); // Cierra la ventana si la impresión falla
+        }
+    })
+    .catch(error => {
+        console.error('Error en la solicitud:', error);
+        printWindow.close();
+    });
+}
+
+function imprimirTicket(printWindow, ticket) {
+    printWindow.document.write(ticket);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+}
+
 function removeVenta (id) {
     const resultado = confirm(`¿Seguro desea anular la venta ${id}?`);
     if (resultado) {

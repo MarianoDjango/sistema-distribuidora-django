@@ -214,9 +214,17 @@ function imprime_presup() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                imprimirTicket(data.ticket_html)
-                const dashboardUrl = window.location.href.replace('/carrito/', '/');
-                //window.location.href = dashboardUrl;
+                const printWindow = window.open('', '', 'height=400,width=600');
+                if (!printWindow) {
+                    console.error("Error al abrir la ventana. El navegador puede estar bloqueando ventanas emergentes.");
+                    return;
+                } else {
+                    imprimirTicket(printWindow, data.ticket_html);                    
+                    //imprimirTicket(data.ticket_html)
+                    const dashboardUrl = window.location.href.replace('/carrito/', '/');
+                    ///\/carrito\/.*$/
+                    window.location.href = dashboardUrl ;
+                }
             } else {
                 alert('Carrito está Vacío')
             }
@@ -292,11 +300,18 @@ function calcularTotal() {
         .then(data => {
             if (data.success) {
                 const resultado = confirm('Venta cerrada con éxito. ¿Desea imprimir el ticket?');
-                if (resultado) {                    
-                    imprimirTicket(data.ticket_html)
-                    const dashboardUrl = window.location.href.replace('/carrito/', '/');
-                    ///\/carrito\/.*$/
-                    window.location.href = dashboardUrl ;
+                if (resultado) {
+                    const printWindow = window.open('', '', 'height=400,width=600');
+                    if (!printWindow) {
+                        console.error("Error al abrir la ventana. El navegador puede estar bloqueando ventanas emergentes.");
+                        return;
+                    } else {
+                        imprimirTicket(printWindow, data.ticket_html);                    
+                        //imprimirTicket(data.ticket_html)
+                        const dashboardUrl = window.location.href.replace('/carrito/', '/');
+                        ///\/carrito\/.*$/
+                        window.location.href = dashboardUrl ;
+                    }
                 }
                 
                 // Lógica adicional para imprimir el ticket o redirigir
@@ -326,7 +341,14 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function imprimirTicket(ticket) {
+function imprimirTicket(printWindow, ticket) {
+    printWindow.document.write(ticket);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+}
+/*function imprimirTicket(ticket) {
     const printWindow = window.open('', '', 'height=400,width=600');
     if (!printWindow) {
         console.error("Error al abrir la ventana. El navegador puede estar bloqueando ventanas emergentes.");
@@ -337,7 +359,7 @@ function imprimirTicket(ticket) {
     printWindow.focus();
     printWindow.print();
     printWindow.close();
-}
+}*/
 
 </script>
 
