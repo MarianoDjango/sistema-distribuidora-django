@@ -15,7 +15,7 @@ class articulosForm(forms.ModelForm):
         input_formats=['%d/%m/%Y', '%Y-%m-%d'],
         initial= now().date()
     )
-    stock = forms.IntegerField(
+    stock = forms.DecimalField(
         widget=forms.NumberInput(attrs={'class': 'form-control', 'style': 'text-align: right;', 'readonly': 'readonly'})
     )
     fecha_stock = forms.DateField(

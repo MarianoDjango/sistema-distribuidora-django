@@ -40,8 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Obtener la cantidad de la columna de la tabla
                 const cantidadInput = fila.querySelector('.cantidad-plus'); // Asumiendo que la clase de la columna de cantidad es "cantidad"
-                const cantidad = (cantidadInput && !isNaN(cantidadInput.value) && cantidadInput.value !== '') ? parseInt(cantidadInput.value, 10) : 1;
-
+                const valor = cantidadInput.value.replace(',', '.');
+                const cantidad = (valor && !isNaN(valor) && valor !== '') ? parseFloat(valor) : 1;
+                console.log(cantidad)
                 // Crear un objeto con los datos a enviar
                 const data = {
                     cantidad: cantidad

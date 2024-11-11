@@ -250,6 +250,7 @@ def articulo_create_or_update(request, **kwargs):
 
                     urlredirect = "/myapp/dashboard/" + kwargs['id_empresa'] +'?pfamilia=' + str(articulo.familia.id)
                     return redirect(urlredirect)
+                
             else:
                 empresa = empresas.objects.get(id=int(kwargs['id_empresa']))
                 articulo.idempresa = empresa
@@ -443,7 +444,7 @@ def agregar_al_carrito(request, articulo_id, **kwargs):
     # Obtener el carrito de la sesión, o inicializarlo si no existe
     carrito = request.session.get(f'carrito_{id_empresa}', {})
     data = json.loads(request.body)
-    cantidad_table = int(data.get('cantidad', 1))  # Valor por defecto es 1
+    cantidad_table = float(data.get('cantidad', 1))  # Valor por defecto es 1
     success = True
     new_cant_art_carrito = 0
     new_total_linea = 0
