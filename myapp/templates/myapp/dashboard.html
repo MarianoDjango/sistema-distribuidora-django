@@ -271,10 +271,16 @@
 <script>
 function verificarCarrito() {
     // Obtener el valor de cantidad_carrito desde el span
-    let cantidadCarrito = parseInt(document.getElementById('badgeCarrito').innerText);
+    const badgeCarrito = document.getElementById('badgeCarrito');
+
+    // Obtener el contenido de texto del elemento
+    const cantidadCarrito = badgeCarrito.textContent || badgeCarrito.innerText;
+    
     let familia = document.getElementById('idfamilia')
     // Verificar si la cantidad es mayor que 0
-    if (cantidadCarrito > 0) {
+    let cantidadcarritoNum = parseFloat(cantidadCarrito);
+    console.log(cantidadcarritoNum , cantidadCarrito);
+    if (cantidadcarritoNum > 0) {
         // Si es mayor que 0, redirigir a la URL
         window.location.href = 'carrito/?pfamilia=' + familia.innerText;
     } else {
