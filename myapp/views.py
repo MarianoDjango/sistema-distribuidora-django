@@ -1467,7 +1467,7 @@ def backup_database(request):
     os.makedirs(BACKUP_DIR, exist_ok=True)
 
     # Generar nombre de archivo
-    timestamp = datetime.datetime.now().strftime(DATE_FORMAT)
+    timestamp = datetime.now().strftime(DATE_FORMAT)
     backup_filename = f"{BACKUP_DIR}/{FILE_PREFIX}{timestamp}.sql"
 
     # Ejecutar mysqldump
