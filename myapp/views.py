@@ -16,6 +16,8 @@ from django.template.loader import render_to_string
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.timezone import make_aware
+import os
+from zipfile import ZipFile
 
 def index(request):
     return render(request, 'index.html')
@@ -1449,3 +1451,43 @@ def ajax_list_ventas(request):
     }
 
     return JsonResponse(data)
+
+def backup_database(request):
+    # Configuración
+    BACKUP_DIR = "/home/Marianoscarat/dsilva/backups"
+    DAYS_TO_KEEP = 7
+    FILE_PREFIX = "db_backup_"
+    DATE_FORMAT = "%Y%m%d%H%M%S"
+
+    # Credenciales (ajústalas según tu configuración)
+    USERNAME = "Marianoscarat"
+    DBNAME = "Marianoscarat$silvadistdb"
+
+    # Crear el directorio si no existe
+    os.makedirs(BACKUP_DIR, exist_ok=True)
+
+    # Generar nombre de archivo
+    timestamp = datetime.datetime.now().strftime(DATE_FORMAT)
+    backup_filename = f"{BACKUP_DIR}/{FILE_PREFIX}{timestamp}.sql"
+
+    # Ejecutar mysqldump
+    os.system(f"mysqldump -u {USERNAME} -h {USERNAME}.mysql.pythonanywhere-services.com {DBNAME} > {backup_filename}")
+
+    # Comprimir en zip
+    zip_filename = f"{backup_filename}.zip"
+    with ZipFile(zip_filename, 'w') as zipf:
+        zipf.write(backup_filename, os.path.basename(backup_filename))
+
+    # Eliminar el archivo SQL original
+    os.remove(backup_filename)
+
+    # Gestionar archivos antiguos: Mantener solo los últimos 7
+    backup_files = sorted(
+        [f for f in os.listdir(BACKUP_DIR) if f.startswith(FILE_PREFIX) and f.endswith(".sql.zip")],
+        key=lambda x: os.path.getctime(os.path.join(BACKUP_DIR, x))
+    )
+
+    while len(backup_files) > DAYS_TO_KEEP:
+        old_file = backup_files.pop(0)  # Tomar el más antiguo
+        os.remove(os.path.join(BACKUP_DIR, old_file))
+        print(f"Eliminado: {old_file}")
