@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 # Create your views here.
 from .models import empresas, familias, articulos, hist_movart, tipomovimientos, formaspago, clientes, cabecera_venta
 import json
@@ -15,9 +15,12 @@ from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.db.models import Q
 from django.utils import timezone
-from django.utils.timezone import make_aware
+from django.utils.timezone import make_aware, now
 import os
-from zipfile import ZipFile
+from django.conf import settings
+import subprocess
+import glob
+
 
 def index(request):
     return render(request, 'index.html')
@@ -62,7 +65,7 @@ def articulos_famila(request, **kwargs):
         else:
             articles = articulos.objects.filter(idempresa=idempresa_var, descripcion__icontains=nombre_var).values('id', 'idempresa','descripcion', 'precio_venta', 'fecha_precio', 'stock', 'fecha_stock', 'familia', 'precio_compra', 'activo')
 
-        
+
     #familia = familias.objects.get(id=int(familia_id))
     recs.append(json_list)
     for articulo in articles:
@@ -93,7 +96,7 @@ def articulos_famila(request, **kwargs):
             if articulo['stock'] == 0 or not articulo['activo']:
                 fila += f'<td class="text-end"><button class="btn btn-secondary salida-stock" title="Salida Stock" data-id-articulo="' +  id_articulo + '" data-toggle="modal" data-target="#movimientoStockModal" disabled><i class="bi bi-window-dash"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-window-dash" viewBox="0 0 16 16"><path d="M2.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1M4 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/><path d="M0 4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v4a.5.5 0 0 1-1 0V7H1v5a1 1 0 0 0 1 1h5.5a.5.5 0 0 1 0 1H2a2 2 0 0 1-2-2zm1 2h13V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1z"/><path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-5.5 0a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5"/></svg></i></button></td>'
             else:
-                fila += f'<td class="text-end"><button class="btn btn-danger salida-stock" title="Salida Stock" data-id-articulo="' +  id_articulo + '" data-toggle="modal" data-target="#movimientoStockModal"><i class="bi bi-window-dash"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-window-dash" viewBox="0 0 16 16"><path d="M2.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1M4 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/><path d="M0 4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v4a.5.5 0 0 1-1 0V7H1v5a1 1 0 0 0 1 1h5.5a.5.5 0 0 1 0 1H2a2 2 0 0 1-2-2zm1 2h13V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1z"/><path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-5.5 0a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5"/></svg></i></button></td>'                
+                fila += f'<td class="text-end"><button class="btn btn-danger salida-stock" title="Salida Stock" data-id-articulo="' +  id_articulo + '" data-toggle="modal" data-target="#movimientoStockModal"><i class="bi bi-window-dash"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-window-dash" viewBox="0 0 16 16"><path d="M2.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1M4 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/><path d="M0 4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v4a.5.5 0 0 1-1 0V7H1v5a1 1 0 0 0 1 1h5.5a.5.5 0 0 1 0 1H2a2 2 0 0 1-2-2zm1 2h13V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1z"/><path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-5.5 0a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5"/></svg></i></button></td>'
             if articulo['activo']:
                 fila += f'<td class="text-end"><button class="btn btn-secondary actualizar-stock" title="Regularizar Stock" data-id-articulo="' +  id_articulo + '" data-toggle="modal" data-target="#movimientoStockModal"><i class="bi bi-boxes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16"><path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/></svg></i></button></td>'
             else:
@@ -122,7 +125,7 @@ def articulos_famila(request, **kwargs):
             'fila': fila,
         }
         recs.append(json_list)
-    
+
     data = json.dumps(recs)
     return HttpResponse(data, 'application/json')
 
@@ -156,7 +159,7 @@ def clientes_empresa(request, **kwargs):
             'fila': fila,
         }
         recs.append(json_list)
-    
+
     data = json.dumps(recs)
     return HttpResponse(data, 'application/json')
 
@@ -169,7 +172,7 @@ class clientes_view(LoginRequiredMixin,View):
         empresa_obj = get_object_or_404(empresas, id=empresa_id)
         context = {'id_empresa':int(empresa_id),
                     'nomempresa' : empresa_obj.name,
-                    'id_familia': id_familia 
+                    'id_familia': id_familia
                 }
         return render(self.request, self.template_name, context)
 
@@ -192,14 +195,14 @@ class dashboard_view(LoginRequiredMixin,View):
             familia = familias_var.get(id=pfamilia)
         else:
             familia = familias_var[0]
-            
+
         motivos_entrada = tipomovimientos.objects.filter(tipo='entrada')
         motivos_salida = tipomovimientos.objects.filter(tipo='salida').exclude(motivo='venta')
         motivos_regularizacion = tipomovimientos.objects.filter(tipo='regularizacion')
 
         context = {'empresas': companies_var,
                     'id_empresa':int(empresa_id),
-                    'nomempresa' : empresa_obj.name, 
+                    'nomempresa' : empresa_obj.name,
                     'id_familia' : familia.id,
                     'familia_nom' : familia.nombre,
                     'motivos_entrada': motivos_entrada,
@@ -252,7 +255,7 @@ def articulo_create_or_update(request, **kwargs):
 
                     urlredirect = "/myapp/dashboard/" + kwargs['id_empresa'] +'?pfamilia=' + str(articulo.familia.id)
                     return redirect(urlredirect)
-                
+
             else:
                 empresa = empresas.objects.get(id=int(kwargs['id_empresa']))
                 articulo.idempresa = empresa
@@ -281,7 +284,7 @@ def cliente_create_or_update(request, **kwargs):
                 cliente = get_object_or_404(clientes, pk=kwargs['pk'])
             else:
                 cliente = clientes()
-                
+
             if request.method == 'POST':
                 form = clientesForm(request.POST, instance=cliente)
                 if form.is_valid():
@@ -314,12 +317,12 @@ def actualizar_precios(request):
                 histo_mov.precioactual = articulo.precio_venta
                 histo_mov.porprecio = articulo_data['porcentaje']
                 histo_mov.nuevoprecio = articulo_data['nuevo_precio']
-                
+
                 histo_mov.usuario = request.user
                 histo_mov.save()
-                
+
                 articulo.precio_venta = articulo_data['nuevo_precio']
-                articulo.fecha_precio = datetime.today().date()                
+                articulo.fecha_precio = datetime.today().date()
                 articulo.save()
 
         return JsonResponse({'success': True})
@@ -343,7 +346,7 @@ def guardar_movs_stock(request):
         histo_mov.fechamov = datetime.today().date()
         mensaje = 'ATENCION!! Cantidad Entrada = 0, no se realizo ningun cambio'
         if cantidad_var !='':
-            if tipomov_var == 'Regularizacion':                
+            if tipomov_var == 'Regularizacion':
                 mensaje = 'Regularizacion de stock realizada con exito!'
                 histo_mov.tipomov = motivo_var
                 histo_mov.cantidad = cantidad_var
@@ -351,9 +354,9 @@ def guardar_movs_stock(request):
                 histo_mov.nuevostock = cantidad_var
                 histo_mov.usuario = request.user
                 histo_mov.save()
-                    
+
                 articulo.stock = cantidad_var
-                articulo.fecha_stock = datetime.today().date()                
+                articulo.fecha_stock = datetime.today().date()
                 articulo.save()
             elif tipomov_var == 'Entrada':
                 mensaje = 'Entrada de stock realizada con exito!'
@@ -374,13 +377,13 @@ def guardar_movs_stock(request):
                 elif 'Traspaso' in motivo_var:
                     histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
                 histo_mov.save()
-                
+
                 articulo.stock = Decimal(cantidad_var) + articulo.stock
-                articulo.fecha_stock = datetime.today().date()                
+                articulo.fecha_stock = datetime.today().date()
                 articulo.save()
             elif tipomov_var == 'Salida':
                 if Decimal(cantidad_var) <= articulo.stock:
-                    mensaje = 'Salida de stock realizada con exito!'         
+                    mensaje = 'Salida de stock realizada con exito!'
                     histo_mov.tipomov = motivo_var
                     histo_mov.numdoc = empresa #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
                     histo_mov.cantidad = cantidad_var
@@ -388,13 +391,13 @@ def guardar_movs_stock(request):
                     histo_mov.nuevostock = articulo.stock - Decimal(cantidad_var)
                     histo_mov.usuario = request.user
                     histo_mov.save()
-                        
+
                     articulo.stock = articulo.stock - Decimal(cantidad_var)
-                    articulo.fecha_stock = datetime.today().date()                
+                    articulo.fecha_stock = datetime.today().date()
                     articulo.save()
                 else:
                     mensaje = 'Stock Insuficiente!'
-                    return JsonResponse({'success': False, 'modal': tipomov_var, 'message': mensaje})        
+                    return JsonResponse({'success': False, 'modal': tipomov_var, 'message': mensaje})
             return JsonResponse({'success': True, 'modal': tipomov_var, 'message': mensaje})
         return JsonResponse({'success': True, 'modal': tipomov_var, 'message': mensaje})
     return JsonResponse({'success': False, 'message': 'Método no permitido.'})
@@ -428,7 +431,7 @@ def restar_al_carrito(request, articulo_id, **kwargs):
 
     # Calcular el total del carrito
     total_carrito = sum(item['total_linea'] for item in carrito.values())
-                            
+
     request.session[f'total_carrito_{id_empresa}'] = total_carrito
 
     request.session.modified = True
@@ -484,7 +487,7 @@ def agregar_al_carrito(request, articulo_id, **kwargs):
     if str(articulo_id) in carrito:
         new_cant_art_carrito = carrito[str(articulo_id)]['cantidad']
         new_total_linea = carrito[str(articulo_id)]['total_linea']
-    
+
     return JsonResponse({'success': success, 'new_cantidad_art': new_cant_art_carrito, 'cantidad_total': cantidad_total, 'new_total_linea' : '{:.2f}'.format(new_total_linea), 'subtotalcarrito' : total_carrito})
     #return redirect('dashboard', id_empresa)  # Redirigir a la página de lista de artículos o carrito
 # views.py
@@ -541,7 +544,7 @@ def ver_carrito(request, **kwargs):
     return render(request, 'myapp/carrito.html', {
         'carrito': carrito,
         'descuento_efectivo': descuento_efectivo,
-        'total': str(total).replace(',','.'), 
+        'total': str(total).replace(',','.'),
         'id_empresa' : empresa_id,
         'nombre_empresa' : empresa_obj.name,
         'formas_pago' : formas_pago,
@@ -566,7 +569,7 @@ def vaciar_carrito(request, id_empresa):
         previous_url = previous_url.split('?')[0]
         new_url = f'{previous_url}?pfamilia={pfamilia}'
         return redirect(new_url)
-    
+
     return redirect('dashboard', id_empresa)
 @login_required
 def obtener_descuento_efectivo():
@@ -587,8 +590,8 @@ def imprime_presup(request, **kwargs):
         carrito = request.session.get(f'carrito_{id_empresa}', {})
         if carrito:
             empresa = get_object_or_404(empresas, id=id_empresa)
-            
-            
+
+
             data = json.loads(request.body)
             fpago = data.get('formapago', [])
             formapago = get_object_or_404(formaspago, id=fpago)
@@ -617,8 +620,8 @@ def imprime_presup(request, **kwargs):
                 # Inicia una transacción atómica
                 #with transaction.atomic():
                     # Crear la cabecera de la venta
-                    #cabecera = cabecera_venta.objects.create(fechav=datetime.date.today(), 
-                    #        cliente = cliente, formapago = formapago, subtotal = subtotal, 
+                    #cabecera = cabecera_venta.objects.create(fechav=datetime.date.today(),
+                    #        cliente = cliente, formapago = formapago, subtotal = subtotal,
                     #        dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
 
             tfechav = datetime.today().strftime(('%d-%m-%Y'))
@@ -695,7 +698,7 @@ def imprime_presup(request, **kwargs):
                             }}
                             th {{
                                 text-align: center; /* Centrar los encabezados por defecto */
-                            }}                    
+                            }}
                         </style>
                     </head>
                     <body>
@@ -738,7 +741,7 @@ def imprime_presup(request, **kwargs):
                 total_linea = str(item[1]['total_linea'])
                         # Recuperar el artículo
                 articulo = get_object_or_404(articulos, id=articulo_id)
-                        
+
                         # Calcula el subtotal para la línea
                 detalle_html += f"""
                     <tr><td class="left-align">{nombre_art}</td>
@@ -750,11 +753,11 @@ def imprime_presup(request, **kwargs):
                 <tr>
                 <td></td>
                 <td colspan="3" class="table-active"><hr/></td>
-                </tr>                    
+                </tr>
                 <td></td>
                 <td colspan="2" class="table-active bold">Total :</td>
                 <td class="bold right-align">${totalf}</td>
-                </tr></tbody></table>                    
+                </tr></tbody></table>
             """
             footer_html = f"""
                     <p></p>
@@ -773,7 +776,7 @@ def imprime_presup(request, **kwargs):
             return JsonResponse({'success': True, 'ticket_html': ticket_html})
         else:
             return JsonResponse({'success': False})
-        
+
 @login_required
 def cerrar_venta(request, **kwargs):
     if not request.user.is_authenticated:
@@ -782,9 +785,9 @@ def cerrar_venta(request, **kwargs):
         id_empresa = kwargs['id_empresa']
         carrito = request.session.get(f'carrito_{id_empresa}', {})
         if carrito:
-            
+
             empresa = get_object_or_404(empresas, id=id_empresa)
-            
+
             carrito = request.session.get(f'carrito_{id_empresa}', {})
             data = json.loads(request.body)
             fpago = data.get('formapago', [])
@@ -815,10 +818,10 @@ def cerrar_venta(request, **kwargs):
                 # Inicia una transacción atómica
                 with transaction.atomic():
                     # Crear la cabecera de la venta
-                    cabecera = cabecera_venta.objects.create(fechav=timezone.now(), 
-                            cliente = cliente, formapago = formapago, subtotal = subtotal, 
+                    cabecera = cabecera_venta.objects.create(fechav=timezone.now(),
+                            cliente = cliente, formapago = formapago, subtotal = subtotal,
                             dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
-                    
+
                     tfechav = timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S')
                     timp_dtoadi = subtotal * (destoadicional * 0.01 + 1) - subtotal
                     timp_dtoadif = f"{timp_dtoadi:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
@@ -893,7 +896,7 @@ def cerrar_venta(request, **kwargs):
                             }}
                             th {{
                                 text-align: center; /* Centrar los encabezados por defecto */
-                            }}                    
+                            }}
                         </style>
                     </head>
                     <body>
@@ -936,10 +939,10 @@ def cerrar_venta(request, **kwargs):
                         total_linea = str(item[1]['total_linea'])
                         # Recuperar el artículo
                         articulo = get_object_or_404(articulos, id=articulo_id)
-                        
+
                         # Calcula el subtotal para la línea
                         nuevo_stock = articulo.stock - Decimal(cantidad)
-                        
+
                         # Crear la línea de venta
                         hist_movart.objects.create(
                             articulo = articulo,
@@ -964,32 +967,32 @@ def cerrar_venta(request, **kwargs):
                             <tr>
                             <td></td>
                             <td colspan="3" class="table-active"><hr/></td>
-                            </tr>                    
+                            </tr>
                             <tr>
                             <td></td>
                             <td colspan="2" class="table-active bold">Subtotal :</td>
                             <td class="right-align bold">${subtotalf}</td>
-                            </tr>                    
+                            </tr>
                             <tr>
                             <td></td>
                             <td colspan="2" class="table-active bold">Dto.:</td>
                             <td class="right-align bold">${timp_dtoadif}</td>
-                            </tr>                    
+                            </tr>
                             <tr>
                             <td></td>
                             <td colspan="2" class="table-active bold">F. Pago :</td>
                             <td class="right-align bold">{descripcion_forma_pago}</td>
-                            </tr>                    
+                            </tr>
                             <tr>
                             <td></td>
                             <td colspan="2" class="table-active bold">Dto. Efectivo : </td>
                             <td class="right-align bold">${timp_dtoeftf}</td>
-                            </tr>                    
+                            </tr>
                             <tr>
                             <td></td>
                             <td colspan="2" class="table-active bold">Total :</td>
                             <td class="bold right-align">${totalf}</td>
-                            </tr></tbody></table>                    
+                            </tr></tbody></table>
                     """
                 footer_html = f"""
                 <p></p>
@@ -1154,7 +1157,7 @@ def reimprime_venta(request, **kwargs):
                     }}
                     th {{
                         text-align: center; /* Centrar los encabezados por defecto */
-                    }}                    
+                    }}
                 </style>
             </head>
             <body>
@@ -1194,7 +1197,7 @@ def reimprime_venta(request, **kwargs):
         detalle_html = ''
         for item in lineas:
                     #sum(item['cantidad'] for item in carrito.values())
-            
+
             nombre_art = item.articulo.descripcion
             cantidad = item.cantidad
             precio_unitario = str(item.precioactual)
@@ -1206,37 +1209,37 @@ def reimprime_venta(request, **kwargs):
                 <td class="right-align">{f"${float(precio_unitario):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
                 <td class="right-align">{f"${float(total_linea):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")}</td>
                 </tr>"""
-            
+
         detalle_html += f"""
                 <tr>
                 <td></td>
                 <td colspan="3" class="table-active"><hr/></td>
-                </tr>                    
+                </tr>
                 <tr>
                 <td></td>
                 <td colspan="2" class="table-active bold">Subtotal :</td>
                 <td class="right-align bold">${subtotalf}</td>
-                </tr>                    
+                </tr>
                 <tr>
                 <td></td>
                 <td colspan="2" class="table-active bold">Dto.:</td>
                 <td class="right-align bold">${timp_dtoadif}</td>
-                </tr>                    
+                </tr>
                 <tr>
                 <td></td>
                 <td colspan="2" class="table-active bold">F. Pago :</td>
                 <td class="right-align bold">{descripcion_forma_pago}</td>
-                </tr>                    
+                </tr>
                 <tr>
                 <td></td>
                 <td colspan="2" class="table-active bold">Dto. Efectivo : </td>
                 <td class="right-align bold">${timp_dtoeftf}</td>
-                </tr>                    
+                </tr>
                 <tr>
                 <td></td>
                 <td colspan="2" class="table-active bold">Total :</td>
                 <td class="bold right-align">${totalf}</td>
-                </tr></tbody></table>                    
+                </tr></tbody></table>
         """
         footer_html = f"""
                 <p></p>
@@ -1250,7 +1253,7 @@ def reimprime_venta(request, **kwargs):
                 </body></html>
                 """
         ticket_html = cabecera_html + detalle_html + footer_html
-            
+
             # Si todo salió bien, devuelve una respuesta JSON de éxito
         return JsonResponse({'success': True, 'ticket_html': ticket_html})
 
@@ -1310,7 +1313,7 @@ def ajax_list_movimientos(request):
 
     if familia != 'todos':
         movimientos = movimientos.filter(articulo__familia=familia)
-        
+
     if tipomov != 'Todos':
         movimiento_filter = tipomov
         if tipomov == 'Creacion/actualizacion articulo':
@@ -1432,12 +1435,12 @@ def ajax_list_ventas(request):
                     'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
                 } for mov in movis_cabecera if mov.tipomov == 'Venta' or mov.tipomov == 'venta']
             })
-        
+
     total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
         # Paginación
     paginator = Paginator(ventas_con_movimientos, 5)  # 10 resultados por página
     page_obj = paginator.get_page(page_number)
-        
+
         # Preparar los datos para la respuesta en formato JSON
     data = {
         'ventas': page_obj.object_list,
@@ -1452,42 +1455,46 @@ def ajax_list_ventas(request):
 
     return JsonResponse(data)
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def backup_database(request):
-    # Configuración
-    BACKUP_DIR = "/home/Marianoscarat/dsilva/backups"
-    DAYS_TO_KEEP = 7
-    FILE_PREFIX = "db_backup_"
-    DATE_FORMAT = "%Y%m%d%H%M%S"
+    try:
+        # Credenciales desde settings
+        db_name = settings.DATABASES['default']['NAME']
+        db_user = settings.DATABASES['default']['USER']
+        db_password = settings.DATABASES['default']['PASSWORD']
+        db_host = settings.DATABASES['default']['HOST'] or 'localhost'
 
-    # Credenciales (ajústalas según tu configuración)
-    USERNAME = "Marianoscarat"
-    DBNAME = "Marianoscarat$silvadistdb"
+        # Crear carpeta de backups si no existe
+        backup_dir = os.path.join(settings.BASE_DIR, 'backups')
+        os.makedirs(backup_dir, exist_ok=True)
 
-    # Crear el directorio si no existe
-    os.makedirs(BACKUP_DIR, exist_ok=True)
+        # Generar nombre del archivo con fecha y hora
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        backup_file = os.path.join(backup_dir, f'backup_{db_name}_{timestamp}.sql')
 
-    # Generar nombre de archivo
-    timestamp = datetime.now().strftime(DATE_FORMAT)
-    backup_filename = f"{BACKUP_DIR}/{FILE_PREFIX}{timestamp}.sql"
+        # Comando mysqldump
+        dump_command = [
+            'mysqldump',
+            f'-h{db_host}',
+            f'-u{db_user}',
+            f'-p{db_password}',
+            db_name
+        ]
 
-    # Ejecutar mysqldump
-    os.system(f"mysqldump -u {USERNAME} -h {USERNAME}.mysql.pythonanywhere-services.com {DBNAME} > {backup_filename}")
+        # Ejecutar el dump
+        with open(backup_file, 'w') as f:
+            subprocess.run(dump_command, stdout=f, check=True)
 
-    # Comprimir en zip
-    zip_filename = f"{backup_filename}.zip"
-    with ZipFile(zip_filename, 'w') as zipf:
-        zipf.write(backup_filename, os.path.basename(backup_filename))
+        # Limpiar backups viejos: mantener solo los 7 más recientes
+        backups = sorted(glob.glob(os.path.join(backup_dir, f'backup_{db_name}_*.sql')))
+        if len(backups) > 7:
+            for old_backup in backups[:-7]:
+                os.remove(old_backup)
 
-    # Eliminar el archivo SQL original
-    os.remove(backup_filename)
+        return JsonResponse({'status': f'✅ Backup realizado: {os.path.basename(backup_file)}'})
 
-    # Gestionar archivos antiguos: Mantener solo los últimos 7
-    backup_files = sorted(
-        [f for f in os.listdir(BACKUP_DIR) if f.startswith(FILE_PREFIX) and f.endswith(".sql.zip")],
-        key=lambda x: os.path.getctime(os.path.join(BACKUP_DIR, x))
-    )
-
-    while len(backup_files) > DAYS_TO_KEEP:
-        old_file = backup_files.pop(0)  # Tomar el más antiguo
-        os.remove(os.path.join(BACKUP_DIR, old_file))
-        print(f"Eliminado: {old_file}")
+    except subprocess.CalledProcessError as e:
+        return JsonResponse({'status': f'❌ Error en el dump: {str(e)}'})
+    except Exception as e:
+        return JsonResponse({'status': f'❌ Error general: {str(e)}'})

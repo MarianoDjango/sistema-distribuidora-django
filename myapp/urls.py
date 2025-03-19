@@ -1,6 +1,5 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
-
 urlpatterns = [
     path('afterlogin/', views.afterlogin, name='afterlogin'),
     path('dashboard/<id_empresa>/', views.dashboard_view.as_view(), name='dashboard'),
@@ -28,3 +27,4 @@ urlpatterns = [
     path('reimprime_venta/', views.reimprime_venta, name='reimprime_venta'),
     path("backup/", views.backup_database, name="backup_database"),
 ]
+

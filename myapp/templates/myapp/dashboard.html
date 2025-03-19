@@ -22,32 +22,32 @@
                 </li>
             {% endfor %}
         </ul>
-    </nav>    
+    </nav>
+    {% if id_empresa == user.perfil.idempresa_id or user.is_staff %}
         <div class="container-fluid">
             <ul class="nav navbar-expand-lg navbar-light bg-light justify-content-end">
-                {% if id_empresa == user.perfil.idempresa_id or user.is_staff %}
                 <li>&nbsp;&nbsp;&nbsp;</li>
                 <li class="nav-item">
-                        <button type="button" class="btn btn-outline-success position-relative" title="Ver Pedido" onclick="verificarCarrito()"><i class="bi bi-cart">
-                            <span id="badgeCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{cantidad_carrito}} <!-- Número de artículos inicial -->
-                            </span>        
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                        </svg></i></button>
-                    </li>
-                    <li>&nbsp;&nbsp;&nbsp;</li>
-                    <li class="nav-item">
-                        <a type="button" class="btn btn-danger" id="borracarrito" title="Borrar Carrito" href="/myapp/dashboard/{{id_empresa}}/vaciar/?pfamilia={{id_familia}}"><i class="bi bi-cart-x">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                            </svg>
-                        </i></a>
-                    </li>        
-                {% endif %}
-                </ul>
+                    <button type="button" class="btn btn-outline-success position-relative" title="Ver Pedido" onclick="verificarCarrito()"><i class="bi bi-cart">
+                        <span id="badgeCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{cantidad_carrito}} <!-- Número de artículos inicial -->
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg></i></button>
+                </li>
+                <li>&nbsp;&nbsp;&nbsp;</li>
+                <li class="nav-item">
+                    <a type="button" class="btn btn-danger" id="borracarrito" title="Borrar Carrito" href="/myapp/dashboard/{{id_empresa}}/vaciar/?pfamilia={{id_familia}}"><i class="bi bi-cart-x">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                        </svg>
+                    </i></a>
+                </li>
+            </ul>
         </div>
+    {% endif %}
     <div class="container-xxl">
     <div class="row flex-nowrap">
         <div class="col-auto px-0">
@@ -70,7 +70,7 @@
                 <!-- Button trigger modal -->
                 <button type="button" id="cambioprecio" class="btn btn-primary btn-cambiarprecios" data-toggle="modal" data-target="#exampleModal">
                     Cambiar Precios</button>
-                
+
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -95,7 +95,7 @@
                             <div class="mb-3">
                                 <label for="margenPorcentaje" class="form-label">Porcentaje de Subida</label>
                                 <input type="number" class="form-control" id="margenPorcentaje" style="text-align: right;" placeholder="0.00" oninput="calcula_precio_nuevo()">
-                            </div>                                    
+                            </div>
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     </div>
-                </div>            
+                </div>
                 <hr>
             {% endif %}
             <div class="row">
@@ -136,7 +136,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="regularizaStockModalLabel">Regularizacion de Stock</h5>
-                            
+
                         </div>
                         <div class="modal-body">
                             <form id="formregularizaStock">
@@ -147,9 +147,9 @@
                                 <div class="form-group mb-3">
                                     <label for="motivoMovimientor">Motivo del Movimiento</label>
                                     <select class="form-control" id="motivoMovimientor" disabled>
-                                        {% for motivo in motivos_regularizacion %}                                                
+                                        {% for motivo in motivos_regularizacion %}
                                             <option value="{{ motivo }}">{{ motivo.get_motivo_display }}</option>
-                                        {% endfor %}        
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
@@ -171,7 +171,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="entradaStockModalLabel">Entrada de Stock</h5>
-                            
+
                         </div>
                         <div class="modal-body">
                             <form id="formentradaStock">
@@ -182,19 +182,19 @@
                                 <div class="form-group mb-3">
                                     <label for="motivoMovimientoe">Motivo del Movimiento</label>
                                     <select class="form-control" id="motivoMovimientoe" onchange="manejar_disabled_compra()">
-                                        {% for motivo in motivos_entrada %}                                                
+                                        {% for motivo in motivos_entrada %}
                                             <option value="{{ motivo }}">{{ motivo.get_motivo_display }}</option>
-                                        {% endfor %}        
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="empresaOrigen">Empresa Origen</label>
                                     <select class="form-control" id="empresaOrigen" disabled>
                                         {% for empresa in empresas %}
-                                            {% if empresa.id != id_empresa %}                                                
+                                            {% if empresa.id != id_empresa %}
                                                 <option value="{{ key }}">{{ empresa.name }}</option>
                                             {% endif %}
-                                        {% endfor %}        
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
@@ -224,7 +224,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="salidaStockModalLabel">Salida de Stock</h5>
-                            
+
                         </div>
                         <div class="modal-body">
                             <form id="formsalidaStock">
@@ -235,19 +235,19 @@
                                 <div class="form-group mb-3">
                                     <label for="motivoMovimientos">Motivo del Movimiento</label>
                                     <select class="form-control" id="motivoMovimientos" disabled>
-                                        {% for motivo in motivos_salida %}                                                
+                                        {% for motivo in motivos_salida %}
                                             <option value="{{ motivo }}">{{ motivo.get_motivo_display }}</option>
-                                        {% endfor %}        
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="empresaDestino">Empresa</label>
                                     <select class="form-control" id="empresaDestino">
                                         {% for empresa in empresas %}
-                                            {% if empresa.id != id_empresa %}                                                
+                                            {% if empresa.id != id_empresa %}
                                                 <option value="{{ key }}">{{ empresa.name }}</option>
                                             {% endif %}
-                                        {% endfor %}        
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
@@ -275,7 +275,7 @@ function verificarCarrito() {
 
     // Obtener el contenido de texto del elemento
     const cantidadCarrito = badgeCarrito.textContent || badgeCarrito.innerText;
-    
+
     let familia = document.getElementById('idfamilia')
     // Verificar si la cantidad es mayor que 0
     let cantidadcarritoNum = parseFloat(cantidadCarrito);
