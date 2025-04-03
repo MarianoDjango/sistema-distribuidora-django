@@ -17,6 +17,9 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.timezone import make_aware, now
 import os
+
+from zipfile import ZipFile
+
 from django.conf import settings
 import subprocess
 import glob
@@ -1459,7 +1462,7 @@ def ajax_list_ventas(request):
 @user_passes_test(lambda u: u.is_superuser)
 def backup_database(request):
     try:
-        # Credenciales desde settings
+
         db_name = settings.DATABASES['default']['NAME']
         db_user = settings.DATABASES['default']['USER']
         db_password = settings.DATABASES['default']['PASSWORD']
@@ -1473,12 +1476,18 @@ def backup_database(request):
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         backup_file = os.path.join(backup_dir, f'backup_{db_name}_{timestamp}.sql')
 
-        # Comando mysqldump
+
+        # Comando mysqldump EXCLUYENDO tablas del sistema
         dump_command = [
             'mysqldump',
+            '--no-tablespaces',
             f'-h{db_host}',
             f'-u{db_user}',
             f'-p{db_password}',
+            '--ignore-table=mysql.event',   # Ignorar tablas de sistema
+            '--ignore-table=performance_schema.*',
+            '--ignore-table=sys.*',
+            '--ignore-table=information_schema.*',
             db_name
         ]
 
