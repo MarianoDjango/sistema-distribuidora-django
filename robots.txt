@@ -1,3 +1,5 @@
 User-agent: *
 Disallow: /admin/
-Allow: /public/
+Allow: /
+
+Sitemap: https://www.silvadistribuidora.com/sitemap.xml
