@@ -1,5 +1,6 @@
 User-agent: *
 Disallow: /admin/
-Allow: /
+Disallow: /accounts/login/
+Disallow: /myapp/
 
 Sitemap: https://www.silvadistribuidora.com/sitemap.xml
