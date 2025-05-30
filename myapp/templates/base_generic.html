@@ -13,6 +13,12 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="{% static 'bootstrap-5.3.3-dist/css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <script src="{% static 'bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js' %}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
@@ -28,7 +34,6 @@
       }
     </style>
   </head>
-
   <body style="overflow: auto;overflow-x:hidden">
     <div class="row"></div>
     <div class="row">
@@ -103,6 +108,18 @@
     <br>
   </nav>
   {% endif %}
+<div class="social-fixed">
+  <a href="https://wa.me/5491234567890" class="social-icon whatsapp" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  <a href="https://www.facebook.com/tuPagina" class="social-icon facebook" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+  <a href="https://www.instagram.com/tuCuenta" class="social-icon instagram" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+</div>
+
 </body>
   {% block content %}{% endblock %}
   <footer class="bd-footer py-4 py-md-5 mt-5 bg-light">

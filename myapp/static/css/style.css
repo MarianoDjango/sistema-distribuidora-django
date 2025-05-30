@@ -11,3 +11,46 @@
 .btn-danger {
     color: IndianRed;
 }
+.social-fixed {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background-color: #333;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px 0 0 5px;
+  transition: all 0.3s;
+  font-size: 20px;
+}
+
+.social-icon:hover {
+  transform: translateX(-5px);
+}
+
+.whatsapp { background-color: #25D366; }
+.facebook { background-color: #3b5998; }
+.instagram { background-color: #E1306C; }
+
+.carousel-inner {
+  height: 500px; /* ajustá este valor según el diseño que quieras */
+  overflow: hidden;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -99,6 +100,7 @@ class articulos(models.Model):
     precio_compra = models.DecimalField(max_digits =  11, decimal_places = 2, default=0)
     margen = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
     margen2 = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
+    imagen_cloud = CloudinaryField('imagen', blank=True, null=True)
     
     def __str__(self):
         return self.descripcion

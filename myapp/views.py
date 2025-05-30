@@ -220,6 +220,7 @@ class dashboard_view(LoginRequiredMixin,View):
 def articulo_create_or_update(request, **kwargs):
     #if request.user.is_authenticated:
         pfamilia = request.GET.get('pfamilia')
+
         if request.user.is_staff:
             if kwargs['pk'] != '0':
                 articulo = get_object_or_404(articulos, pk=kwargs['pk'])
@@ -273,7 +274,7 @@ def articulo_create_or_update(request, **kwargs):
                 #articulo.fecha_stock = datetime.datetime.today().date()
                 form = articulosForm(instance=articulo, empresa_id=int(kwargs['id_empresa']))
 
-            return render(request, 'myapp/articulo_form.html', {'form': form, 'id_empresa':kwargs['id_empresa'], 'id_familia': familia.id})
+            return render(request, 'myapp/articulo_form.html', {'form': form, 'id_empresa':kwargs['id_empresa'], 'id_familia': familia.id, 'DEFAULT_IMAGE': settings.DEFAULT_IMAGE})
         else:
             return render(request, 'myapp/articulo_form.html')
     #return redirect('login')

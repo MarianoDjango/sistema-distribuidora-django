@@ -28,7 +28,7 @@ class articulosForm(forms.ModelForm):
         model = articulos
         fields = ['idempresa', 'codigobarras', 'familia', 'descripcion', 'precio_venta', 
                   'fecha_precio', 'stock', 'fecha_stock', 'imagen', 'activo', 
-                  'comentarios', 'precio_compra', 'margen', 'margen2']
+                  'comentarios', 'precio_compra', 'margen', 'margen2','imagen_cloud']
         widgets = {
             'activo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'familia': forms.Select(attrs={'class': 'form-select'}),  # Si familia se ve como input, prueba con Select

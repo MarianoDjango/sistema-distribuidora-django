@@ -19,6 +19,25 @@
 								{{error}}
 							{% endfor %}
 						{% else %}
+						<div class="row mb-3">
+							<div class="mb-3 text-center">
+							<label for="imagen_cloud_input" style="cursor: pointer;">
+								<img id="imagen_preview"
+									src="{{ form.instance.imagen_cloud.url|default:DEFAULT_IMAGE }}"
+									alt="Imagen del artículo"
+									class="img-thumbnail"
+									style="width: 250px; height: 250px; object-fit: cover;">
+							</label>
+							<input type="file" id="imagen_cloud_input" name="imagen_cloud" accept="image/*" style="display: none;">
+							<p id="imagen_nombre" class="mt-2 text-muted" style="font-size: 0.9rem;">
+								{% if form.instance.imagen_cloud %}
+								{{ form.instance.imagen_cloud.name|default:"Sin imagen" }}
+								{% else %}
+								Sin imagen
+								{% endif %}
+							</p>
+							</div>						  
+						</div>
                         <div class="row mb-3">
                             <div class="col-lg-6">
                                 {{form.idempresa.as_hidden}}
@@ -143,5 +162,17 @@
         //    margenInput.addEventListener('input', handleInput);
         //}
 	});
+	</script>
+	<script>
+		document.getElementById('id_imagen_cloud').addEventListener('change', function(event) {
+			const input = event.target;
+			if (input.files && input.files[0]) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					document.getElementById('preview-img').src = e.target.result;
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		});
 	</script>
 	{% endblock %}
