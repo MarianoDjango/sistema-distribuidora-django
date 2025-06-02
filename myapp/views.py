@@ -28,6 +28,9 @@ import glob
 def index(request):
     return render(request, 'index.html')
 
+def nosotros(request):
+    return render(request, 'nosotros.html')
+
 def afterlogin( request, *args, **kwargs):
     idempresa = request.user.perfil.idempresa
     urlredirect = "/myapp/dashboard/" + str(idempresa.id) + '/?pfamilia=0'

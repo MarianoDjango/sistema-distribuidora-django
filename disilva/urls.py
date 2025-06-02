@@ -7,5 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.index, name='landingindex'),
+    path('nosotros/', views.nosotros, name='landingnosotros'),
     path('myapp/', include('myapp.urls')),  # Ruta para la aplicación interna
 ]
