@@ -1,0 +1,14 @@
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for art in articulos %}
+  <div class="col">
+    <div class="card h-100 shadow-sm">
+      <img src="{% if articulo.imagen_cloud %}{{ articulo.imagen_cloud.url }}{% else %}{{ DEFAULT_IMAGE }}{% endif %}" alt="{{ articulo.descripcion }}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">{{ art.descripcion }}</h5>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No hay artículos en esta familia.</p>
+  {% endfor %}
+</div>

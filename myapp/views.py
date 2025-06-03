@@ -17,7 +17,6 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.timezone import make_aware, now
 import os
-
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -1511,3 +1510,29 @@ def backup_database(request):
         return JsonResponse({'status': f'❌ Error en el dump: {str(e)}'})
     except Exception as e:
         return JsonResponse({'status': f'❌ Error general: {str(e)}'})
+    
+def articulos_catalogo(request):
+    empresas_usuario = 1
+    lista_familias = familias.objects.filter(idempresa=empresas_usuario)
+    primera_familia = lista_familias.first()
+
+    return render(request, 'catalogo/catalogo.html', {
+        'familias': lista_familias,
+        'familia_actual': primera_familia,
+        'articulos': articulos,
+        'DEFAULT_IMAGE': settings.DEFAULT_IMAGE,
+
+    })
+
+
+def filtrar_articulos(request):
+    familia_id = request.GET.get('familia_id')
+    q = request.GET.get('q', '')
+
+    articulos_filtrados = articulos.objects.filter(familia_id=familia_id, descripcion__icontains=q)
+
+    html = render_to_string('catalogo/cards_articulos.html', {
+        'articulos': articulos_filtrados
+    })
+
+    return JsonResponse({'html': html})

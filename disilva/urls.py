@@ -9,4 +9,6 @@ urlpatterns = [
     path('', views.index, name='landingindex'),
     path('nosotros/', views.nosotros, name='landingnosotros'),
     path('myapp/', include('myapp.urls')),  # Ruta para la aplicación interna
+    path('catalogo/', views.articulos_catalogo, name='catalogo_articulos'),
+    path('catalogo/filtrar/', views.filtrar_articulos, name='filtrar_articulos'),
 ]

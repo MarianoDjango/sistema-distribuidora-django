@@ -119,20 +119,45 @@
 <br>
 </nav>
   {% endif %}
-<div class="social-fixed">
-  <a href="https://wa.me/5491234567890" class="social-icon whatsapp" target="_blank">
-    <i class="fab fa-whatsapp"></i>
-  </a>
-  <a href="https://www.facebook.com/tuPagina" class="social-icon facebook" target="_blank">
-    <i class="fab fa-facebook-f"></i>
-  </a>
-  <a href="https://www.instagram.com/tuCuenta" class="social-icon instagram" target="_blank">
-    <i class="fab fa-instagram"></i>
-  </a>
-</div>
-
+  {% if not user.is_authenticated %}
+    <div class="social-fixed">
+      <a href="https://wa.me/5491234567890" class="social-icon whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <a href="https://www.facebook.com/tuPagina" class="social-icon facebook" target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://www.instagram.com/tuCuenta" class="social-icon instagram" target="_blank">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+  {%endif %}
 </body>
   {% block content %}{% endblock %}
+    {% if not user.is_authenticated %}
+      <div class="container my-5">
+
+      <h2 class="text-center mb-4">Productos Destacados</h2>
+
+      <div class="row text-center">
+        <div class="col-md-4 mb-4">
+          <a href="#" class="text-decoration-none">
+          <img src="{% static 'img/neumaticos.jpg' %}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Neumáticos" style="width: 200px; height: 200px; object-fit: cover;">
+          <h5>Neumáticos</h5></a>
+        </div>
+        <div class="col-md-4 mb-4">
+          <a href="" class="text-decoration-none">
+          <img src="{% static 'img/parches.jpg' %}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Parches" style="width: 200px; height: 200px; object-fit: cover;">
+          <h5>Parches</h5></a>
+        </div>
+        <div class="col-md-4 mb-4">
+          <a href="" class="text-decoration-none">
+          <img src="{% static 'img/herramientas.jpg' %}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Herramientas" style="width: 200px; height: 200px; object-fit: cover;">
+          <h5>Herramientas</h5></a>
+        </div>
+      </div>
+      {% endif %}
+  </div>
   <footer class="bd-footer py-4 py-md-5 mt-5 bg-light">
     <div class="container py-4 py-md-5 px-4 px-md-3">
       <div class="row">

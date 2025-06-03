@@ -1,0 +1,64 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Botón para abrir menú lateral -->
+<button class="btn btn-primary m-2" data-bs-toggle="offcanvas" data-bs-target="#menuFamilias">
+  Familias
+</button>
+
+<!-- Offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="menuFamilias">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Familias</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-group">
+      {% for fam in familias %}
+        <li class="list-group-item familia-item" data-id="{{ fam.id }}">{{ fam.nombre }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<!-- Título y buscador -->
+<div class="container mt-3">
+  <h3 id="titulo-familia">{{ familia_actual.nombre }}</h3>
+  <input type="text" class="form-control my-3" id="buscador" placeholder="Buscar artículos...">
+  <div id="contenedor-articulos">
+    {% include "catalogo/cards_articulos.html" with articulos=familia_actual.articulos_set.all %}
+  </div>
+</div>
+
+<!-- Script JS -->
+<script>
+let familiaActual = "{{ familia_actual.id|default:'' }}";
+let timeout = null;
+
+function cargarArticulos(familia_id, q='') {
+  fetch(`/catalogo/filtrar/?familia_id=${familia_id}&q=${q}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('contenedor-articulos').innerHTML = data.html;
+    });
+}
+
+document.querySelectorAll('.familia-item').forEach(el => {
+  el.addEventListener('click', () => {
+    familiaActual = el.dataset.id;
+    document.getElementById('titulo-familia').textContent = el.textContent;
+    cargarArticulos(familiaActual);
+  });
+});
+
+document.getElementById('buscador').addEventListener('input', () => {
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    const q = document.getElementById('buscador').value;
+    cargarArticulos(familiaActual, q);
+  }, 500);
+});
+</script>
+
+{% endblock %}

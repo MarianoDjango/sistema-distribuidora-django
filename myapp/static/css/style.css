@@ -9,7 +9,15 @@
 }
 
 .btn-danger {
-    color: IndianRed;
+    color: rgb(200, 184, 184);
+}
+a {
+  color: #c73e3e; /* Cambia este color al que desees */
+  text-decoration: none; /* Opcional: para quitar el subrayado */
+}
+
+a:hover {
+  color: #f16e8f; /* Color al pasar el mouse */
 }
 .social-fixed {
   position: fixed;
