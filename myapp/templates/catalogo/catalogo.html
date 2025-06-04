@@ -1,22 +1,43 @@
 {% extends "base_generic.html" %}
 {% load static %}
 {% block content %}
+<style>
+  #lista-familias {
+    list-style: none; /* Quita viñetas */
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Igual que el canvas */
+  }
 
+  #lista-familias li {
+    border: none;
+    background-color: #f8f9fa; /* Fondo igual al canvas */
+    padding: 0.5rem 1rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #212529;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  #lista-familias li:hover {
+    background-color: #e2e6ea; /* Color sutil al pasar el mouse */
+  }
+</style>
 <!-- Botón para abrir menú lateral -->
-<button class="btn btn-primary m-2" data-bs-toggle="offcanvas" data-bs-target="#menuFamilias">
-  Familias
+<button class="btn border-0 bg-transparent p-2" style="font-size: 2rem;" data-bs-toggle="offcanvas" data-bs-target="#menuFamilias">
+  <i class="bi bi-list"></i>
 </button>
 
 <!-- Offcanvas -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="menuFamilias">
+<div class="offcanvas offcanvas-start bg-light p-3" tabindex="-1" id="menuFamilias" class="bg-light p-3" style="font-family: 'Segoe UI', sans-serif;">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title">Familias</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
   </div>
-  <div class="offcanvas-body">
-    <ul class="list-group">
+  <div class="offcanvas-body" style="font-family: 'Segoe UI', sans-serif;">
+    <ul class="list-familias">
       {% for fam in familias %}
-        <li class="list-group-item familia-item" data-id="{{ fam.id }}">{{ fam.nombre }}</li>
+        <li class="list-group-item familia-item" data-id="{{ fam.id }}"><a href="">{{ fam.nombre }}</a></li>
       {% endfor %}
     </ul>
   </div>
