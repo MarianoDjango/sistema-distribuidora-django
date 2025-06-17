@@ -11,7 +11,7 @@
 				<div class="card-header">
 					<h2>Alta y Modificacion de Articulos</h2>
 				</div>
-                <form class="form" method="post">
+                <form class="form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="card-body">
 						{% if form.errors %}
@@ -19,78 +19,101 @@
 								{{error}}
 							{% endfor %}
 						{% else %}
-						<div class="row mb-3">
-							<div class="mb-3 text-center">
-							<label for="imagen_cloud_input" style="cursor: pointer;">
-								<img id="imagen_preview"
-									src="{{ form.instance.imagen_cloud.url|default:DEFAULT_IMAGE }}"
-									alt="Imagen del artículo"
-									class="img-thumbnail"
-									style="width: 250px; height: 250px; object-fit: cover;">
-							</label>
-							<input type="file" id="imagen_cloud_input" name="imagen_cloud" accept="image/*" style="display: none;">
-							<p id="imagen_nombre" class="mt-2 text-muted" style="font-size: 0.9rem;">
-								{% if form.instance.imagen_cloud %}
-								{{ form.instance.imagen_cloud.name|default:"Sin imagen" }}
-								{% else %}
-								Sin imagen
-								{% endif %}
-							</p>
-							</div>						  
-						</div>
-                        <div class="row mb-3">
-                            <div class="col-lg-6">
-                                {{form.idempresa.as_hidden}}
-								{{form.codigobarras.as_hidden}}
-								{{form.descripcion.label_tag}} {{form.descripcion}}
-							</div>
-							<br>
-							<div class="col-lg-3">
-								{{form.familia.label_tag}} {{form.familia}}
-							</div>
-							<div class="col-lg-3" step="1.00">
-								{{form.precio_compra.label_tag}} {{form.precio_compra}}
-							</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-lg-3" step="1.00">
-								{{form.margen.label_tag}} {{form.margen}}
-                            </div>
-							<div class="col-lg-3" step="1.00">
-								{{form.margen2.label_tag}} {{form.margen2}}
-                            </div>
-							<div class="col-lg-3">
-								{{form.precio_venta.label_tag}} {{form.precio_venta}}
-							</div>
-							<div class="col-lg-3">
-								{{form.fecha_precio.label_tag}} 
-								<div class="input-group date" id="fecha-precio">
-									{{form.fecha_precio}}
+							{% if imagenes %}
+								<div class="dropdown mb-3">
+									<div class="row">
+										<div class="col-3">
+											<img id="imagen_preview"
+     											src="{{ form.instance.imagen_cloud_url|default:DEFAULT_IMAGE }}"
+     											class="img-thumbnail mb-2" style="max-width: 300px;">
+										</div>
+										<div class="col-4">
+											<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownImagenBtn" data-bs-toggle="dropdown" aria-expanded="false">
+												Seleccionar origen de imagen
+											</button>
+											<ul class="dropdown-menu">
+												<li><a class="dropdown-item" href="#" onclick="seleccionarDispositivo()">Desde dispositivo</a></li>
+												<li><a class="dropdown-item" href="#" onclick="abrirModalUrl()">Desde URL</a></li>
+												<li><a class="dropdown-item" href="#" onclick="reestablecerImagen()">Reestablecer imagen</a></li>
+											</ul>
+											<!-- Inputs ocultos -->
+											<input type="file" name="imagen_file" id="imagen_file" accept="image/*" class="form-control d-none">
+										</div>
+									</div>
+								</div>
+								<div class="modal fade" id="modalUrl" tabindex="-1">
+								<div class="modal-dialog">
+									<div class="modal-content">
+									<div class="modal-header"><h5 class="modal-title">Ingresar URL de Imagen</h5></div>
+									<div class="modal-body">
+										<input type="text" id="imagen_url_input" class="form-control" placeholder="Pegar URL">
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+										<button type="button" class="btn btn-primary" onclick="usarUrl()">Usar Imagen</button>
+									</div>
+									</div>
+								</div>
+								</div>
+
+								<!-- Campo oculto con el estado -->
+								<input type="text" name="imagen_estado" id="imagen_estado" value="">
+								<input type="text" name="imagen_url" id="imagen_url" value="">
+								<!-- Elementos dinámicos -->
+							{% endif %}
+							<div class="row mb-3">
+								<div class="col-lg-6">
+									{{form.idempresa.as_hidden}}
+									{{form.codigobarras.as_hidden}}
+									{{form.descripcion.label_tag}} {{form.descripcion}}
+								</div>
+								<br>
+								<div class="col-lg-3">
+									{{form.familia.label_tag}} {{form.familia}}
+								</div>
+								<div class="col-lg-3" step="1.00">
+									{{form.precio_compra.label_tag}} {{form.precio_compra}}
 								</div>
 							</div>
-						</div>
-                        <div class="row  mb-3">
-							<div class="col-lg-3">
-								{{form.stock.label_tag}} {{form.stock}}
-							</div>
-							<div class="col-lg-3">
-								{{form.fecha_stock.label_tag}} 
-								<div class="input-group date" id="fecha-precio">
-									{{form.fecha_stock}}
+							<div class="row mb-3">
+								<div class="col-lg-3" step="1.00">
+									{{form.margen.label_tag}} {{form.margen}}
+								</div>
+								<div class="col-lg-3" step="1.00">
+									{{form.margen2.label_tag}} {{form.margen2}}
+								</div>
+								<div class="col-lg-3">
+									{{form.precio_venta.label_tag}} {{form.precio_venta}}
+								</div>
+								<div class="col-lg-3">
+									{{form.fecha_precio.label_tag}} 
+									<div class="input-group date" id="fecha-precio">
+										{{form.fecha_precio}}
+									</div>
 								</div>
 							</div>
-							<div class="col-lg-2">
-								{{ form.activo.label_tag }}
-								<div class="form-check form-switch">
-									{{ form.activo|add_class:"form-check-input" }}
+							<div class="row  mb-3">
+								<div class="col-lg-3">
+									{{form.stock.label_tag}} {{form.stock}}
+								</div>
+								<div class="col-lg-3">
+									{{form.fecha_stock.label_tag}} 
+									<div class="input-group date" id="fecha-precio">
+										{{form.fecha_stock}}
+									</div>
+								</div>
+								<div class="col-lg-2">
+									{{ form.activo.label_tag }}
+									<div class="form-check form-switch">
+										{{ form.activo|add_class:"form-check-input" }}
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-lg-12">
-								{{form.comentarios.label_tag}} {{form.comentarios}}
+							<div class="row mb-3">
+								<div class="col-lg-12">
+									{{form.comentarios.label_tag}} {{form.comentarios}}
+								</div>
 							</div>
-						</div>
                         {% endif %}
                     </div>  
                     <div class="card-footer">
@@ -140,39 +163,55 @@
 			return parseFloat(formattedNumber.replace('.', '').replace(',', '.'));
 		};
 	
-		//const precioCompraInput = document.getElementById('id_precio_compra');
-		//const margenInput = document.getElementById('id_margen');
-		//const precioVentaInput = document.getElementById('id_precio_venta');
-		//const updatePrecioVenta = () => {
-		//	const precioCompra = parseNumber(precioCompraInput.value);
-		//	const margen = parseNumber(margenInput.value);
-		//	const precioVenta = precioCompra + (precioCompra * (margen / 100));
-		//	precioVentaInput.value = formatNumber(precioVenta.toFixed(2));
-		//};
-	
-		//const handleInput = (event) => {
-		//	const input = event.target;
-		//	const formattedValue = formatNumber(parseNumber(input.value).toFixed(2));
-		//	input.value = formattedValue;
-		//	updatePrecioVenta();
-		//};
-	
-		//if (precioCompraInput && margenInput) {
-        //    precioCompraInput.addEventListener('input', handleInput);
-        //    margenInput.addEventListener('input', handleInput);
-        //}
 	});
-	</script>
-	<script>
-		document.getElementById('id_imagen_cloud').addEventListener('change', function(event) {
-			const input = event.target;
-			if (input.files && input.files[0]) {
-				const reader = new FileReader();
-				reader.onload = function(e) {
-					document.getElementById('preview-img').src = e.target.result;
-				}
-				reader.readAsDataURL(input.files[0]);
+</script>
+<script>
+	document.getElementById('id_imagen_cloud').addEventListener('change', function(event) {
+		const input = event.target;
+		if (input.files && input.files[0]) {
+			const reader = new FileReader();
+			reader.onload = function(e) {
+				document.getElementById('preview-img').src = e.target.result;
 			}
-		});
-	</script>
-	{% endblock %}
+			reader.readAsDataURL(input.files[0]);
+		}
+	});
+</script>
+<script>
+function seleccionarDispositivo() {
+    document.getElementById('imagen_estado').value = 'archivo';
+    document.getElementById('imagen_file').click();
+}
+
+document.getElementById('imagen_file').addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+        let reader = new FileReader();
+        reader.onload = function(evt) {
+            document.getElementById('imagen_preview').src = evt.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    }
+});
+
+function abrirModalUrl() {
+    new bootstrap.Modal(document.getElementById('modalUrl')).show();
+}
+
+function usarUrl() {
+    const url = document.getElementById('imagen_url_input').value;
+    if (url) {
+        document.getElementById('imagen_estado').value = 'url';
+        document.getElementById('imagen_url').value = url;
+        document.getElementById('imagen_preview').src = url;
+        bootstrap.Modal.getInstance(document.getElementById('modalUrl')).hide();
+    }
+}
+
+function reestablecerImagen() {
+    document.getElementById('imagen_estado').value = 'reestablecer';
+    document.getElementById('imagen_preview').src = "{{ DEFAULT_IMAGE }}";
+    document.getElementById('imagen_file').value = "";
+    document.getElementById('imagen_url').value = "";
+}
+</script>
+{% endblock %}

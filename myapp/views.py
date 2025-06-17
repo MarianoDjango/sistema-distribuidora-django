@@ -18,11 +18,13 @@ from django.utils import timezone
 from django.utils.timezone import make_aware, now
 import os
 from zipfile import ZipFile
-
+import requests
+from django.core.files.base import ContentFile
 from django.conf import settings
+from django.templatetags.static import static
 import subprocess
 import glob
-
+import cloudinary.uploader
 
 def index(request):
     return render(request, 'index.html')
@@ -227,14 +229,19 @@ def articulo_create_or_update(request, **kwargs):
             if kwargs['pk'] != '0':
                 articulo = get_object_or_404(articulos, pk=kwargs['pk'])
                 precio_venta_anterior = articulo.precio_venta
+                empresa = articulo.idempresa
+                empresa_imagenes = articulo.idempresa.imagenes
             else:
                 articulo = articulos()
                 articulo.fecha_precio = datetime.today()
                 articulo.fecha_stock = datetime.today()
                 precio_venta_anterior = None
+                empresa = empresas.objects.get(id=int(kwargs['id_empresa']))
+                empresa_imagenes = empresa.imagenes
+                articulo.idempresa = empresa
 
             if request.method == 'POST':
-                form = articulosForm(request.POST, instance=articulo)
+                form = articulosForm(request.POST, request.FILES, instance=articulo)
                 if form.is_valid():
                     is_new = form.instance.pk is None
                     if is_new:
@@ -242,7 +249,41 @@ def articulo_create_or_update(request, **kwargs):
                         precio_venta_anterior = 0
                     else:
                         tipo_mov = 'Actualiza Articulo'
-                    form.save()
+
+                    articulo = form.save(commit=False)
+
+                    estado = request.POST.get("imagen_estado")
+
+                    # Eliminar anterior si hay que reemplazar
+                    if estado in ["archivo", "url", "reestablecer"] and articulo.imagen_cloud:
+                        cloudinary.uploader.destroy(articulo.imagen_cloud.public_id)
+
+                    if estado == "archivo":
+                        archivo = request.FILES.get("imagen_file")
+                        if archivo:
+                            result = cloudinary.uploader.upload(
+                                archivo,
+                                public_id=f"dsilva/{articulo.familia.nombre}/{articulo.descripcion}",
+                                overwrite=True
+                            )
+                            articulo.imagen_cloud = result['public_id']
+
+                    elif estado == "url":
+                        imagen_url = request.POST.get("imagen_url")
+                        if imagen_url:
+                            response = requests.get(imagen_url)
+                            if response.status_code == 200:
+                                result = cloudinary.uploader.upload(
+                                    ContentFile(response.content),
+                                    public_id=f"dsilva/{articulo.familia.nombre}/{articulo.descripcion}",
+                                    overwrite=True
+                                )
+                                articulo.imagen_cloud = result['public_id']
+
+                    elif estado == "reestablecer":
+                        articulo.imagen_cloud = None
+                                            
+                    articulo.save()
                     #print(art_val_ant)
                     if (precio_venta_anterior != articulo.precio_venta) or is_new:
                         historico = hist_movart( articulo = articulo,
@@ -261,10 +302,7 @@ def articulo_create_or_update(request, **kwargs):
 
                     urlredirect = "/myapp/dashboard/" + kwargs['id_empresa'] +'?pfamilia=' + str(articulo.familia.id)
                     return redirect(urlredirect)
-
             else:
-                empresa = empresas.objects.get(id=int(kwargs['id_empresa']))
-                articulo.idempresa = empresa
                 families = familias.objects.filter(idempresa=empresa)
                 if pfamilia == '0':
                     familia = families[0]
@@ -276,7 +314,7 @@ def articulo_create_or_update(request, **kwargs):
                 #articulo.fecha_stock = datetime.datetime.today().date()
                 form = articulosForm(instance=articulo, empresa_id=int(kwargs['id_empresa']))
 
-            return render(request, 'myapp/articulo_form.html', {'form': form, 'id_empresa':kwargs['id_empresa'], 'id_familia': familia.id, 'DEFAULT_IMAGE': settings.DEFAULT_IMAGE})
+            return render(request, 'myapp/articulo_form.html', {'form': form, 'id_empresa':kwargs['id_empresa'], 'id_familia': familia.id, 'DEFAULT_IMAGE': static(settings.DEFAULT_IMAGE), 'imagenes': empresa_imagenes})
         else:
             return render(request, 'myapp/articulo_form.html')
     #return redirect('login')
@@ -1520,8 +1558,7 @@ def articulos_catalogo(request):
         'familias': lista_familias,
         'familia_actual': primera_familia,
         'articulos': articulos,
-        'DEFAULT_IMAGE': settings.DEFAULT_IMAGE,
-
+        'static_path': static(settings.DEFAULT_IMAGE),
     })
 
 

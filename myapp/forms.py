@@ -1,12 +1,16 @@
 from .models import articulos, familias, empresas, clientes
 #from django.forms import ModelForm, TextInput, Select, CheckboxInput
 from django import forms
-#from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 from django.utils import timezone
 from datetime import date
+import requests
+from django.core.files.base import ContentFile
 
 class articulosForm(forms.ModelForm):
+    #imagen_file = forms.ImageField(required=False)
+
     precio_venta = forms.DecimalField(
         widget=forms.NumberInput(attrs={'class': 'form-control', 'style': 'text-align: right;', 'readonly': 'readonly'})
     )
@@ -28,7 +32,7 @@ class articulosForm(forms.ModelForm):
         model = articulos
         fields = ['idempresa', 'codigobarras', 'familia', 'descripcion', 'precio_venta', 
                   'fecha_precio', 'stock', 'fecha_stock', 'imagen', 'activo', 
-                  'comentarios', 'precio_compra', 'margen', 'margen2','imagen_cloud']
+                  'comentarios', 'precio_compra', 'margen', 'margen2']
         widgets = {
             'activo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'familia': forms.Select(attrs={'class': 'form-select'}),  # Si familia se ve como input, prueba con Select
@@ -44,6 +48,7 @@ class articulosForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         empresa_id = kwargs.pop('empresa_id', None)
         super(articulosForm, self).__init__(*args, **kwargs)
+        
         if empresa_id:
             try:
                 self.fields['familia'].queryset = familias.objects.filter(idempresa=empresa_id).order_by('nombre')
@@ -65,6 +70,26 @@ class articulosForm(forms.ModelForm):
                 self.fields[field].widget.attrs.update({'class': 'form-control'})
         
         self.fields['familia'].label_from_instance = lambda obj: obj.nombre                
+    
+    '''def clean(self):
+        cleaned_data = super().clean()
+        imagen_archivo = cleaned_data.get("imagen_cloud")
+        imagen_url = cleaned_data.get("imagen_url")
+
+        if not imagen_archivo and not imagen_url:
+            raise ValidationError("Debe seleccionar una imagen o proporcionar una URL.")
+
+        if not imagen_archivo and imagen_url:
+            try:
+                response = requests.get(imagen_url)
+                response.raise_for_status()
+                nombre = imagen_url.split("/")[-1]
+                contenido = ContentFile(response.content)
+                self._imagen_descargada = (nombre, contenido)
+            except Exception:
+                raise ValidationError("No se pudo descargar la imagen desde la URL.")
+
+        return cleaned_data'''
 
 class clientesForm(forms.ModelForm):
 

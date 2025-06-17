@@ -1,8 +1,10 @@
 <div class="row row-cols-1 row-cols-md-6 g-4">
   {% for art in articulos %}
   <div class="col">
-    <div class="card h-100 shadow-sm">
-      <img src="{% if articulo.imagen_cloud %}{{ articulo.imagen_cloud.url }}{% else %}{{ DEFAULT_IMAGE }}{% endif %}" alt="{{ articulo.descripcion }}" class="card-img-top">
+    <div class="card h-100">
+      {% with art.imagen_cloud.url as imagen_url %}
+        <img src="{{ imagen_url|default:static_path }}" alt="{{ art.descripcion }}" class="card-img-top">
+      {% endwith %}
       <div class="card-body">
         <h5 class="card-title">{{ art.descripcion }}</h5>
       </div>

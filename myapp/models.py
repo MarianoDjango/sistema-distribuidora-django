@@ -60,7 +60,8 @@ class empresas(models.Model):
     linea3 = models.CharField(max_length=100, blank=True, null=True, default=None)
     linea4 = models.CharField(max_length=100, blank=True, null=True, default=None)
     linea5 = models.CharField(max_length=100, blank=True, null=True, default=None)
-    
+    imagenes = models.BooleanField(default=False)  # Indica si se usan imagenes en articulos
+
     def __str__(self):
         return f"{self.id} - {self.name}"
 
@@ -85,6 +86,7 @@ class familias(models.Model):
         ordering = ["id"]
         verbose_name = "Familias"    
 
+
 class articulos(models.Model):
     idempresa = models.ForeignKey(empresas, on_delete=models.CASCADE, null=True)
     codigobarras = models.CharField(max_length = 15, blank=False, null=False, default=0)
@@ -101,6 +103,12 @@ class articulos(models.Model):
     margen = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
     margen2 = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
     imagen_cloud = CloudinaryField('imagen', blank=True, null=True)
+    
+    @property
+    def imagen_cloud_url(self):
+        if self.imagen_cloud:
+            return self.imagen_cloud.url
+        return None
     
     def __str__(self):
         return self.descripcion
