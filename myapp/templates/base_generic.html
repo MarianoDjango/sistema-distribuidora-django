@@ -39,7 +39,7 @@
     <div class="row"></div>
     <div class="row">
       <div class="col-lg-12">
-        <nav class="navbar navbar-expand-lg" style="background-color: #c73e3e;">
+        <nav class="navbar navbar-expand-lg" style="background-color: #b6325e;">
           <div class="container-fluid">
             <div class="col-lg-6">
               {% if user.is_authenticated %}
@@ -80,53 +80,53 @@
       </div>
     </div>
     {% if user.is_authenticated %}
-    <nav class="nav justify-content-center" style="background-color: #fffcd6;">
-      <li class="nav-item custom-nav-item">
-        <a class="nav-link active" id="home" href="/myapp/dashboard/{{id_empresa}}/?pfamilia={{id_familia}}">Home</a>
-      </li>
-      <li class="nav-item custom-nav-item">
-        <a class="nav-link active" id="clientes" href="/myapp/dashboard/{{id_empresa}}/clientes/?pfamilia={{id_familia}}">Clientes</a>
-      </li>
-      <li class="nav-item custom-nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-expanded="false">Reportes</a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" id="ventas" href="/myapp/dashboard/{{id_empresa}}/ventas/?pfamilia={{id_familia}}">Ventas</a></li>
-          {% if user.is_staff %}
-            <li><a class="dropdown-item" id="movimientos" href="/myapp/dashboard/{{id_empresa}}/movimientos/?pfamilia={{id_familia}}">Movimientos</a></li>
-          {% endif %}
-        </ul>
-      </li>
-      {% if user.is_superuser  %}
-          <li class="nav-item custom-nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-expanded="false">Utilidades</a>
-            <ul class="dropdown-menu">
-              <li><a class="btn dropdown-item" id="backup-btn">Hacer Backup</a></li>
-            </ul>
-          </li>
-      {% endif %}
-    <br>
-    </nav>
+      <nav class="nav justify-content-center" style="background-color: #fffcd6;">
+        <li class="nav-item custom-nav-item">
+          <a class="nav-link active" id="home" href="/myapp/dashboard/{{id_empresa}}/?pfamilia={{id_familia}}">Home</a>
+        </li>
+        <li class="nav-item custom-nav-item">
+          <a class="nav-link active" id="clientes" href="/myapp/dashboard/{{id_empresa}}/clientes/?pfamilia={{id_familia}}">Clientes</a>
+        </li>
+        <li class="nav-item custom-nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-expanded="false">Reportes</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" id="ventas" href="/myapp/dashboard/{{id_empresa}}/ventas/?pfamilia={{id_familia}}">Ventas</a></li>
+            {% if user.is_staff %}
+              <li><a class="dropdown-item" id="movimientos" href="/myapp/dashboard/{{id_empresa}}/movimientos/?pfamilia={{id_familia}}">Movimientos</a></li>
+            {% endif %}
+          </ul>
+        </li>
+        {% if user.is_superuser  %}
+            <li class="nav-item custom-nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-expanded="false">Utilidades</a>
+              <ul class="dropdown-menu">
+                <li><a class="btn dropdown-item" id="backup-btn">Hacer Backup</a></li>
+              </ul>
+            </li>
+        {% endif %}
+      <br>
+      </nav>
     {% else %}
-    <nav class="nav justify-content-center" style="background-color: #fffcd6;">
-  <li class="nav-item custom-nav-item">
-    <a class="nav-link" href="{% url 'landingnosotros' %}">Nosotros</a>
-  </li>
-  <li class="nav-item custom-nav-item">
-    <a class="nav-link" href="#">Productos</a>
-  </li>
+      <nav class="nav justify-content-center" style="background-color: #fffcd6;">
+        <li class="nav-item custom-nav-item">
+          <a class="nav-link" href="{% url 'landingnosotros' %}">Nosotros</a>
+        </li>
+        <li class="nav-item custom-nav-item">
+          <a class="nav-link" href="{% url 'catalogo_articulos' %}">Productos</a>
+        </li>
 
-<br>
-</nav>
-  {% endif %}
+      <br>
+      </nav>
+    {% endif %}
   {% if not user.is_authenticated %}
     <div class="social-fixed">
-      <a href="https://wa.me/5491234567890" class="social-icon whatsapp" target="_blank">
+      <a href="https://wa.me/+541112345678" class="social-icon whatsapp" target="_blank">
         <i class="fab fa-whatsapp"></i>
       </a>
-      <a href="https://www.facebook.com/tuPagina" class="social-icon facebook" target="_blank">
+      <a href="https://www.facebook.com/profile.php?id=100085447266394" class="social-icon facebook" target="_blank">
         <i class="fab fa-facebook-f"></i>
       </a>
-      <a href="https://www.instagram.com/tuCuenta" class="social-icon instagram" target="_blank">
+      <a href="https://www.instagram.com/distribuidorasilva.22?igsh=MTIxc3UzZXkxcWtidw==" class="social-icon instagram" target="_blank">
         <i class="fab fa-instagram"></i>
       </a>
     </div>
@@ -140,17 +140,17 @@
 
       <div class="row text-center">
         <div class="col-md-4 mb-4">
-          <a href="#" class="text-decoration-none">
+          <a href="{% url 'catalogo_articulos' %}" class="text-decoration-none">
           <img src="{% static 'img/neumaticos.jpg' %}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Neumáticos" style="width: 200px; height: 200px; object-fit: cover;">
           <h5>Neumáticos</h5></a>
         </div>
         <div class="col-md-4 mb-4">
-          <a href="" class="text-decoration-none">
+          <a href="{% url 'catalogo_articulos' %}" class="text-decoration-none">
           <img src="{% static 'img/parches.jpg' %}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Parches" style="width: 200px; height: 200px; object-fit: cover;">
           <h5>Parches</h5></a>
         </div>
         <div class="col-md-4 mb-4">
-          <a href="" class="text-decoration-none">
+          <a href="{% url 'catalogo_articulos' %}" class="text-decoration-none">
           <img src="{% static 'img/herramientas.jpg' %}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Herramientas" style="width: 200px; height: 200px; object-fit: cover;">
           <h5>Herramientas</h5></a>
         </div>

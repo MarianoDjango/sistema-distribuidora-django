@@ -2,7 +2,7 @@ from cloudinary.models import CloudinaryField
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-
+import locale
 
 class formaspago(models.Model):
     FORMASP_CHOICES = [
@@ -103,7 +103,14 @@ class articulos(models.Model):
     margen = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
     margen2 = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Porcentaje de margen
     imagen_cloud = CloudinaryField('imagen', blank=True, null=True)
-    
+
+    @property
+    def precio_venta_formateado(self):
+        try:
+            return locale.currency(self.precio_venta, grouping=True, symbol=True)
+        except Exception:
+            return f"$ {self.precio_venta:,.2f}".replace(",", "_").replace(".", ",").replace("_", ".")
+            
     @property
     def imagen_cloud_url(self):
         if self.imagen_cloud:

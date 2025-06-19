@@ -263,7 +263,7 @@ def articulo_create_or_update(request, **kwargs):
                         if archivo:
                             result = cloudinary.uploader.upload(
                                 archivo,
-                                public_id=f"dsilva/{articulo.familia.nombre}/{articulo.descripcion}",
+                                public_id=f"dsilva/{articulo.familia.nombre.strip()}/{articulo.descripcion.strip()}",
                                 overwrite=True
                             )
                             articulo.imagen_cloud = result['public_id']
@@ -1552,24 +1552,40 @@ def backup_database(request):
 def articulos_catalogo(request):
     empresas_usuario = 2
     lista_familias = familias.objects.filter(idempresa=empresas_usuario)
+    familias_con_imagen = []
+    for familia in lista_familias:
+        articulo_con_imagen = familia.articulos_set.filter(imagen_cloud__isnull=False).first()
+        imagen_url = articulo_con_imagen.imagen_cloud.url if articulo_con_imagen else settings.DEFAULT_IMAGE
+        familias_con_imagen.append({
+            'id': familia.id,
+            'nombre': familia.nombre,
+            'imagen': imagen_url
+        })
     primera_familia = lista_familias.first()
 
     return render(request, 'catalogo/catalogo.html', {
-        'familias': lista_familias,
+        'familias': familias_con_imagen,
         'familia_actual': primera_familia,
         'articulos': articulos,
-        'static_path': static(settings.DEFAULT_IMAGE),
+        'DEFAULT_IMAGE': static(settings.DEFAULT_IMAGE),
     })
 
 
 def filtrar_articulos(request):
     familia_id = request.GET.get('familia_id')
     q = request.GET.get('q', '')
+    page = request.GET.get('page', 1)
 
     articulos_filtrados = articulos.objects.filter(familia_id=familia_id, descripcion__icontains=q)
+    paginator = Paginator(articulos_filtrados, 18)  # 12 artículos por página
+    page_obj = paginator.get_page(page)
 
     html = render_to_string('catalogo/cards_articulos.html', {
-        'articulos': articulos_filtrados
+        'articulos': page_obj, 'DEFAULT_IMAGE': static(settings.DEFAULT_IMAGE)
+    })
+    pagination_html = render_to_string("catalogo/pagination.html", {
+        "page_obj": page_obj
     })
 
-    return JsonResponse({'html': html})
+
+    return JsonResponse({'html': html, "pagination": pagination_html})

@@ -22,63 +22,143 @@
   #lista-familias li:hover {
     background-color: #e2e6ea; /* Color sutil al pasar el mouse */
   }
+.familia-carousel {
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+.familia-carousel::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.familia-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  transition: 0.2s;
+}
 </style>
-<!-- Botón para abrir menú lateral -->
-<button class="btn border-0 bg-transparent p-2" style="font-size: 2rem;" data-bs-toggle="offcanvas" data-bs-target="#menuFamilias">
-  <i class="bi bi-list"></i>
-</button>
+<body>
+<!-- <div class="d-flex align-items-center mb-4">
+  
+ <button class="btn btn-light me-2" id="scrollLeft">
+    <i class="bi bi-chevron-left"></i>
+  </button>
 
-<!-- Offcanvas -->
-<div class="offcanvas offcanvas-start bg-light p-3" tabindex="-1" id="menuFamilias" class="bg-light p-3" style="font-family: 'Segoe UI', sans-serif;">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title">Familias</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  <nav class="nav-bar p-4">
+
+  <div class="familia-carousel d-flex overflow-auto flex-nowrap" id="carouselFamilias">
+    {% for fam in familias %}
+      <div class="card familia-card text-center rounded-circle me-3" data-id="{{ fam.id }}" style="min-width: 120px; cursor: pointer;">
+        <img src="{{ fam.imagen|default:DEFAULT_IMAGE }}" alt="{{ fam.nombre }}" class="card-img-top rounded-circle mx-auto mt-2" style="width: 80px; height: 80px; object-fit: cover;">
+        <div class="card-body p-2">
+          <small class="card-title">{{ fam.nombre }}</small>
+        </div>
+      </div>
+    {% endfor %}
   </div>
-  <div class="offcanvas-body" style="font-family: 'Segoe UI', sans-serif;">
-    <ul class="list-familias">
-      {% for fam in familias %}
-        <li class="list-group-item familia-item" data-id="{{ fam.id }}"><a href="">{{ fam.nombre }}</a></li>
-      {% endfor %}
-    </ul>
+
+  <button class="btn btn-light ms-2" id="scrollRight">
+    <i class="bi bi-chevron-right"></i>
+  </button>
+</div>
+</nav>-->
+<div class="container-fluid" style="background-color: #f6f5f5;">
+  <div class="row">
+
+    <div class="col-md-2  p-3 vh-100">
+      <h5 class="mb-3">Categorias</h5>
+      <ul class="list-group list-familias shadow" style="background-color: #fefcfc;">
+        {% for fam in familias %}
+          <li class="list-group-item familia-item" data-id="{{ fam.id }}" style="background-color: transparent;border: none;">
+            <a href="#" class="text-decoration-none text-dark d-block" style="font-weight: bold;">
+            <img src="{{ fam.imagen|default:DEFAULT_IMAGE }}" alt="{{ fam.nombre }}" class="card-img-top rounded-circle mx-auto mt-2" style="width: 40px; height: 40px; object-fit: cover;">
+            {{fam.nombre}}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="col-md-10 p-4">
+      <!-- Acá ponés el buscador, título de familia, y los artículos -->
+      <h3 id="titulo-familia">{{ familia_actual.nombre }}</h3>
+      <input type="text" class="form-control my-3" id="buscador" placeholder="Buscar artículos...">
+      <div id="contenedor-articulos">
+        {% include "catalogo/cards_articulos.html" with articulos=familia_actual.articulos_set.all %}
+      </div>
+      <div id="contenedor-paginacion">
+        <!-- Se llenará con la respuesta Ajax -->
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Título y buscador -->
-<div class="container mt-3">
-  <h3 id="titulo-familia">{{ familia_actual.nombre }}</h3>
-  <input type="text" class="form-control my-3" id="buscador" placeholder="Buscar artículos...">
-  <div id="contenedor-articulos">
-    {% include "catalogo/cards_articulos.html" with articulos=familia_actual.articulos_set.all %}
-  </div>
-</div>
-
+</body>
 <!-- Script JS -->
 <script>
-let familiaActual = "{{ familia_actual.id|default:'' }}";
+let familiaActual = "{{ familia_actual.id }}";
 let timeout = null;
 
-function cargarArticulos(familia_id, q='') {
-  fetch(`/catalogo/filtrar/?familia_id=${familia_id}&q=${q}`)
+function cargarArticulos(familia_id, q = '', page = 1) {
+  fetch(`/catalogo/filtrar/?familia_id=${familia_id}&q=${q}&page=${page}`)
     .then(res => res.json())
     .then(data => {
       document.getElementById('contenedor-articulos').innerHTML = data.html;
+      document.getElementById('contenedor-paginacion').innerHTML = data.pagination;
+      formatearPrecios(); // si usás formateo en JS
+      prepararLinksPaginacion(); // ← importante para paginación
     });
 }
 
+function prepararLinksPaginacion() {
+  document.querySelectorAll('.page-nav').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const page = link.dataset.page;
+      cargarArticulos(familiaActual, document.getElementById('buscador').value, page);
+    });
+  });
+}
+// Eventos para clic en familia-item (del menú u offcanvas)
 document.querySelectorAll('.familia-item').forEach(el => {
-  el.addEventListener('click', () => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
     familiaActual = el.dataset.id;
-    document.getElementById('titulo-familia').textContent = el.textContent;
+    const nombre = el.querySelector('a').textContent.trim();
+    document.getElementById('titulo-familia').textContent = nombre;
+    document.getElementById('buscador').value = '';
     cargarArticulos(familiaActual);
   });
 });
 
+// Evento para el buscador
 document.getElementById('buscador').addEventListener('input', () => {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
     const q = document.getElementById('buscador').value;
     cargarArticulos(familiaActual, q);
   }, 500);
+});
+
+// Evento para clic en card de familia
+document.querySelectorAll('.familia-card').forEach(card => {
+  card.addEventListener('click', () => {
+    familiaActual = card.dataset.id;
+    const nombre = card.querySelector('.card-title').textContent.trim();
+    document.getElementById('titulo-familia').textContent = nombre;
+    document.getElementById('buscador').value = '';
+    cargarArticulos(familiaActual);
+  });
+});
+
+// Iniciar los eventos de paginación una vez
+document.addEventListener('DOMContentLoaded', () => {
+  cargarArticulos(familiaActual);
+});
+
+link.addEventListener('click', e => {
+  e.preventDefault();
+  const page = link.dataset.page;
+  cargarArticulos(familiaActual, buscador.value, page);
 });
 </script>
 
