@@ -62,6 +62,35 @@
 </div>
 </nav>-->
 <div class="container-fluid" style="background-color: #f6f5f5;">
+  <button class="btn btn-secondary position-fixed" style="bottom: 20px; right: 20px; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#pdfModal">
+    <i class="bi bi-download"></i> Descargar Catálogo
+  </button>
+  <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Descargar catálogo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="pdfForm">
+            <label for="familiaSelect">Seleccione la familia:</label>
+            <select class="form-select" id="familiaSelect" name="familia_id">
+              <option value="0">Todas las familias</option>
+              {% for fam in familias %}
+                <option value="{{ fam.id }}" {% if fam.id == familia_actual.id %}selected{% endif %}>{{ fam.nombre }}</option>
+              {% endfor %}
+            </select>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" form="pdfForm" class="btn btn-primary">Descargar PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
 
     <div class="col-md-2  p-3 vh-100">
@@ -95,70 +124,71 @@
 </body>
 <!-- Script JS -->
 <script>
-let familiaActual = "{{ familia_actual.id }}";
-let timeout = null;
+  let familiaActual = "{{ familia_actual.id }}";
+  let timeout = null;
 
-function cargarArticulos(familia_id, q = '', page = 1) {
-  fetch(`/catalogo/filtrar/?familia_id=${familia_id}&q=${q}&page=${page}`)
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('contenedor-articulos').innerHTML = data.html;
-      document.getElementById('contenedor-paginacion').innerHTML = data.pagination;
-      formatearPrecios(); // si usás formateo en JS
-      prepararLinksPaginacion(); // ← importante para paginación
+  function cargarArticulos(familia_id, q = '', page = 1) {
+    fetch(`/catalogo/filtrar/?familia_id=${familia_id}&q=${q}&page=${page}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('contenedor-articulos').innerHTML = data.html;
+        document.getElementById('contenedor-paginacion').innerHTML = data.pagination;
+        prepararLinksPaginacion(); // ← importante para paginación
+      });
+    }
+
+  function prepararLinksPaginacion() {
+    document.querySelectorAll('.page-nav').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const page = link.dataset.page;
+        cargarArticulos(familiaActual, document.getElementById('buscador').value, page);
+      });
     });
-}
-
-function prepararLinksPaginacion() {
-  document.querySelectorAll('.page-nav').forEach(link => {
-    link.addEventListener('click', e => {
+  }
+  // Eventos para clic en familia-item (del menú u offcanvas)
+  document.querySelectorAll('.familia-item').forEach(el => {
+    el.addEventListener('click', e => {
       e.preventDefault();
-      const page = link.dataset.page;
-      cargarArticulos(familiaActual, document.getElementById('buscador').value, page);
+      familiaActual = el.dataset.id;
+      const nombre = el.querySelector('a').textContent.trim();
+      document.getElementById('titulo-familia').textContent = nombre;
+      document.getElementById('buscador').value = '';
+      cargarArticulos(familiaActual);
     });
   });
-}
-// Eventos para clic en familia-item (del menú u offcanvas)
-document.querySelectorAll('.familia-item').forEach(el => {
-  el.addEventListener('click', e => {
+
+  // Evento para el buscador
+  document.getElementById('buscador').addEventListener('input', () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      const q = document.getElementById('buscador').value;
+      cargarArticulos(familiaActual, q);
+    }, 500);
+  });
+
+  // Evento para clic en card de familia
+  document.querySelectorAll('.familia-card').forEach(card => {
+    card.addEventListener('click', () => {
+      familiaActual = card.dataset.id;
+      const nombre = card.querySelector('.card-title').textContent.trim();
+      document.getElementById('titulo-familia').textContent = nombre;
+      document.getElementById('buscador').value = '';
+      cargarArticulos(familiaActual);
+    });
+  });
+
+  // Iniciar los eventos de paginación una vez
+  document.addEventListener('DOMContentLoaded', () => {
+    cargarArticulos(familiaActual);
+  });
+
+  
+  document.getElementById('pdfForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    familiaActual = el.dataset.id;
-    const nombre = el.querySelector('a').textContent.trim();
-    document.getElementById('titulo-familia').textContent = nombre;
-    document.getElementById('buscador').value = '';
-    cargarArticulos(familiaActual);
-  });
-});
-
-// Evento para el buscador
-document.getElementById('buscador').addEventListener('input', () => {
-  clearTimeout(timeout);
-  timeout = setTimeout(() => {
-    const q = document.getElementById('buscador').value;
-    cargarArticulos(familiaActual, q);
-  }, 500);
-});
-
-// Evento para clic en card de familia
-document.querySelectorAll('.familia-card').forEach(card => {
-  card.addEventListener('click', () => {
-    familiaActual = card.dataset.id;
-    const nombre = card.querySelector('.card-title').textContent.trim();
-    document.getElementById('titulo-familia').textContent = nombre;
-    document.getElementById('buscador').value = '';
-    cargarArticulos(familiaActual);
-  });
-});
-
-// Iniciar los eventos de paginación una vez
-document.addEventListener('DOMContentLoaded', () => {
-  cargarArticulos(familiaActual);
-});
-
-link.addEventListener('click', e => {
-  e.preventDefault();
-  const page = link.dataset.page;
-  cargarArticulos(familiaActual, buscador.value, page);
+    const familiaId = document.getElementById('familiaSelect').value;
+    const url = `/catalogo/pdf/?familia_id=${familiaId}`;
+    window.open(url, '_blank');
 });
 </script>
 

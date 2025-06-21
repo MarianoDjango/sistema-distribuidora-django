@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+  <div class="card shadow" style="max-width: 400px; margin: auto;">
+    {% if articulo.imagen_cloud %}
+      <img src="{{ articulo.imagen_cloud.url }}" class="card-img-top" style="object-fit: cover; max-height: 400px;">
+    {% else %}
+      <img src="{% static DEFAULT_IMAGE %}" class="card-img-top" style="object-fit: cover; max-height: 400px;">
+    {% endif %}
+    <div class="card-body">
+      <h3 class="card-title">{{ articulo.descripcion }}</h3>
+      <p class="card-text text-muted">{{ art_stock }}</p>
+      <p class="card-text fw-bold fs-5">$ {{ articulo.precio_venta|floatformat:2 }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

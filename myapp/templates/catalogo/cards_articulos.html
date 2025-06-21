@@ -9,11 +9,13 @@
         <h6 class="card-title">{{ art.descripcion }}</h6>
       </div>
       <div class="card-body"  style="background-color: #f6f5f5;">
+        <a href="{% url 'articulo_detalle' art.id %}" style="text-decoration: none; color: inherit;">
         {% if art.imagen_cloud %}
           <img src="{{ art.imagen_cloud.url }}" alt="{{ art.descripcion }}" class="card-img-top">
         {% else %}
           <img src="{{ DEFAULT_IMAGE }}" alt="Sin imagen" class="card-img-top">
-        {% endif %}      
+        {% endif %}    
+        </a>  
       </div>
       <div class="card-footer text-end" style="background-color: #ede5e8;">
         <h6 class="precio">{{ art.precio_venta_formateado  }}</h6>

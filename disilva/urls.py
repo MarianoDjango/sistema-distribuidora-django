@@ -11,4 +11,6 @@ urlpatterns = [
     path('myapp/', include('myapp.urls')),  # Ruta para la aplicación interna
     path('catalogo/', views.articulos_catalogo, name='catalogo_articulos'),
     path('catalogo/filtrar/', views.filtrar_articulos, name='filtrar_articulos'),
+    path('articulo/<int:pk>/', views.articulo_detalle, name='articulo_detalle'),
+    path('catalogo/pdf/', views.catalogo_pdf, name='catalogo_pdf')
 ]

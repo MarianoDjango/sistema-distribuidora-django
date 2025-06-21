@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: sans-serif; font-size: 12px; }
+    .articulo { margin-bottom: 15px; border-bottom: 1px solid #ccc; }
+    img { max-width: 120px; max-height: 120px; }
+  </style>
+</head>
+<body>
+  <h1>{{ titulo }}</h1>
+  {% for art in articulos %}
+    <div class="articulo">
+      <h4>{{ art.descripcion }}</h4>
+      {% if art.imagen_cloud %}
+        <img src="{{ art.imagen_cloud.url }}">
+      {% endif %}
+      <p>Precio: $ {{ art.precio_venta|floatformat:2 }}</p>
+    </div>
+  {% endfor %}
+</body>
+</html>

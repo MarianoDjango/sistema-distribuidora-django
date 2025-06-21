@@ -25,6 +25,17 @@ from django.templatetags.static import static
 import subprocess
 import glob
 import cloudinary.uploader
+from django.utils.text import slugify
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from io import BytesIO
 
 def index(request):
     return render(request, 'index.html')
@@ -1554,13 +1565,16 @@ def articulos_catalogo(request):
     lista_familias = familias.objects.filter(idempresa=empresas_usuario)
     familias_con_imagen = []
     for familia in lista_familias:
-        articulo_con_imagen = familia.articulos_set.filter(imagen_cloud__isnull=False).first()
-        imagen_url = articulo_con_imagen.imagen_cloud.url if articulo_con_imagen else settings.DEFAULT_IMAGE
+        carpeta = familia.nombre
+        cloud_name = settings.CLOUDINARY_STORAGE.get('CLOUD_NAME')
+        imagen_url = f"https://res.cloudinary.com/{cloud_name}/image/upload/dsilva/{carpeta}/generic.jpg"
+        
         familias_con_imagen.append({
             'id': familia.id,
             'nombre': familia.nombre,
             'imagen': imagen_url
         })
+
     primera_familia = lista_familias.first()
 
     return render(request, 'catalogo/catalogo.html', {
@@ -1589,3 +1603,55 @@ def filtrar_articulos(request):
 
 
     return JsonResponse({'html': html, "pagination": pagination_html})
+
+def articulo_detalle(request, pk):
+    articulo = get_object_or_404(articulos, pk=pk)
+    if articulo.stock <= 0:
+        art_stock = 'Sin Stock'
+    else:
+        art_stock = "Disponible en Tienda"
+
+    return render(request, 'catalogo/articulo_detalle.html', {
+        'articulo': articulo,
+        'art_stock': art_stock,
+    })
+
+
+def catalogo_pdf(request):
+    familia_id = request.GET.get('familia_id')
+    if familia_id and familia_id != '0':
+        familia = familias.objects.get(pk=familia_id)
+        articulos_qs = articulos.objects.filter(familia=familia)
+        titulo = f"Catálogo - {familia.nombre}"
+    else:
+        articulos_qs = articulos.objects.all()
+        titulo = "Catálogo - Todas las familias"
+
+    # Crear respuesta HTTP con tipo PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="catalogo.pdf"'
+
+    # Crear canvas
+    p = canvas.Canvas(response, pagesize=A4)
+    width, height = A4
+
+    # Título
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(50, height - 50, titulo)
+
+    # Espaciado inicial
+    y = height - 80
+    p.setFont("Helvetica", 10)
+
+    for art in articulos_qs:
+        texto = f"{art.descripcion} - ${art.precio_venta}"
+        p.drawString(50, y, texto)
+        y -= 15
+
+        if y < 50:
+            p.showPage()
+            p.setFont("Helvetica", 10)
+            y = height - 50
+
+    p.save()
+    return response
