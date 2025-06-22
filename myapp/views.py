@@ -252,6 +252,13 @@ def articulo_create_or_update(request, **kwargs):
                 articulo.idempresa = empresa
 
             if request.method == 'POST':
+                cloudinary.config(
+                    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+                    api_key=os.getenv('CLOUDINARY_API_KEY'),
+                    api_secret=os.getenv('CLOUDINARY_API_SECRET'),
+                    secure=True
+                )
+
                 form = articulosForm(request.POST, request.FILES, instance=articulo)
                 if form.is_valid():
                     is_new = form.instance.pk is None
@@ -274,6 +281,7 @@ def articulo_create_or_update(request, **kwargs):
                         if archivo:
                             result = cloudinary.uploader.upload(
                                 archivo,
+                                folder=f"dsilva/{articulo.familia.nombre}",
                                 public_id=f"dsilva/{articulo.familia.nombre.strip()}/{articulo.descripcion.strip()}",
                                 overwrite=True
                             )
@@ -286,6 +294,7 @@ def articulo_create_or_update(request, **kwargs):
                             if response.status_code == 200:
                                 result = cloudinary.uploader.upload(
                                     ContentFile(response.content),
+                                    folder=f"dsilva/{articulo.familia.nombre}",
                                     public_id=f"dsilva/{articulo.familia.nombre}/{articulo.descripcion}",
                                     overwrite=True
                                 )
