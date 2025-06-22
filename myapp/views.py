@@ -252,12 +252,12 @@ def articulo_create_or_update(request, **kwargs):
                 articulo.idempresa = empresa
 
             if request.method == 'POST':
-                cloudinary.config(
+                '''cloudinary.config(
                     cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
                     api_key=os.getenv('CLOUDINARY_API_KEY'),
                     api_secret=os.getenv('CLOUDINARY_API_SECRET'),
                     secure=True
-                )
+                )'''
 
                 form = articulosForm(request.POST, request.FILES, instance=articulo)
                 if form.is_valid():

@@ -11,7 +11,7 @@
       <div class="card-body"  style="background-color: #f6f5f5;">
         <a href="{% url 'articulo_detalle' art.id %}" style="text-decoration: none; color: inherit;">
         {% if art.imagen_cloud %}
-          <img src="{{ art.imagen_cloud.url }}" alt="{{ art.descripcion }}" class="card-img-top">
+          <img src="{{ art.imagen_cloud|cloudinary_url }}" alt="{{ art.descripcion }}" class="card-img-top">
         {% else %}
           <img src="{{ DEFAULT_IMAGE }}" alt="Sin imagen" class="card-img-top">
         {% endif %}    
