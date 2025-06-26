@@ -36,6 +36,10 @@
     </style>
     {% block head_extra %}{% endblock %}
   </head>
+  <div class="alert alert-success text-center m-0" role="alert">
+  <strong>¡Promo especial!</strong> Obtené un <strong>13% de descuento</strong> pagando en efectivo.
+</div>
+
   <body style="overflow: auto;overflow-x:hidden">
     <div class="row"></div>
     <div class="row">
@@ -69,10 +73,10 @@
               </ul>
           {% else %}
             <div class="col-lg-7"></div>
-            <div class="col-lg-2">
+            <div class="col-lg-3  text-end">
               <form method="post" style="display:inline;">
                 {% csrf_token %}
-                <a class="btn btn-warning" href="{% url 'login' %}" aria-expanded="false">Entrar</a>
+                <a class="alert" href="{% url 'login' %}"  aria-expanded="false"><i class="bi bi-box-arrow-in-right fs-4"></i></a>
               </form>
             </div>
           {% endif %}
@@ -121,7 +125,7 @@
     {% endif %}
   {% if not user.is_authenticated %}
     <div class="social-fixed">
-      <a href="https://wa.me/+541112345678" class="social-icon whatsapp" target="_blank">
+      <a href="https://api.whatsapp.com/send?phone=+541135927057&text=Hola" class="social-icon whatsapp" target="_blank">
         <i class="fab fa-whatsapp"></i>
       </a>
       <a href="https://www.facebook.com/profile.php?id=100085447266394" class="social-icon facebook" target="_blank">
@@ -166,7 +170,7 @@
             <img src="{% static '/img/logo.png' %}" class="img-fluid" alt="..." width="200" height="45">
           </a>
           <ul class="list-unstyled small text-muted">
-            <li class="mb-2"><a href="https://api.whatsapp.com/send?phone=+541112345678&text=Hola" target="_blank" title="contactar por Whatsapp"><img src="{% static '/img/whatsapp_PNG20.png' %}" class="img-fluid" alt="..." width="30"></a>  11 5749 3191</li>
+            <li class="mb-2"><img src="{% static '/img/whatsapp_PNG20.png' %}" class="img-fluid" alt="..." width="30"></a>11 3592 7057</li>
             <li class="mb-2">Graham Bell 2948 (María Eugenia Bureau) </li>
             <li class="mb-2">Paso del Rey - Buenos Aires - Argentina</li>
           </ul>

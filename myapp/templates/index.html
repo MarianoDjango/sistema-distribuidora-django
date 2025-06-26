@@ -2,31 +2,44 @@
 {% load static %}
 {% block content %}
 
-
 <div class="container-fluid" style="background-color: #fffeee;">
 
   <div class="shadow-lg">
     <div id="carouselExampleControls" class="carousel carousel-light slide" data-bs-ride="carousel">
       <div class="carousel-inner">
-        <div class="carousel-item active" style="border-radius: 50%;">
-          <img src="{% static '/img/carrousel.jpg' %}" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
-            <h4>Precios</h5>
-            <p> Tenemos los mejores precios en insumos de Gomeria</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="{% static '/img/carrousel2.jpg' %}"class="d-block w-100" alt="..." height="720">
+        <div class="carousel-item active">
+            <img src="{% static '/img/carrousel1.jpeg' %}"class="carousel-img" alt="...">
           <div class="carousel-caption d-none d-md-block">
             <h4>Productos</h5>
             <p> de primera calidad</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img src="{% static '/img/carrousel3.jpg' %}" class="d-block w-100" alt="..." height="720">
+            <img src="{% static '/img/carrousel2.jpeg' %}" class="carousel-img" alt="...">
           <div class="carousel-caption d-none d-md-block">
             <h4>Confianza</h5>
             <p>Mas de 10 años de experiancia</p>
+          </div>
+        </div>
+          <div class="carousel-item">
+              <img src="{% static '/img/carrousel5.jpeg' %}" class="carousel-img" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h4>Confianza</h5>
+            <p>Mas de 10 años de experiancia</p>
+          </div>
+        </div>
+       <div class="carousel-item">
+            <img src="{% static '/img/carrousel.jpg' %}" class="carousel-img" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h4>Confianza</h5>
+            <p>Mas de 10 años de experiancia</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static '/img/carrousel4.jpeg' %}" class="carousel-img" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h4>Precios</h5>
+            <p> Tenemos los mejores precios en insumos de Gomeria</p>
           </div>
         </div>
       </div>
@@ -53,4 +66,5 @@
 <p></p>
 <div class="row">
 </div>
+
 {% endblock %}
