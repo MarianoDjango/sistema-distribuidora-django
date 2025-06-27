@@ -16,9 +16,6 @@ a {
   text-decoration: none; /* Opcional: para quitar el subrayado */
 }
 
-a:hover {
-  color: #8099d2; /* Color al pasar el mouse */
-}
 .social-fixed {
   position: fixed;
   top: 50%;
@@ -71,14 +68,4 @@ a:hover {
   height: 1500px; /* o el alto que desees */
   object-fit: cover;
   object-position: center center; /* 👈 Esta es la clave */
-}
-a {
-  text-decoration: none;
-  color: #007bff;
-  transition: all 0.2s ease;
-}
-
-a:hover {
-  font-weight: bold;
-  font-size: 1.05em;
 }
