@@ -362,18 +362,23 @@ function guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantida
     }
 }
 document.getElementById('guardarregularizaStock').addEventListener('click', function() {
+    const descriart = document.getElementById('descriartr').innerText;
     const tipoMovimiento = 'Regularizacion';
     const id_articulo = document.getElementById('idartr').innerText;
     const motivo = document.getElementById('motivoMovimientor').value;
     const cantidad = document.getElementById('cantidadMovimientor').value;
     if (cantidad != ''){
-        guardarMovimiento('0', id_articulo, tipoMovimiento, motivo, cantidad, 0, '');
+        const mensaje = `¿Confirmás el movimiento?\n\nTipo: ${tipoMovimiento}\nMotivo: ${motivo}\nCantidad: ${cantidad} para el artículo ${descriart}`;
+        if (confirm(mensaje)) {
+            guardarMovimiento('0', id_articulo, tipoMovimiento, motivo, cantidad, 0, '');
+        }
     } else {
         alert('Entre una cantidad')
     }
 });
 
 document.getElementById('guardarentradaStock').addEventListener('click', function() {
+    const descriart = document.getElementById('descriarte').innerText;
     const tipoMovimiento = 'Entrada';
     const id_articulo = document.getElementById('idarte').innerText;
     const empresa = document.getElementById('empresaOrigen').innerText;
@@ -382,20 +387,27 @@ document.getElementById('guardarentradaStock').addEventListener('click', functio
     const precioCompra = document.getElementById('precioComprae').value;
     const documentoe = document.getElementById('documentoe').value;
     if (cantidad !='0' && cantidad != ''){
-        guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, precioCompra, documentoe);
+        const mensaje = `¿Confirmás el movimiento?\n\nTipo: ${tipoMovimiento}\nMotivo: ${motivo}\nCantidad: ${cantidad} para el artículo ${descriart}`;
+        if (confirm(mensaje)) {
+            guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, 0, '');
+        }
     } else {
         alert('Cantidad no puede ser 0')
     }
 });
 
 document.getElementById('guardarsalidaStock').addEventListener('click', function() {
+    const descriart = document.getElementById('descriarts').innerText;
     const tipoMovimiento = 'Salida';
     const id_articulo = document.getElementById('idarts').innerText;
     const empresa = document.getElementById('empresaDestino').innerText;
     const motivo = document.getElementById('motivoMovimientos').value;
     const cantidad = document.getElementById('cantidadMovimientos').value;
     if (cantidad !='0' && cantidad != ''){
-        guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, 0, '');
+        const mensaje = `¿Confirmás el movimiento?\n\nTipo: ${tipoMovimiento}\nMotivo: ${motivo}\nCantidad: ${cantidad} para el artículo ${descriart}`;
+        if (confirm(mensaje)) {
+            guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, 0, '');
+        }
     } else {
         alert('Cantidad no puede ser 0')
     }
@@ -466,6 +478,7 @@ function ponerfamilia(idfamilia, nomfamilia){
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    const descriart = document.getElementById('descriartr');
     const modalr = document.getElementById('regularizaStockModal');
     const saveBtnr = document.getElementById('guardarregularizaStock');
     const idfamilia = document.getElementById('idfamilia').innerText;
