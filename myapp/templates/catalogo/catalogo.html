@@ -40,30 +40,6 @@
 }
 </style>
 <body>
-<!-- <div class="d-flex align-items-center mb-4">
-  
- <button class="btn btn-light me-2" id="scrollLeft">
-    <i class="bi bi-chevron-left"></i>
-  </button>
-
-  <nav class="nav-bar p-4">
-
-  <div class="familia-carousel d-flex overflow-auto flex-nowrap" id="carouselFamilias">
-    {% for fam in familias %}
-      <div class="card familia-card text-center rounded-circle me-3" data-id="{{ fam.id }}" style="min-width: 120px; cursor: pointer;">
-        <img src="{{ fam.imagen|default:DEFAULT_IMAGE }}" alt="{{ fam.nombre }}" class="card-img-top rounded-circle mx-auto mt-2" style="width: 80px; height: 80px; object-fit: cover;">
-        <div class="card-body p-2">
-          <small class="card-title">{{ fam.nombre }}</small>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-
-  <button class="btn btn-light ms-2" id="scrollRight">
-    <i class="bi bi-chevron-right"></i>
-  </button>
-</div>
-</nav>-->
 <div class="container-fluid" style="background-color: #f6f5f5;">
   <button class="btn btn-secondary position-fixed" style="bottom: 20px; right: 20px; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#pdfModal">
     <i class="bi bi-download"></i> Descargar Catálogo
@@ -95,20 +71,24 @@
   </div>
 
   <div class="row">
-
-    <div class="col-md-2  p-3 vh-100">
-      <h5 class="mb-3">Categorias</h5>
-      <ul class="list-group list-familias shadow" style="background-color: #fefcfc;">
-        {% for fam in familias %}
-          <li class="list-group-item familia-item" data-id="{{ fam.id }}" style="background-color: transparent;border: none;">
-            <a href="#" class="text-decoration-none text-dark d-block" style="font-weight: bold;">
-            <img src="{{ fam.imagen|default:DEFAULT_IMAGE }}" alt="{{ fam.nombre }}" class="card-img-top rounded-circle mx-auto mt-2" style="width: 40px; height: 40px; object-fit: cover;">
-            {{fam.nombre}}</a>
-          </li>
-        {% endfor %}
-      </ul>
+    <button class="btn btn-outline-secondary d-md-none my-2" type="button" id="toggleCategoriasBtn">
+      <i class="bi bi-list"></i> Ver categorías
+    </button>
+    <div class="col-12 col-lg-2 p-3">
+      <div id="barraCategorias" class="d-md-block d-none">
+        <h5 class="mb-3">Categorías</h5>
+        <ul class="list-group list-familias shadow" id="lista-familias" style="background-color: #fefcfc;">
+          {% for fam in familias %}
+            <li class="list-group-item familia-item border-0 bg-transparent text-center" data-id="{{ fam.id }}">
+              <a href="#" class="text-decoration-none text-dark d-block fw-bold">
+                <img src="{{ fam.imagen|default:DEFAULT_IMAGE }}" alt="{{ fam.nombre }}" class="rounded-circle mt-2 mb-1 mx-auto d-md-block d-none" style="width: 40px; height: 40px; object-fit: cover;">
+                {{ fam.nombre }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-
     <!-- Contenido principal -->
     <div class="col-md-10 p-4">
       <!-- Acá ponés el buscador, título de familia, y los artículos -->
@@ -193,6 +173,24 @@
     const url = `/catalogo/pdf/?familia_id=${familiaId}`;
     window.open(url, '_blank');
 });
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('toggleCategoriasBtn');
+    const barraCategorias = document.getElementById('barraCategorias');
+    const familiaItems = document.querySelectorAll('.familia-item');
+    
+    toggleBtn.addEventListener('click', function () {
+      barraCategorias.classList.toggle('d-none');
+    });
+    
+    // Oculta las categorías en móvil al hacer clic en una
+    familiaItems.forEach(item => {
+      item.addEventListener('click', function () {
+        if (window.innerWidth < 768) {  // Solo en móviles
+          barraCategorias.classList.add('d-none');
+        }
+      });
+    }); 
+  });
 </script>
 
 {% endblock %}

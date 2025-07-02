@@ -1600,7 +1600,7 @@ def filtrar_articulos(request):
     page = request.GET.get('page', 1)
 
     articulos_filtrados = articulos.objects.filter(familia_id=familia_id, descripcion__icontains=q)
-    paginator = Paginator(articulos_filtrados, 18)  # 12 artículos por página
+    paginator = Paginator(articulos_filtrados, 24)  # 12 artículos por página
     page_obj = paginator.get_page(page)
 
     html = render_to_string('catalogo/cards_articulos.html', {
