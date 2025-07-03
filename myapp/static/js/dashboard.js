@@ -389,7 +389,7 @@ document.getElementById('guardarentradaStock').addEventListener('click', functio
     if (cantidad !='0' && cantidad != ''){
         const mensaje = `¿Confirmás el movimiento?\n\nTipo: ${tipoMovimiento}\nMotivo: ${motivo}\nCantidad: ${cantidad} para el artículo ${descriart}`;
         if (confirm(mensaje)) {
-            guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, 0, '');
+            guardarMovimiento(empresa, id_articulo, tipoMovimiento, motivo, cantidad, precioCompra, '');
         }
     } else {
         alert('Cantidad no puede ser 0')
