@@ -35,12 +35,19 @@
                 <input type="date" id="fecha_hasta" class="form-control" value="{{ fecha_hasta|date:'Y-m-d' }}">
             </div>
         </div>
-        
     </div>
     <br>
+    <div class="row">
+        <div class="col-md-4">
+            <div id="loadingIndicator" class="spinner-border text-danger" style="width: 2rem; height: 2rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+ 
     <!-- Tabla para mostrar los resultados -->
     <div class="card shadow p-2 m-2">
-        <table class="table table-striped">
+       <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Venta N°</th>
@@ -67,6 +74,7 @@
 let currentPage = 1;  // Guardar la página actual
 
 function loadVentas(page) {
+    $('#loadingIndicator').show();
     const empresa = document.getElementById('empresa').value;
     const fechaDesde = document.getElementById('fecha_desde').value;
     const fechaHasta = document.getElementById('fecha_hasta').value;
@@ -92,28 +100,28 @@ function loadVentas(page) {
             // Iterar sobre las ventas (cabeceras)
             data.ventas.forEach(venta => {
                 // Acceder a la cabecera
-                const cabecera = venta.cabecera;
+                const cabecera = venta;
 
                 // Crear una fila para la cabecera de la venta
                 var rowCabecera = `             
                     <tr>
                         <td style="font-weight:bold;">
-                            ${cabecera.id} 
+                            ${venta.cabecera.id} 
                         </td>
                         <td style="font-weight:bold;">
-                            ${cabecera.fechav} 
+                            ${venta.cabecera.fechav} 
                         </td>
                         <td style="font-weight:bold;">
-                            ${cabecera.cliente} 
+                            ${venta.cabecera.cliente} 
                         </td>
                         <td style="font-weight:bold;">
-                            ${cabecera.fpago} 
+                            ${venta.cabecera.fpago} 
                         </td>
                         <td style="font-weight:bold;">
-                            ${cabecera.usuario} 
+                            ${venta.cabecera.usuario} 
                         </td>
                         <td style="font-weight:bold;color:red;">
-                            ${cabecera.anulada}
+                            ${venta.cabecera.anulada}
                         </td>
                         <td style="font-weight:bold;">
                         </td>
@@ -123,16 +131,17 @@ function loadVentas(page) {
                     if (venta.cabecera.anulada == "")  {
                         if (data.userstaff){
                             rowCabecera += ` 
-                                <button class="btn btn-danger" style="background-color : IndianRed;" id="${cabecera.id}" onclick="removeVenta(this.id)" title="Eliminar Venta"><i class="bi bi-trash3"></i>
+                                <button class="btn btn-danger" style="background-color : IndianRed;" id="${venta.cabecera.id}" onclick="removeVenta(this.id)" title="Eliminar Venta"><i class="bi bi-trash3"></i>
                                 </button>
                             `
                         }
                     }
                     rowCabecera += `</td><td style="font-weight:bold;">
-                                <button class="btn btn-light"  id="${cabecera.id}" onclick="imprimeVenta(this.id)" title="Imprimir Venta"><i class="bi bi-printer"></i>
+                                <button class="btn btn-light"  id="${venta.cabecera.id}" onclick="imprimeVenta(this.id)" title="Imprimir Venta"><i class="bi bi-printer"></i>
                                 </button>
                             </td>`
                     rowCabecera += '</tr>'
+                
                 tableBody.innerHTML += rowCabecera;
 
                 // Acceder a los movimientos de la cabecera
@@ -166,13 +175,14 @@ function loadVentas(page) {
                         <td style="font-weight:bold;">
                         </td>
                         <td colspan="5" style="font-weight:bold;text-align: right;">
-                            Sub-Total $: ${cabecera.subtotal}&nbsp;&nbsp;&nbsp;&nbsp;Dto. Eftvo.: ${cabecera.dtoeftvo}&nbsp;&nbsp;&nbsp;&nbsp;Otro Dto.:${cabecera.otrodto}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total $: ${cabecera.imptotal}
+                            Sub-Total $: ${venta.cabecera.subtotal}&nbsp;&nbsp;&nbsp;&nbsp;Dto. Eftvo.: ${venta.cabecera.dtoeftvo}&nbsp;&nbsp;&nbsp;&nbsp;Otro Dto.:${venta.cabecera.otrodto}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total $: ${venta.cabecera.imptotal}
                         </td>
                         </tr>
                     `;
                 tableBody.innerHTML += rowTotales;
             });
             $('#total-imptotal').text(data.total_imptotal);
+            $('#loadingIndicator').hide();
         }
 
         // Actualizar la paginación

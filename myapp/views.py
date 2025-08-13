@@ -7,7 +7,7 @@ from .models import empresas, familias, articulos, hist_movart, tipomovimientos,
 import json
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from .forms import articulosForm, clientesForm
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time, timezone as dt_timezone
 from decimal import Decimal
 from django.urls import reverse
 from django.db import transaction
@@ -1435,7 +1435,238 @@ def ventas_list_view(request, **kwargs):
     })
 
 @login_required
+def ajax_list_ventas_fake(request):
+    userstaff = True
+    if not request.user.is_staff:
+        userstaff = False
+        if not str(request.user.perfil.idempresa.id) == request.GET.get('empresa'):
+            return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+
+    total_imptotal = 0
+    empresa = request.GET.get('empresa')
+    pfamilia = request.GET.get('pfamilia')
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
+    page_number = request.GET.get('page', 1)
+
+    fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
+    fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
+
+    # 1️⃣ Filtrar movimientos solo para obtener los numdoc
+    if empresa == 'todos':
+        documentos_ids = (
+            hist_movart.objects
+            .filter(tipomov__icontains='venta', fechamov__range=(fecha_desde, fecha_hasta))
+            .values_list('numdoc', flat=True)
+            .distinct()
+        )
+    else:
+        documentos_ids = (
+            hist_movart.objects
+            .filter(articulo__idempresa=empresa, tipomov__icontains='venta', fechamov__range=(fecha_desde, fecha_hasta))
+            .values_list('numdoc', flat=True)
+            .distinct()
+        )
+
+    # 2️⃣ Traer solo las cabeceras de esas ventas
+    cabeceras_query = (
+        cabecera_venta.objects
+        .filter(id__in=documentos_ids)
+        .select_related('formapago')
+        .order_by('fechav')
+    )
+
+    # 3️⃣ Construir lista de resultados
+    ventas_list = []
+    for cabecera in cabeceras_query:
+        dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
+        otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
+
+        # Detectar si fue anulada (sin traer todos los movimientos)
+        anulada = hist_movart.objects.filter(
+            numdoc=cabecera.id,
+            tipomov='Anula Venta'
+        ).select_related('usuario').first()
+
+        if anulada:
+            cab_anulada = f"Anulada por {anulada.usuario.username}"
+        else:
+            cab_anulada = ''
+            total_imptotal += cabecera.imptotal
+
+        ventas_list.append({
+            'id': cabecera.id,
+            'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
+            'cliente': cabecera.cliente,
+            'fpago': cabecera.formapago.get_tipo_display(),
+            'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+            'dtoeftvo': format(round(dto_efectivo_importe, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+            'otrodto': format(round(otro_dto_importe, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+            'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+            'usuario': hist_movart.objects.filter(numdoc=cabecera.id).first().usuario.username,
+            'anulada': cab_anulada
+        })
+
+    # 4️⃣ Total formateado
+    total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
+
+    # 5️⃣ Paginación
+    paginator = Paginator(ventas_list, 5)
+    page_obj = paginator.get_page(page_number)
+
+    # 6️⃣ Respuesta JSON
+    data = {
+        'ventas': page_obj.object_list,
+        'total_imptotal': total_imptotal_formatted,
+        'has_next': page_obj.has_next(),
+        'has_previous': page_obj.has_previous(),
+        'num_pages': paginator.num_pages,
+        'page_number': page_obj.number,
+        'id_familia': pfamilia,
+        'userstaff': userstaff
+    }
+
+    return JsonResponse(data)
+
+@login_required
 def ajax_list_ventas(request):
+    userstaff = True
+    if not request.user.is_staff:
+        userstaff = False
+        if not str(request.user.perfil.idempresa.id) == request.GET.get('empresa'):
+            return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+
+    total_imptotal = 0
+    empresa = request.GET.get('empresa')
+    pfamilia = request.GET.get('pfamilia')
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
+    page_number = request.GET.get('page', 1)
+
+    fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
+    fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
+    # convertir fecha_desde y fecha_hasta (datetime.date) a aware UTC
+    fecha_desde_dt = datetime.combine(fecha_desde, time.min, tzinfo=dt_timezone.utc)
+    fecha_hasta_dt = datetime.combine(fecha_hasta, time.max, tzinfo=dt_timezone.utc)
+
+    cabeceras_query = cabecera_venta.objects.filter(fechav__range=(fecha_desde_dt, fecha_hasta_dt))    
+    if empresa != 'todos':
+        empresa = int(empresa)
+        cabeceras_query = cabeceras_query.filter(empresa_id=int(empresa))
+
+    # Traer movimientos de tipo venta solo para estas cabeceras
+    documentos_ids = cabeceras_query.values_list('id', flat=True)
+    movimientos = hist_movart.objects.filter(
+        numdoc__in=documentos_ids,
+        tipomov__icontains='venta'
+    ).select_related('articulo', 'usuario')
+
+    # Mapear movimientos por cabecera
+    from collections import defaultdict
+    # Filtrar solo movimientos de ventas y mapearlos por cabecera
+    movs_por_cab = defaultdict(list)
+    for m in movimientos:
+        try:
+            cab_id = int(m.numdoc)  # Solo los que numdoc apunta a cabecera.id
+        except (ValueError, TypeError):
+            continue  # Ignorar registros con texto
+        if m.tipomov.lower() == 'venta':
+            movs_por_cab[cab_id].append(m)
+
+    # Construir lista de ventas con movimientos
+    ventas_con_movimientos = []
+    total_imptotal = 0
+
+    for cabecera in cabeceras_query:
+        movis_cabecera = movs_por_cab.get(cabecera.id, [])
+
+        if movis_cabecera:
+            dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
+            otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
+
+            # Revisar si la venta fue anulada
+            anula_venta = [m for m in movis_cabecera if m.tipomov.lower() == 'anula venta']
+            cab_anulada = f"Anulada por {anula_venta[0].usuario.username}" if anula_venta else ''
+            if not anula_venta:
+                total_imptotal += cabecera.imptotal
+
+            ventas_con_movimientos.append({
+                'cabecera': {
+                    'id': cabecera.id,
+                    'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
+                    'cliente': cabecera.cliente,
+                    'fpago': cabecera.formapago.get_tipo_display(),
+                    'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'usuario': movis_cabecera[0].usuario.username,
+                    'anulada': cab_anulada
+                },
+                'movimientos': [{
+                    'articulo': mov.articulo.descripcion,
+                    'cantidad': str(mov.cantidad),
+                    'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                } for mov in movis_cabecera]
+            })
+    '''movs_por_cab = defaultdict(list)
+    for m in movimientos:
+        movs_por_cab[m.numdoc].append(m)
+
+    ventas_con_movimientos = []
+
+    for cabecera in cabeceras_query:
+        dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
+        otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
+        movis_cabecera = movs_por_cab.get(cabecera.id, [])
+
+        if movis_cabecera:
+            anula_venta = [m for m in movis_cabecera if m.tipomov.lower() == 'anula venta']
+            cab_anulada = f"Anulada por {anula_venta[0].usuario.username}" if anula_venta else ''
+            if not anula_venta:
+                total_imptotal += cabecera.imptotal
+
+            ventas_con_movimientos.append({
+                'cabecera': {
+                    'id': cabecera.id,
+                    'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
+                    'cliente': cabecera.cliente,
+                    'fpago': cabecera.formapago.get_tipo_display(),
+                    'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                    'usuario': movis_cabecera[0].usuario.username,
+                    'anulada' : cab_anulada
+                },
+                'movimientos': [{
+                    'articulo': mov.articulo.descripcion,
+                    'cantidad': str(mov.cantidad),
+                    'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                } for mov in movis_cabecera if mov.tipomov.lower() == 'venta']
+            })'''
+
+    total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
+
+    # Paginación
+    paginator = Paginator(ventas_con_movimientos, 5)  # 5 resultados por página
+    page_obj = paginator.get_page(page_number)
+
+    data = {
+        'ventas': page_obj.object_list,
+        'total_imptotal': total_imptotal_formatted,
+        'has_next': page_obj.has_next(),
+        'has_previous': page_obj.has_previous(),
+        'num_pages': paginator.num_pages,
+        'page_number': page_obj.number,
+        'id_familia' : pfamilia,
+        'userstaff' : userstaff
+    }
+
+    return JsonResponse(data)
+
+@login_required
+def ajax_list_ventas_produccio_sin_empresa(request):
     userstaff = True
     if not request.user.is_staff:
         userstaff = False

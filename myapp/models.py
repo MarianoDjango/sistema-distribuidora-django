@@ -143,6 +143,10 @@ class clientes(models.Model):
         return f"{self.nombre} {self.apellido}"
 
 class cabecera_venta(models.Model):
+    empresa = models.ForeignKey('empresas', on_delete=models.CASCADE, 
+        null=True,  # temporalmente null para migración
+        blank=True
+    )
     fechav = models.DateTimeField()    
     cliente = models.CharField(max_length = 50, default='') #este campo permite entrar un nombre cuando elcliente es el 0='generico'
     formapago = models.ForeignKey(formaspago, on_delete=models.CASCADE, null=False)
@@ -153,9 +157,16 @@ class cabecera_venta(models.Model):
     imptotal = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     anulada = models.BooleanField(default=False)
     
+    def __str__(self):
+        return f"{self.id} - {self.cliente} - {self.empresa}"    
+    
 class hist_movart(models.Model):
+    empresa = models.ForeignKey('empresas', on_delete=models.CASCADE, 
+        null=True,  # temporalmente null para migración
+        blank=True
+    )
     articulo = models.ForeignKey(articulos, on_delete=models.CASCADE, null=False)
-    fechamov = models.DateField()
+    fechamov = models.DateTimeField(null=True, blank=True)  # temporalmente null para migración
     tipomov = models.CharField(max_length=20, null=False)
     numdoc = models.CharField(max_length = 50, default=0) #este campo representa numero tique venta o numero de remito o factura de compra o nombre de empresa en caso de traspasos
     cantidad = models.DecimalField(max_digits =  7, decimal_places = 2, default=0.00)
