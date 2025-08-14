@@ -406,8 +406,10 @@ def guardar_movs_stock(request):
 
         articulo = articulos.objects.get(pk=idarticulo_var)
         histo_mov = hist_movart()
+        #empresa_obj = empresas.objects.get(name=empresa)
+        histo_mov.empresa = articulo.idempresa
         histo_mov.articulo = articulo
-        histo_mov.fechamov = datetime.today().date()
+        histo_mov.fechamov = datetime.now()
         mensaje = 'ATENCION!! Cantidad Entrada = 0, no se realizo ningun cambio'
         if cantidad_var !='':
             if tipomov_var == 'Regularizacion':
@@ -470,7 +472,6 @@ def guardar_movs_stock(request):
 def restar_al_carrito(request, articulo_id, **kwargs):
     articulo = get_object_or_404(articulos, id=articulo_id)
     id_empresa = kwargs['id_empresa']
-    empresa = empresas.objects.get(id=id_empresa)
 
     # Obtener el carrito de la sesión, o inicializarlo si no existe
     carrito = request.session.get(f'carrito_{id_empresa}', {})
@@ -882,7 +883,7 @@ def cerrar_venta(request, **kwargs):
                 # Inicia una transacción atómica
                 with transaction.atomic():
                     # Crear la cabecera de la venta
-                    cabecera = cabecera_venta.objects.create(fechav=timezone.now(),
+                    cabecera = cabecera_venta.objects.create(empresa=empresa, fechav=timezone.now(),
                             cliente = cliente, formapago = formapago, subtotal = subtotal,
                             dtoeftvo = dtoeftvo, otrodto = destoadicional, imptotal=total)
 
@@ -1009,6 +1010,7 @@ def cerrar_venta(request, **kwargs):
 
                         # Crear la línea de venta
                         hist_movart.objects.create(
+                            empresa = empresa,
                             articulo = articulo,
                             fechamov = datetime.today(),
                             tipomov = 'Venta',
@@ -1090,6 +1092,7 @@ def anular_venta(request, **kwargs):
         nventa = data.get('id_venta', [])
                 # Crear la cabecera de la venta
         cabecera = cabecera_venta.objects.get(id=nventa)
+        empresa_id = cabecera.empresa
         cabecera.anulada= True
         cabecera.save()
 
@@ -1103,6 +1106,7 @@ def anular_venta(request, **kwargs):
             articulo = get_object_or_404(articulos, id=articulo_id)
             nuevo_stock = articulo.stock + item.cantidad
             hist_movart.objects.create(
+                empresa = empresa_id,
                 articulo = articulo,
                 fechamov = datetime.today(),
                 tipomov = 'Anula Venta',
@@ -1366,11 +1370,18 @@ def ajax_list_movimientos(request):
     fecha_desde = request.GET.get('fecha_desde')
     fecha_hasta = request.GET.get('fecha_hasta')
     page_number = request.GET.get('page', 1)
+
+    fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
+    fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
+    # convertir fecha_desde y fecha_hasta (datetime.date) a aware UTC
+    fecha_desde_dt = datetime.combine(fecha_desde, time.min, tzinfo=dt_timezone.utc)
+    fecha_hasta_dt = datetime.combine(fecha_hasta, time.max, tzinfo=dt_timezone.utc)
+
     # Aplicar los filtros al queryset
     if empresa == 'todos':
-        movimientos = hist_movart.objects.filter(fechamov__range=(fecha_desde, fecha_hasta)).order_by('articulo__idempresa','articulo', 'id')
+        movimientos = hist_movart.objects.filter(fechamov__range=(fecha_desde_dt, fecha_hasta_dt)).order_by('empresa','articulo', 'id')
     else:
-        movimientos = hist_movart.objects.filter(articulo__idempresa=empresa, fechamov__range=(fecha_desde, fecha_hasta)).order_by('articulo__idempresa','articulo', 'id')
+        movimientos = hist_movart.objects.filter(empresa=empresa, fechamov__range=(fecha_desde_dt, fecha_hasta_dt)).order_by('empresa','articulo', 'id')
 
     if articulo != 'todos':
         movimientos = movimientos.filter(articulo=articulo)
@@ -1390,11 +1401,17 @@ def ajax_list_movimientos(request):
 
     movimientos_agrupados = {}
     for movimiento in page_obj.object_list:
+        if movimiento.fechamov.hour == 0 and movimiento.fechamov.minute == 0 and movimiento.fechamov.second == 0:
+            fecha_listado = movimiento.fechamov.strftime('%d-%m-%Y %H:%M:%S')
+        else:
+            fecha_listado = timezone.localtime(movimiento.fechamov).strftime('%d-%m-%Y %H:%M:%S')
+        
         articulo = movimiento.articulo.descripcion
         if articulo not in movimientos_agrupados:
             movimientos_agrupados[articulo] = []
         movimientos_agrupados[articulo].append({
-            'fechamov': movimiento.fechamov.strftime('%d-%m-%Y'),
+           # timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
+            'fechamov': fecha_listado,
             'tipomov': movimiento.tipomov,
             'documento': movimiento.numdoc,  # Aquí agrego el número de documento que usas en el JS
             'cantidad': movimiento.cantidad,
@@ -1434,99 +1451,6 @@ def ventas_list_view(request, **kwargs):
         'id_familia' : familia
     })
 
-@login_required
-def ajax_list_ventas_fake(request):
-    userstaff = True
-    if not request.user.is_staff:
-        userstaff = False
-        if not str(request.user.perfil.idempresa.id) == request.GET.get('empresa'):
-            return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
-
-    total_imptotal = 0
-    empresa = request.GET.get('empresa')
-    pfamilia = request.GET.get('pfamilia')
-    fecha_desde = request.GET.get('fecha_desde')
-    fecha_hasta = request.GET.get('fecha_hasta')
-    page_number = request.GET.get('page', 1)
-
-    fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
-    fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
-
-    # 1️⃣ Filtrar movimientos solo para obtener los numdoc
-    if empresa == 'todos':
-        documentos_ids = (
-            hist_movart.objects
-            .filter(tipomov__icontains='venta', fechamov__range=(fecha_desde, fecha_hasta))
-            .values_list('numdoc', flat=True)
-            .distinct()
-        )
-    else:
-        documentos_ids = (
-            hist_movart.objects
-            .filter(articulo__idempresa=empresa, tipomov__icontains='venta', fechamov__range=(fecha_desde, fecha_hasta))
-            .values_list('numdoc', flat=True)
-            .distinct()
-        )
-
-    # 2️⃣ Traer solo las cabeceras de esas ventas
-    cabeceras_query = (
-        cabecera_venta.objects
-        .filter(id__in=documentos_ids)
-        .select_related('formapago')
-        .order_by('fechav')
-    )
-
-    # 3️⃣ Construir lista de resultados
-    ventas_list = []
-    for cabecera in cabeceras_query:
-        dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
-        otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
-
-        # Detectar si fue anulada (sin traer todos los movimientos)
-        anulada = hist_movart.objects.filter(
-            numdoc=cabecera.id,
-            tipomov='Anula Venta'
-        ).select_related('usuario').first()
-
-        if anulada:
-            cab_anulada = f"Anulada por {anulada.usuario.username}"
-        else:
-            cab_anulada = ''
-            total_imptotal += cabecera.imptotal
-
-        ventas_list.append({
-            'id': cabecera.id,
-            'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
-            'cliente': cabecera.cliente,
-            'fpago': cabecera.formapago.get_tipo_display(),
-            'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-            'dtoeftvo': format(round(dto_efectivo_importe, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-            'otrodto': format(round(otro_dto_importe, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-            'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-            'usuario': hist_movart.objects.filter(numdoc=cabecera.id).first().usuario.username,
-            'anulada': cab_anulada
-        })
-
-    # 4️⃣ Total formateado
-    total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
-
-    # 5️⃣ Paginación
-    paginator = Paginator(ventas_list, 5)
-    page_obj = paginator.get_page(page_number)
-
-    # 6️⃣ Respuesta JSON
-    data = {
-        'ventas': page_obj.object_list,
-        'total_imptotal': total_imptotal_formatted,
-        'has_next': page_obj.has_next(),
-        'has_previous': page_obj.has_previous(),
-        'num_pages': paginator.num_pages,
-        'page_number': page_obj.number,
-        'id_familia': pfamilia,
-        'userstaff': userstaff
-    }
-
-    return JsonResponse(data)
 
 @login_required
 def ajax_list_ventas(request):
@@ -1554,24 +1478,29 @@ def ajax_list_ventas(request):
         empresa = int(empresa)
         cabeceras_query = cabeceras_query.filter(empresa_id=int(empresa))
 
-    # Traer movimientos de tipo venta solo para estas cabeceras
+
     documentos_ids = cabeceras_query.values_list('id', flat=True)
+    # Traer todos los movimientos de esas cabeceras (no solo 'venta')
     movimientos = hist_movart.objects.filter(
-        numdoc__in=documentos_ids,
-        tipomov__icontains='venta'
+        numdoc__in=documentos_ids
     ).select_related('articulo', 'usuario')
 
-    # Mapear movimientos por cabecera
     from collections import defaultdict
-    # Filtrar solo movimientos de ventas y mapearlos por cabecera
+
     movs_por_cab = defaultdict(list)
+    usuario_anulo_por_cab = {}
+
     for m in movimientos:
         try:
-            cab_id = int(m.numdoc)  # Solo los que numdoc apunta a cabecera.id
+            cab_id = int(m.numdoc)
         except (ValueError, TypeError):
-            continue  # Ignorar registros con texto
-        if m.tipomov.lower() == 'venta':
-            movs_por_cab[cab_id].append(m)
+            continue
+
+        movs_por_cab[cab_id].append(m)
+
+        # Guardar usuario que anuló
+        if m.tipomov.lower() == 'anula venta':
+            usuario_anulo_por_cab[cab_id] = m.usuario.username
 
     # Construir lista de ventas con movimientos
     ventas_con_movimientos = []
@@ -1579,73 +1508,38 @@ def ajax_list_ventas(request):
 
     for cabecera in cabeceras_query:
         movis_cabecera = movs_por_cab.get(cabecera.id, [])
+        if not movis_cabecera:
+            continue
 
-        if movis_cabecera:
-            dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
-            otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
-
-            # Revisar si la venta fue anulada
-            anula_venta = [m for m in movis_cabecera if m.tipomov.lower() == 'anula venta']
-            cab_anulada = f"Anulada por {anula_venta[0].usuario.username}" if anula_venta else ''
-            if not anula_venta:
-                total_imptotal += cabecera.imptotal
-
-            ventas_con_movimientos.append({
-                'cabecera': {
-                    'id': cabecera.id,
-                    'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
-                    'cliente': cabecera.cliente,
-                    'fpago': cabecera.formapago.get_tipo_display(),
-                    'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'usuario': movis_cabecera[0].usuario.username,
-                    'anulada': cab_anulada
-                },
-                'movimientos': [{
-                    'articulo': mov.articulo.descripcion,
-                    'cantidad': str(mov.cantidad),
-                    'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                } for mov in movis_cabecera]
-            })
-    '''movs_por_cab = defaultdict(list)
-    for m in movimientos:
-        movs_por_cab[m.numdoc].append(m)
-
-    ventas_con_movimientos = []
-
-    for cabecera in cabeceras_query:
         dto_efectivo_importe = cabecera.subtotal * (cabecera.dtoeftvo / 100)
         otro_dto_importe = cabecera.subtotal * (cabecera.otrodto / 100)
-        movis_cabecera = movs_por_cab.get(cabecera.id, [])
 
-        if movis_cabecera:
-            anula_venta = [m for m in movis_cabecera if m.tipomov.lower() == 'anula venta']
-            cab_anulada = f"Anulada por {anula_venta[0].usuario.username}" if anula_venta else ''
-            if not anula_venta:
-                total_imptotal += cabecera.imptotal
+        if cabecera.anulada:
+            usuario_anulo = usuario_anulo_por_cab.get(cabecera.id, 'Desconocido')
+            cab_anulada = f"Anulada por {usuario_anulo}"
+        else:
+            cab_anulada = ''
+            total_imptotal += cabecera.imptotal
 
-            ventas_con_movimientos.append({
-                'cabecera': {
-                    'id': cabecera.id,
-                    'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
-                    'cliente': cabecera.cliente,
-                    'fpago': cabecera.formapago.get_tipo_display(),
-                    'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'dtoeftvo': format(round(dto_efectivo_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'otrodto': format(round(otro_dto_importe,2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                    'usuario': movis_cabecera[0].usuario.username,
-                    'anulada' : cab_anulada
-                },
-                'movimientos': [{
-                    'articulo': mov.articulo.descripcion,
-                    'cantidad': str(mov.cantidad),
-                    'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
-                } for mov in movis_cabecera if mov.tipomov.lower() == 'venta']
-            })'''
-
+        ventas_con_movimientos.append({
+            'cabecera': {
+                'id': cabecera.id,
+                'fechav': timezone.localtime(cabecera.fechav).strftime('%d-%m-%Y %H:%M:%S'),
+                'cliente': cabecera.cliente,
+                'fpago': cabecera.formapago.get_tipo_display(),
+                'subtotal': format(cabecera.subtotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                'dtoeftvo': format(round(dto_efectivo_importe, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                'otrodto': format(round(otro_dto_importe, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                'imptotal': format(cabecera.imptotal, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+                'usuario': movis_cabecera[0].usuario.username,
+                'anulada': cab_anulada
+            },
+            'movimientos': [{
+                'articulo': mov.articulo.descripcion,
+                'cantidad': str(mov.cantidad),
+                'precio': format(mov.precioactual, ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.'),
+            } for mov in movis_cabecera]
+        })
     total_imptotal_formatted = format(round(total_imptotal, 2), ',.2f').replace(',', 'X').replace('.', ',').replace('X', '.')
 
     # Paginación
@@ -1665,7 +1559,7 @@ def ajax_list_ventas(request):
 
     return JsonResponse(data)
 
-@login_required
+'''@login_required
 def ajax_list_ventas_produccio_sin_empresa(request):
     userstaff = True
     if not request.user.is_staff:
@@ -1748,7 +1642,7 @@ def ajax_list_ventas_produccio_sin_empresa(request):
         'userstaff' : userstaff
     }
 
-    return JsonResponse(data)
+    return JsonResponse(data)'''
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)

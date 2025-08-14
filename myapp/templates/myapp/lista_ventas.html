@@ -237,44 +237,6 @@ function loadVentas(page) {
         console.error('Error al cargar las ventas:', error);
     });
 }
-/*function imprimeVenta(id) {
-    const empresa = document.getElementById('empresa').value;
-    const data = {
-        idempresa : empresa,
-        id_venta : id,
-    }
-
-    fetch('/myapp/reimprime_venta/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')  // Asegúrate de enviar el CSRF token para solicitudes POST
-            },
-            body: JSON.stringify(data)  // Reemplaza con el ID de empresa real
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                imprimirTicket(data.ticket_html);
-            } else {
-                alert(data.message || 'Hubo un error al Anular la venta. Inténtelo de nuevo.');
-            }
-        })
-
-}
-
-function imprimirTicket(ticket) {
-    const printWindow = window.open('', '', 'height=400,width=600');
-    if (!printWindow) {
-        console.error("Error al abrir la ventana. El navegador puede estar bloqueando ventanas emergentes.");
-        return;
-    }
-    printWindow.document.write(ticket);
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-}*/
 
 function imprimeVenta(id) {
     const empresa = document.getElementById('empresa').value;
