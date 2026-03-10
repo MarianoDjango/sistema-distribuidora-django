@@ -4,11 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="
-        En Distribuidora Silva ofrecemos una amplia gama de insumos y herramientas de calidad para gomerías y talleres de neumáticos,
-        incluyendo servicios de alineación y balanceo. Encuentra los mejores productos para mantenimiento y reparación de neumáticos,
-        con un servicio confiable, profesional y precios competitivos.">
-
+    <meta name="description" content="{% block meta_description %}En Distribuidora Silva ofrecemos una amplia gama de insumos y herramientas de calidad para gomerías y talleres de neumáticos, incluyendo servicios de alineación y balanceo.{% endblock %}">
     {% load static %}
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -24,8 +20,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 
-    <title>Gomeria y Distribuidora Silva | Insumos y Servicio para Gomerías</title>
-
+    <title>{% block title %}Gomeria y Distribuidora Silva | Insumos y Servicio para Gomerías{% endblock %}</title>
     <style>
       .custom-nav-item .nav-link {
         color: #000000; /* Cambia esto al color que desees */

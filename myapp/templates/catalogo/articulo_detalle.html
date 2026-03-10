@@ -1,6 +1,47 @@
 {% extends "base_generic.html" %}
+{% block title %}{{ articulo.descripcion }} | Gomería Silva{% endblock %}
+{% block meta_description %}{{ articulo.descripcion }} disponible en Gomería y Distribuidora Silva, Paso del Rey, Buenos Aires. Precio: ${{ articulo.precio_venta|floatformat:2 }}.{% endblock %}
 {% block head_extra %}
   <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ articulo.descripcion }} | Gomería Silva">
+  <meta property="og:description" content="{{ articulo.descripcion }} disponible en Gomería Silva, Paso del Rey.">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  {% if articulo.imagen_cloud %}
+  <meta property="og:image" content="{{ articulo.imagen_cloud.url }}">
+  {% endif %}
+
+  <!-- Schema markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "{{ articulo.descripcion }}",
+    "url": "{{ request.build_absolute_uri }}",
+    {% if articulo.imagen_cloud %}
+    "image": "{{ articulo.imagen_cloud.url }}",
+    {% endif %}
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "ARS",
+      "price": "{{ articulo.precio_venta }}",
+      "availability": "{% if art_stock == 'Disponible en Tienda' %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+      "seller": {
+        "@type": "LocalBusiness",
+        "name": "Gomería y Distribuidora Silva",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Graham Bell 2948",
+          "addressLocality": "Paso del Rey",
+          "addressRegion": "Buenos Aires",
+          "addressCountry": "AR"
+        }
+      }
+    }
+  }
+  </script>
 {% endblock %}
 {% load static %}
 {% block content %}
