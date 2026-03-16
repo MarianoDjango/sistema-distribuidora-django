@@ -1748,6 +1748,8 @@ def articulo_detalle(request, pk):
     return render(request, 'catalogo/articulo_detalle.html', {
         'articulo': articulo,
         'art_stock': art_stock,
+        'precio_schema': '{:.2f}'.format(articulo.precio_venta),  # ← NUEVO
+        'DEFAULT_IMAGE': settings.DEFAULT_IMAGE,                  # ← NUEVO
     })
 
 
