@@ -62,7 +62,7 @@ Desarrollar una solución completa para negocios que necesitan:
 ## ⚙️ Instalación (modo desarrollo)
 
 ```bash
-git clone https://github.com/tuusuario/tu-repo.git
+git clone https://github.com/MarianoDjango/sistema-distribuidora-django.git
 cd tu-repo
 
 python -m venv venv
