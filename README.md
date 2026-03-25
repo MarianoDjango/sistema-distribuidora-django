@@ -6,6 +6,14 @@ El sistema combina una **landing pública con catálogo de productos** y un **pa
 
 ---
 
+## 🌐 Demo en producción
+
+👉 https://tusitio.com
+
+> Aplicación actualmente en uso real.
+
+---
+
 ## 🚀 Funcionalidades principales
 
 ### 🌐 Frontend / Landing
@@ -29,29 +37,55 @@ El sistema combina una **landing pública con catálogo de productos** y un **pa
 
 ---
 
+## 🧠 Arquitectura del sistema
+
+El proyecto está dividido en tres componentes principales:
+
+- **Frontend:** Django Templates + Bootstrap orientado a experiencia de usuario
+- **Backend:** Panel de gestión con lógica de negocio (stock, ventas, productos)
+- **API REST:** Implementada con DRF para consultas asincrónicas y desacople
+
+---
+
+## 💼 Casos de uso reales
+
+- Clientes consultan productos desde el catálogo y contactan vía WhatsApp
+- El administrador gestiona stock y productos en tiempo real
+- Generación de presupuestos para ventas directas
+- Control manual de movimientos de inventario
+
+---
+
+## 🎯 Valor aportado
+
+- Digitalización de un negocio tradicional
+- Mejora en la captación de clientes online
+- Centralización de la gestión comercial
+- Reducción de errores en el control de stock
+
+---
+
 ## 🛠 Tecnologías utilizadas
 
 - **Backend:** Python, Django, Django REST Framework  
 - **Frontend:** HTML, CSS, Bootstrap  
 - **Base de datos:** MySQL  
-- **Otros:** Integración con WhatsApp, manejo de imágenes (Cloudinary)
+- **Otros:** Cloudinary, integración con WhatsApp  
 
 ---
 
-## 🎯 Objetivo del proyecto
+## 🧩 Features técnicas
 
-Desarrollar una solución completa para negocios que necesitan:
-
-- Centralizar su gestión comercial  
-- Controlar stock y ventas  
-- Mostrar productos online  
-- Facilitar el contacto con clientes  
+- ORM de Django para gestión de datos
+- Relaciones entre modelos (ForeignKey)
+- Manejo de imágenes con Cloudinary
+- Vistas basadas en funciones
+- Consumo de API REST con JavaScript (consultas asincrónicas)
 
 ---
 
-## 📸 Capturas (recomendado agregar)
+## 📸 Capturas
 
-<!-- Agregar screenshots del sistema -->
 - Catálogo público
 - Panel de administración
 - Vista de productos
@@ -63,7 +97,7 @@ Desarrollar una solución completa para negocios que necesitan:
 
 ```bash
 git clone https://github.com/MarianoDjango/sistema-distribuidora-django.git
-cd tu-repo
+cd sistema-distribuidora-django
 
 python -m venv venv
 source venv/bin/activate  # o venv\\Scripts\\activate en Windows
@@ -72,3 +106,12 @@ pip install -r requirements.txt
 
 python manage.py migrate
 python manage.py runserver
+
+
+## 👨‍💻 Autor
+
+**Mariano Scaglia**  
+Backend Developer especializado en Django y desarrollo de sistemas comerciales.
+
+- 💼 LinkedIn: https://www.linkedin.com/in/mariano-scaglia-25067628/
+- 💻 GitHub: https://github.com/MarianoDjango
